@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\User;
+use App\Division;
 use App\Province;
 use App\UserType;
 use Illuminate\Database\Seeder;
@@ -31,6 +32,33 @@ class DatabaseSeeder extends Seeder
         Province::create(['Province' => 'Misamis Oriental']);
         Province::create(['Province' => 'Misamis Occidental']);
         Province::create(['Province' => 'Camiguin']);
+        //create Province
+        for ($i = 1; $i <= 5; $i++){
+            Division::create(
+                [
+                    'division' => 'Business Development Division',
+                    'province_ID' => $i
+                ]
+            );
+        }
+
+        for ($i = 1; $i <= 5; $i++){
+            Division::create(
+                [
+                    'division' => 'Consumer Protection Division',
+                    'province_ID' => $i
+                ]
+            );
+        }
+
+        for ($i = 1; $i <= 5; $i++){
+            Division::create(
+                [
+                    'division' => 'Finance Administrative Division',
+                    'province_ID' => $i
+                ]
+            );
+        }
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
