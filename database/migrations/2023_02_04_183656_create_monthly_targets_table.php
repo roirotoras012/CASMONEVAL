@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('month');
             $table->string('year');
             $table->integer('monthly_target')->nullable();
+            $table->integer('monthly_accomplishment')->nullable();
+            $table->String('validated')->default('Not Validated');
             $table->timestamps();
         });
     }
