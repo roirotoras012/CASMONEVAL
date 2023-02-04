@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'birthday' => $this->faker->dateTimeBetween('1985-01-01', '2010-12-31')->format('Y-m-d'),
             'password' => 'RoneDev2023', // password
             'remember_token' => Str::random(10),
-            'UserTypeID' => $this->faker->numberBetween(1,5)
+            'user_type_ID' => $this->faker->numberBetween(1,5)
         ];
     }
 
