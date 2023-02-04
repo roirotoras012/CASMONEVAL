@@ -3,18 +3,18 @@
 @section('content')
 <div class="container h-100">
     <div class="row justify-content-center align-items-center h-100">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="card">
-                <div class="card-header font-weight-bold text-center">{{ __('Login') }}</div>
+                <div class="card-header bg-primary text-white font-weight-bold text-center">{{ __('Login') }}</div>
 
-                <div class="card-body p-5">
+                <div class="card-body px-4 py-5">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                       
                         <div class="row mb-3">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
+                                  <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                   </span>
                                 </div>
                                 <input placeholder="Email Address" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -30,7 +30,7 @@
                                 <div class="w-100 d-block">
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-lock"></i></span>
+                                        <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-lock"></i></span>
                                         </div>
                                         <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
                                         @error('password')
