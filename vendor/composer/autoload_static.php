@@ -509,6 +509,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
     );
 
     public static $classMap = array (
+        'App\\AnnualTarget' => __DIR__ . '/../..' . '/app/AnnualTarget.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Division' => __DIR__ . '/../..' . '/app/Division.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
@@ -650,6 +651,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'Database\\Factories\\StrategicMeasureFactory' => __DIR__ . '/../..' . '/database/factories/StrategicMeasureFactory.php',
         'Database\\Factories\\StrategicObjectiveFactory' => __DIR__ . '/../..' . '/database/factories/StrategicObjectiveFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',

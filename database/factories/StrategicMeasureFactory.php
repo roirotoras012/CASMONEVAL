@@ -17,8 +17,8 @@ class StrategicMeasureFactory extends Factory
     public function definition()
     {
         return [
-            'strategic_measures' => $this->faker->sentence,
-            'strategic_objectives_ID' => $this->faker->numberBetween(1,15)
+            'strategic_measure' => $this->faker->sentence,
+            'strategic_objective_ID' => $this->faker->numberBetween(1,15)
         ];
     }
 }

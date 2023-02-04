@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('strategic_objectives', function (Blueprint $table) {
-            $table->id('strategic_objectives_ID');
-            $table->string('strategic_objectives');
+            $table->id('strategic_objective_ID');
+            $table->string('strategic_objective');
             $table->timestamps();
         });
     }

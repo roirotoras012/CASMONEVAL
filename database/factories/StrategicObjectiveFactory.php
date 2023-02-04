@@ -17,7 +17,7 @@ class StrategicObjectiveFactory extends Factory
     public function definition()
     {
         return [
-            'strategic_objectives' => $this->faker->sentence
+            'strategic_objective' => $this->faker->sentence
         ];
     }
 }

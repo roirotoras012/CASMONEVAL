@@ -8,6 +8,7 @@ use App\Division;
 use App\Province;
 use App\UserType;
 use Faker\Generator;
+use App\AnnualTarget;
 use App\StrategicMeasure;
 use App\StrategicObjective;
 use Illuminate\Database\Seeder;
@@ -65,6 +66,40 @@ class DatabaseSeeder extends Seeder
                     'province_ID' => $i
                 ]
             );
+        }
+
+        //create Target for 15 stratMeasure for bdd
+        for ($o = 1; $o <= 15; $o++){
+            for ($i = 1; $i <= 5; $i++){
+                AnnualTarget::create(
+                    [
+                        'strategic_measures_ID' => $o,
+                        'division_ID' => $i
+                    ]
+                );
+            }
+        }
+        //create Target for 7 stratMeasure for cpd
+        for ($o = 16; $o <= 22; $o++){
+            for ($i = 6; $i <= 10; $i++){
+                AnnualTarget::create(
+                    [
+                        'strategic_measures_ID' => $o,
+                        'division_ID' => $i
+                    ]
+                );
+            }
+        }
+        //create Target for 4 stratMeasure for fad
+        for ($o = 23; $o <= 26; $o++){
+            for ($i = 11; $i <= 15; $i++){
+                AnnualTarget::create(
+                    [
+                        'strategic_measures_ID' => $o,
+                        'division_ID' => $i
+                    ]
+                );
+            }
         }
        
         // \App\Models\User::factory()->create([
