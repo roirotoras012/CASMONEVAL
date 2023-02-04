@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('annual_targets', function (Blueprint $table) {
-            $table->id('annual_target_ID');
-            $table->integer('strategic_measures_ID');
-            $table->integer('division_ID');
-            $table->integer('annual_target')->nullable();
+        Schema::create('monthly_targets', function (Blueprint $table) {
+            $table->id('monthly_target_ID');
+            $table->integer('annual_target_ID');
+            $table->string('month');
+            $table->string('year');
+            $table->integer('monthly_target')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('anual_targets');
+        Schema::dropIfExists('monthly_targets');
     }
 };

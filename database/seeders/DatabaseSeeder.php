@@ -9,6 +9,7 @@ use App\Province;
 use App\UserType;
 use Faker\Generator;
 use App\AnnualTarget;
+use App\MonthlyTarget;
 use App\StrategicMeasure;
 use App\StrategicObjective;
 use Illuminate\Database\Seeder;
@@ -99,6 +100,120 @@ class DatabaseSeeder extends Seeder
                         'division_ID' => $i
                     ]
                 );
+            }
+        }
+
+        //create Montly Target
+        for ($o = 1; $o <= 130; $o++){
+            for ($i = 1; $i <= 12; $i++){
+                if($i == 1){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'January',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 2){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'February',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 3){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'March',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 4){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'April',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 5){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'May',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 6){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'June',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 7){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'July',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 8){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'August',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 9){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'September',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 10){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'October',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 11){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'November',
+                            'year' => '2023'
+                        ]
+                    );
+                }
+                if($i == 12){
+                    MonthlyTarget::create(
+                        [
+                            'annual_target_ID' => $o,
+                            'month' => 'December',
+                            'year' => '2023'
+                        ]
+                    );
+                }
             }
         }
        
