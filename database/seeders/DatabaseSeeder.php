@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\User;
+use App\UserType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,24 +16,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         User::factory(27)->create();
-
-        // $faker = Faker::create();
-
-        // foreach(range(1, 27) as $index) {
-        //     $firstName = $faker->firstName;
-        //     $lastName = $faker->lastName;
-        //     User::create([
-        //     'username' => $firstName . '_' . $lastName,
-        //     'email' => $firstName . '_' . $lastName . '@gmail.com',
-        //     'last_name' => $lastName,
-        //     'first_name' => $firstName,
-        //     'middle_name' => fake()->name(),
-        //     'birthday' => fake()->dateTimeBetween('1985-01-01', '2010-12-31')->format('d/m/Y'),
-        //     'password' => 'RoneDev2023', // password
-        //     'remember_token' => Str::random(10),
-        //     ]);
-        // }
+        //create 27 dummy user
+        User::factory(27)->create();
+        //create usertypes
+        UserType::create(
+            [
+                'user_type' => 'Regional Director',    
+            ],
+            [
+                'user_type' => 'Regional Planning Officer',    
+            ],
+            [
+                'user_type' => 'Provincial Director',    
+            ],
+            [
+                'user_type' => 'Provincial Planning Officer',    
+            ],
+            [
+                'user_type' => 'Division Chief',    
+            ]
+        );
+        
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
