@@ -19,24 +19,11 @@ class DatabaseSeeder extends Seeder
         //create 27 dummy user
         User::factory(27)->create();
         //create usertypes
-        UserType::create(
-            [
-                'user_type' => 'Regional Director',    
-            ],
-            [
-                'user_type' => 'Regional Planning Officer',    
-            ],
-            [
-                'user_type' => 'Provincial Director',    
-            ],
-            [
-                'user_type' => 'Provincial Planning Officer',    
-            ],
-            [
-                'user_type' => 'Division Chief',    
-            ]
-        );
-        
+        UserType::create(['user_type' => 'Regional Director']);
+        UserType::create(['user_type' => 'Regional Planning Officer']);
+        UserType::create(['user_type' => 'Provincial Director']);
+        UserType::create(['user_type' => 'Provincial Planning Officer']);
+        UserType::create(['user_type' => 'Division Chief']);
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
