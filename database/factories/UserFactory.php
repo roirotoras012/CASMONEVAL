@@ -17,17 +17,29 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
+        $middleName = $this->faker->lastName;
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            // 'name' => $this->faker->name(),
+            // 'email' => fake()->unique()->safeEmail(),
+            // 'email_verified_at' => now(),
+            // 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            // 'remember_token' => Str::random(10),
+
+            'username' => $firstName . '_' . $lastName,
+            'email' => $firstName . '_' . $lastName . '@gmail.com',
+            'last_name' => $lastName,
+            'first_name' => $firstName,
+            'middle_name' => $middleName,
+            'birthday' => $this->faker->dateTimeBetween('1985-01-01', '2010-12-31')->format('Y-m-d'),
+            'password' => 'RoneDev2023', // password
             'remember_token' => Str::random(10),
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the model's email address should be unverified.    
      *
      * @return static
      */
