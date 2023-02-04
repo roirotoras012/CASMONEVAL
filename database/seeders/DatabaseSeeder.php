@@ -7,6 +7,8 @@ use App\User;
 use App\Division;
 use App\Province;
 use App\UserType;
+use Faker\Generator;
+use App\StrategicMeasure;
 use App\StrategicObjective;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +25,8 @@ class DatabaseSeeder extends Seeder
         User::factory(27)->create();
         //create 15 dummy StrategicObjective
         StrategicObjective::factory(15)->create();
+        //create 15 dummy StrategicObjective
+        StrategicMeasure::factory(26)->create();
         //create usertypes
         UserType::create(['user_type' => 'Regional Director']);
         UserType::create(['user_type' => 'Regional Planning Officer']);
@@ -62,7 +66,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
-
+       
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
