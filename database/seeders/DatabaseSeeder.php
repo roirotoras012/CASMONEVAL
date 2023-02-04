@@ -7,6 +7,7 @@ use App\User;
 use App\Division;
 use App\Province;
 use App\UserType;
+use App\StrategicObjective;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,6 +21,8 @@ class DatabaseSeeder extends Seeder
     {
         //create 27 dummy user
         User::factory(27)->create();
+        //create 15 dummy StrategicObjective
+        StrategicObjective::factory(15)->create();
         //create usertypes
         UserType::create(['user_type' => 'Regional Director']);
         UserType::create(['user_type' => 'Regional Planning Officer']);

@@ -536,6 +536,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Province' => __DIR__ . '/../..' . '/app/Province.php',
+        'App\\StrategicObjective' => __DIR__ . '/../..' . '/app/StrategicObjective.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserType' => __DIR__ . '/../..' . '/app/UserType.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
