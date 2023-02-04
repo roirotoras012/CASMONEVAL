@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('accomplishments', function (Blueprint $table) {
-            $table->id();
-            $table->integer('strategic_objective_id');
-            $table->string('name');
-            $table->string('evaluator');
-            $table->string('performance');
+        Schema::create('monthly_evaluations', function (Blueprint $table) {
+            $table->id('monthly_evaluation_ID');
+            $table->integer('monthly_target_ID');
+            $table->longText('reason');
+            $table->string('remark');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accomplishments');
+        Schema::dropIfExists('monthly_evaluations');
     }
 };

@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('people', function (Blueprint $table) {
-            $table->id();
+        Schema::create('strategic_measures', function (Blueprint $table) {
+            $table->id('strategic_measure_ID');
+            $table->string('strategic_measure');
+            $table->integer('strategic_objective_ID');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('people');
+        Schema::dropIfExists('strategic_measures');
     }
 };
