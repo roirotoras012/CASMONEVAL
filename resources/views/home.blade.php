@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container h-100">
+<x-sidebar/>
+<div class="container">
+{{--   
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-md-8">
             <div class="card">
@@ -18,6 +20,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection

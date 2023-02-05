@@ -12,8 +12,9 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- Scripts -->
+    <link rel="stylesheet" href={{asset("css/custom.css")}}>
+    {{-- datatables --}}
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <style>
         .input-group-icon{
@@ -32,11 +33,16 @@
             border-bottom-left-radius: 0.375rem;
            
     }
+    .navbar {
+        z-index: 99;
+    }
     </style>
+
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100">
+        
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Casmoneval') }}
@@ -93,6 +99,13 @@
         <main class="py-4 vh-100">
             @yield('content')
         </main>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src={{asset("demo/chart-area-demo.js")}} ></script>
+        <script src={{asset("demo/chart-bar-demo.js")}} ></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src={{asset("js/datatables-simple-demo.js")}}></script>
+        <script src={{asset("js/scripts.js")}}></script>
+
     </div>
 </body>
 </html>
