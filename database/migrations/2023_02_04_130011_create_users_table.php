@@ -26,7 +26,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->integer('user_type_ID');
-            $table->integer('division_ID')->nullable();//nullable for now
+            $table->integer('division_ID')->nullable();
         });
     }
 
