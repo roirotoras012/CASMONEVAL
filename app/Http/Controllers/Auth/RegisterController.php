@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-// use App\Models\User;
-use App\User;
+use App\Models\User;
+// use App\User;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
@@ -52,8 +52,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['required', 'string', 'max:255'],
+            'extension_name' => ['required', 'string', 'max:255'],
+            'birthday' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'user_type_ID' => ['required' , 'numeric'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -66,18 +72,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // dd($data);
         return User::create([
-
+            
             // 'name' => $data['name'],
             // 'email' => $data['email'],
             // 'password' => Hash::make($data['password']),
-
-            'first_name' => $data['fname'],
-            'last_name' => $data['lname'],
-            'middle_name' => $data['mname'],
-            'extension_name' => $data['xname'],
-            'birthday' => $data['bdate'],
+            'username' => $data['username'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'middle_name' => $data['middle_name'],
+            'extension_name' => $data['extension_name'],
+            'birthday' => $data['birthday'],
             'email' => $data['email'],
+            // 'user_type_ID' => $data['user_type_ID'],
             'password' => Hash::make($data['password']),
         ]);
     }

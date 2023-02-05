@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\User;
+use App\Models\User;
 use App\Division;
 use App\Province;
 use App\UserType;

@@ -13,6 +13,20 @@
                     </div>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
+                        <div class="col">
+                          <div class="input-group input-group-sm">
+                              <div class="input-group-prepend">
+                                <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
+                                </span>
+                              </div>
+                              <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{old('username')}}" name="username" required autocomplete="username" autofocus>
+                              @error('username')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                              @enderror
+                            </div>
+                      </div>
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="input-group input-group-sm">
@@ -20,7 +34,12 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Firstname" id="fname" type="text" class="form-control" name="fname" required autocomplete="fname" autofocus>
+                                    <input placeholder="Firstname" id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" value="{{old('first_name')}}" name="first_name" required autocomplete="first_name" autofocus>
+                                    @error('first_name')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                    @enderror
                                   </div>
                             </div>
                             <div class="col">
@@ -29,7 +48,7 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Lastname" id="lname" type="text" class="form-control" name="lname" required autocomplete="lname" autofocus>
+                                    <input placeholder="Lastname" id="last_name" type="text" class="form-control" name="last_name" required autocomplete="last_name" autofocus>
                                   </div>
                             </div>
                           </div>
@@ -46,7 +65,7 @@
                                     <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                     </span>
                                     </div>
-                                    <input placeholder="Middlename" id="mname" type="text" class="form-control" name="mname" required autocomplete="mname" autofocus>
+                                    <input placeholder="Middlename" id="middle_name" type="text" class="form-control" name="middle_name" required autocomplete="middle_name" autofocus>
                                 </div>
                             </div>
                             <div class="col">
@@ -55,7 +74,7 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Extension name" id="exname" type="text" class="form-control" name="exname" required autocomplete="exname" autofocus>
+                                    <input placeholder="Extension name" id="extension_name" type="text" class="form-control" name="extension_name" required autocomplete="extension_name" autofocus>
                                   </div>
                             </div>
                         </div>
@@ -70,7 +89,7 @@
                                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                         </span>
                                       </div>
-                                      <input type="date" name='bdate' class="form-control" id="entry_date"  />
+                                      <input type="date" name='birthday' class="form-control" id="entry_date"  />
                                   </div>
                                 </div>
                               </div>
