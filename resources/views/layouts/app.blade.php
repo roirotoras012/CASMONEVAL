@@ -12,7 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href={{asset("css/custom.css")}}>
+    <link rel="stylesheet" href={{asset("/css/custom.css")}}>
     {{-- datatables --}}
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
