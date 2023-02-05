@@ -5,12 +5,15 @@
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header bg-primary text-white font-weight-bold text-center">{{ __('Login') }}</div>
-
-                <div class="card-body px-4 py-5">
+                {{-- <div class="card-header bg-primary text-white font-weight-bold text-center">{{ __('Login') }}</div> --}}
+              
+                <div class="card-body p-5">
+                    <div class="text-center m-4">
+                        <img style="height:100px;width: auto" src="{{url('/images/dti-logo.png')}}"/>
+                    </div>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-                      
+                       
                         <div class="row mb-3">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-prepend">

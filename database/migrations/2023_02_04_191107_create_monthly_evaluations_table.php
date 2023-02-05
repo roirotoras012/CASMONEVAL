@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('logs', function (Blueprint $table) {
-            $table->id();
-            $table->string('activity');
-            $table->integer('user_id');
-            $table->timestamp('date_time');
-            
+        Schema::create('monthly_evaluations', function (Blueprint $table) {
+            $table->id('monthly_evaluation_ID');
+            $table->integer('monthly_target_ID');
+            $table->longText('reason');
+            $table->string('remark');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('logs');
+        Schema::dropIfExists('monthly_evaluations');
     }
 };
