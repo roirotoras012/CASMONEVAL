@@ -33,11 +33,7 @@
             border-bottom-left-radius: 0.375rem;
            
     }
-    .navbar {
-        z-index: 99;
-    }
     </style>
-
 </head>
 <body>
     <div id="app">
