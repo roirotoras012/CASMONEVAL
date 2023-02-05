@@ -18,6 +18,22 @@
             body {
                 font-family: 'Nunito', sans-serif;
             }
+            .input-group-icon{
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #212529;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-top-left-radius: 0.375rem;
+            border-bottom-left-radius: 0.375rem;
+           
+    }
         </style>
     </head>
     <body class="antialiased">
