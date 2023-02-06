@@ -34,7 +34,7 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input value="{{old('last_name')}}" placeholder="Lastname" id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{old('last_name')}}"" required autocomplete="last_name" autofocus>
+                                    <input value="{{old('last_name')}}" placeholder="Lastname" id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{old('last_name')}}"" autocomplete="last_name" autofocus>
                                     @error('last_name')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>
@@ -56,7 +56,7 @@
                                     <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                     </span>
                                     </div>
-                                    <input value="{{old('middle_name')}}" placeholder="Middlename" id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{old('middle_name')}}"""  name="middle_name" required autocomplete="middle_name" autofocus>
+                                    <input value="{{old('middle_name')}}" placeholder="Middlename" id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{old('middle_name')}}"""  name="middle_name" autocomplete="middle_name" autofocus>
                                     @error('middle_name')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>
@@ -70,7 +70,7 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input value="{{old('extension_name')}}" placeholder="Extension name" id="extension_name" type="text" class="form-control @error('extension_name') is-invalid @enderror" name="extension_name" name="extension_name" required autocomplete="extension_name" autofocus>
+                                    <input value="{{old('extension_name')}}" placeholder="Extension name" id="extension_name" type="text" class="form-control @error('extension_name') is-invalid @enderror" name="extension_name" name="extension_name" autocomplete="extension_name" autofocus>
                                     @error('extension_name')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>
@@ -106,7 +106,7 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-at"></i>
                                   </span>
                                 </div>
-                                <input value="{{old('email')}}"" placeholder="Email" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" required autocomplete="email">
+                                <input value="{{old('email')}}"" placeholder="Email" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" autocomplete="email">
                                 @error('email')
                                   <span class="invalid-feedback" role="alert">
                                       <strong>{{ $message }}</strong>
@@ -136,7 +136,7 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-lock"></i>
                                   </span>
                                 </div>
-                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
                                 @error('password')
                                   <span class="invalid-feedback" role="alert">
                                       <strong>{{ $message }}</strong>
@@ -150,7 +150,7 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-lock-open"></i></i>
                                   </span>
                                 </div>
-                                <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input placeholder="Confirm Password" id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
                                
                               </div>
                         </div>
