@@ -21,5 +21,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/register_user', [App\Http\Controllers\HomeController::class, 'validator'])->name('home');
+// Route::get('/register_user', [App\Http\Controllers\HomeController::class, 'validator'])->name('home');
 
