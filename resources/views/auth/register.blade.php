@@ -13,20 +13,6 @@
                     </div>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        {{-- <div class="col">
-                          <div class="input-group input-group-sm">
-                              <div class="input-group-prepend">
-                                <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
-                                </span>
-                              </div>
-                              <input placeholder="Username" id="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{old('username')}}" name="username" required autocomplete="username" autofocus>
-                              @error('username')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                              @enderror
-                            </div>
-                      </div> --}}
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="input-group input-group-sm">
@@ -34,7 +20,7 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Firstname" id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" value="{{old('first_name')}}" name="first_name" required autocomplete="first_name" autofocus>
+                                    <input value="{{old('first_name')}}" placeholder="Firstname" id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" value="{{old('first_name')}}" name="first_name" autocomplete="first_name" autofocus>
                                     @error('first_name')
                                       <span class="invalid-feedback" role="alert">
                                           <strong>{{ $message }}</strong>
@@ -48,7 +34,12 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Lastname" id="last_name" type="text" class="form-control" name="last_name" required autocomplete="last_name" autofocus>
+                                    <input value="{{old('last_name')}}" placeholder="Lastname" id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{old('last_name')}}"" required autocomplete="last_name" autofocus>
+                                    @error('last_name')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                    @enderror
                                   </div>
                             </div>
                           </div>
@@ -65,7 +56,12 @@
                                     <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                     </span>
                                     </div>
-                                    <input placeholder="Middlename" id="middle_name" type="text" class="form-control" name="middle_name" required autocomplete="middle_name" autofocus>
+                                    <input value="{{old('middle_name')}}" placeholder="Middlename" id="middle_name" type="text" class="form-control @error('middle_name') is-invalid @enderror" name="middle_name" value="{{old('middle_name')}}"""  name="middle_name" required autocomplete="middle_name" autofocus>
+                                    @error('middle_name')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="col">
@@ -74,7 +70,12 @@
                                       <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                       </span>
                                     </div>
-                                    <input placeholder="Extension name" id="extension_name" type="text" class="form-control" name="extension_name" required autocomplete="extension_name" autofocus>
+                                    <input value="{{old('extension_name')}}" placeholder="Extension name" id="extension_name" type="text" class="form-control @error('extension_name') is-invalid @enderror" name="extension_name" name="extension_name" required autocomplete="extension_name" autofocus>
+                                    @error('extension_name')
+                                      <span class="invalid-feedback" role="alert">
+                                          <strong>{{ $message }}</strong>
+                                      </span>
+                                    @enderror
                                   </div>
                             </div>
                         </div>
@@ -89,7 +90,12 @@
                                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                         </span>
                                       </div>
-                                      <input type="date" name='birthday' class="form-control" id="entry_date"  />
+                                      <input value="{{old('date')}}" type="date" name='birthday' class="form-control @error('birthday') is-invalid @enderror" id="entry_date"  />
+                                      @error('birthday')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                      @enderror
                                   </div>
                                 </div>
                               </div>
@@ -100,7 +106,12 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-at"></i>
                                   </span>
                                 </div>
-                                <input placeholder="Email" id="email" type="email" class="form-control" name="email" required autocomplete="email">
+                                <input value="{{old('email')}}"" placeholder="Email" id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" required autocomplete="email">
+                                @error('email')
+                                  <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                                @enderror
                               </div>
                         </div>
                         <div class="row mb-3">
@@ -109,13 +120,13 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-users"></i>
                                   </span>
                                 </div>
-                                <select class="form-select">
+                                <select name="user_type_ID" class="form-select">
                                     <option selected>Select Role</option>
-                                    <option name="1" value="1">Regional Director</option>
-                                    <option name="2" value="2">Regional Planning Officer</option>
-                                    <option name="3" value="3">Provincial Director</option>
-                                    <option name="4" value="4">Provincial Planning Officer</option>
-                                    <option name="5" value="5">Division Chief</option>
+                                    <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }} value="1">Regional Director</option>
+                                    <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }} value="2">Regional Planning Officer</option>
+                                    <option name="3" {{ old('user_type_ID') == '3' ? 'selected' : '' }} value="3">Provincial Director</option>
+                                    <option name="4" {{ old('user_type_ID') == '4' ? 'selected' : '' }} value="4">Provincial Planning Officer</option>
+                                    <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }} value="5">Division Chief</option>
                                   </select>
                               </div>
                         </div>
@@ -125,7 +136,12 @@
                                   <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-lock"></i>
                                   </span>
                                 </div>
-                                <input placeholder="Password" id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+                                <input placeholder="Password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                @error('password')
+                                  <span class="invalid-feedback" role="alert">
+                                      <strong>{{ $message }}</strong>
+                                  </span>
+                                @enderror
                               </div>
                         </div>
                         <div class="row mb-3">
