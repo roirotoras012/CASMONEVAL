@@ -82,9 +82,9 @@
                      
                         <div class="row mb-3">
                           <label style="color:#505050f5;">Birthday</label>
-                            <div class="input-group input-group-sm">
+                            <div class="input-group-sm">
                                 <div class="input-group-prepend">
-                                  <div class="input-group date" style="width: 430px;" id="datepicker">
+                                  <div class="input-group date" id="datepicker">
                                       <div class="input-group-prepend">
                                           <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
                                           </span>
