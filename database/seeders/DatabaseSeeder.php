@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //create 27 dummy user
-        User::factory(27)->create();
+        // User::factory(27)->create();
         //create 15 dummy StrategicObjective
         StrategicObjective::factory(15)->create();
         //create 15 dummy StrategicObjective
