@@ -81,15 +81,15 @@
                         </div>
                      
                         <div class="row mb-3">
+                          <label style="color:#505050f5;">Birthday</label>
                             <div class="input-group input-group-sm">
-                               
                                 <div class="input-group-prepend">
-                                
-                                  <div class="input-group date" id="datepicker">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
-                                        </span>
+                                  <div class="input-group date" style="width: 430px;" id="datepicker">
+                                      <div class="input-group-prepend">
+                                          <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i class="p-1 fa-solid fa-user"></i>
+                                          </span>
                                       </div>
+                                      
                                       <input value="{{old('date')}}" type="date" name='birthday' class="form-control @error('birthday') is-invalid @enderror" id="entry_date"  />
                                       @error('birthday')
                                         <span class="invalid-feedback" role="alert">
