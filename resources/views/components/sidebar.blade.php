@@ -6,7 +6,7 @@
                     <div class="sb-sidenav-menu-heading">Core</div>
                     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                         class="fas fa-bars"></i></button>   
-                    <a class="nav-link" href="{{ url('/home') }}">
+                    <a class="nav-link {{ Request::is('home') ? 'active' : '' }}" href="{{ url('/home') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
@@ -40,7 +40,7 @@
                     
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="{{ url('/users') }}"">Manage Employee</a>
+                            <a class="nav-link {{ Request::is('users') ? 'active' : '' }}" href="{{ url('/users') }}"">Manage Employee</a>
 
                         </nav>
                     </div>
@@ -76,7 +76,7 @@
                         </nav>
                     </div>
                     <div class="sb-sidenav-menu-heading">Addons</div>
-                    <a class="nav-link"  href="{{ url('/users') }}">
+                    <a class="nav-link {{ Request::is('users') ? 'active' : '' }}"  href="{{ url('/users') }}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                         User
                     </a>

@@ -82,7 +82,9 @@
         scroll-behavior: smooth;
     }
 }
-
+.input-group input {
+    height: 40px !important;
+}
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
@@ -11973,8 +11975,8 @@ button#sidebarToggle {
     background: #212529;
     font-size: 15px;
     position: absolute;
-    top: 10px;
-    left: 248px;
+    top: 0px;
+    left: 222px;
     color: #fff;
 }
 .sb-sidenav {
