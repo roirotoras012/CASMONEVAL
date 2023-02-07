@@ -23,59 +23,39 @@
             <thead>
                 <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
+                    <th>ID</th>
+                    <th></th>
+                    <th>Email</th>
+                    <th>Lastname</th>
+                    <th>Firstname</th>
+                    <th>Middlename</th>
+                    <th>Extension Name</th>
+                    <th>Birthday</th>
+                    <th>User Type ID</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tfoot>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    <th>Salary</th>
-                    <th>Action</th>
-                    <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                    </td>
-                </tr>
-            </tfoot>
+       
             <tbody>
+                @foreach ($users ?? [] as $user)
                 <tr>
                     <th></th>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
+                    <td>{{$user->user_ID }}</td>
+                    <td>{{$user->username }}</td>
+                    <td>{{$user->email }}</td>
+                    <td>{{$user->last_name }}</td>
+                    <td>{{$user->first_name }}</td>
+                    <td>{{$user->middle_name }}</td>
+                    <td>{{$user->extension_name }}</td>
+                 
+                    <td>{{$user->birthday}}</td>
+                    <td>{{$user->user_type_ID}}</td>
                     <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa-solid fa-pen"></i></a>
-                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa-solid fa-trash"></i></a>
+                        <a href="#editEmployeeModal" class="edit mr-2" data-toggle="modal"><i class="fa-solid fa-pen text-warning"></i></a>
+                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa-solid fa-trash text-danger"></i></a>
                     </td>
                 </tr>
-                <tr>
-                    <th></th>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011/07/25</td>
-                    <td>$170,750</td>
-                    <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="fa-solid fa-pen"></i></a>
-                        <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="fa-solid fa-trash"></i></a>
-                    </td>
-                </tr>
-                
+                @endforeach
             </tbody>
         </table>
     </div>

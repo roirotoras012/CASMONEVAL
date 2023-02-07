@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+
 class UserController extends Controller
 {
     /**
@@ -40,6 +42,13 @@ class UserController extends Controller
 
         return "sotre";
     }
+    public function adminView()
+    {
+        //
+        $users = User::all();
+        
+        return view('pages.Admin.pages.users', ['users' => $users]);
+    }
 
     /**
      * Display the specified resource.
@@ -47,9 +56,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
     public function show($id)
     {
         //
+      
+        
     }
 
     /**
