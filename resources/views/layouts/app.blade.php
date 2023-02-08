@@ -39,7 +39,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Casmoneval') }}
+                    {{ config('app.name', 'Casmonevals') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

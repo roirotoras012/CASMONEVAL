@@ -98,7 +98,19 @@ body {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .container {
-    max-width: 1500px !important;
+    max-width: 1400px !important;
+}
+
+.landing-banner {
+    /* background-image: url("/images/bg.png"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    background: linear-gradient(
+            to right,
+            rgb(255 255 255 / 78%) 20%,
+            rgb(255 255 255 / 79%)
+        ),
+        url(/images/bg.png);
 }
 .modal-confirm {
     color: #636363;

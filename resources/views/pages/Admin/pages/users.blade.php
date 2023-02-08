@@ -22,7 +22,7 @@
             <div class="card-body p-2">
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
-                        <p>{{ $message }}</p>
+                        <p class="m-0">{{ $message }}</p>
                     </div>
                 @endif
                 <table id="datatablesSimple">
@@ -65,18 +65,16 @@
                                                 data-target="#deletemodal">
                                                 <i class="fa-solid fa-trash text-white"></i>
                                             </button>
-                                            {{-- MODAL POP UP --}}
                                             <x-modal />
-                                            {{-- MODAL POP UP --}}
-                                            {{-- <button type="submit" class="edit mr-2 border-0 "><i class="fa-solid fa-trash text-danger"></i></button> --}}
                                         </form>
                                         <form action="{{ route('users.destroy', $user->user_ID) }}" method="post">
                                             @csrf
                                             @method('put')
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
                                                 data-target="#updatemodal">
-                                                <i class="fa-solid fa-pen t text-white">
+                                                <i class="fa-solid fa-pen t text-white"></i>
                                             </button>
+                                            <x-update-modal />
                                         </form>
                                     </div>
                                 </td>
@@ -138,41 +136,6 @@
                 </div>
             </div>
         </div>
-
-        {{-- DELETE MODAL --}}
-        <!-- Modal HTML -->
-
-        {{-- UPDATE MODAL --}}
-        <div class="modal fade" id="updatemodal" tabindex="-1" aria-labelledby="modal1Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modal1Label">Modal 1</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Modal 1 content
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
     </x-sidebar>

@@ -1,23 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-{{-- 
-            <div class="navigation">
-                @if (Route::has('login'))
-            <div class="fixed top-0 right-0 px-6 py-4 sm:block">
-            
-                                @auth
-                                    <a href="{{ url('/home') }}" >Home</a>
-                                @else
-                                    <a href="{{ route('login') }}">Log in</a>
-            
-                                    @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" >Register</a>
-                                    @endif
-                                @endauth
-            </div>
-                        @endif
-                        
-            </div> --}}
-                     
+<div class="jumbotron d-flex align-items-center bg-white landing-banner" style="height: 95vh;">
+    <div class="container">
+        <h1 class="display-3">Casmoneval</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam euismod velit vel velit tempor, quis dapibus sapien faucibus. </p>
+        <button class="btn btn-primary">Login</button>
+    </div>
+</div>
 
+    @endsection
