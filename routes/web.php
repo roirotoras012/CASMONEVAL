@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegionalDirector;
 
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('users', UserController::class)->middleware(['auth']);
 });
+
+
+
+// Regional Director
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('rd/dashboard', [UserController::class, 'index'])->name('users.index');
+   
+// });
+Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('users.index');
