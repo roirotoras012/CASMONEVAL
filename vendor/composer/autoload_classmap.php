@@ -33,6 +33,10 @@ return array(
     'App\\Models\\MonthlyEvaluation' => $baseDir . '/app/Models/MonthlyEvaluation.php',
     'App\\Models\\MonthlyTarget' => $baseDir . '/app/Models/MonthlyTarget.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
+<<<<<<< HEAD
+=======
+    'App\\Models\\RegistrationKey' => $baseDir . '/app/Models/RegistrationKey.php',
+>>>>>>> 5e6726790634a839c3f6109cce49f58e6210d54c
     'App\\Models\\StrategicMeasure' => $baseDir . '/app/Models/StrategicMeasure.php',
     'App\\Models\\StrategicObjective' => $baseDir . '/app/Models/StrategicObjective.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
@@ -42,7 +46,10 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+<<<<<<< HEAD
     'App\\View\\Components\\Modal' => $baseDir . '/app/View/Components/Modal.php',
+=======
+>>>>>>> 5e6726790634a839c3f6109cce49f58e6210d54c
     'App\\View\\Components\\sidebar' => $baseDir . '/app/View/Components/sidebar.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',

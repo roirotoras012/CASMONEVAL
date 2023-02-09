@@ -536,6 +536,10 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Models\\MonthlyEvaluation' => __DIR__ . '/../..' . '/app/Models/MonthlyEvaluation.php',
         'App\\Models\\MonthlyTarget' => __DIR__ . '/../..' . '/app/Models/MonthlyTarget.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',
+<<<<<<< HEAD
+=======
+        'App\\Models\\RegistrationKey' => __DIR__ . '/../..' . '/app/Models/RegistrationKey.php',
+>>>>>>> 5e6726790634a839c3f6109cce49f58e6210d54c
         'App\\Models\\StrategicMeasure' => __DIR__ . '/../..' . '/app/Models/StrategicMeasure.php',
         'App\\Models\\StrategicObjective' => __DIR__ . '/../..' . '/app/Models/StrategicObjective.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
@@ -545,7 +549,10 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+<<<<<<< HEAD
         'App\\View\\Components\\Modal' => __DIR__ . '/../..' . '/app/View/Components/Modal.php',
+=======
+>>>>>>> 5e6726790634a839c3f6109cce49f58e6210d54c
         'App\\View\\Components\\sidebar' => __DIR__ . '/../..' . '/app/View/Components/sidebar.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
