@@ -105,9 +105,36 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         //
+
+        // dd($request);
+        $request->validate([    
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'middle_name' => 'required|string|max:255',
+            'extension_name' => 'required|string|max:255',
+            'birthday' => 'required|date',
+            'email' => 'required|string|email|max:255',
+            'user_type_ID' => 'required|integer',
+            'password' => 'required'
+        ]);
+    
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+            'email' => $request->email,
+            'user_type_ID' => $request->user_type_ID,
+            'password' => Hash::make($request->password),
+        ];
+    
+        $user->update($attributes);
+    
+        return redirect()->route('users.adminView')->with('success', 'User updated successfully');
     }
 
     /**
@@ -121,6 +148,7 @@ class UserController extends Controller
        
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('users.adminView')->with('success','Deleted successfully.');;
+        $full_name = $user->first_name . " " . $user->last_name;
+        return redirect()->route('users.adminView')->with('success', "$full_name  was deleted successfully.");
     }
 }

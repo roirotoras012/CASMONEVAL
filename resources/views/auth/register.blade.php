@@ -70,7 +70,7 @@
                                             <input value="{{ old('middle_name') }}" placeholder="Middlename"
                                                 id="middle_name" type="text"
                                                 class="form-control @error('middle_name') is-invalid @enderror"
-                                                name="middle_name" value="{{ old('middle_name') }}""" name="middle_name"
+                                                name="middle_name" value="{{ old('middle_name') }}"
                                                 autocomplete="middle_name" autofocus>
                                             @error('middle_name')
                                                 <span class="invalid-feedback" role="alert">
@@ -160,6 +160,7 @@
                                             <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }}
                                                 value="5">Division Chief</option>
                                         </select>
+                                        
                                     </div>
                                 </div>
                                 <div class="row mb-3">

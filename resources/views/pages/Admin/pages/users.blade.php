@@ -28,9 +28,9 @@
                 <table id="datatablesSimple">
                     <thead>
                         <tr>
-                            <th></th>
+
                             <th>ID</th>
-                            <th></th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>Lastname</th>
                             <th>Firstname</th>
@@ -45,7 +45,6 @@
                     <tbody>
                         @foreach ($users ?? [] as $user)
                             <tr>
-                                <th></th>
                                 <td>{{ $user->user_ID }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->email }}</td>
@@ -57,24 +56,24 @@
                                 <td>{{ $user->user_type_ID }}</td>
                                 <td>
                                     <div class="form-container d-flex">
-                                        <form action="{{ route('users.destroy', $user->user_ID) }}" class="mr-2"
+                                        <form action="{{ route('users.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#deletemodal">
-                                                <i class="fa-solid fa-trash text-white"></i>
-                                            </button>
-                                            <x-modal />
-                                        </form>
-                                        <form action="{{ route('users.destroy', $user->user_ID) }}" method="post">
                                             @csrf
                                             @method('put')
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                data-target="#updatemodal">
+                                                data-target="#updatemodal-{{ $user->user_ID }}">
                                                 <i class="fa-solid fa-pen t text-white"></i>
                                             </button>
-                                            <x-update-modal />
+                                            <x-modal-update :users='$user' />
+                                        </form>
+                                        <form action="{{ route('users.destroy', $user->user_ID) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#deletemodal-{{ $user->user_ID }}">
+                                                <i class="fa-solid fa-trash text-white"></i>
+                                            </button>
+                                            <x-modal-delete :users='$user' />
                                         </form>
                                     </div>
                                 </td>
@@ -116,7 +115,31 @@
                                             <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }}
                                                 value="5">Division Chief</option>
                                         </select>
-                                       
+
+
+                                    </div>
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
+                                                    class="p-1 fa-solid fa-user"></i>
+                                            </span>
+                                        </div>
+
+                                        <select name="user_type_ID" class="form-select">
+                                            <option selected>Select Role</option>
+                                            <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }}
+                                                value="1">Regional Director</option>
+                                            <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }}
+                                                value="2">Regional Planning Officer</option>
+                                            <option name="3" {{ old('user_type_ID') == '3' ? 'selected' : '' }}
+                                                value="3">Provincial Director</option>
+                                            <option name="4" {{ old('user_type_ID') == '4' ? 'selected' : '' }}
+                                                value="4">Provincial Planning Officer</option>
+                                            <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }}
+                                                value="5">Division Chief</option>
+                                        </select>
+
+
                                     </div>
                                 </div>
 

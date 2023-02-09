@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
-use App\Division;
-use App\Province;
-use App\UserType;
+use App\Models\Division;
+use App\Models\Province;
+use App\Models\UserType;
 use Faker\Generator;
-use App\AnnualTarget;
-use App\MonthlyTarget;
-use App\StrategicMeasure;
-use App\StrategicObjective;
+use App\Models\AnnualTarget;
+use App\Models\MonthlyTarget;
+use App\Models\StrategicMeasure;
+use App\Models\StrategicObjective;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //create 27 dummy user
-        // User::factory(27)->create();
+        User::factory(27)->create();
         //create 15 dummy StrategicObjective
         StrategicObjective::factory(15)->create();
         //create 15 dummy StrategicObjective

@@ -1,4 +1,6 @@
-<div id="deletemodal" class="modal fade">
+@props(['users'])
+
+<div id="deletemodal-{{ $users->user_ID }}" class="modal fade">
 	<div class="modal-dialog modal-confirm">
 		<div class="modal-content">
 			<div class="modal-header flex-column">
