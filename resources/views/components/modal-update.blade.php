@@ -1,4 +1,5 @@
 @props(['users'])
+
 <div id="updatemodal-{{ $users->user_ID }}" class="modal fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
@@ -16,9 +17,9 @@
                                 class="p-1 fa-solid fa-user"></i>
                         </span>
                     </div>
-                    <input value="{{ $users->first_name }}" placeholder="Firstname" type="text"
+                    <input value="{{ $users->first_name }}" placeholder="Firstname" id="first_name" type="text"
                         class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}"
-                        name="first_name" autocomplete="first_name" autofocus />
+                        name="first_name" autocomplete="first_name" autofocus>
                     @error('first_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -31,9 +32,9 @@
                                 class="p-1 fa-solid fa-user"></i>
                         </span>
                     </div>
-                    <input value="{{ $users->last_name }}" placeholder="Lastname" type="text"
+                    <input value="{{ $users->last_name }}" placeholder="Lastname" id="last_name" type="text"
                         class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                        value="{{ old('last_name') }}"" autocomplete="last_name" autofocus>
+                        value="{{ old('last_name') }}"  />
                     @error('last_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -46,7 +47,7 @@
                                 class="p-1 fa-solid fa-user"></i>
                         </span>
                     </div>
-                    <input value="{{ $users->middle_name }}" placeholder="Middlename" type="text"
+                    <input value="{{ $users->middle_name }}" placeholder="Middlename" id="middle_name" type="text"
                         class="form-control @error('middle_name') is-invalid @enderror" name="middle_name"
                         value="{{ old('middle_name') }}">
                     @error('middle_name')
@@ -61,7 +62,7 @@
                                 class="p-1 fa-solid fa-user"></i>
                         </span>
                     </div>
-                    <input value="{{ $users->extension_name }}" placeholder="Extension name"
+                    <input value="{{ $users->extension_name }}" placeholder="Extension name" id="extension_name"
                         type="text" class="form-control @error('extension_name') is-invalid @enderror"
                         name="extension_name" name="extension_name" autocomplete="extension_name" autofocus>
                     @error('extension_name')
@@ -71,7 +72,7 @@
                     @enderror
                     <div class="input-group-sm">
                         <div class="input-group-prepend">
-                            <div class="input-group date">
+                            <div class="input-group date" id="datepicker">
                                 <div class="input-group-prepend">
                                     <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                             class="p-1 fa-solid fa-user"></i>
@@ -79,7 +80,7 @@
                                 </div>
 
                                 <input value="{{ $users->birthday }}" type="date" name='birthday'
-                                    class="form-control @error('birthday') is-invalid @enderror" />
+                                    class="form-control @error('birthday') is-invalid @enderror" id="entry_date" />
                                 @error('birthday')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -94,7 +95,7 @@
                                     class="p-1 fa-solid fa-at"></i>
                             </span>
                         </div>
-                        <input value="{{ $users->email }}" placeholder="Email" type="email"
+                        <input value="{{ $users->email }}" placeholder="Email" id="email" type="email"
                             class="form-control @error('email') is-invalid @enderror" name="email"
                             autocomplete="email">
                         @error('email')
@@ -122,7 +123,6 @@
                             <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }} value="5">
                                 Division Chief</option>
                         </select>
-
                     </div>
                     <div class="input-group input-group-sm">
                         <div class="input-group-prepend">
@@ -130,9 +130,9 @@
                                     class="p-1 fa-solid fa-lock"></i>
                             </span>
                         </div>
-                        <input placeholder="Password" type="password"
+                        <input placeholder="Password" id="password" type="password"
                             class="form-control @error('password') is-invalid @enderror" name="password"
-                            autocomplete="new-password">
+                            autocomplete="new-password" />
                         @error('password')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
