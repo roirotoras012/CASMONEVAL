@@ -1,0 +1,18 @@
+table {
+    border: 1px solid #000 !important;
+    border-collapse: collapse !important;
+  }
+  
+  th,
+  td {
+    border: 1px solid #000 !important;
+    padding: 10px;
+  }
+  th {
+    background-color: #0017c5;
+    text-align: center !important;
+    color: #ffffff;
+  }
+  tr.table-tr input {
+    max-width: 100px;
+}
