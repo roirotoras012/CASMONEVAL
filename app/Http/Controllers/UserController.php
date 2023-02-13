@@ -109,7 +109,7 @@ class UserController extends Controller
     {
         //
 
-        // dd($request);
+        dd($request);
         $request->validate([    
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',

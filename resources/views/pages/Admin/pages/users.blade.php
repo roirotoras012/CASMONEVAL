@@ -102,10 +102,9 @@
                                             </span>
                                         </div>
 
-                                        <select name="user_type_ID" class="form-select">
+                                        <select name="user_type_ID" class="form-select" id="role">
                                             <option selected>Select Role</option>
-                                            <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }}
-                                                value="1">Regional Director</option>
+                                            <option name="1" value="1">Regional Director</option>
                                             <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }}
                                                 value="2">Regional Planning Officer</option>
                                             <option name="3" {{ old('user_type_ID') == '3' ? 'selected' : '' }}
@@ -115,10 +114,8 @@
                                             <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }}
                                                 value="5">Division Chief</option>
                                         </select>
-
-
                                     </div>
-                                    <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm" id="province_planning">
                                         <div class="input-group-prepend">
                                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                                     class="p-1 fa-solid fa-user"></i>
@@ -127,31 +124,31 @@
 
                                         <select name="user_type_ID" class="form-select">
                                             <option selected>Select Role</option>
-                                            <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }}
-                                                value="1">Regional Director</option>
-                                            <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }}
-                                                value="2">Regional Planning Officer</option>
-                                            <option name="3" {{ old('user_type_ID') == '3' ? 'selected' : '' }}
-                                                value="3">Provincial Director</option>
-                                            <option name="4" {{ old('user_type_ID') == '4' ? 'selected' : '' }}
-                                                value="4">Provincial Planning Officer</option>
-                                            <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }}
-                                                value="5">Division Chief</option>
-                                        </select>
+                                            <option name="1" value="1">Bukidnono</option>
+                                            <option name="2" value="2">Lanao Del Norte</option>
+                                            <option name="3" value="3">Misamis Oriental</option>
+                                            <option name="4" value="4">Misamis Occidental</option>
+                                            <option name="5" value="5">Camiguin</option>
 
+                                        </select>
 
                                     </div>
                                 </div>
 
 
-                                {{-- <div class="row mb-0">
-                                    <div class="d-block">
-                                        <button type="submit" class="btn btn-primary d-block w-100">
-                                            {{ __('Register') }}
-                                        </button>
-                                    </div>
-                                </div> --}}
-                                <button type="submit" class="btn btn-primary"> {{ __('Generate user keys') }}</button>
+
+                                <div class="input-group">
+                                    <input type="text" id='input-userkey' class="form-control" placeholder="User Key">
+                                    <span class="input-group-btn">
+                                        <span class="input-group-btn">
+                                            <input type="button" id='btn-generate' class="btn btn-primary h-100"
+                                                value="{{ __('Generate') }}">
+                                        </span>
+
+                                </div>
+
+                                <button type="submit" id='btn-add' class="btn btn-primary">
+                                    {{ __('Add User') }}</button>
                             </form>
                         </div>
 
