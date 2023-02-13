@@ -13,18 +13,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 
 $(document).ready(function () {
-    $("#datatablesSimple").DataTable({
-        columnDefs: [
-            {
-                orderable: false,
-                className: "select-checkbox",
-                targets: 0,
-            },
-        ],
-        select: {
-            style: "os",
-            selector: "td:first-child",
-        },
-        order: [[1, "asc"]],
+    var provincePlanning = $("#province_planning");
+    var provincePlanningParent = provincePlanning.parent();
+    provincePlanning.hide().detach();
+
+    $("#role").change(function () {
+        if ($(this).val() === "3") {
+            provincePlanning.appendTo(provincePlanningParent).show();
+        } else {
+            provincePlanning.hide().detach();
+        }
+    });
+    $("#btn-add").hide();
+    $("#btn-generate").click(function (e) {
+        e.preventDefault();
+        $("#input-userkey").val(Math.random().toString(36).slice(2));
+        $("#btn-add").show();
     });
 });

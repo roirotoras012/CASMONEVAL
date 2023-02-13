@@ -34,7 +34,7 @@
                     </div>
                     <input value="{{ $users->last_name }}" placeholder="Lastname" id="last_name" type="text"
                         class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                        value="{{ old('last_name') }}"  />
+                        value="{{ old('last_name') }}" autocomplete="last_name" autofocus>
                     @error('last_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
