@@ -1,6 +1,8 @@
 <?php
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegistrationKeyController;
+
 use App\Http\Controllers\RegionalDirector;
 
 use Illuminate\Support\Facades\Route;
@@ -35,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
     Route::resource('users', UserController::class)->middleware(['auth']);
+    Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
+
 });
 
 

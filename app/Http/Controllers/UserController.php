@@ -27,8 +27,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
+    
     {
         //
+      
+
     }
 
     /**
@@ -39,30 +42,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'middle_name' => ['required', 'string', 'max:255'],
-            'birthday' => ['required'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'user_type_ID' => ['required'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        User::create([
-            
-            'username' => $request['first_name']."  ".$request['last_name'],
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'middle_name' => $request['middle_name'],
-            'extension_name' => $request['extension_name'],
-            'birthday' => $request['birthday'],
-            'email' => $request['email'],
-            'user_type_ID' => (int)$request['user_type_ID'],
-            'password' => Hash::make($request['password']),
-        ]);
-        // User::create([$request->all()]);
-        return redirect()->route('users.adminView')->with('success','User created successfully.');;
+      //
     }
     public function adminView()
     {

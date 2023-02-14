@@ -14,14 +14,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
+    var division_chief = $("#division_chief");
     var provincePlanningParent = provincePlanning.parent();
+    var division_chiefParent = division_chief.parent();
+
     provincePlanning.hide().detach();
+    division_chief.hide().detach();
 
     $("#role").change(function () {
-        if ($(this).val() === "3") {
+        if ($(this).val() === "3" || $(this).val() === "4") {
             provincePlanning.appendTo(provincePlanningParent).show();
         } else {
             provincePlanning.hide().detach();
+        }
+    });
+    $("#role").change(function () {
+        if ($(this).val() === "5") {
+            division_chief.appendTo(division_chiefParent).show();
+        } else {
+            division_chief.hide().detach();
         }
     });
     $("#btn-add").hide();

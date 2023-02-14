@@ -92,7 +92,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-5">
-                            <form method="POST" action="{{ route('users.store') }}">
+                            <form method="POST" action="{{ route('registerUser.create') }}">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="input-group input-group-sm">
@@ -121,24 +121,33 @@
                                                     class="p-1 fa-solid fa-user"></i>
                                             </span>
                                         </div>
-
-                                        <select name="user_type_ID" class="form-select">
+                                        <select name="user_province_ID" class="form-select">
                                             <option selected>Select Role</option>
-                                            <option name="1" value="1">Bukidnono</option>
-                                            <option name="2" value="2">Lanao Del Norte</option>
-                                            <option name="3" value="3">Misamis Oriental</option>
-                                            <option name="4" value="4">Misamis Occidental</option>
-                                            <option name="5" value="5">Camiguin</option>
-
+                                            <option name="1" value="1" {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnono</option>
+                                            <option name="2" value="2" {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte</option>
+                                            <option name="3" value="3" {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental</option>
+                                            <option name="4" value="4" {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental</option>
+                                            <option name="5" value="5" {{ old('user_province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
                                         </select>
-
+                                       
+                                    </div>
+                                    <div class="input-group input-group-sm" id="division_chief">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
+                                                    class="p-1 fa-solid fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <select name="user_division_ID" class="form-select">
+                                            <option selected>Select Role</option>
+                                            <option name="1" value="1" {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development Division</option>
+                                            <option name="2" value="2" {{ old('user_division_ID') == '2' ? 'selected' : '' }}>Consumer Protection Division</option>
+                                            <option name="3" value="3" {{ old('user_division_ID') == '3' ? 'selected' : '' }}>Finance Administrative Division</option>
+                                        </select>
                                     </div>
                                 </div>
 
-
-
                                 <div class="input-group">
-                                    <input type="text" id='input-userkey' class="form-control" placeholder="User Key">
+                                    <input type="text" id='input-userkey' name='input_userkey' class="form-control" placeholder="User Key">
                                     <span class="input-group-btn">
                                         <span class="input-group-btn">
                                             <input type="button" id='btn-generate' class="btn btn-primary h-100"
