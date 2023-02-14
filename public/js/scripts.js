@@ -30,4 +30,6 @@ $(document).ready(function () {
         $("#input-userkey").val(Math.random().toString(36).slice(2));
         $("#btn-add").show();
     });
+
+    $("#datatablesSimple").DataTable();
 });
