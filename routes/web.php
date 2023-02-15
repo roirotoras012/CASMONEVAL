@@ -49,4 +49,5 @@ Route::middleware(['auth'])->group(function () {
 //     Route::get('rd/dashboard', [UserController::class, 'index'])->name('users.index');
    
 // });
-Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('users.index');
+Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
+Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
