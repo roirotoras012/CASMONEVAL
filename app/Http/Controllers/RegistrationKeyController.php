@@ -8,7 +8,6 @@ use App\Models\RegistrationKey;
 
 class RegistrationKeyController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -16,9 +15,16 @@ class RegistrationKeyController extends Controller
      */
     public function index()
     {
-        //
+        return view("auth.registerKey");
     }
-
+    public function checkKey(Request $request)
+    {
+        $user_key = $request['registration_key'];
+        if (RegistrationKey::where('registration_key',  $user_key)->exists()) {
+            return view("auth.registerKey");
+        }
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -28,19 +34,21 @@ class RegistrationKeyController extends Controller
     {
         //
         // dd($request);
-        $request->validate([    
+        $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',
         ]);
         RegistrationKey::create([
-            'user_type_ID' =>(int)$request['user_type_ID'],
-            'province_ID' => (int)$request['user_province_ID'],
-            'division_ID' => (int)$request['user_division_ID'],
-            'Status' => "Good",
-            'registration_key' => $request['input_userkey']
+            'user_type_ID' => (int) $request['user_type_ID'],
+            'province_ID' => (int) $request['user_province_ID'],
+            'division_ID' => (int) $request['user_division_ID'],
+            'Status' => 'Good',
+            'registration_key' => $request['input_userkey'],
         ]);
         // User::create([$request->all()]);
-        return redirect()->route('users.adminView')->with('success','User created successfully.');
+        return redirect()
+            ->route('users.adminView')
+            ->with('success', 'User created successfully.');
     }
 
     /**

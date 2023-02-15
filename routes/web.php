@@ -32,12 +32,17 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 //     Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
 
 // });
+Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
+Route::get('/registerUser', [RegistrationKeyController::class, 'checkKey'])->name('registerUser.checkKey');
+
+
+Route::get('/registerKey', [RegistrationKeyController::class, 'index'])->name('registerUser.index');
 
 Route::middleware(['auth'])->group(function () {
+    Route::resource('users', UserController::class)->middleware(['auth']);
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
-    Route::resource('users', UserController::class)->middleware(['auth']);
-    Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
+   
 
 });
 
