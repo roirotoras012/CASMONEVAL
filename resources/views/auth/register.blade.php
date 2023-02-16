@@ -8,7 +8,7 @@
                     <div class="card">
 
                         <div class="card-body p-5">
-                            <form method="GET" action="registerUser">
+                            <form method="GET" action="register-key">
                                 <div class="text-center mb-4">
                                     <img style="height:100px;width: auto" src="{{ url('/images/dti-logo.png') }}" />
                                     <div class="input-group input-group-sm">
@@ -32,14 +32,7 @@
                                             {{ __('Validate') }}
                                         </button>
                                     </div>
-                                    {{-- <div class="row mb-0 mt-2">
-                                        <div class="d-block">
-                                             <a href="{{url('/registerKey')}}" class="btn btn-primary d-block w-100" >
-                                                {{ __('Register') }}
-                                            </a>
-
-                                        </div>
-                                    </div> --}}
+                                 
                                 </div>
                             </form>
                             

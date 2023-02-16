@@ -9,9 +9,15 @@
 
                         <div class="card-body p-5">
                             <form method="POST" action="{{ route('register') }}">
+
                                 <div class="text-center mb-4">
                                     @csrf
-                                    <img style="height:100px;width: auto" src="{{ url('/images/dti-logo.png') }}" />
+                                    <img style="height:100px;width: auto;margin-bottom:10px;" src="{{ url('/images/dti-logo.png') }}" />
+                                    @if ($message = Session::get('validated'))
+                                        <div class="alert alert-success mt-4">
+                                            <p class="m-0">{{ $message }}</p>
+                                        </div>
+                                    @endif
                                     <div class="row mb-4">
                                         <div class="col">
                                             <div class="input-group input-group-sm">
@@ -183,18 +189,23 @@
                                                 </span>
                                             </div>
                                             <input placeholder="Confirm Password" id="password-confirm" type="password"
-                                                class="form-control" name="password_confirmation"
-                                                autocomplete="new-password">
+                                                class="form-control" name="password_confirmation" @error('password_confirmation') is-invalid @enderror"
+                                                autocomplete="password_confirmation">
+                                            @error('password_confirmation')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
 
                                         </div>
                                     </div>
-                                      <button type="submit" class="btn btn-primary w-100 d-block">
-                                            {{ __('Register') }}
-                                        </button>
+                                    <button type="submit" class="btn btn-primary w-100 d-block">
+                                        {{ __('Register') }}
+                                    </button>
                                 </div>
 
                             </form>
-                           
+
                         </div>
                     </div>
                 </div>

@@ -21,22 +21,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Route::middleware(['auth'])->group(function () {
-//     Route::resource('users', UserController::class);
-//     Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
-//     Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
 
-// });
+
 Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
-Route::get('/registerUser', [RegistrationKeyController::class, 'checkKey'])->name('registerUser.checkKey');
+Route::get('/register-validated', [RegistrationKeyController::class, 'index'])->name('registerUser.index');
+Route::get('/register-error', [RegistrationKeyController::class, 'error'])->name('registerUser.error');
+Route::get('/register-key', [RegistrationKeyController::class, 'checkKey'])->name('registerUser.checkKey');
 
 
-Route::get('/registerKey', [RegistrationKeyController::class, 'index'])->name('registerUser.index');
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class)->middleware(['auth']);

@@ -17,11 +17,19 @@ class RegistrationKeyController extends Controller
     {
         return view("auth.registerKey");
     }
+    public function error()
+    {
+        return view("auth.register-error");
+    }
     public function checkKey(Request $request)
     {
         $user_key = $request['registration_key'];
+        // $user_type_id = RegistrationKey::where('registration_key',  $user_key)->first()->user_type_ID;
         if (RegistrationKey::where('registration_key',  $user_key)->exists()) {
-            return view("auth.registerKey");
+            return redirect()->route('registerUser.index')->with('validated', "User Validated Successfully");
+        }
+        if(!RegistrationKey::where('registration_key',  $user_key)->exists()) {
+            return redirect()->route('registerUser.error')->with('error', "Invalid User Keys");
         }
     }
     
