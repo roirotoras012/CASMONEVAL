@@ -11,7 +11,7 @@ class RegionalDirector extends Controller
     public function index()
     {   
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
-                            ->get(["strategic_objectives.strategic_objective","strategic_measures.strategic_measure", "strategic_measures.strategic_objective_ID", "strategic_measures.strategic_measure_ID", "strategic_measures.strategic_objective_ID"]);
+                            ->get(["strategic_objectives.strategic_objective","strategic_measures.strategic_measure", "strategic_measures.strategic_objective_ID", "strategic_measures.strategic_measure_ID", "strategic_measures.strategic_objective_ID", "strategic_measures.division_ID"]);
        
         return view("rd.dashboard", compact('labels'));
     }
@@ -28,6 +28,7 @@ class RegionalDirector extends Controller
                     $target->strategic_measures_ID = $buk_strategic_measure;
                     $target->strategic_objectives_ID = $buk_strategic_objective;
                     $target->annual_target = $buk_target;
+                    $target->division_ID = $annual_target['division_ID'];
                     $target->province_ID = 1;
                     $target->save();
                    
@@ -42,11 +43,13 @@ class RegionalDirector extends Controller
                 $cam_target =  $annual_target['CAM'];
                 $cam_strategic_objective =  $annual_target['strategic_objective'];           
                 $cam_strategic_measure =  $annual_target['strategic_measure'];
+                
                 $target = new AnnualTarget;     
                 try{
                     $target->strategic_measures_ID = $cam_strategic_measure;
                     $target->strategic_objectives_ID = $cam_strategic_objective;
                     $target->annual_target = $cam_target;
+                    $target->division_ID = $annual_target['division_ID'];
                     $target->province_ID = 5;
                     $target->save();
                  
@@ -68,6 +71,7 @@ class RegionalDirector extends Controller
                     $target->strategic_measures_ID = $ldn_strategic_measure;
                     $target->strategic_objectives_ID = $ldn_strategic_objective;
                     $target->annual_target = $ldn_target;
+                    $target->division_ID = $annual_target['division_ID'];
                     $target->province_ID = 2;
                     $target->save();
                     
@@ -90,6 +94,7 @@ class RegionalDirector extends Controller
                     $target->strategic_objectives_ID = $misor_strategic_objective;
                     $target->annual_target = $misor_target;
                     $target->province_ID = 3;
+                    $target->division_ID = $annual_target['division_ID'];
                     $target->save();
                    
                 } 
@@ -110,6 +115,7 @@ class RegionalDirector extends Controller
                     $target->strategic_objectives_ID = $misoc_strategic_objective;
                     $target->annual_target = $misoc_target;
                     $target->province_ID = 4;
+                    $target->division_ID = $annual_target['division_ID'];
                     $target->save();
                   
                 }

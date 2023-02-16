@@ -57,7 +57,11 @@
                       
                   @endif
                   <td>{{ $label->strategic_objective }} <input type="hidden" name="data[{{$ctr}}][strategic_objective]" value="{{$label->strategic_objective_ID}}"></td>
-                  <td>{{ $label->strategic_measure }} <input type="hidden" name="data[{{$ctr}}][strategic_measure]" value="{{$label->strategic_measure_ID}}"></td>
+                  <td>{{ $label->strategic_measure }} 
+                    <input type="hidden" name="data[{{$ctr}}][strategic_measure]" value="{{$label->strategic_measure_ID}}">
+                    <input type="hidden" name="data[{{$ctr}}][division_ID]" value="{{$label->division_ID}}">
+                  
+                  </td>
                 
                   <td><input type="hidden" name="data[{{$ctr}}][total_targets]"></td>
                   <td><input type="number" name="data[{{$ctr}}][BUK]"></td>
