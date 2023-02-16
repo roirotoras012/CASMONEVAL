@@ -10,10 +10,17 @@ class RegionalDirector extends Controller
 {
     public function index()
     {   
+        // $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+        //                     ->get(["strategic_objectives.strategic_objective","strategic_measures.strategic_measure", "strategic_measures.strategic_objective_ID", "strategic_measures.strategic_measure_ID", "strategic_measures.strategic_objective_ID", "strategic_measures.division_ID"]);
+       
+        return view("rd.dashboard");
+    }
+
+    public function opcr_target() {
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
                             ->get(["strategic_objectives.strategic_objective","strategic_measures.strategic_measure", "strategic_measures.strategic_objective_ID", "strategic_measures.strategic_measure_ID", "strategic_measures.strategic_objective_ID", "strategic_measures.division_ID"]);
        
-        return view("rd.dashboard", compact('labels'));
+        return view("rd.opcr-target", compact('labels'));
     }
 
     public function add_targets(Request $request){
@@ -132,5 +139,13 @@ class RegionalDirector extends Controller
        
         return redirect()->route('rd.index')->with('success','Targets Added Successfully.');
         // return $request->data;
+    }
+
+    public function assessment() {
+        return view("rd.assessment");
+    }
+
+    public function profile() {
+        return view("rd.profile");
     }
 }
