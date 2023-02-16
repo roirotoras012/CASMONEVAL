@@ -529,6 +529,8 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\RegionalDirector' => __DIR__ . '/../..' . '/app/Http/Controllers/RegionalDirector.php',
+        'App\\Http\\Controllers\\RegistrationKeyController' => __DIR__ . '/../..' . '/app/Http/Controllers/RegistrationKeyController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

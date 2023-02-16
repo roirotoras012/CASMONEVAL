@@ -1,18 +1,55 @@
 table {
     border: 1px solid #000 !important;
     border-collapse: collapse !important;
-  }
-  
-  th,
-  td {
+}
+
+th,
+td {
     border: 1px solid #000 !important;
     padding: 10px;
-  }
-  th {
+}
+th {
     background-color: #0017c5;
     text-align: center !important;
     color: #ffffff;
-  }
-  tr.table-tr input {
+}
+tr.table-tr input {
     max-width: 100px;
+}
+
+a.nav-link,
+.nav .nav-link i {
+    color: #000 !important;
+    font-size: 16px;
+    transition: all 0.4s ease;
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    background-color: #0017c5 !important;
+    color: #fff !important;
+}
+
+button#sidebarToggle {
+    background: #0017c5;
+}
+
+a.nav-link.active {
+    color: #fff !important;
+    background-color: #0017c5 !important;
+}
+
+.sb-nav-link-icon i:active {
+    color: #fff !important;
+}
+
+.opcr-btn {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.navbar-expand-md .navbar-nav {
+    flex-direction: row;
+    display: none;
 }
