@@ -7,6 +7,7 @@ use App\Http\Controllers\RegionalDirector;
 use App\Http\Controllers\ProvincialDirectorController;
 use App\Http\Controllers\RegionalPlanningOfficerController;
 use App\Http\Controllers\ProvincialPlanningOfficerController;
+use App\Http\Controllers\DivisionChiefController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -79,3 +80,10 @@ Route::get('ppo/savetarget', [ProvincialPlanningOfficerController::class, 'savet
 Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
 Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
 Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
+
+// Division Chief
+Route::get('dc/dashboard', [DivisionChiefController::class, 'index']);
+Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
+Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
+Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
+Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
