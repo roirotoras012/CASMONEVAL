@@ -13,6 +13,10 @@
         ),
         url(/images/bg.png);
 }
+
+.input-group input {
+    height: 38px !important;
+}
 .modal-confirm {
     color: #636363;
     width: 400px;
