@@ -8,7 +8,6 @@ use App\Models\RegistrationKey;
 
 class RegistrationKeyController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +15,34 @@ class RegistrationKeyController extends Controller
      */
     public function index()
     {
-        //
+        return view('auth.registerKey');
+    }
+    public function error()
+    {
+        return view('auth.register-error');
+    }
+    public function checkKey(Request $request)
+    {
+        $user_key = $request['registration_key'];
+        $registration_key = RegistrationKey::where('registration_key', $user_key)->first();
+
+        if (!$registration_key) {
+            return redirect()
+                ->route('registerUser.error')
+                ->with('error', 'Invalid User Keys');
+        }
+
+        if ($registration_key->Status === 'Taken') {
+            return redirect()
+                ->route('registerUser.error')
+                ->with('error', 'Registration key already used');
+        }
+
+        $user_type_id = $registration_key->user_type_ID;
+
+        return redirect()
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key])
+            ->with('validated', 'User Validated Successfully');
     }
 
     /**
@@ -28,19 +54,21 @@ class RegistrationKeyController extends Controller
     {
         //
         // dd($request);
-        $request->validate([    
+        $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',
         ]);
         RegistrationKey::create([
-            'user_type_ID' =>(int)$request['user_type_ID'],
-            'province_ID' => (int)$request['user_province_ID'],
-            'division_ID' => (int)$request['user_division_ID'],
-            'Status' => "Good",
-            'registration_key' => $request['input_userkey']
+            'user_type_ID' => (int) $request['user_type_ID'],
+            'province_ID' => (int) $request['user_province_ID'],
+            'division_ID' => (int) $request['user_division_ID'],
+            'Status' => 'Good',
+            'registration_key' => $request['input_userkey'],
         ]);
         // User::create([$request->all()]);
-        return redirect()->route('users.adminView')->with('success','User created successfully.');
+        return redirect()
+            ->route('users.adminView')
+            ->with('success', 'User created successfully.');
     }
 
     /**

@@ -89,12 +89,12 @@ class UserController extends Controller
     {
         //
 
-        dd($request);
+       
         $request->validate([    
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'middle_name' => 'required|string|max:255',
-            'extension_name' => 'required|string|max:255',
+            // 'extension_name' => 'required|string|max:255',
             'birthday' => 'required|date',
             'email' => 'required|string|email|max:255',
             'user_type_ID' => 'required|integer',
