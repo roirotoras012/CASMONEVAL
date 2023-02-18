@@ -18,6 +18,8 @@
                                             <p class="m-0">{{ $message }}</p>
                                         </div>
                                     @endif
+                                 
+                                   
                                     <div class="row mb-4">
                                         <div class="col">
                                             <div class="input-group input-group-sm">
@@ -101,7 +103,7 @@
                                     </div>
 
                                     <div class="row mb-3">
-                                        <label style="color:#505050f5;">Birthday</label>
+                                        <label style="color:#505050f5;text-align:left;">Birthday</label>
                                         <div class="input-group-sm">
                                             <div class="input-group-prepend">
                                                 <div class="input-group date" id="datepicker">
@@ -141,7 +143,17 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="row mb-3">
+                                  
+                                    
+                                            <input value="{{request("user-id")}}" id="usertype-id"
+                                                type="hidden"
+                                                name="user_type_ID"/ >
+                                         <input value="{{request("registration-key")}}" id="registration_key"
+                                                type="hidden"
+                                                name="registration_key" />
+                                          
+                                    </div>
+                                    {{-- <div class="row mb-3">
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
@@ -149,7 +161,7 @@
                                                 </span>
                                             </div>
                                             <select name="user_type_ID" class="form-select">
-                                                <option selected>Select Role</option>
+                                                <option selected name="{{request("user-id")}}">Select Role</option>
                                                 <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }}
                                                     value="1">Regional Director</option>
                                                 <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }}
@@ -163,7 +175,7 @@
                                             </select>
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="row mb-3">
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">

@@ -15,24 +15,36 @@ class RegistrationKeyController extends Controller
      */
     public function index()
     {
-        return view("auth.registerKey");
+        return view('auth.registerKey');
     }
     public function error()
     {
-        return view("auth.register-error");
+        return view('auth.register-error');
     }
     public function checkKey(Request $request)
     {
         $user_key = $request['registration_key'];
-        // $user_type_id = RegistrationKey::where('registration_key',  $user_key)->first()->user_type_ID;
-        if (RegistrationKey::where('registration_key',  $user_key)->exists()) {
-            return redirect()->route('registerUser.index')->with('validated', "User Validated Successfully");
+        $registration_key = RegistrationKey::where('registration_key', $user_key)->first();
+
+        if (!$registration_key) {
+            return redirect()
+                ->route('registerUser.error')
+                ->with('error', 'Invalid User Keys');
         }
-        if(!RegistrationKey::where('registration_key',  $user_key)->exists()) {
-            return redirect()->route('registerUser.error')->with('error', "Invalid User Keys");
+
+        if ($registration_key->Status === 'Taken') {
+            return redirect()
+                ->route('registerUser.error')
+                ->with('error', 'Registration key already used');
         }
+
+        $user_type_id = $registration_key->user_type_ID;
+
+        return redirect()
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key])
+            ->with('validated', 'User Validated Successfully');
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *

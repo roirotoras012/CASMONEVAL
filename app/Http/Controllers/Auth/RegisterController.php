@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 // use App\User;
-
+use App\Models\RegistrationKey;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -72,6 +72,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        // dd($data);
+        $registrationKey = RegistrationKey::where('registration_key', $data['registration_key'])->first();
+        $registrationKey->update(['Status' => 'Taken']);
         return User::create([
             
             'username' => $data['first_name']."  ".$data['last_name'],
