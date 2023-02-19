@@ -13,7 +13,9 @@
         ),
         url(/images/bg.png);
 }
-
+.landing-details {
+    width: 60%;
+}
 .input-group input {
     height: 38px !important;
 }
