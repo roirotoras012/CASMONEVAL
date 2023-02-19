@@ -18,6 +18,7 @@ class RegionalDirector extends Controller
 
     public function opcr_target() {
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+                            // ->where('type', '=', 'DIRECT')
                             ->get(["strategic_objectives.strategic_objective","strategic_measures.strategic_measure", "strategic_measures.strategic_objective_ID", "strategic_measures.strategic_measure_ID", "strategic_measures.strategic_objective_ID", "strategic_measures.division_ID"]);
        
         return view("rd.opcr-target", compact('labels'));

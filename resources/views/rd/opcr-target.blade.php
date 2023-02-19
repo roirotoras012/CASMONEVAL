@@ -1,3 +1,7 @@
+
+<head>
+    <link rel="stylesheet" href="{{ URL::asset('css/rd.css') }}" />
+</head>
 @extends('layouts.app')
 @section('title')
     {{ 'RD OPCR Target' }}
@@ -50,15 +54,34 @@
 
                                 @csrf
                                 @php
+                                $current_objective = '';
                                     $ctr = 0;
                                 @endphp
+                               
                                 @foreach ($labels as $label)
+                                  
                                     <tr class="table-tr">
-                                        @if ($label->strategic_objective)
+                                        
+                                        @if ($label->strategic_objective != $current_objective)
+                                        
+                                        @php
+                                        $obj_count = 0;
+                                        foreach ($labels as $label2) {
+                                            if($label2->strategic_objective_ID == $label->strategic_objective_ID){
+                                                $obj_count++;
+
+                                            }
+                                        }
+                                        @endphp
+                                        {{-- <h2>{{$qwe}}</h2> --}}
+                                        <td rowspan="{{$obj_count}}">
+                                        {{ $label->strategic_objective }} <input type="hidden"
+                                            name="data[{{ $ctr }}][strategic_objective]"
+                                            value="{{ $label->strategic_objective_ID }}">
+                                        </td>
                                         @endif
-                                        <td>{{ $label->strategic_objective }} <input type="hidden"
-                                                name="data[{{ $ctr }}][strategic_objective]"
-                                                value="{{ $label->strategic_objective_ID }}"></td>
+                                       
+                                       
                                         <td>{{ $label->strategic_measure }}
                                             <input type="hidden" name="data[{{ $ctr }}][strategic_measure]"
                                                 value="{{ $label->strategic_measure_ID }}">
@@ -78,7 +101,9 @@
 
                                     @php
                                         $ctr++;
+                                        $current_objective = $label->strategic_objective;
                                     @endphp
+                                   
                                 @endforeach
 
 
