@@ -11,7 +11,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="input-group input-group-sm">
+                <div class="input-group input-group-sm mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                 class="p-1 fa-solid fa-user"></i>
@@ -26,7 +26,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="input-group input-group-sm">
+                <div class="input-group input-group-sm mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                 class="p-1 fa-solid fa-user"></i>
@@ -41,7 +41,7 @@
                         </span>
                     @enderror
                 </div>
-                <div class="input-group input-group-sm">
+                <div class="input-group input-group-sm mb-2">
                     <div class="input-group-prepend">
                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                 class="p-1 fa-solid fa-user"></i>
@@ -56,14 +56,14 @@
                         </span>
                     @enderror
                 </div>
-                <div class="input-group input-group-sm">
-                    <div class="input-group-prepend">
+                <div class="input-group input-group-sm mb-2">
+                    <div class="input-group-prepend mb-2">
                         <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                 class="p-1 fa-solid fa-user"></i>
                         </span>
                     </div>
                     <input value="{{ $users->extension_name }}" placeholder="Extension name" id="extension_name"
-                        type="text" class="form-control @error('extension_name') is-invalid @enderror"
+                        type="text" class="form-control mr-2 @error('extension_name') is-invalid @enderror"
                         name="extension_name" name="extension_name" autocomplete="extension_name" autofocus>
                     @error('extension_name')
                         <span class="invalid-feedback" role="alert">
@@ -71,7 +71,7 @@
                         </span>
                     @enderror
                     <div class="input-group-sm">
-                        <div class="input-group-prepend">
+                        <div class="input-group-prepend mb-2">
                             <div class="input-group date" id="datepicker">
                                 <div class="input-group-prepend">
                                     <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
@@ -89,7 +89,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm mb-2">
                         <div class="input-group-prepend">
                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                     class="p-1 fa-solid fa-at"></i>
@@ -104,7 +104,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm mb-2">
                         <div class="input-group-prepend">
                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                     class="p-1 fa-solid fa-users"></i>
@@ -124,7 +124,7 @@
                                 Division Chief</option>
                         </select>
                     </div>
-                    <div class="input-group input-group-sm">
+                    <div class="input-group input-group-sm ">
                         <div class="input-group-prepend">
                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                     class="p-1 fa-solid fa-lock"></i>

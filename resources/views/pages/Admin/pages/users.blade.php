@@ -87,15 +87,15 @@
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <div class="modal-header text-center">
+                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-5">
                             <form method="POST" action="{{ route('registerUser.create') }}">
                                 @csrf
                                 <div class="row mb-3">
-                                    <div class="input-group input-group-sm">
+                                    <div class="input-group input-group-sm mb-2">
                                         <div class="input-group-prepend">
                                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                                     class="p-1 fa-solid fa-user"></i>
@@ -156,7 +156,7 @@
 
                                 </div>
 
-                                <button type="submit" id='btn-add' class="btn btn-primary">
+                                <button type="submit" id='btn-add' class="btn btn-primary mt-2 d-block w-100">
                                     {{ __('Add User') }}</button>
                             </form>
                         </div>
