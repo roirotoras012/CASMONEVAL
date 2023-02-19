@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
         UserType::create(['user_type' => 'Provincial Director']);
         UserType::create(['user_type' => 'Provincial Planning Officer']);
         UserType::create(['user_type' => 'Division Chief']);
+        UserType::create(['user_type' => 'Admin']);
         //create Province
         Province::create(['Province' => 'Bukidnun']);
         Province::create(['Province' => 'Lanao Del Norte']);
