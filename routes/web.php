@@ -27,63 +27,43 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-
-
 Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
 Route::get('/register-validated', [RegistrationKeyController::class, 'index'])->name('registerUser.index');
 Route::get('/register-error', [RegistrationKeyController::class, 'error'])->name('registerUser.error');
 Route::get('/register-key', [RegistrationKeyController::class, 'checkKey'])->name('registerUser.checkKey');
 
-
-
 Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class)->middleware(['auth']);
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
-   
 
+    // Regional Director
+    Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
+    Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
+    Route::get('rd/profile', [RegionalDirector::class, 'profile']);
+    Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
+    Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
+
+    // Provincial Director
+    Route::get('pd/dashboard', [ProvincialDirectorController::class, 'index'])->name('pd.index');
+    Route::get('pd/addtarget', [ProvincialDirectorController::class, 'addtarget']);
+    Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
+    Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
+    Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
+    Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
+
+    // Regional Planning Officer
+    Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
+    Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'addtarget']);
+    Route::get('rpo/savetarget', [RegionalPlanningOfficerController::class, 'savetarget']);
+    Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
+    Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile']);
+
+    // Provincial Planning Officer
+    Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
+    Route::get('ppo/addtarget', [ProvincialPlanningOfficerController::class, 'addtarget']);
+    Route::get('ppo/savetarget', [ProvincialPlanningOfficerController::class, 'savetarget']);
+    Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
+    Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
+    Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
 });
-
-
-
-// Regional Director
-
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('rd/dashboard', [UserController::class, 'index'])->name('users.index');
-   
-// });
-Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
-Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
-Route::get('rd/profile', [RegionalDirector::class, 'profile']);
-Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
-Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
-
-// Provincial Director
-Route::get('pd/dashboard', [ProvincialDirectorController::class, 'index']);
-Route::get('pd/addtarget', [ProvincialDirectorController::class, 'addtarget']);
-Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
-Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
-Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
-Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
-
-// Regional Planning Officer
-Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index']);
-Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'addtarget']);
-Route::get('rpo/savetarget', [RegionalPlanningOfficerController::class, 'savetarget']);
-Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
-Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile']);
-
-// Provincial Planning Officer
-Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index']);
-Route::get('ppo/addtarget', [ProvincialPlanningOfficerController::class, 'addtarget']);
-Route::get('ppo/savetarget', [ProvincialPlanningOfficerController::class, 'savetarget']);
-Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
-Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
-Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
-
-// Division Chief
-Route::get('dc/dashboard', [DivisionChiefController::class, 'index']);
-Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
-Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
-Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
-Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
