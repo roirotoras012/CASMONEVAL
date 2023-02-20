@@ -31,8 +31,30 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+       $userType = auth()->user()->user_type_ID;
+       switch ($userType) {
+           case 1:
+               return route('rd.index');
+           case 2:
+               return route('rpo.index');
+           case 3:
+               return route('pd.index');
+           case 4:
+               return route('ppo.index');
+           case 5:
+               return route('dc.index');
+           case 6:
+               return route('users.adminView');
+           default:
+               return '/';
+       }
 
+      
+    }
+   
     /**
      * Create a new controller instance.
      *
