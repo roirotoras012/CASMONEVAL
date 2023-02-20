@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('registration_key');
             $table->string('Status')->default('unused');
             $table->integer('user_type_ID');
-            $table->string('province')->nullable();
-            $table->string('division')->nullable();
+            $table->integer('province_ID')->nullable();
+            $table->integer('division_ID')->nullable();
             $table->timestamps();
         });
     }
