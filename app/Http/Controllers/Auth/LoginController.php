@@ -48,6 +48,9 @@ class LoginController extends Controller
         if (auth()->user()->user_type_ID === 4) {
             return route('ppo.index');
         }
+        if (auth()->user()->user_type_ID === 5) {
+            return route('dc.index');
+        }
         if (auth()->user()->user_type_ID === 6) {
              return route('users.adminView');
         }
