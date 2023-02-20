@@ -66,4 +66,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
+
+    // Division Chief
+    Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('ppo.index');
+    Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
+    Route::get('dc/job-farm', [DivisionChiefController::class, 'jobfam']);
+    Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
+    Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
 });
