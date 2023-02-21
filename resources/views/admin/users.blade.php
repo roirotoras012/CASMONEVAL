@@ -56,7 +56,7 @@
                                 <td>{{ $user->user_type_ID }}</td>
                                 <td>
                                     <div class="form-container d-flex">
-                                        <form action="{{ route('users.update', $user->user_ID) }}" class="mr-2"
+                                        <form action="{{ route('admin.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')
@@ -66,7 +66,7 @@
                                             </button>
                                             <x-modal-update :users='$user' />
                                         </form>
-                                        <form action="{{ route('users.destroy', $user->user_ID) }}" method="post">
+                                        <form action="{{ route('admin.destroy', $user->user_ID) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="button" class="btn btn-danger" data-toggle="modal"

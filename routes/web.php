@@ -105,6 +105,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:6'])->group(function (
     Route::get('/admin/home', [HomeController::class, 'index'])->name('home');
 
   });
+//   Route::get('/admin/users', [UserController::class, 'adminView'])->name('admin.adminView');
 
 
    
