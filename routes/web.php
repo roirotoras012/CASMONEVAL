@@ -52,10 +52,13 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
    
     // Regional Planning Officer
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
-    Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'addtarget']);
-    Route::get('rpo/savetarget', [RegionalPlanningOfficerController::class, 'savetarget']);
+    Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcr_target');
+    Route::get('rpo/savetarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
+    Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
     Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile']);
+    Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
+    Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function () {
