@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="jumbotron d-flex align-items-center bg-white landing-banner" style="height: 95vh;">
-    <div class="container">
-        <h1 class="display-3">Casmoneval</h1>
-        <p class="lead">The "font-awesome" font style you see in the inspect element probably means that the website you are inspecting is using the Font Awesome icon library. Font Awesome is a popular icon library that provides scalable vector icons that can be customized (size, color, drop shadow, etc.) with CSS. If you see "font-awesome" in the inspect element, it likely means that the icons on the page are being served from Font Awesome and are being styled with CSS.</p>
-        <button class="btn btn-primary px-5 py-2">Login</button>
+    <div class="jumbotron d-flex align-items-center bg-white landing-banner" style="height: 95vh;">
+        <div class="container">
+            <div class="landing-details">
+                <div class="text-left mb-4">
+                    <img style="height:100px;" src="{{ url('/images/dti-logo.png') }}" />
+                </div>
+                <h5>Established to address local industry and foreign trade growth,</h5>
+                <h1 class="display-3">Casmoneval</h1>
+                <p class="lead"> Nearly 75 years following its inception, changes in government and agency functions would
+                    make possible the establishment of the Ministry of Trade and Industry, and, following the People Power
+                    Revolution, the Department as it is presently known.</p>
+                <a href="/login"><button class="btn btn-primary btn-login">Login</button></a>
+            </div>
+        </div>
     </div>
-</div>
-
-    @endsection
+@endsection

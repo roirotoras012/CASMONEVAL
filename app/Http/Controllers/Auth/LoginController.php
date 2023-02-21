@@ -26,13 +26,54 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
+
+     protected function redirectTo()
+     {
+        // if (auth()->user()->user_type_ID === 1) {
+        //     return route('rd.index');
+        // }
+        // if (auth()->user()->user_type_ID === 2) {
+        //     return route('rpo.index');
+        // }
+        // if (auth()->user()->user_type_ID === 3) {
+        //     return route('pd.index');
+        // }
+        // if (auth()->user()->user_type_ID === 4) {
+        //     return route('ppo.index');
+        // }
+        // if (auth()->user()->user_type_ID === 5) {
+        //     return route('dc.index');
+        // }
+        // if (auth()->user()->user_type_ID === 6) {
+        //      return route('users.adminView');
+        // }
+        $userType = auth()->user()->user_type_ID;
+        switch ($userType) {
+            case 1:
+                return route('rd.index');
+            case 2:
+                return route('rpo.index');
+            case 3:
+                return route('pd.index');
+            case 4:
+                return route('ppo.index');
+            case 5:
+                return route('dc.index');
+            case 6:
+                return route('admin.adminView');
+            default:
+                return '/';
+        }
+
+       
+     }
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

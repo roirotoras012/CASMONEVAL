@@ -67,7 +67,7 @@ class RegistrationKeyController extends Controller
         ]);
         // User::create([$request->all()]);
         return redirect()
-            ->route('users.adminView')
+            ->route('admin.adminView')
             ->with('success', 'User created successfully.');
     }
 

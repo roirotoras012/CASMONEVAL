@@ -9,8 +9,10 @@
 
                         <div class="card-body p-5">
                             <form method="GET" action="register-key">
-                                <div class="text-center mb-4">
-                                    <img style="height:100px;width: auto" src="{{ url('/images/dti-logo.png') }}" />
+                                <div class="text-center">
+                                    <div class="m-4">
+                                        <img style="height:100px;width: auto" src="{{ url('/images/dti-logo.png') }}" />
+                                    </div>
                                     <div class="input-group input-group-sm">
                                         <div class="input-group-prepend">
                                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
@@ -32,10 +34,10 @@
                                             {{ __('Validate') }}
                                         </button>
                                     </div>
-                                 
+
                                 </div>
                             </form>
-                            
+
                         </div>
                     </div>
                 </div>
