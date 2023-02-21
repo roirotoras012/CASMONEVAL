@@ -28,7 +28,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::post('/registerUser', [RegistrationKeyController::class, 'create'])->name('registerUser.create');
 Route::get('/register-validated', [RegistrationKeyController::class, 'index'])->name('registerUser.index');
@@ -45,7 +44,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
      Route::get('rd/profile', [RegionalDirector::class, 'profile']);
      Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
      Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
-    });
+});
     
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
@@ -90,8 +89,22 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:6'])->group(function () {
     // ADMIN
-    Route::resource('users', UserController::class)->middleware(['auth']);
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
+    // Route::resource('users', UserController::class)->middleware(['auth']);
+    // Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    // Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
+    // Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+    // Route::resource('admin', UserController::class)->middleware(['auth']);
+    // Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+    // Route::get('/admin/users', [UserController::class, 'adminView'])->name('admin.adminView');
+    // Route::get('/admin/home', [HomeController::class, 'index'])->name('home');
+    Route::resource('admin', UserController::class);
+    Route::get('/admin', [UserController::class, 'index'])->name('admin.index');
+    Route::get('/admin/users', [UserController::class, 'adminView'])->name('admin.adminView');
+    Route::get('/admin/home', [HomeController::class, 'index'])->name('home');
+
   });
 
+
+   

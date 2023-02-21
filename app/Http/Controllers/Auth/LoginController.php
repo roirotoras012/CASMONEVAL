@@ -67,7 +67,7 @@ class LoginController extends Controller
             case 5:
                 return route('dc.index');
             case 6:
-                return route('users.adminView');
+                return route('admin.adminView');
             default:
                 return '/';
         }

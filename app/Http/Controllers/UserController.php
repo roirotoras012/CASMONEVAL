@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
        
-        return view("pages.Admin.pages.users");
+        return view("admin.home");
     }
 
     /**
@@ -48,8 +48,7 @@ class UserController extends Controller
     {
         //
         $users = User::all();
-        
-        return view('pages.Admin.pages.users', ['users' => $users]);
+        return view('admin.users', ['users' => $users]);
     }
 
     /**
@@ -114,7 +113,7 @@ class UserController extends Controller
     
         $user->update($attributes);
     
-        return redirect()->route('users.adminView')->with('success', 'User updated successfully');
+        return redirect()->route('admin.adminView')->with('success', 'User updated successfully');
     }
 
     /**
@@ -129,6 +128,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         $full_name = $user->first_name . " " . $user->last_name;
-        return redirect()->route('users.adminView')->with('success', "$full_name  was deleted successfully.");
+        return redirect()->route('admin.adminView')->with('success', "$full_name  was deleted successfully.");
     }
 }
