@@ -27,7 +27,7 @@
                     <a class="nav-link  {{ Request::is('ppo/savetarget') ? 'active' : '' }}"
                         href="{{ url('ppo/savetarget') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                        Save Target
+                        Saved Target
 
                     </a>
 

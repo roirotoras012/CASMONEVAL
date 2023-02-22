@@ -315,8 +315,11 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function savetarget()
-    {
-        return view('rpo.savetarget');
+    {   
+        $opcr = DB::table('opcr')
+        ->get();  
+
+        return view('rpo.savetarget', compact('opcr'));
     }
     public function show($id)
     {     

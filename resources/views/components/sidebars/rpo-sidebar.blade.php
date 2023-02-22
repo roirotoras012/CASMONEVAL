@@ -24,10 +24,10 @@
 
                     </a>
 
-                    <a class="nav-link  {{ Request::is('rpo/savetarget') ? 'active' : '' }}"
-                        href="{{ url('rpo/savetarget') }}">
+                    <a class="nav-link  {{ Request::is('rpo/savedtarget') ? 'active' : '' }}"
+                        href="{{ url('rpo/savedtarget') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                        Save Target
+                        Saved Target
 
                     </a>
 
