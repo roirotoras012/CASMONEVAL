@@ -145,8 +145,8 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="input-group">
+                                <div>
+                                <div class="input-group" id='input-userkey-container'>
                                     <input type="text" id='input-userkey' name='input_userkey' class="form-control" placeholder="User Key">
                                     <span class="input-group-btn">
                                         <span class="input-group-btn">
@@ -158,6 +158,7 @@
 
                                 <button type="submit" id='btn-add' class="btn btn-primary mt-2 d-block w-100">
                                     {{ __('Add User') }}</button>
+                                    </div>
                             </form>
                         </div>
 
