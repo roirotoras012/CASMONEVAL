@@ -81,6 +81,7 @@ class RegisterController extends Controller
             'birthday' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type_ID' => ['required'],
+            'division_ID' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             
         ]);
@@ -98,6 +99,7 @@ class RegisterController extends Controller
         // dd($data);
         $registrationKey = RegistrationKey::where('registration_key', $data['registration_key'])->first();
         $registrationKey->update(['Status' => 'Taken']);
+    
         return User::create([
             
             'username' => $data['first_name']."  ".$data['last_name'],
@@ -108,6 +110,7 @@ class RegisterController extends Controller
             'birthday' => $data['birthday'],
             'email' => $data['email'],
             'user_type_ID' => (int)$data['user_type_ID'],
+            'division_ID' => (int)$data['division_ID'],
             'password' => Hash::make($data['password']),
         ]);
     }

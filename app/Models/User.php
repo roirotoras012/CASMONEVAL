@@ -28,6 +28,7 @@ class User extends Authenticatable
         'birthday',
         'password',
         'user_type_ID',
+        'division_ID'
     ];
 
     /**
