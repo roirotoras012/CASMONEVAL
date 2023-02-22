@@ -25,7 +25,11 @@ class RegistrationKeyController extends Controller
     {
         $user_key = $request['registration_key'];
         $registration_key = RegistrationKey::where('registration_key', $user_key)->first();
+        // $division_ID = RegistrationKey::where('registration_key', $user_key)->first();
+        $user_type_id = $registration_key->user_type_ID;
+        $division_id = $registration_key->division_ID;
 
+        // dd($division_id);
         if (!$registration_key) {
             return redirect()
                 ->route('registerUser.error')
@@ -38,10 +42,9 @@ class RegistrationKeyController extends Controller
                 ->with('error', 'Registration key already used');
         }
 
-        $user_type_id = $registration_key->user_type_ID;
 
         return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id])
             ->with('validated', 'User Validated Successfully');
     }
 

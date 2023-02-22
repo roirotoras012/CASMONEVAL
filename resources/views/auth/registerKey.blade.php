@@ -9,7 +9,6 @@
 
                         <div class="card-body p-5">
                             <form method="POST" action="{{ route('register') }}">
-
                                 <div class="text-center">
                                     @csrf
                                     <div class="m-4">
@@ -152,6 +151,8 @@
                                         name="user_type_ID"/>
                                     <input value="{{ request('registration-key') }}" id="registration_key"
                                         type="hidden" name="registration_key" />
+                                    <input value="{{ request('division-id') }}" id="division_ID"
+                                        type="hidden" name="user_division_ID" />
 
                                 </div>
                                 {{-- <div class="row mb-3">
