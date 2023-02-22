@@ -38,6 +38,7 @@
                             <th>Extension Name</th>
                             <th>Birthday</th>
                             <th>User Type ID</th>
+                            <th>Division ID</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -54,6 +55,7 @@
                                 <td>{{ $user->extension_name }}</td>
                                 <td>{{ $user->birthday }}</td>
                                 <td>{{ $user->user_type_ID }}</td>
+                                <td>{{ $user->division_ID }}</td>
                                 <td>
                                     <div class="form-container d-flex">
                                         <form action="{{ route('users.update', $user->user_ID) }}" class="mr-2"
@@ -103,7 +105,7 @@
                                         </div>
 
                                         <select name="user_type_ID" class="form-select" id="role">
-                                            <option selected>Select Role</option>
+                                            <option selected disabled>Select Role</option>
                                             <option name="1" value="1">Regional Director</option>
                                             <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }}
                                                 value="2">Regional Planning Officer</option>
@@ -122,8 +124,8 @@
                                             </span>
                                         </div>
                                         <select name="user_province_ID" class="form-select">
-                                            <option selected>Select Role</option>
-                                            <option name="1" value="1" {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnono</option>
+                                            <option selected disabled>Select Province</option>
+                                            <option name="1" value="1" {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
                                             <option name="2" value="2" {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte</option>
                                             <option name="3" value="3" {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental</option>
                                             <option name="4" value="4" {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental</option>
@@ -131,14 +133,14 @@
                                         </select>
                                        
                                     </div>
-                                    <div class="input-group input-group-sm" id="division_chief">
+                                    <div class="input-group input-group-sm mt-2" id="division_chief">
                                         <div class="input-group-prepend">
                                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                                     class="p-1 fa-solid fa-user"></i>
                                             </span>
                                         </div>
                                         <select name="user_division_ID" class="form-select">
-                                            <option selected>Select Role</option>
+                                            <option selected disabled>Select Type</option>
                                             <option name="1" value="1" {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development Division</option>
                                             <option name="2" value="2" {{ old('user_division_ID') == '2' ? 'selected' : '' }}>Consumer Protection Division</option>
                                             <option name="3" value="3" {{ old('user_division_ID') == '3' ? 'selected' : '' }}>Finance Administrative Division</option>

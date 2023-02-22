@@ -25,7 +25,11 @@ $(document).ready(function () {
     addUser.hide().detach();
 
     $("#role").change(function () {
-        if ($(this).val() === "3" || $(this).val() === "4") {
+        if (
+            $(this).val() === "3" ||
+            $(this).val() === "4" ||
+            $(this).val() === "5"
+        ) {
             provincePlanning.appendTo(provincePlanningParent).show();
         } else {
             provincePlanning.hide().detach();
