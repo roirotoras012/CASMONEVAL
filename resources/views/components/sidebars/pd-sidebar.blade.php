@@ -53,11 +53,9 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                         My Profile
                     </a>
-                    <a class="nav-link" href="{{ url('/') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                     <button type="button" class="btn btn-primary mt-5 mx-2" data-toggle="modal" data-target="#logout-modal">
                         Logout
-                    </a>
-
+                    </button>
                 </div>
             </div>
             {{-- <div class="sb-sidenav-footer">
@@ -68,5 +66,6 @@
     </div>
     <div id="layoutSidenav_content">
         {{ $slot }}
+         <x-modal-logout/>
     </div>
 </div>

@@ -149,4 +149,7 @@ class RegionalDirector extends Controller
     public function profile() {
         return view("rd.profile");
     }
+    public function logout() {
+        return view("rd.logout");
+    }
 }

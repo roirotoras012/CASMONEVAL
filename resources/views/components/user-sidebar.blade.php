@@ -1,7 +1,7 @@
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="background: #fff !important;">
-            <div class="sb-sidenav-menu" >
+            <div class="sb-sidenav-menu">
                 <div class="nav">
                     {{-- <div class="sb-sidenav-menu-heading">Core</div> --}}
                     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"
@@ -23,10 +23,11 @@
 
                     </a>
 
-                    <a class="nav-link  {{ Request::is('rd/assessment') ? 'active' : '' }}" href="{{ url('rd/assessment') }}">
+                    <a class="nav-link  {{ Request::is('rd/assessment') ? 'active' : '' }}"
+                        href="{{ url('rd/assessment') }}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
                         Performance Assessment
-                       
+
                     </a>
 
                     {{-- <div class="sb-sidenav-menu-heading">Addons</div> --}}
@@ -34,10 +35,12 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                         My Profile
                     </a>
-                    <a class="nav-link" href="{{ url('/') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                    <button type="button" class="btn btn-primary mt-5 mx-2" data-toggle="modal" data-target="#logout-modal">
                         Logout
-                    </a>
+                    </button>
+
+
+
 
                 </div>
             </div>
@@ -49,5 +52,7 @@
     </div>
     <div id="layoutSidenav_content">
         {{ $slot }}
+        <!-- Modal -->
+        <x-modal-logout/>
     </div>
 </div>
