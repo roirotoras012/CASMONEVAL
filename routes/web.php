@@ -43,6 +43,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
      Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
      Route::get('rd/profile', [RegionalDirector::class, 'profile']);
      Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
+     Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
      Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
     });
     

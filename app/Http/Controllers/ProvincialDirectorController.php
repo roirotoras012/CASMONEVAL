@@ -36,4 +36,8 @@ class ProvincialDirectorController extends Controller
     {
         return view('pd.accomplishment');
     }
+    public function logout()
+    {
+        return view('components.logout');
+    }
 }
