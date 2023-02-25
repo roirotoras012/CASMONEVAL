@@ -48,6 +48,12 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    id="toggle-password">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,14 +78,14 @@
                                         </button>
 
                                         @if (Route::has('password.request'))
-                                        <div style="display: flex; justify-content: space-between;">
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                {{ __('Forgot Your Password?') }}
-                                            </a>
-                                            <a class="btn btn-link" href="/register">
-                                                {{ __('Dont Have Account?') }}
-                                            </a>
-                                        </div>
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
+                                                <a class="btn btn-link" href="/register">
+                                                    {{ __('Dont Have Account?') }}
+                                                </a>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

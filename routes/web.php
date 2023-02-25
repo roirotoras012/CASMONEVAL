@@ -51,7 +51,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
    
     // Regional Planning Officer
-    Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
+    Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'adminView'])->name('rpo.adminView');
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcr_target');
     Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
@@ -59,6 +59,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile']);
     Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
     Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
+    // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
+    Route::resource('rpo/users', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function () {
@@ -89,14 +91,14 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
   Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
+
 });
 
-Route::middleware(['auth', 'App\Http\Middleware\CheckRole:6'])->group(function () {
-    // ADMIN
-    Route::resource('users', UserController::class)->middleware(['auth']);
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-  });
+// Route::middleware(['auth', 'App\Http\Middleware\CheckRole:6'])->group(function () {
+//     // ADMIN
+//     // Route::resource('users', UserController::class)->middleware(['auth']);
+//     // Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//     // Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
+//     Route::get('/home', [HomeController::class, 'index'])->name('home');
+// });
 

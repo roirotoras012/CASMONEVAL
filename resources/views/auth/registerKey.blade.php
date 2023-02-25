@@ -52,7 +52,7 @@
                                                 <input value="{{ old('last_name') }}" placeholder="Lastname" id="last_name"
                                                     type="text"
                                                     class="form-control @error('last_name') is-invalid @enderror"
-                                                    name="last_name" value="{{ old('last_name') }}""
+                                                    name="last_name" 
                                                     autocomplete="last_name" autofocus>
                                                 @error('last_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -74,7 +74,7 @@
                                                 <input value="{{ old('middle_name') }}" placeholder="Middlename"
                                                     id="middle_name" type="text"
                                                     class="form-control @error('middle_name') is-invalid @enderror"
-                                                    name="middle_name" value="{{ old('middle_name') }}"
+                                                    name="middle_name"
                                                     autocomplete="middle_name" autofocus>
                                                 @error('middle_name')
                                                     <span class="invalid-feedback" role="alert">
