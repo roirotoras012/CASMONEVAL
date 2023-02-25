@@ -11,7 +11,7 @@
         // var_dump($targets);
     
     @endphp
-    <x-sidebars.rpo-sidebar>
+    <x-user-sidebar>
         
         <div class="container-fluid px-4 py-5">
                 
@@ -173,5 +173,5 @@
         
         </div>
 
-    </x-sidebars.rpo-sidebar>
+    </x-user-sidebar>
 @endsection
