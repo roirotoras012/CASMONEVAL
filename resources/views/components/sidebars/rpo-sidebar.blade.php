@@ -15,14 +15,18 @@
 
                         Dashboard
                     </a>
-
-
+                    <a class="nav-link  {{ Request::is('rpo/users') ? 'active' : '' }}"
+                        href="{{ url('rpo/users') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
+                        Manage Users
+                    </a>
                     <a class="nav-link  {{ Request::is('rpo/addtarget') ? 'active' : '' }}"
                         href="{{ url('rpo/addtarget') }}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
                         Add Target
 
                     </a>
+
 
                     <a class="nav-link  {{ Request::is('rpo/savedtarget') ? 'active' : '' }}"
                         href="{{ url('rpo/savedtarget') }}">
@@ -46,7 +50,8 @@
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                         My Profile
                     </a>
-                      <button type="button" class="btn btn-primary mt-5 mx-2" data-toggle="modal" data-target="#logout-modal">
+                    <button type="button" class="btn btn-primary mt-5 mx-2" data-toggle="modal"
+                        data-target="#logout-modal">
                         Logout
                     </button>
 
@@ -60,6 +65,6 @@
     </div>
     <div id="layoutSidenav_content">
         {{ $slot }}
-        <x-modal-logout/>
+        <x-modal-logout />
     </div>
 </div>

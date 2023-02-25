@@ -51,4 +51,25 @@ $(document).ready(function () {
     });
 
     $("#datatablesSimple").DataTable();
+
+    // PASSWORD TOGGLE EYE
+    $(document).ready(function () {
+        $("#toggle-password").click(function () {
+            var passwordField = $("#password");
+            var passwordFieldType = passwordField.attr("type");
+            if (passwordFieldType === "password") {
+                passwordField.attr("type", "text");
+                $(this)
+                    .find("i")
+                    .removeClass("fa-eye")
+                    .addClass("fa-eye-slash");
+            } else {
+                passwordField.attr("type", "password");
+                $(this)
+                    .find("i")
+                    .removeClass("fa-eye-slash")
+                    .addClass("fa-eye");
+            }
+        });
+    });
 });
