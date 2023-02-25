@@ -88,7 +88,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   // Division Chief
   Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('dc.index');
   Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
-  Route::get('dc/job-farm', [DivisionChiefController::class, 'jobfam']);
+  Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
   Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
 
