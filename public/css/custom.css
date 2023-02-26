@@ -333,3 +333,40 @@ button#sidebarToggle {
     font-size: 0.75rem;
     border-radius: 0.25rem !important;
 }
+
+/* PROFILE CSS */
+
+.card-img-top-1 {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+}
+.card {
+    padding: 1.5em 0.5em 0.5em;
+    text-align: center;
+    border-radius: 2em;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.card-title {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.btn-primary {
+    border-radius: 2em;
+    padding: 0.5em 1.5em;
+}
+
+.opcr-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.opcr-item {
+    flex: 1 0 30%;
+    border: 2px solid #0d6efd !important;
+    padding: 15px;
+}
