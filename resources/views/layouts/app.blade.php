@@ -80,6 +80,15 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
+                                <div class="dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><i
+                                            class="fas fa-bell"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Notifications</a>
+                                    </div>
+                                </div>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->username }}
@@ -97,7 +106,7 @@
                 </div>
             </div>
         </nav>
-  <x-modal-logout/>
+        <x-modal-logout />
         <main class="py-4 vh-100">
             @yield('content')
         </main>

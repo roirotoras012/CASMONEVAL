@@ -52,6 +52,7 @@ return array(
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\View\\Components\\ModalDelete' => $baseDir . '/app/View/Components/ModalDelete.php',
+    'App\\View\\Components\\ModalLogout' => $baseDir . '/app/View/Components/ModalLogout.php',
     'App\\View\\Components\\ModalUpdate' => $baseDir . '/app/View/Components/ModalUpdate.php',
     'App\\View\\Components\\sidebar' => $baseDir . '/app/View/Components/sidebar.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

@@ -38,7 +38,7 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                             My Profile
                         </a>
-                    {{-- RPO SIDENAV --}}
+                        {{-- RPO SIDENAV --}}
                     @elseif (auth()->user()->user_type_ID == '2')
                         <a class="nav-link  {{ Request::is('rpo/dashboard') ? 'active' : '' }}"
                             href="{{ url('rpo/dashboard') }}">
@@ -46,7 +46,11 @@
 
                             Dashboard
                         </a>
-
+                        <a class="nav-link  {{ Request::is('rpo/users') ? 'active' : '' }}"
+                            href="{{ url('rpo/users') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-list"></i></div>
+                            Manage Users
+                        </a>
 
                         <a class="nav-link  {{ Request::is('rpo/addtarget') ? 'active' : '' }}"
                             href="{{ url('rpo/addtarget') }}">
@@ -77,7 +81,7 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                             My Profile
                         </a>
-                    {{-- PD SIDENAV --}}
+                        {{-- PD SIDENAV --}}
                     @elseif (auth()->user()->user_type_ID == '3')
                         <a class="nav-link  {{ Request::is('pd/dashboard') ? 'active' : '' }}"
                             href="{{ url('pd/dashboard') }}">
@@ -123,7 +127,7 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                             My Profile
                         </a>
-                    {{-- PPO SIDENAV  --}}
+                        {{-- PPO SIDENAV  --}}
                     @elseif (auth()->user()->user_type_ID == '4')
                         <a class="nav-link  {{ Request::is('ppo/dashboard') ? 'active' : '' }}"
                             href="{{ url('ppo/dashboard') }}">
@@ -169,7 +173,7 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
                             My Profile
                         </a>
-                    {{-- DC SIDENAV --}}
+                        {{-- DC SIDENAV --}}
                     @else
                         <a class="nav-link  {{ Request::is('dc/dashboard') ? 'active' : '' }}"
                             href="{{ url('dc/dashboard') }}">
