@@ -4,82 +4,52 @@
 @endsection
 @section('content')
 
-    <x-sidebars.rpo-sidebar>
-        <div class="card mb-4 m-4">
-            <div class="card-header">
-                <div class="table-title">
-                    <div class="row d-flex align-items-center">
-                        <div class="col-sm-6 text-left">
-                            <h6 class="m-0">Manage <b>Employees</b></h6>
+    <x-user-sidebar>
+        <div class="container-fluid px-4 py-5">
+
+            <ol class="breadcrumb mb-4">
+
+                <li class="breadcrumb-item active">
+                    <h1>Regional Planning Officer Dashboard</h1>
+                </li>
+
+            </ol>
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-primary text-white mb-4">
+                        <div class="card-body">View OPCR</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>2</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
-                        
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white mb-4">
+                        <div class="card-body">View Provincial Accomplishment</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>12</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-success text-white mb-4">
+                        <div class="card-body">Evaluation</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>2</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card-body p-2">
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p class="m-0">{{ $message }}</p>
-                    </div>
-                @endif
-                <table id="datatablesSimple">
-                    <thead>
-                        <tr>
-
-                            <th>IDs</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Lastname</th>
-                            <th>Firstname</th>
-                            <th>Middlename</th>
-                            <th>Extension Name</th>
-                            <th>Birthday</th>
-                            <th>User Type ID</th>
-                            <th>Division ID</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach ($users ?? [] as $user)
-                            <tr>
-                                <td>{{ $user->user_ID }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->last_name }}</td>
-                                <td>{{ $user->first_name }}</td>
-                                <td>{{ $user->middle_name }}</td>
-                                <td>{{ $user->extension_name }}</td>
-                                <td>{{ $user->birthday }}</td>
-                                <td>{{ $user->user_type_ID }}</td>
-                                <td>{{ $user->division_ID }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            
         </div>
 
 
    
 
-
-    </x-sidebars.rpo-sidebar>
-
-    <x-user-sidebar>
-        <div class="container-fluid px-4 py-5">
-                
-            <ol class="breadcrumb mb-4">
-            
-                <li class="breadcrumb-item active"><h1>Regional Planning Officer Dashboard</h1></li>
-   
-            </ol>
-    
-        
-        </div>
 
     </x-user-sidebar>
+
 
 @endsection

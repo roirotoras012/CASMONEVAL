@@ -565,6 +565,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\View\\Components\\ModalDelete' => __DIR__ . '/../..' . '/app/View/Components/ModalDelete.php',
+        'App\\View\\Components\\ModalLogout' => __DIR__ . '/../..' . '/app/View/Components/ModalLogout.php',
         'App\\View\\Components\\ModalUpdate' => __DIR__ . '/../..' . '/app/View/Components/ModalUpdate.php',
         'App\\View\\Components\\sidebar' => __DIR__ . '/../..' . '/app/View/Components/sidebar.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
