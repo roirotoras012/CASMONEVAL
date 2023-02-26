@@ -3,7 +3,7 @@
     {{ 'RPO Manage user' }}
 @endsection
 @section('content')
-    <x-sidebars.rpo-sidebar>
+    <x-user-sidebar>
         <div class="card mb-4 m-4">
             <div class="card-header">
                 <div class="table-title">
@@ -175,5 +175,5 @@
    
 
 
-    </x-sidebars.rpo-sidebar>
+    </x-user-sidebar>
 @endsection
