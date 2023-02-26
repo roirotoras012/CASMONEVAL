@@ -23,6 +23,17 @@
                                 <span class="badge badge-primary">Id Number</span>
 
                                 <div class="form-row">
+                               
+                                        <label>Username</label>
+                                        <input id="username" type="text"
+                                            class="form-control mb-2 @error('username') is-invalid @enderror" value="20234432"
+                                            name="username" autofocus disabled>
+                                        @error('username')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                   
                                     <div class="form-group col-md-6">
                                         <label>Firstname</label>
                                         <input id="first_name" type="text"

@@ -60,7 +60,7 @@
                                 <td>{{ $user->division_ID }}</td>
                                 <td>
                                     <div class="form-container d-flex">
-                                        <form action="{{ route('users.update', $user->user_ID) }}" class="mr-2"
+                                        <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')
@@ -70,7 +70,7 @@
                                             </button>
                                             <x-modal-update :users='$user' />
                                         </form>
-                                        <form action="{{ route('users.destroy', $user->user_ID) }}" method="post">
+                                        <form action="{{ route('rpo.destroy', $user->user_ID) }}" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
@@ -96,7 +96,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body p-5">
-                            <form method="POST" action="{{ route('users.store') }}">
+                            <form method="POST" action="{{ route('rpo.store') }}">
                                 @csrf
                                 <div class="row mb-3">
                                     <div class="input-group input-group-sm mb-2">

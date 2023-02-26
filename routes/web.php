@@ -52,7 +52,10 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
    
     // Regional Planning Officer
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'adminView'])->name('rpo.adminView');
-    Route::get('rpo/manage-users', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
+
+    Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
+
+
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcr_target');
     Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
@@ -61,7 +64,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
     Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
-    Route::resource('rpo/users', RegionalPlanningOfficerController::class)->middleware(['auth']);
+    Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function () {

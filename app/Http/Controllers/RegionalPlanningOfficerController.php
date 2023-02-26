@@ -15,10 +15,14 @@ class RegionalPlanningOfficerController extends Controller
 {
     public function index()
     {
-        
         $users = User::all();
-        return view('rpo.manage-users', ['users' => $users]);
+        return view('rpo.dashboard', ['users' => $users]);
 
+    }
+    public function users()
+    {
+          $users = User::all();
+        return view('rpo.manage-users', ['users' => $users]);
     }
    
     public function adminView(){
@@ -42,7 +46,7 @@ class RegionalPlanningOfficerController extends Controller
         ]);
         // User::create([$request->all()]);
         return redirect()
-            ->route('users.index')
+            ->route('rpo.index')
             ->with('success', 'User created successfully.');
     }
 
@@ -67,7 +71,7 @@ class RegionalPlanningOfficerController extends Controller
         $user->delete();
         $full_name = $user->first_name . ' ' . $user->last_name;
         return redirect()
-            ->route('users.index')
+            ->route('rpo.users')
             ->with('success', "$full_name  was deleted successfully.");
     }
     public function update(Request $request, User $user)
@@ -99,7 +103,7 @@ class RegionalPlanningOfficerController extends Controller
         $user->update($attributes);
 
         return redirect()
-            ->route('users.index')
+            ->route('rpo.users')
             ->with('success', 'User updated successfully');
     }
 
