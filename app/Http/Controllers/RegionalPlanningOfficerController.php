@@ -46,7 +46,7 @@ class RegionalPlanningOfficerController extends Controller
         ]);
         // User::create([$request->all()]);
         return redirect()
-            ->route('rpo.index')
+            ->route('rpo.users')
             ->with('success', 'User created successfully.');
     }
 
