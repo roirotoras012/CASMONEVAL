@@ -173,7 +173,7 @@ body {
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
     transform: translateX(0);
 }
-.sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
+/* .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
     content: "";
     display: block;
     position: absolute;
@@ -185,7 +185,7 @@ body {
     z-index: 1037;
     opacity: 0.5;
     transition: opacity 0.3s ease-in-out;
-}
+} */
 #sidenavAccordion {
     background-color: #ffff;
 }
@@ -199,7 +199,7 @@ body {
     }
 
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
-        transform: translateX(-225px);
+        transform: translateX(-250px);
     }
     .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content {
         margin-left: -225px;
@@ -274,7 +274,7 @@ button#sidebarToggle {
     font-size: 15px;
     position: absolute;
     top: 0px;
-    left: 222px;
+    left: 260px;
     color: #fff;
 }
 .sb-sidenav {
