@@ -51,6 +51,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Providers\\UserViewComposerServiceProvider' => $baseDir . '/app/Providers/UserViewComposerServiceProvider.php',
     'App\\View\\Components\\ModalDelete' => $baseDir . '/app/View/Components/ModalDelete.php',
     'App\\View\\Components\\ModalLogout' => $baseDir . '/app/View/Components/ModalLogout.php',
     'App\\View\\Components\\ModalUpdate' => $baseDir . '/app/View/Components/ModalUpdate.php',

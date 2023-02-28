@@ -10,29 +10,57 @@ use App\Models\Opcr;
 use App\Models\User;
 use App\Models\RegistrationKey;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class RegionalPlanningOfficerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $userDetails = $request->input('userDetails');
+        // dd($userDetails);
         $users = User::all();
-        return view('rpo.dashboard', ['users' => $users]);
-
+        return view('rpo.dashboard', ['users' => $users, 'userDetails' => $userDetails]);
     }
     public function users()
     {
-          $users = User::all();
+        $users = User::all();
         return view('rpo.manage-users', ['users' => $users]);
     }
-   
-    public function adminView(){
+
+    public function adminView()
+    {
         $users = User::all();
         return view('rpo.dashboard', ['users' => $users]);
+    }
+    public function updateEmailHandler(Request $request)
+    {
+        $userType = auth()->user()->user_type_ID;
+        $userDetails = auth()->user();
+        
+        // dd($userDetails->password);
+        $user = Auth::user();
+
+        // Check if the entered current password matches the user's password
+        if (Hash::check($request->current_password,$userDetails->password)) {
+            // Update the email in the database
+            // $user->email = $request->email;
+            // $user->save();
+
+            
+            return redirect()
+                ->back()
+                ->with('success', 'Email updated successfully.');
+        } else {
+            // Show an error message
+            return redirect()
+                ->back()
+                ->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
     }
     public function store(Request $request)
     {
         //
-        // dd($request);   
+        // dd($request);
         $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',

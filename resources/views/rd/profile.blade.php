@@ -20,42 +20,27 @@
                                     </div>
                                 @endif
 
-                                <span class="badge badge-primary">Id Number</span>
+                                <span class="badge badge-primary mb-2">ID Number : {{$userDetails->user_ID}}</span>
 
                                 <div class="form-row">
-                               
-                                        <label>Username</label>
-                                        <input id="username" type="text"
-                                            class="form-control mb-2 @error('username') is-invalid @enderror" value="20234432"
-                                            name="username" autofocus disabled>
-                                        @error('username')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                   
                                     <div class="form-group col-md-6">
                                         <label>Firstname</label>
-                                        <input id="first_name" type="text"
-                                            class="form-control @error('first_name') is-invalid @enderror" value="20234432"
+                                        <input value={{$userDetails->first_name}} disabled id="first_name" type="text"
+                                            class="form-control" value="20234432"
                                             name="first_name" autofocus>
-                                        @error('first_name')
+                                      
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                        @enderror
+                                     
                                     </div>
 
                                     <div class="form-group col-md-6">
                                         <label>Lastname</label>
-                                        <input value="Lastname" placeholder="Lastname" id="last_name" type="text"
-                                            class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                        <input value={{$userDetails->last_name}} disabled placeholder="Lastname" id="last_name" type="text"
+                                            class="form-control" name="last_name"
                                             autocomplete="last_name" autofocus>
-                                        @error('last_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                     
 
                                     </div>
                                 </div>
@@ -63,29 +48,21 @@
                                     <div class="form-group col-md-6">
                                         <label>Middlename</label>
 
-                                        <input value="Middlename" placeholder="Middlename" id="middle_name" type="text"
-                                            class="form-control @error('middle_name') is-invalid @enderror"
+                                        <input value={{$userDetails->middle_name}} disabled placeholder="Middlename" id="middle_name" type="text"
+                                            class="form-control"
                                             name="middle_name" autocomplete="middle_name" autofocus>
-                                        @error('middle_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                   
                                     </div>
                                     <div class="form-group col-md-6">
 
                                         <label>Extension</label>
 
-                                        <input value="T" placeholder="Extension name" id="extension_name"
+                                        <input  value={{$userDetails->extension_name != null ? $userDetails->extension_name : "N/A"}} disabled  placeholder="Extension name" id="extension_name"
                                             type="text"
-                                            class="form-control @error('extension_name') is-invalid @enderror"
+                                            class="form-control"
                                             name="extension_name" name="extension_name" autocomplete="extension_name"
                                             autofocus>
-                                        @error('extension_name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                     
 
                                     </div>
                                 </div>
@@ -93,18 +70,13 @@
                                 <div class="form-group">
                                     <label>Birthdate</label>
 
-                                    <input type="date" name='birthday'
-                                        class="form-control @error('birthday') is-invalid @enderror" id="entry_date" />
-                                    @error('birthday')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                    <input value={{$userDetails->birthday}} disabled type="date" name='birthday'
+                                        class="form-control" id="entry_date" />
 
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input value="denzel@gmail.com" placeholder="Email" id="email" type="email"
+                                    <input value={{$userDetails->email}} placeholder="Email" id="email" type="email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
                                         autocomplete="email">
                                     @error('email')
