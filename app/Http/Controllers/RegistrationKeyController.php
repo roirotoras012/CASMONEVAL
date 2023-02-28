@@ -15,6 +15,7 @@ class RegistrationKeyController extends Controller
      */
     public function index()
     {
+       
         return view('auth.registerKey');
     }
     public function error()

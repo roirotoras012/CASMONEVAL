@@ -564,6 +564,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Providers\\UserViewComposerServiceProvider' => __DIR__ . '/../..' . '/app/Providers/UserViewComposerServiceProvider.php',
         'App\\View\\Components\\ModalDelete' => __DIR__ . '/../..' . '/app/View/Components/ModalDelete.php',
         'App\\View\\Components\\ModalLogout' => __DIR__ . '/../..' . '/app/View/Components/ModalLogout.php',
         'App\\View\\Components\\ModalUpdate' => __DIR__ . '/../..' . '/app/View/Components/ModalUpdate.php',

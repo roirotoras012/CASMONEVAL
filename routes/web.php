@@ -9,6 +9,8 @@ use App\Http\Controllers\ProvincialDirectorController;
 use App\Http\Controllers\RegionalPlanningOfficerController;
 use App\Http\Controllers\ProvincialPlanningOfficerController;
 use App\Http\Controllers\DivisionChiefController;
+use App\Http\Controllers\ProfileUpdateHandlerController;
+
 
 
 use Illuminate\Support\Facades\Route;
@@ -60,9 +62,15 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
-    Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile']);
+    Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile'])->name('profile');
+    Route::post('rpo/profile/update-email', [RegionalPlanningOfficerController::class, 'updateEmailHandler'])->name('rpo.updateEmailHandler');
+
+
     Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
     Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
+
+
+    
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });
