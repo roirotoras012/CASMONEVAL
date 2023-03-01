@@ -34,11 +34,8 @@
                             <form method="POST" action="{{ route('register') }}">
                                 <div>
                                     @csrf
-                                    @if ($message = Session::get('validated'))
-                                        <div class="alert alert-success mt-4">
-                                            <p class="m-0">{{ $message }}</p>
-                                        </div>
-                                    @endif
+                                
+                                 
 
                                     <span class="badge badge-primary mb-2">ID Number : {{ $userDetails->user_ID }}</span>
 
@@ -49,9 +46,7 @@
                                                 type="text" class="form-control" value="20234432" name="first_name"
                                                 autofocus>
 
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                          
 
                                         </div>
 
@@ -100,22 +95,31 @@
                             </form>
                         </div>
                         <div id="profile1" role="tabpanel" aria-labelledby="profile-tab" class="tab-pane fade px-4 py-5">
-                          
-                            <form method="POST" action="{{ route('rpo.updateEmailHandler') }}">
 
+                            <form method="POST" action="{{ route('rpo.updateEmailHandler') }}">
+                                @if (session()->has('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+                                     @if ($message = Session::get('error'))
+                                        <div class="alert alert-danger mt-4">
+                                            <p class="m-0">{{ $message }}</p>
+                                        </div>
+                                    @endif
                                 @csrf
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input value={{ $userDetails->email }} placeholder="Email" id="email"
                                         type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" autocomplete="email" >
+                                        name="email" autocomplete="email">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
 
-                                    <input type="hidden" name='current_password' value="current_password"/> 
+                                    <input type="hidden" name='current_password' value="current_password" />
                                 </div>
                                 <div class="form-group">
 
