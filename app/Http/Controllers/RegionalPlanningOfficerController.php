@@ -35,18 +35,12 @@ class RegionalPlanningOfficerController extends Controller
     public function updateEmailHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
-        $userDetails = auth()->user();
-        
-        // dd($userDetails->password);
+        $userPass = auth()->user()->password;
+
         $user = Auth::user();
-
-        // Check if the entered current password matches the user's password
-        if (Hash::check($request->current_password,$userDetails->password)) {
-            // Update the email in the database
-            // $user->email = $request->email;
-            // $user->save();
-
-            
+        if (Hash::check($request->current_password, $userPass)) {
+            $user->email = $request->email;
+            $user->save();
             return redirect()
                 ->back()
                 ->with('success', 'Email updated successfully.');
@@ -54,7 +48,7 @@ class RegionalPlanningOfficerController extends Controller
             // Show an error message
             return redirect()
                 ->back()
-                ->withErrors(['current_password' => 'The current password is incorrect.']);
+                ->with('error', 'Invalid Password');
         }
     }
     public function store(Request $request)
