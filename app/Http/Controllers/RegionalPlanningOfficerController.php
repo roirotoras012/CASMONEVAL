@@ -77,6 +77,7 @@ class RegionalPlanningOfficerController extends Controller
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
+            ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
             ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
 
         return view('rpo.addtarget', compact('labels'));
@@ -321,6 +322,25 @@ class RegionalPlanningOfficerController extends Controller
                     }
                 }
             }
+
+            $max = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+                ->where('type', '=', 'DIRECT')
+                ->orWhere('type', '=', 'DIRECT MAIN')
+                ->orWhere('type', '=', 'DIRECT COMMON')
+                ->get();
+
+            $updated_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcr->id)
+                ->get();
+            if (count($max) * 5 > count($updated_targets)) {
+                DB::table('opcr')
+                    ->where('opcr_ID', $opcr->id)
+                    ->update(['status' => 'INCOMPLETE']);
+            } else {
+                DB::table('opcr')
+                    ->where('opcr_ID', $opcr->id)
+                    ->update(['status' => 'COMPLETE']);
+            }
         }
 
         return redirect()
@@ -362,6 +382,7 @@ class RegionalPlanningOfficerController extends Controller
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
+            ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
             ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
 
         foreach ($labels as $label) {
