@@ -99,8 +99,6 @@ class RegionalPlanningOfficerController extends Controller
     }
     public function update(Request $request, User $user)
     {
-        //
-
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -111,7 +109,6 @@ class RegionalPlanningOfficerController extends Controller
             'user_type_ID' => 'required|integer',
             'password' => 'required',
         ]);
-
         $attributes = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -122,12 +119,12 @@ class RegionalPlanningOfficerController extends Controller
             'user_type_ID' => $request->user_type_ID,
             'password' => Hash::make($request->password),
         ];
-
-        $user->update($attributes);
-
+        DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
         return redirect()
             ->route('rpo.users')
             ->with('success', 'User updated successfully');
+            
+      
     }
 
     public function add_targets(Request $request)

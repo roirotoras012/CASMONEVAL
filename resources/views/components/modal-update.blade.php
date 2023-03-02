@@ -111,7 +111,7 @@
                             </span>
                         </div>
                         <select name="user_type_ID" class="form-select">
-                            <option selected>Select Role</option>
+                            <option selected disabled>Select Role</option>
                             <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }} value="1">
                                 Regional Director</option>
                             <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }} value="2">
@@ -139,6 +139,8 @@
                             </span>
                         @enderror
                     </div>
+                    <input type="hidden" value="{{ $users->user_ID }}" name="user_ID" />
+
                 </div>
             </div>
             <div class="modal-footer justify-content-center">

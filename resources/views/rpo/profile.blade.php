@@ -149,16 +149,11 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="current_password"
                                             name="current_password">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button"
-                                                id="toggle-password">
-                                                <i class="fa fa-eye"></i>
-                                            </button>
-                                        </div>
+                                      
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password">Password:</label>
+                                    <label for="password">New Password:</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" name="password">
                                         <div class="input-group-append">
@@ -170,9 +165,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm Password</label>
+                                    <label>Confirm New Password</label>
                                     <div class="input-group input-group-sm">
-                                        <input placeholder="Confirm Password" id="password-confirm" type="password"
+                                        <input id="password-confirm" type="password"
                                             class="form-control" name="password_confirmation"
                                             @error('password_confirmation') is-invalid @enderror"
                                             autocomplete="password_confirmation">

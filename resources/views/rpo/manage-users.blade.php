@@ -27,6 +27,11 @@
                         <p class="m-0">{{ $message }}</p>
                     </div>
                 @endif
+                @if ($message = Session::get('error'))
+                    <div class="alert alert-danger">
+                        <p class="m-0">{{ $message }}</p>
+                    </div>
+                @endif
                 <table id="datatablesSimple">
                     <thead>
                         <tr>

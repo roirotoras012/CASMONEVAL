@@ -22,14 +22,14 @@
                                                     class="p-1 fa-solid fa-user"></i>
                                             </span>
                                         </div>
-                                        <input placeholder="Email Address" id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                        <input id="login" type="text"  placeholder="Username or Email" 
+                                            class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
+                                            name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
+                                        @if ($errors->has('username') || $errors->has('email'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>
                                             </span>
-                                        @enderror
+                                        @endif
                                     </div>
                                 </div>
 

@@ -33,33 +33,52 @@ class LoginController extends Controller
      *
      * @return void
      */
-
-     protected function redirectTo()
-     {
+    protected $username;
+    protected function redirectTo()
+    {
         $userType = auth()->user()->user_type_ID;
         $userDetails = auth()->user();
-        
+
         switch ($userType) {
             case 1:
-                return route('rd.index',['userDetails' => $userDetails]);
+                return route('rd.index', ['userDetails' => $userDetails]);
             case 2:
-                return route('rpo.index',['userDetails' => $userDetails]);
+                return route('rpo.index', ['userDetails' => $userDetails]);
             case 3:
-                return route('pd.index',['userDetails' => $userDetails]);
+                return route('pd.index', ['userDetails' => $userDetails]);
             case 4:
-                return route('ppo.index',['userDetails' => $userDetails]);
+                return route('ppo.index', ['userDetails' => $userDetails]);
             case 5:
-                return route('dc.index',['userDetails' => $userDetails]);
+                return route('dc.index', ['userDetails' => $userDetails]);
             case 6:
-                return route('users.adminView',['userDetails' => $userDetails]);
+                return route('users.adminView', ['userDetails' => $userDetails]);
             default:
                 return '/';
         }
+    }
+    public function findUsername()
+    {
+        $login = request()->input('login');
 
-       
-     }
+        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        request()->merge([$fieldType => $login]);
+
+        return $fieldType;
+    }
+
+    /**
+     * Get username property.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return $this->username;
+    }
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->username = $this->findUsername();
     }
 }
