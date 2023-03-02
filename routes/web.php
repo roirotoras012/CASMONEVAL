@@ -56,8 +56,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'adminView'])->name('rpo.adminView');
 
     Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
-
-
+    
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcr_target');
     Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
