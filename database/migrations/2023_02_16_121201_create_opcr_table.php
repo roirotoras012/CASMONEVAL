@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('registration_keys', function (Blueprint $table) {
-            $table->id('registration_key_ID');
-            $table->string('registration_key');
-            $table->string('Status')->default('unused');
-            $table->integer('user_type_ID');
-            $table->string('province')->nullable();
-            $table->string('division')->nullable();
+        Schema::create('opcr', function (Blueprint $table) {
+            $table->id('opcr_ID');
+            $table->string('description');
+            $table->string('status')->nullable();
+            $table->integer('is_submitted')->nullable();
+            $table->integer('created_by')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registration_keys');
+        Schema::dropIfExists('opcr');
     }
 };

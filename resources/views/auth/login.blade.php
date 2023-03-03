@@ -22,14 +22,14 @@
                                                     class="p-1 fa-solid fa-user"></i>
                                             </span>
                                         </div>
-                                        <input placeholder="Email Address" id="email" type="email"
-                                            class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
+                                        <input id="login" type="text"  placeholder="Username or Email" 
+                                            class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
+                                            name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
+                                        @if ($errors->has('username') || $errors->has('email'))
+                                            <span class="invalid-feedback">
+                                                <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>
                                             </span>
-                                        @enderror
+                                        @endif
                                     </div>
                                 </div>
 
@@ -48,6 +48,12 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary" type="button"
+                                                    id="toggle-password">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,9 +78,14 @@
                                         </button>
 
                                         @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                {{ __('Forgot Your Password?') }}
-                                            </a>
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                                    {{ __('Forgot Your Password?') }}
+                                                </a>
+                                                <a class="btn btn-link" href="/register">
+                                                    {{ __('Dont Have Account?') }}
+                                                </a>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>

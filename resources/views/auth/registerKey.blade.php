@@ -9,17 +9,19 @@
 
                         <div class="card-body p-5">
                             <form method="POST" action="{{ route('register') }}">
-
-                                <div class="text-center mb-4">
+                                <div class="text-center">
                                     @csrf
-                                    <img style="height:100px;width: auto;margin-bottom:10px;" src="{{ url('/images/dti-logo.png') }}" />
+                                    <div class="m-4">
+                                        <img style="height:100px;width: auto;margin-bottom:10px;"
+                                            src="{{ url('/images/dti-logo.png') }}" />
+                                    </div>
                                     @if ($message = Session::get('validated'))
                                         <div class="alert alert-success mt-4">
                                             <p class="m-0">{{ $message }}</p>
                                         </div>
                                     @endif
-                                 
-                                   
+
+
                                     <div class="row mb-4">
                                         <div class="col">
                                             <div class="input-group input-group-sm">
@@ -50,7 +52,7 @@
                                                 <input value="{{ old('last_name') }}" placeholder="Lastname" id="last_name"
                                                     type="text"
                                                     class="form-control @error('last_name') is-invalid @enderror"
-                                                    name="last_name" value="{{ old('last_name') }}""
+                                                    name="last_name" 
                                                     autocomplete="last_name" autofocus>
                                                 @error('last_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -72,7 +74,7 @@
                                                 <input value="{{ old('middle_name') }}" placeholder="Middlename"
                                                     id="middle_name" type="text"
                                                     class="form-control @error('middle_name') is-invalid @enderror"
-                                                    name="middle_name" value="{{ old('middle_name') }}"
+                                                    name="middle_name"
                                                     autocomplete="middle_name" autofocus>
                                                 @error('middle_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -143,17 +145,17 @@
                                             @enderror
                                         </div>
                                     </div>
-                                  
-                                    
-                                            <input value="{{request("user-id")}}" id="usertype-id"
-                                                type="hidden"
-                                                name="user_type_ID"/ >
-                                         <input value="{{request("registration-key")}}" id="registration_key"
-                                                type="hidden"
-                                                name="registration_key" />
-                                          
-                                    </div>
-                                    {{-- <div class="row mb-3">
+
+
+                                    <input value="{{ request('user-id') }}" id="usertype-id" type="hidden"
+                                        name="user_type_ID"/>
+                                    <input value="{{ request('registration-key') }}" id="registration_key"
+                                        type="hidden" name="registration_key" />
+                                    <input value="{{ request('division-id') }}" id="division_ID"
+                                        type="hidden" name="division_ID" />
+
+                                </div>
+                                {{-- <div class="row mb-3">
                                         <div class="input-group input-group-sm">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
@@ -176,52 +178,53 @@
 
                                         </div>
                                     </div> --}}
-                                    <div class="row mb-3">
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                                        class="p-1 fa-solid fa-lock"></i>
-                                                </span>
-                                            </div>
-                                            <input placeholder="Password" id="password" type="password"
-                                                class="form-control @error('password') is-invalid @enderror"
-                                                name="password" autocomplete="new-password">
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
+                                <div class="row mb-3">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
+                                                    class="p-1 fa-solid fa-lock"></i>
+                                            </span>
                                         </div>
+                                        <input placeholder="Password" id="password" type="password"
+                                            class="form-control @error('password') is-invalid @enderror" name="password"
+                                            autocomplete="new-password">
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="input-group input-group-sm">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                                        class="p-1 fa-solid fa-lock-open"></i></i>
-                                                </span>
-                                            </div>
-                                            <input placeholder="Confirm Password" id="password-confirm" type="password"
-                                                class="form-control" name="password_confirmation" @error('password_confirmation') is-invalid @enderror"
-                                                autocomplete="password_confirmation">
-                                            @error('password_confirmation')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary w-100 d-block">
-                                        {{ __('Register') }}
-                                    </button>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="input-group input-group-sm">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
+                                                    class="p-1 fa-solid fa-lock-open"></i></i>
+                                            </span>
+                                        </div>
+                                        <input placeholder="Confirm Password" id="password-confirm" type="password"
+                                            class="form-control" name="password_confirmation"
+                                            @error('password_confirmation') is-invalid @enderror"
+                                            autocomplete="password_confirmation">
+                                        @error('password_confirmation')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
 
-                            </form>
-
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 d-block">
+                                    {{ __('Register') }}
+                                </button>
                         </div>
+
+                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection

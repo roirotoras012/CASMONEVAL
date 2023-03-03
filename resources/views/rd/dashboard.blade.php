@@ -1,91 +1,49 @@
 @extends('layouts.app')
-<head>
-    <link rel="stylesheet" href="{{ asset('css/rd.css') }}">
-    <script src="{{ asset('js/custom.js') }}"></script>
-</head>
+@section('title')
+    {{ 'RD Dashboard' }}
+@endsection
+
 @section('content')
     <x-user-sidebar>
         <div class="container-fluid px-4 py-5">
-                
+
             <ol class="breadcrumb mb-4">
-            
-                <li class="breadcrumb-item active"><h1>Regional Director Dashboard</h1></li>
-                <div><h2>Bobo Ka</h2></div>
+
+                <li class="breadcrumb-item active">
+                    <h1>Regional Director Dashboard</h1>
+                </li>
+
             </ol>
-            <div class="opcr-container">
-                <h1>OPCR</h1>
-                
-                <div class="opcr-table">
-
-                  
-        
-              
-
-              
-      
-            
-                    <table>
-                        <thead>
-                          <tr>
-                           
-                            <th >Strategic Objectives</th>
-                            <th >Strategic Measures</th>
-                            <th>REGION 10</th>
-                            <th>BUK</th>
-                            <th>CAM</th>
-                            <th>LDN</th>
-                            <th>MISOR</th>
-                            <th>MISOC</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                          @foreach ($labels as $label)
-                          <tr class="table-tr">
-                            @if ($label->strategic_objective)
-                                
-                            @endif
-                            <td>{{ $label->strategic_objective }}</td>
-                            <td>{{ $label->strategic_measure }}</td>
-                          
-                            <td></td>
-                            <td><input type="number"></td>
-                            <td><input type="number"></td>
-                            <td><input type="number"></td>
-                            <td><input type="number"></td>
-                            <td><input type="number"></td>
-                            
-                            </tr>
-                          @endforeach
-                       
-                            
-                           
-                          
-                              
-                               
-                          
-                            
-                            
-                      
-                           
-                            
-                         
-                        
-                       
-                       
-                        
-                          
-                          
-                          
-                        </tbody>
-                      </table>
+            <div class="row">
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-primary text-white mb-4">
+                        <div class="card-body">View OPCR</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>2</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
                 </div>
-        
-        
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-warning text-white mb-4">
+                        <div class="card-body">View Provincial Accomplishment</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>12</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card bg-success text-white mb-4">
+                        <div class="card-body">Evaluation</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>2</h2>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-       
-    </x-user-sidebar>
 
-   
+    </x-user-sidebar>
 @endsection

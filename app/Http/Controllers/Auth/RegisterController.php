@@ -31,8 +31,30 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected function redirectTo()
+    {
+       $userType = auth()->user()->user_type_ID;
+       switch ($userType) {
+           case 1:
+               return route('rd.index');
+           case 2:
+               return route('rpo.index');
+           case 3:
+               return route('pd.index');
+           case 4:
+               return route('ppo.index');
+           case 5:
+               return route('dc.index');
+           case 6:
+               return route('users.adminView');
+           default:
+               return '/';
+       }
 
+      
+    }
+   
     /**
      * Create a new controller instance.
      *
@@ -59,6 +81,7 @@ class RegisterController extends Controller
             'birthday' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type_ID' => ['required'],
+            'division_ID' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             
         ]);
@@ -76,6 +99,7 @@ class RegisterController extends Controller
         // dd($data);
         $registrationKey = RegistrationKey::where('registration_key', $data['registration_key'])->first();
         $registrationKey->update(['Status' => 'Taken']);
+    
         return User::create([
             
             'username' => $data['first_name']."  ".$data['last_name'],
@@ -86,6 +110,7 @@ class RegisterController extends Controller
             'birthday' => $data['birthday'],
             'email' => $data['email'],
             'user_type_ID' => (int)$data['user_type_ID'],
+            'division_ID' => (int)$data['division_ID'],
             'password' => Hash::make($data['password']),
         ]);
     }
