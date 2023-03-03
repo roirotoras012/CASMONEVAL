@@ -51,6 +51,26 @@ class RegionalPlanningOfficerController extends Controller
                 ->with('error', 'Invalid Password');
         }
     }
+    public function updatePasswordHandler(Request $request)
+    {
+        $userType = auth()->user()->user_type_ID;
+        $userPass = auth()->user()->password;
+        // dd($request);
+        $user = Auth::user();
+        
+        if (Hash::check($request->current_password, $userPass)) {
+            $user->password = $request->new_password;
+            $user->save();
+            return redirect()
+                ->back()
+                ->with('update-pass-success', 'Password successfully.');
+        } else {
+            // Show an error message
+            return redirect()
+                ->back()
+                ->with('update-pass-error', 'Invalid Password Update');
+        }
+    }
     public function store(Request $request)
     {
         //
