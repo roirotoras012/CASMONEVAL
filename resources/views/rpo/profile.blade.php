@@ -142,7 +142,18 @@
                         </div>
                         <div id="contact1" role="tabpanel" aria-labelledby="contact-tab"
                             class="tab-pane fade px-4 py-5">
-                            <form method="POST" action="{{ route('register') }}">
+                            <form method="POST"  action="{{ route('rpo.updatePasswordHandler') }}">
+                                @csrf
+                                  @if (session()->has('success'))
+                                    <div class="alert alert-success">
+                                        {{ session('update-pass-success') }}
+                                    </div>
+                                @endif
+                                     @if ($message = Session::get('update-pass-error'))
+                                        <div class="alert alert-danger mt-4">
+                                            <p class="m-0">{{ $message }}</p>
+                                        </div>
+                                    @endif
                                 @csrf
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
@@ -155,7 +166,7 @@
                                 <div class="form-group">
                                     <label for="password">New Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="password" name="password">
+                                        <input type="password" class="form-control" id="new_password" name="new_password">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="toggle-password">
@@ -167,16 +178,9 @@
                                 <div class="form-group">
                                     <label>Confirm New Password</label>
                                     <div class="input-group input-group-sm">
-                                        <input id="password-confirm" type="password"
-                                            class="form-control" name="password_confirmation"
-                                            @error('password_confirmation') is-invalid @enderror"
-                                            autocomplete="password_confirmation">
-                                        @error('password_confirmation')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-
+                                        <input id="password_new_confirmation" type="password"
+                                            class="form-control" name="password_new_confirmation"
+                                            autocomplete="password_new_confirmation" />
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
