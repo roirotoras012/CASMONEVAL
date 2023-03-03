@@ -178,9 +178,22 @@
                                 <div class="form-group">
                                     <label>Confirm New Password</label>
                                     <div class="input-group input-group-sm">
+
                                         <input id="password_new_confirmation" type="password"
                                             class="form-control" name="password_new_confirmation"
                                             autocomplete="password_new_confirmation" />
+
+                                        <input id="password-confirm" type="password"
+                                            class="form-control" name="password_confirmation"
+                                            @error('password_confirmation') is-invalid @enderror"
+                                            autocomplete="password_confirmation">
+                                        @error('password_confirmation')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+
+
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
