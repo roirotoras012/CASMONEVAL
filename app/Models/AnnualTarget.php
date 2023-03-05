@@ -9,4 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class AnnualTarget extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'annual_target_ID';
 }

@@ -92,6 +92,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
+    Route::post('/drivers', [DriverController::class, 'store'])->name('drivers.store');
+    Route::post('/measures', [MeasureController::class, 'store'])->name('measures.store');
+    Route::post('/measures-update', [MeasureController::class, 'update'])->name('measures.update');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {
