@@ -99,9 +99,8 @@ class RegisterController extends Controller
         // dd($data);
         $registrationKey = RegistrationKey::where('registration_key', $data['registration_key'])->first();
         $registrationKey->update(['Status' => 'Taken']);
-    
         return User::create([
-            
+          
             'username' => $data['first_name']."  ".$data['last_name'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
@@ -111,6 +110,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'user_type_ID' => (int)$data['user_type_ID'],
             'division_ID' => (int)$data['division_ID'],
+            'province_ID' => "1",
             'password' => Hash::make($data['password']),
         ]);
     }

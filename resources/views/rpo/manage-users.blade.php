@@ -46,6 +46,7 @@
                             <th>Birthday</th>
                             <th>User Type ID</th>
                             <th>Division ID</th>
+                             <th>Province ID</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -63,6 +64,7 @@
                                 <td>{{ $user->birthday }}</td>
                                 <td>{{ $user->user_type_ID }}</td>
                                 <td>{{ $user->division_ID }}</td>
+                                <td>{{ $user->province_ID }}</td>
                                 <td>
                                     <div class="form-container d-flex">
                                         <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
