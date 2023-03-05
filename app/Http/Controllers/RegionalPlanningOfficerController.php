@@ -59,7 +59,7 @@ class RegionalPlanningOfficerController extends Controller
         $user = Auth::user();
         
         if (Hash::check($request->current_password, $userPass)) {
-            $user->password = $request->new_password;
+            $user->password = Hash::make($request->new_password);
             $user->save();
             return redirect()
                 ->back()
