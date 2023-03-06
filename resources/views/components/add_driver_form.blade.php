@@ -25,7 +25,7 @@
 
                 <option selected>select a OPCR</option>
                 @foreach ($opcrs as $opcr)
-                    <option value="{{ $opcr->opcr_ID }}">{{ $opcr->opcr }}
+                    <option value="{{ $opcr->opcr_ID }}">#{{ $opcr->opcr_ID }} {{$opcr->year}}
                     </option>
                 @endforeach
             </select>

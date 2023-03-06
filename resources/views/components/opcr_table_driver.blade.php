@@ -15,12 +15,14 @@
     </thead>
     <tbody>
         @foreach ($driversact as $driver)
+        {{-- {{dd($driver->measures)}}     --}}
             <tr>
                 <td rowspan="{{ $driver->measures->count() + 1 }}" class="text-center align-middle">
                     {{ $driver->driver }}</td>
                 @foreach ($driver->measures as $measure)
             <tr>
-                <td class="text-center align-middle">{{ $measure->measure }}</td>
+              
+                <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
                 @foreach ($provinces as $province)
                     <td class="text-center align-middle">
                         @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
