@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Driver extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'driver_ID';
     public function measures()
     {
         return $this->hasMany(StrategicMeasure::class, 'driver_ID');

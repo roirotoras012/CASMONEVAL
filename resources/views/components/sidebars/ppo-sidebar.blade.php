@@ -27,14 +27,14 @@
                     <a class="nav-link  {{ Request::is('ppo/savetarget') ? 'active' : '' }}"
                         href="{{ url('ppo/savetarget') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                        Saved Target
+                        Add Driver
 
                     </a>
 
                     <a class="nav-link  {{ Request::is('ppo/accomplishment') ? 'active' : '' }}"
                         href="{{ url('ppo/accomplishment') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                        Add Accomplishment
+                        Manage Strategic Measure Group
 
                     </a>
 
