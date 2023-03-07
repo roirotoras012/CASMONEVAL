@@ -29,7 +29,7 @@ class RegistrationKeyController extends Controller
         // $division_ID = RegistrationKey::where('registration_key', $user_key)->first();
        
         $division_id = $registration_key->division_ID ?? null;
-
+        $province_id = $registration_key->province_ID ?? null;
         // dd($division_id);
         if (!$registration_key) {
             return redirect()
@@ -47,7 +47,7 @@ class RegistrationKeyController extends Controller
 
         if (!$division_id) {
             return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' =>"0"])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => $province_id])
             ->with('validated', 'User Validated Successfully');
         }
         return redirect()
