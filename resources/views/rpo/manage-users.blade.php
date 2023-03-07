@@ -46,7 +46,7 @@
                             <th>Birthday</th>
                             <th>User Type ID</th>
                             <th>Division ID</th>
-                             <th>Province ID</th>
+                            <th>Province ID</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -62,9 +62,21 @@
                                 <td>{{ $user->middle_name }}</td>
                                 <td>{{ $user->extension_name }}</td>
                                 <td>{{ $user->birthday }}</td>
-                                <td>{{ $user->user_type_ID }}</td>
-                                <td>{{ $user->division_ID }}</td>
-                                <td>{{ $user->province_ID }}</td>
+                             <td>{{ $user->user_type_ID == "1" ? "Regional Director" :
+                                ($user->user_type_ID == "2" ? "Regional Planning Officer" :
+                                ($user->user_type_ID == "3" ? "Provincial Director" :
+                                ($user->user_type_ID == "4" ? "Provincial Planning Officer" :
+                                    ($user->user_type_ID == "5" ? "Division Chief" : "N/A") )))}}
+                            </td>
+                            <td>  {{ $user->division_ID == "1" ? "Business Development Division" :
+                                ($user->division_ID == "2" ? "Consumer Protection Division" :
+                                    ($user->division_ID == "3" ? "Finance Administrative Division" : "N/A") )}}</td>
+
+                                <td>  {{ $user->province_ID == "1" ? "Bukidnon" :
+                                ($user->province_ID == "2" ? "Lanao De Norte" :
+                                ($user->province_ID == "3" ? "Misamis Oriental" :
+                                ($user->province_ID == "4" ? "Misamis Occidental" :
+                                    ($user->province_ID == "5" ? "Camiguin" : "N/A") )))}}</td>
                                 <td>
                                     <div class="form-container d-flex">
                                         <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
@@ -134,13 +146,21 @@
                                         </div>
                                         <select name="user_province_ID" class="form-select">
                                             <option selected disabled>Select Province</option>
-                                            <option name="1" value="1" {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
-                                            <option name="2" value="2" {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte</option>
-                                            <option name="3" value="3" {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental</option>
-                                            <option name="4" value="4" {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental</option>
-                                            <option name="5" value="5" {{ old('user_province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
+                                            <option name="1" value="1"
+                                                {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
+                                            <option name="2" value="2"
+                                                {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte
+                                            </option>
+                                            <option name="3" value="3"
+                                                {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental
+                                            </option>
+                                            <option name="4" value="4"
+                                                {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental
+                                            </option>
+                                            <option name="5" value="5"
+                                                {{ old('user_province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
                                         </select>
-                                       
+
                                     </div>
                                     <div class="input-group input-group-sm mt-2" id="division_chief">
                                         <div class="input-group-prepend">
@@ -150,26 +170,33 @@
                                         </div>
                                         <select name="user_division_ID" class="form-select">
                                             <option selected disabled>Select Type</option>
-                                            <option name="1" value="1" {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development Division</option>
-                                            <option name="2" value="2" {{ old('user_division_ID') == '2' ? 'selected' : '' }}>Consumer Protection Division</option>
-                                            <option name="3" value="3" {{ old('user_division_ID') == '3' ? 'selected' : '' }}>Finance Administrative Division</option>
+                                            <option name="1" value="1"
+                                                {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development
+                                                Division</option>
+                                            <option name="2" value="2"
+                                                {{ old('user_division_ID') == '2' ? 'selected' : '' }}>Consumer Protection
+                                                Division</option>
+                                            <option name="3" value="3"
+                                                {{ old('user_division_ID') == '3' ? 'selected' : '' }}>Finance
+                                                Administrative Division</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div>
-                                <div class="input-group" id='input-userkey-container'>
-                                    <input type="text" id='input-userkey' name='input_userkey' class="form-control" placeholder="User Key">
-                                    <span class="input-group-btn">
+                                    <div class="input-group" id='input-userkey-container'>
+                                        <input type="text" id='input-userkey' name='input_userkey'
+                                            class="form-control" placeholder="User Key">
                                         <span class="input-group-btn">
-                                            <input type="button" id='btn-generate' class="btn btn-primary h-100"
-                                                value="{{ __('Generate') }}">
-                                        </span>
+                                            <span class="input-group-btn">
+                                                <input type="button" id='btn-generate' class="btn btn-primary h-100"
+                                                    value="{{ __('Generate') }}">
+                                            </span>
 
-                                </div>
-
-                                <button type="submit" id='btn-add' class="btn btn-primary mt-2 d-block w-100">
-                                    {{ __('Add User') }}</button>
                                     </div>
+
+                                    <button type="submit" id='btn-add' class="btn btn-primary mt-2 d-block w-100">
+                                        {{ __('Add User') }}</button>
+                                </div>
                             </form>
                         </div>
 
@@ -179,7 +206,7 @@
         </div>
 
 
-   
+
 
 
     </x-user-sidebar>
