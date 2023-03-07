@@ -144,17 +144,17 @@
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('ppo/savetarget') ? 'active' : '' }}"
-                            href="{{ url('ppo/savetarget') }}">
+                        <a class="nav-link  {{ Request::is('ppo/add-driver') ? 'active' : '' }}"
+                            href="{{ url('ppo/add-driver') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                            Saved Target
+                            Add Drivers
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('ppo/accomplishment') ? 'active' : '' }}"
-                            href="{{ url('ppo/accomplishment') }}">
+                        <a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
+                            href="{{ url('ppo/manage') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                            Add Accomplishment
+                            Manage Measure Drivers
 
                         </a>
 
