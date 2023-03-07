@@ -87,9 +87,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
     Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
-    Route::get('ppo/addtarget', [ProvincialPlanningOfficerController::class, 'addtarget'])->name('addtarget');;
-    Route::get('ppo/savetarget', [ProvincialPlanningOfficerController::class, 'savetarget']);
-    Route::get('ppo/accomplishment', [ProvincialPlanningOfficerController::class, 'accomplishment']);
+    Route::get('ppo/addtarget', [ProvincialPlanningOfficerController::class, 'addtarget'])->name('addtarget');
+    Route::get('ppo/add-driver', [ProvincialPlanningOfficerController::class, 'savetarget']);
+    Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'accomplishment'])->name('manage');
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
     Route::post('ppo/drivers', [ProvincialPlanningOfficerController::class, 'store'])->name('drivers.store');
