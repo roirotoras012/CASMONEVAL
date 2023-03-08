@@ -44,6 +44,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
      Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
      Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
      Route::get('rd/profile', [RegionalDirector::class, 'profile']);
+     Route::post('rd/profile/update-email', [RegionalDirector::class, 'updateEmailHandler'])->name('rd.updateEmailHandler');
+     Route::post('rd/profile/update-password', [RegionalDirector::class, 'updatePasswordHandler'])->name('rd.updatePasswordHandler');
      Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
      Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
      Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
@@ -81,9 +83,10 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
      Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
      Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
      Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
+     Route::post('pd/profile/update-email', [ProvincialDirectorController::class, 'updateEmailHandler'])->name('pd.updateEmailHandler');
+     Route::post('pd/profile/update-password', [ProvincialDirectorController::class, 'updatePasswordHandler'])->name('pd.updatePasswordHandler');
      Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
 });
-
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
     Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
@@ -92,6 +95,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'accomplishment'])->name('manage');
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
+    Route::post('ppo/profile/update-email', [ProvincialPlanningOfficerController::class, 'updateEmailHandler'])->name('ppo.updateEmailHandler');
+    Route::post('ppo/profile/update-password', [ProvincialPlanningOfficerController::class, 'updatePasswordHandler'])->name('ppo.updatePasswordHandler');
     Route::post('ppo/drivers', [ProvincialPlanningOfficerController::class, 'store'])->name('drivers.store');
     Route::post('ppo/measures', [ProvincialPlanningOfficerController::class, 'store'])->name('measures.store');
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
@@ -104,14 +109,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
   Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment']);
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
+  Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
+  Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
 
 });
-
-// Route::middleware(['auth', 'App\Http\Middleware\CheckRole:6'])->group(function () {
-//     // ADMIN
-//     // Route::resource('users', UserController::class)->middleware(['auth']);
-//     // Route::get('/users', [UserController::class, 'index'])->name('users.index');
-//     // Route::get('/admin/users', [UserController::class, 'adminView'])->name('users.adminView');
-//     Route::get('/home', [HomeController::class, 'index'])->name('home');
-// });
-

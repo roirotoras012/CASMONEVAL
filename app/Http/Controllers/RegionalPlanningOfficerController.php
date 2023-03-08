@@ -38,8 +38,18 @@ class RegionalPlanningOfficerController extends Controller
         $userPass = auth()->user()->password;
 
         $user = Auth::user();
+
+        $validatedData = $request->validate([
+            'current_password' => 'required',
+            'email' => 'required|email',
+            'new_password' => 'nullable|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/'
+        ]);
+        
         if (Hash::check($request->current_password, $userPass)) {
-            $user->email = $request->email;
+            $user->email = $validatedData['email'];
+            if (!empty($validatedData['new_password'])) {
+                $user->password = Hash::make($validatedData['new_password']);
+            }
             $user->save();
             return redirect()
                 ->back()
@@ -55,20 +65,17 @@ class RegionalPlanningOfficerController extends Controller
     {
         $userType = auth()->user()->user_type_ID;
         $userPass = auth()->user()->password;
-        // dd($request);
         $user = Auth::user();
-        
         if (Hash::check($request->current_password, $userPass)) {
-            $user->password = $request->new_password;
+            $user->password = Hash::make($request->new_password);
             $user->save();
             return redirect()
                 ->back()
-                ->with('update-pass-success', 'Password successfully.');
+                ->with('update-pass-success', 'Password updated successfully.');
         } else {
-            // Show an error message
             return redirect()
                 ->back()
-                ->with('update-pass-error', 'Invalid Password Update');
+                ->with('update-pass-error', ' Invalid Password');
         }
     }
     public function store(Request $request)

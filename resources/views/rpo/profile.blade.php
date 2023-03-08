@@ -10,6 +10,26 @@
             <div class="profile-container w-75 mx-auto">
                 <div class="p-5 bg-white rounded shadow mb-5">
                     <!-- Bordered tabs-->
+                    @if (session()->has('update-pass-success'))
+                        <div class="alert alert-success">
+                            {{ session('update-pass-success') }}
+                        </div>
+                    @endif
+                    @if ($message = Session::get('update-pass-error'))
+                        <div class="alert alert-danger mt-4">
+                            <p class="m-0">{{ $message }}</p>
+                        </div>
+                    @endif
+                    @if (session()->has('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($message = Session::get('error'))
+                        <div class="alert alert-danger mt-4">
+                            <p class="m-0">{{ $message }}</p>
+                        </div>
+                    @endif
                     <ul id="myTab1" role="tablist"
                         class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
                         <li class="nav-item flex-sm-fill">
@@ -34,9 +54,6 @@
                             <form method="POST" action="{{ route('register') }}">
                                 <div>
                                     @csrf
-                                
-                                 
-
                                     <span class="badge badge-primary mb-2">ID Number : {{ $userDetails->user_ID }}</span>
 
                                     <div class="form-row">
@@ -46,7 +63,7 @@
                                                 type="text" class="form-control" value="20234432" name="first_name"
                                                 autofocus>
 
-                                          
+
 
                                         </div>
 
@@ -95,18 +112,7 @@
                             </form>
                         </div>
                         <div id="profile1" role="tabpanel" aria-labelledby="profile-tab" class="tab-pane fade px-4 py-5">
-
                             <form method="POST" action="{{ route('rpo.updateEmailHandler') }}">
-                                @if (session()->has('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                     @if ($message = Session::get('error'))
-                                        <div class="alert alert-danger mt-4">
-                                            <p class="m-0">{{ $message }}</p>
-                                        </div>
-                                    @endif
                                 @csrf
                                 <div class="form-group">
                                     <label>Email</label>
@@ -125,8 +131,8 @@
 
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="current_password"
-                                            name="current_password">
+                                        <input type="password" class="form-control" id="password"
+                                            name="current_password" />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="toggle-password">
@@ -142,57 +148,43 @@
                         </div>
                         <div id="contact1" role="tabpanel" aria-labelledby="contact-tab"
                             class="tab-pane fade px-4 py-5">
-                            <form method="POST"  action="{{ route('rpo.updatePasswordHandler') }}">
-                                @csrf
-                                  @if (session()->has('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('update-pass-success') }}
-                                    </div>
-                                @endif
-                                     @if ($message = Session::get('update-pass-error'))
-                                        <div class="alert alert-danger mt-4">
-                                            <p class="m-0">{{ $message }}</p>
-                                        </div>
-                                    @endif
+                            <form method="POST" action="{{ route('rpo.updatePasswordHandler') }}">
                                 @csrf
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="current_password"
-                                            name="current_password">
-                                      
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">New Password:</label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="new_password" name="new_password">
+                                        <input type="password" class="form-control" id="password" required
+                                            name="current_password" />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="toggle-password">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
+                                        @error('current_password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm New Password</label>
-                                    <div class="input-group input-group-sm">
-
-                                        <input id="password_new_confirmation" type="password"
-                                            class="form-control" name="password_new_confirmation"
-                                            autocomplete="password_new_confirmation" />
-
-                                        <input id="password-confirm" type="password"
-                                            class="form-control" name="password_confirmation"
-                                            @error('password_confirmation') is-invalid @enderror"
-                                            autocomplete="password_confirmation">
-                                        @error('password_confirmation')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                    <label for="password">New Password:</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="new_password" required
+                                            name="new_password" />
+                                        @error('new_password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password-confirm">Confirm New Password</label>
+                                    <div class="input-group input-group-sm">
+                                        <input id="password-confirm" type="password" class="form-control" required
+                                            name="password_confirmation" autocomplete="password_confirmation" />
+                                        @error('password_confirmation')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
 
                                     </div>
                                 </div>
