@@ -45,9 +45,14 @@ class RegistrationKeyController extends Controller
         $user_type_id = $registration_key->user_type_ID;
         $division_id = $registration_key->division_ID;
 
-        if (!$division_id) {
+        if (!$division_id && !$province_id) {
             return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => $province_id])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => "0" , "province-id" => "0"])
+            ->with('validated', 'User Validated Successfully');
+        }
+        if (!$province_id) {
+            return redirect()
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => "0"])
             ->with('validated', 'User Validated Successfully');
         }
         return redirect()
