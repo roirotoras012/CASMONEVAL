@@ -153,8 +153,8 @@
                                         type="hidden" name="registration_key" />
                                     <input value="{{ request('division-id') }}" id="division_ID"
                                         type="hidden" name="division_ID" />
-                                    <input value="{{ request('province-id') }}" id="province_ID"
-                                        type="hidden" name="province_ID" />
+                                        <input value="{{ request('province-id') }}" id="province_ID"
+                                            type="hidden" name="province_ID" />
 
                                 </div>
                                 {{-- <div class="row mb-3">

@@ -181,7 +181,12 @@
 
                             Dashboard
                         </a>
+                        <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
+                            href="{{ url('dc/view-target') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
+                            View Target
 
+                        </a>
                         {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
                         <a class="nav-link  {{ Request::is('dc/job-fam') ? 'active' : '' }}"
                             href="{{ url('dc/job-fam') }}">
