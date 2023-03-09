@@ -51,7 +51,7 @@ class RegistrationKeyController extends Controller
             ->with('validated', 'User Validated Successfully');
         }
         return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id ,"province-id" => $province_id])
             ->with('validated', 'User Validated Successfully');
     }
 
