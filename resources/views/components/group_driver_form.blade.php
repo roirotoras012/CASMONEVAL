@@ -1,4 +1,4 @@
-@props(['drivers', 'measures'])
+@props(['drivers', 'measures', 'opcrs_active'])
 
 
 
@@ -29,11 +29,15 @@
 
         <div class="row mb-3">
             <label for="measure" class="col-form-label text-md-start">{{ __('Measure') }}</label>
-            <select id="measure" class="form-select mb-3" name="measure_ID">
-
-                <option selected>select a measure</option>
+            <select id="measure" multiple="multiple" class="form-select mb-3" name="measure_ID[]">
+               {{-- {{ dd($opcrs_active)}} --}}
+                {{-- <option selected>select a measure</option> --}}
                 @foreach ($measures as $measure)
-                    @if(isset($measure->driver_ID) == null and $measure->code == "BDD")
+             
+               
+                 
+
+                    @if(($measure->show == 1) and $measure->code == "BDD")
                         
                     <option value="{{ $measure->strategic_measure_ID }}">{{ $measure->strategic_measure }}
                     </option>
@@ -80,11 +84,12 @@
 
         <div class="row mb-3">
             <label for="measure" class="col-form-label text-md-start">{{ __('Measure') }}</label>
-            <select id="measure" class="form-select mb-3" name="measure_ID">
+            <select multiple="multiple" id="measure" class="form-select mb-3" name="measure_ID[]">
 
-                <option selected>select a measure</option>
+                {{-- <option selected>select a measure</option> --}}
                 @foreach ($measures as $measure)
-                    @if(isset($measure->driver_ID) == null and $measure->code == "CPD")
+               
+                    @if(($measure->show == 1) and $measure->code == "CPD")
                     <option value="{{ $measure->strategic_measure_ID }}">{{ $measure->strategic_measure }}
                     </option>
                     @endif
@@ -132,11 +137,12 @@
 
         <div class="row mb-3">
             <label for="measure" class="col-form-label text-md-start">{{ __('Measure') }}</label>
-            <select id="measure" class="form-select mb-3" name="measure_ID">
+            <select multiple="multiple" id="measure" class="form-select mb-3" name="measure_ID[]">
 
-                <option selected>select a measure</option>
+                {{-- <option selected>select a measure</option> --}}
                 @foreach ($measures as $measure)
-                    @if(isset($measure->driver_ID) == null and $measure->code == "FAD")
+                
+                    @if(($measure->show == 1) and $measure->code == "FAD")
                     <option value="{{ $measure->strategic_measure_ID     }}">{{ $measure->strategic_measure }}
                     </option>
                     @endif

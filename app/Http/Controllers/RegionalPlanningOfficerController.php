@@ -160,7 +160,7 @@ class RegionalPlanningOfficerController extends Controller
         $opcr = new Opcr();
         $opcr->save();
 
-        if ($opcr->id) {
+        if ($opcr->opcr_ID) {
             foreach ($annual_targets as $annual_target) {
                 if ($annual_target['BUK']) {
                     $buk_target = $annual_target['BUK'];
@@ -182,7 +182,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 1;
                                 $target->division_ID = $measure1->division_ID;
-                                $target->opcr_id = $opcr->id;
+                                $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
                         } else {
@@ -193,7 +193,7 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 1;
                             $target->division_ID = $annual_target['division_ID'];
-                            $target->opcr_id = $opcr->id;
+                            $target->opcr_id = $opcr->opcr_ID;
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -220,7 +220,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 5;
                                 $target->division_ID = $measure1->division_ID;
-                                $target->opcr_id = $opcr->id;
+                                $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
                         } else {
@@ -231,7 +231,7 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 5;
                             $target->division_ID = $annual_target['division_ID'];
-                            $target->opcr_id = $opcr->id;
+                            $target->opcr_id = $opcr->opcr_ID;
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -257,7 +257,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 2;
                                 $target->division_ID = $measure1->division_ID;
-                                $target->opcr_id = $opcr->id;
+                                $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
                         } else {
@@ -268,7 +268,7 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 2;
                             $target->division_ID = $annual_target['division_ID'];
-                            $target->opcr_id = $opcr->id;
+                            $target->opcr_id = $opcr->opcr_ID;
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -294,7 +294,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 3;
                                 $target->division_ID = $measure1->division_ID;
-                                $target->opcr_id = $opcr->id;
+                                $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
                         } else {
@@ -305,7 +305,7 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 3;
                             $target->division_ID = $annual_target['division_ID'];
-                            $target->opcr_id = $opcr->id;
+                            $target->opcr_id = $opcr->opcr_ID;
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -331,7 +331,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 4;
                                 $target->division_ID = $measure1->division_ID;
-                                $target->opcr_id = $opcr->id;
+                                $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
                         } else {
@@ -342,7 +342,7 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 4;
                             $target->division_ID = $annual_target['division_ID'];
-                            $target->opcr_id = $opcr->id;
+                            $target->opcr_id = $opcr->opcr_ID;
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -357,21 +357,21 @@ class RegionalPlanningOfficerController extends Controller
                 ->get();
 
             $updated_targets = DB::table('annual_targets')
-                ->where('opcr_id', '=', $opcr->id)
+                ->where('opcr_id', '=', $opcr->opcr_ID)
                 ->get();
             if (count($max) * 5 > count($updated_targets)) {
                 DB::table('opcr')
-                    ->where('opcr_ID', $opcr->id)
+                    ->where('opcr_ID', $opcr->opcr_ID)
                     ->update(['status' => 'INCOMPLETE']);
             } else {
                 DB::table('opcr')
-                    ->where('opcr_ID', $opcr->id)
+                    ->where('opcr_ID', $opcr->opcr_ID)
                     ->update(['status' => 'COMPLETE']);
             }
         }
 
         return redirect()
-            ->route('rpo.show', $opcr->id)
+            ->route('rpo.show', $opcr->opcr_ID)
             ->with('success', 'Targets Added Successfully.');
         // return $request->data;
     }
@@ -668,7 +668,9 @@ class RegionalPlanningOfficerController extends Controller
         } elseif ($request->submit == 'submit') {
             DB::table('opcr')
                 ->where('opcr_ID', $opcr_id)
-                ->update(['is_submitted' => true]);
+                ->update(['is_submitted' => true, 'is_active' => true]);
+                
+                
             return redirect()
                 ->route('rpo.show', $opcr_id)
                 ->with('success', 'Targets Submitted Successfully.');
