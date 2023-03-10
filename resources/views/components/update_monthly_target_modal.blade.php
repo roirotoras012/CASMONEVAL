@@ -15,8 +15,8 @@
                 {{-- {{$month}} {{$division_ID}} {{$annual_target}} --}}
                 
 
-
-                <form method="POST" action="{{ route('monthly_targets.store') }}">
+{{-- action="{{ route('monthly_targets.store') }}" --}}
+                <form method="POST">
                     @csrf
                     
                         <input type="hidden" name="annual_target_ID" value="{{$annual_target}}">
