@@ -95,7 +95,7 @@ class DivisionChiefController extends Controller
         $opcrs_active = Opcr::where('is_active', 1)->get();
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
-            ->get();
+            ->get(); 
 
         $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
             ->whereHas('opcr', function ($query) use ($opcrs_active) {
