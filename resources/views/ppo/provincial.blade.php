@@ -1,5 +1,7 @@
 <x-app>
-
+    <div class="loading-screen">
+        <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
+      </div>
     <div class="container">
         <h1>Provincial view of OPCR</h1>
         <x-opcr_table :provinces=$provinces  :measures=$measures :annual_targets=$annual_targets/>

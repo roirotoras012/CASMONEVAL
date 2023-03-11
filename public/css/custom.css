@@ -360,3 +360,20 @@ li.nav-item.dropdown {
 .nav-item.dropdown i {
     font-size: 17px;
 }
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-screen img {
+    max-width: 100%;
+}
