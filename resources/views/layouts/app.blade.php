@@ -18,6 +18,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     {{-- <link rel="stylesheet" href="{{ asset('css/rd.css') }}"> --}}
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/loading.js') }}"></script>
+
 
     <style>
         .input-group-icon {
@@ -124,6 +126,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+        
     </div>
 </body>
 

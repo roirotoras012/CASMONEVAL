@@ -4,10 +4,15 @@
 @endsection
 @section('content')
     <x-user-sidebar>
+        <div class="loading-screen">
+            <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
+          </div>
         <div class="card mb-4 m-4">
             <div class="card-header">
                 <div class="table-title">
                     <div class="row d-flex align-items-center">
+                       
+                          
                         <div class="col-sm-6 text-left">
                             <h6 class="m-0">Manage <b>Employees</b></h6>
                         </div>
@@ -210,4 +215,5 @@
 
 
     </x-user-sidebar>
+    
 @endsection
