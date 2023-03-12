@@ -51,7 +51,7 @@
 
                         @foreach ($driversact as $driver)
                             @php
-                                $divisionName = match ($userDetails->province_ID) {
+                                $divisionName = match ($userDetails->division_ID) {
                                     1 => 'Business Development Division',
                                     2 => 'Consumer Protection Division',
                                     3 => 'Finance Administrative Division',
@@ -75,18 +75,19 @@
                                         @foreach ($provinces as $province)
                                             @php
                                                 $provinceName = match ($userDetails->province_ID) {
+                                                    1 => 'Bukidnon',
                                                     2 => 'Lanao Del Norte',
                                                     3 => 'Misamis Oriental',
                                                     4 => 'Misamis Occidental',
                                                     5 => 'Camiguin',
-                                                    default => 'Bukidnon',
+                                                    default => 'Other',
                                                 };
                                             @endphp
 
                                             @if ($province->province == $provinceName)
                                                 <td class="text-center align-middle">
-                                                    @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
-                                                        <p>{{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
+                                                    @if (isset($annual_targets[$measure->measure_ID][$province->province_ID]))
+                                                        <p>{{ $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target }}
                                                         </p>
                                                     @else
                                                         <p>N/A</p>
