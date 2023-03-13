@@ -584,6 +584,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\View\\Components\\ModalLogout' => __DIR__ . '/../..' . '/app/View/Components/ModalLogout.php',
         'App\\View\\Components\\ModalUpdate' => __DIR__ . '/../..' . '/app/View/Components/ModalUpdate.php',
         'App\\View\\Components\\sidebar' => __DIR__ . '/../..' . '/app/View/Components/sidebar.php',
+        'App\\View\\Components\\update_monthly_target_modal' => __DIR__ . '/../..' . '/app/View/Components/update_monthly_target_modal.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',

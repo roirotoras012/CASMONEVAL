@@ -57,6 +57,7 @@ return array(
     'App\\View\\Components\\ModalLogout' => $baseDir . '/app/View/Components/ModalLogout.php',
     'App\\View\\Components\\ModalUpdate' => $baseDir . '/app/View/Components/ModalUpdate.php',
     'App\\View\\Components\\sidebar' => $baseDir . '/app/View/Components/sidebar.php',
+    'App\\View\\Components\\update_monthly_target_modal' => $baseDir . '/app/View/Components/update_monthly_target_modal.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
     'Brick\\Math\\BigInteger' => $vendorDir . '/brick/math/src/BigInteger.php',

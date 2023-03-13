@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('drivers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('monthly_targets', function (Blueprint $table) {
+            $table->integer('division_ID')->after('annual_target_ID')->nullable();
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('drivers');
+        Schema::table('monthly_targets', function (Blueprint $table) {
+            $table->dropColumn('division_ID');
+        });
     }
 };
