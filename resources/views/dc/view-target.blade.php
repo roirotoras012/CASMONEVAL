@@ -51,8 +51,9 @@
                     </thead>
                     <tbody>
 
-
+                        {{-- {{dd($driversact)}} --}}
                         @foreach ($driversact as $driver)
+                    
                             @php
                                 $divisionName = match ($userDetails->division_ID) {
                                     1 => 'Business Development Division',
@@ -60,19 +61,22 @@
                                     3 => 'Finance Administrative Division',
                                     default => 'other',
                                 };
+
                                 $measures = $driver->measures->where('division.division', $divisionName);
                                 $measure_count = $measures->count();
+                                
+                           
                             @endphp
 
                             @if ($measure_count > 0)
                                 <tr>
                                     <td rowspan="{{ $measure_count + 1 }}" class="text-center align-middle">
-                                        {{ $driver->driver }}</td>
+                                        {{ $driver->driver }}</td>  
                                 </tr>
-
+                                {{-- {{dd($measures)}} --}}
                                 @foreach ($measures as $measure)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $measure->measure }}</td>
+                                        <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
                                         <td class="text-center align-middle">{{ $measure->division->division }}</td>
 
                                         @foreach ($provinces as $province)
@@ -104,17 +108,26 @@
                                                             $monthly_targets[strtolower($month->format('M'))][
                                                                 $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID
                                                             ]))
-                                                        <td class="text-center align-middle">
-                                                            {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+
+                                                            {{dd($monthly_targets[strtolower($month->format('M'))][
+                                                                $annual_targets[$measure->measure_ID][$province->province_ID]->first()->year
+                                                            ])}}
+                                                        <td class="text-center align-middle">4
+                                                            {{-- {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }} --}}
                                                         </td>
                                                     @else
+                                                    
                                                         <td class="text-center align-middle">
                                                             <a href="#" data-bs-toggle="modal"
                                                                 data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
                                                                 id="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
-                                                                class="text-danger">N/A</a>
+                                                                class="text-danger">N/A
+                                                                
+                                                                </a>
+
                                                         </td>
-                                                        <x-update_monthly_target_modal :month="strtolower($month->format('M'))" :division_ID="1"
+                                                       
+                                                        <x-update_monthly_target_modal :month="strtolower($month->format('M'))" :division_ID="1" :year="202"
                                                             :annual_target="$annual_targets[$measure->measure_ID][
                                                                 $province->province_ID
                                                             ]->first()->annual_target_ID" />

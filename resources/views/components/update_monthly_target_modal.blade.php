@@ -16,12 +16,14 @@
                 
 
 {{-- action="{{ route('monthly_targets.store') }}" --}}
-                <form method="POST">
+                <form method="POST" action="{{ route('dc.store')}}" >
                     @csrf
                     
                         <input type="hidden" name="annual_target_ID" value="{{$annual_target}}">
                         <input type="hidden" name="division_ID" value="{{$division_ID}}">
                         <input type="hidden" name="month" value="{{$month}}">
+                        {{-- <input type="hidden" name="year" value="2032"> --}}
+
                         <div class="row">
                             <label for="monthly_target"
                                 class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
