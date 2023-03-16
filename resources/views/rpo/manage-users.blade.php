@@ -37,7 +37,7 @@
                         <p class="m-0">{{ $message }}</p>
                     </div>
                 @endif
-                <table id="datatablesSimple">
+                <table id="manage-user">
                     <thead>
                         <tr>
 

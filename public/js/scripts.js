@@ -11,7 +11,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 });
-
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
     var division_chief = $("#division_chief");
@@ -49,8 +48,6 @@ $(document).ready(function () {
         // $("#btn-add").show();
         addUser.appendTo(addUserParent).show();
     });
-
-    $("#datatablesSimple").DataTable();
 
     // PASSWORD TOGGLE EYE
     $(document).ready(function () {

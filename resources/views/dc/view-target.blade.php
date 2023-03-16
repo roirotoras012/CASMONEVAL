@@ -21,17 +21,17 @@
 
             <div class="col-md-12">
                 <button class="btn btn-primary my-2"  id="print-button">Print Table</button>
-                <table class="table table-bordered border-primary" id="table">
+                <table class="table table-bordered shadow" id="table">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="text-center align-middle">Drivers</th>
-                            <th rowspan="2" class="text-center align-middle">Measure</th>
-                            <th rowspan="2" class="text-center align-middle">Div</th>
-                            <th colspan="1" class="text-center align-middle">Annual Target</th>
-                            <th colspan="12" class="text-center align-middle">Month</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">Drivers</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">Measure</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
+                            <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">Annual Target</th>
+                            <th colspan="12" class="text-center align-middle bg-primary text-white">Month</th>
                         </tr>
                         <tr>
-                            <th class="text-center align-middle">
+                            <th class="text-center align-middle bg-danger text-white">
                                 {{ match ($userDetails->province_ID) {
                                     1 => 'Bukidnon ',
                                     2 => 'Lanao Del Norte',
