@@ -73,21 +73,22 @@ $(document).ready(function () {
         });
     });
 });
-function printTable() {
-    var printButton = document.getElementById("print-button");
 
-    printButton.addEventListener("click", function () {
-        var table = document.getElementById("table").outerHTML;
-        // console.log(table)
-        var win = window.open("", "_blank");
-        win.document.write("<html><head><title>Print Table</title>");
-        win.document.write(
-            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
-        );
-        win.document.write("</head><body>");
-        win.document.write(table);
-        win.document.write("</body></html>");
-        win.document.close();
+var printButton = document.getElementById("print-button");
+printButton.addEventListener("click", function () {
+    var table = document.getElementById("table").outerHTML;
+
+    var win = window.open("", "_blank");
+    win.document.write("<html><head><title>Print Table</title>");
+    win.document.write(
+        '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
+    );
+    win.document.write("</head><body>");
+    win.document.write("<p>DTI</p>");
+    win.document.write(table);
+    win.document.write("</body></html>");
+    win.document.close();
+    setTimeout(() => {
         win.print();
-    });
-}
+    }, 1000);
+});

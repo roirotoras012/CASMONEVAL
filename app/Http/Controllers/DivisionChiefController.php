@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use DB;
 
 use Illuminate\Http\Request;
 use App\Models\Opcr;
@@ -135,11 +136,19 @@ class DivisionChiefController extends Controller
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division')
             ->get();
-          
-        $annual_targets = AnnualTarget::whereIn('strategic_measures_ID', $measures->pluck('strategic_measure_ID'))
-            ->whereIn('province_ID', $provinces->pluck('province_ID'))
-            ->get()
-            ->groupBy(['strategic_measure_ID', 'province_ID']);
+            $user = Auth::user();
+        
+            if (count($opcrs_active) != 0) {
+                
+                $annual_targets = DB::table('annual_targets')
+                    ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                    ->where('province_ID', '=', $user->province_ID)
+                    ->get()
+                    ->groupBy(['strategic_measures_ID', 'province_ID']);
+            } else {
+                $annual_targets = null;
+            }
+    
             // dd($measures);
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->get(['monthly_targets.*', 'annual_targets.*'])
