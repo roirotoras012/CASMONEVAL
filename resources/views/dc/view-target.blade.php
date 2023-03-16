@@ -6,7 +6,7 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-          </div>
+        </div>
         <div class="container-fluid px-4 py-5">
             {{ $userDetails->province_ID }}
             <h1>{{ match ($userDetails->province_ID) {
@@ -20,7 +20,7 @@
             </h1>
 
             <div class="col-md-12">
-                <button class="btn btn-primary my-2" onclick="printTable()" id="print-button">Print Table</button>
+                <button class="btn btn-primary my-2"  id="print-button">Print Table</button>
                 <table class="table table-bordered border-primary" id="table">
                     <thead>
                         <tr>
@@ -53,7 +53,6 @@
 
                         {{-- {{dd($driversact)}} --}}
                         @foreach ($driversact as $driver)
-                    
                             @php
                                 $divisionName = match ($userDetails->division_ID) {
                                     1 => 'Business Development Division',
@@ -61,17 +60,16 @@
                                     3 => 'Finance Administrative Division',
                                     default => 'other',
                                 };
-
+                                
                                 $measures = $driver->measures->where('division.division', $divisionName);
                                 $measure_count = $measures->count();
                                 
-                           
                             @endphp
 
                             @if ($measure_count > 0)
                                 <tr>
                                     <td rowspan="{{ $measure_count + 1 }}" class="text-center align-middle">
-                                        {{ $driver->driver }}</td>  
+                                        {{ $driver->driver }}</td>
                                 </tr>
                                 {{-- {{dd($measures)}} --}}
                                 @foreach ($measures as $measure)
@@ -92,43 +90,40 @@
                                             @endphp
 
                                             @if ($province->province == $provinceName)
+                                               
                                                 <td class="text-center align-middle">
-                                                    @if (isset($annual_targets[$measure->measure_ID][$province->province_ID]))
-                                                        <p>{{ $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target }}
+                                                    @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
+                                                    
+                                                        <p>{{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
                                                         </p>
                                                     @else
                                                         <p>N/A</p>
                                                     @endif
                                                 </td>
+
                                                 {{-- loop for the months of the year monthly target area --}}
                                                 @for ($i = 1; $i <= 12; $i++)
                                                     <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-
+                                                    {{-- {{dd( $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ]->first()->monthly_target     )}} --}}
                                                     @if (isset(
-                                                            $monthly_targets[strtolower($month->format('M'))][
-                                                                $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID
-                                                            ]))
-
-                                                            {{dd($monthly_targets[strtolower($month->format('M'))][
-                                                                $annual_targets[$measure->measure_ID][$province->province_ID]->first()->year
-                                                            ])}}
-                                                        <td class="text-center align-middle">4
-                                                            {{-- {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }} --}}
-                                                        </td>
+                                                            $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ]))
+                                                       <td class="text-center align-middle">
+                                                        {{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ]->first()->monthly_target  }}
+                                                    </td>
                                                     @else
-                                                    
+                                                        {{-- {{dd(strtolower($month->format('M')))}} --}}
                                                         <td class="text-center align-middle">
                                                             <a href="#" data-bs-toggle="modal"
-                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
-                                                                id="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
+                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
+                                                                id="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ?>"
                                                                 class="text-danger">N/A
-                                                                
-                                                                </a>
+
+                                                            </a>
 
                                                         </td>
-                                                       
-                                                        <x-update_monthly_target_modal :month="strtolower($month->format('M'))" :division_ID="1" :year="202"
-                                                            :annual_target="$annual_targets[$measure->measure_ID][
+                                                      
+                                                        <x-update_monthly_target_modal :month="strtolower($month->format('M'))" :division_ID="$userDetails->division_ID"
+                                                            :year="202" :annual_target="$annual_targets[$measure->strategic_measure_ID][
                                                                 $province->province_ID
                                                             ]->first()->annual_target_ID" />
                                                     @endif
