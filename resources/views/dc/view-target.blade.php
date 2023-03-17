@@ -28,7 +28,7 @@
                             <th rowspan="2" class="text-center align-middle bg-primary text-white">Measure</th>
                             <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
                             <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">Annual Target</th>
-                            <th colspan="12" class="text-center align-middle bg-primary text-white">Month</th>
+                            <th colspan="12" class="text-center align-middle bg-primary text-white">Monthly Target</th>
                         </tr>
                         <tr>
                             <th class="text-center align-middle bg-danger text-white">
