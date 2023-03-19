@@ -157,6 +157,23 @@
                             Manage Measure Drivers
 
                         </a>
+                        <a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
+                            href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
+                            BDD
+
+                        </a><a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
+                            href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
+                            CPD
+
+                        </a><a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
+                            href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
+                            FAD
+
+                        </a>
+
 
                         <a class="nav-link  {{ Request::is('ppo/assessment') ? 'active' : '' }}"
                             href="{{ url('ppo/assessment') }}">
