@@ -77,7 +77,7 @@ class ProvincialPlanningOfficerController extends Controller
                 ->with('update-pass-error', ' Invalid Password');
         }
     }
-    public function addtarget()
+    public function opcr()
     {
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
@@ -125,7 +125,7 @@ class ProvincialPlanningOfficerController extends Controller
 
         // dd($driversact);
 
-        return view('ppo.addtarget', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user'));
     }
 
     public function savetarget()

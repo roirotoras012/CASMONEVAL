@@ -137,10 +137,10 @@
                         </a>
 
 
-                        <a class="nav-link  {{ Request::is('ppo/addtarget') ? 'active' : '' }}"
-                            href="{{ url('ppo/addtarget') }}">
+                        <a class="nav-link  {{ Request::is('ppo/opcr') ? 'active' : '' }}"
+                            href="{{ url('ppo/opcr') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
-                            Add Target
+                            OPCR
 
                         </a>
 

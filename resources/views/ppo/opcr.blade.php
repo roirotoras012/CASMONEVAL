@@ -11,7 +11,7 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>PPO Add Target</h1></li>
+                <li class="breadcrumb-item active"><h1></h1></li>
               
             </ol>
     
@@ -20,7 +20,7 @@
                 @if ($annual_targets)
                 <div class="container">
                     <h1>Provincial view of OPCR</h1>
-                    <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures :annual_targets=$annual_targets/>
+                    <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures :annual_targets=$annual_targets :user=$user/>
                     
                     {{-- <div class="row">
                         <div class="col-6 mx-auto">
