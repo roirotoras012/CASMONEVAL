@@ -8,8 +8,8 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
         <div class="container-fluid px-4 py-5">
-            {{ $userDetails->first_name }} - 
-            <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">{{ match ($userDetails->province_ID) {
+          
+            <div class="province-name bg-primary text-white text-uppercase mb-5 rounded"> {{ $userDetails->first_name }} -  {{ match ($userDetails->province_ID) {
                 1 => 'Bukidnon BDD Division',
                 2 => 'Lanao Del Norte',
                 3 => 'Misamis Oriental',
@@ -17,7 +17,7 @@
                 5 => 'Camiguin',
                 default => 'other',
             } }}
-            </h1>
+            </div>
 
             <div >
                 <button class="btn btn-primary my-2"  id="print-button">Print Table</button>
