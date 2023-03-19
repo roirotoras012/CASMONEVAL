@@ -8,9 +8,7 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
           </div>
         <div class="container-fluid px-4 py-5">
-                
             <ol class="breadcrumb mb-4">
-            
                 <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
                     <div class="card-header">Number of Targets</div>
                     <div class="card-body">
@@ -18,10 +16,7 @@
                 
                     </div>
                   </div>
-              
             </ol>
-    
-        
         </div>
 
     </x-user-sidebar>
