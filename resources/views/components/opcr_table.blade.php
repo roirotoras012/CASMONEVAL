@@ -1,4 +1,4 @@
-@props(['objectivesact', 'measures', 'provinces', 'annual_targets'])
+@props(['objectivesact', 'measures', 'provinces', 'annual_targets','user'])
 
 
 
@@ -12,7 +12,10 @@
         </tr>
         <tr>
             @foreach ($provinces as $province)
-                <th class="text-center align-middle">{{ $province->province }}</th>
+            @if ($province->province_ID ==  $user->province_ID)
+            <th class="text-center align-middle">{{ $province->province }}</th>
+            @endif
+                
             @endforeach
         </tr>
     </thead>
@@ -27,26 +30,26 @@
                 @foreach ($objective->measures as $measure)
             <tr>
                 <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-                @foreach ($provinces as $province)
+                {{-- @foreach ($provinces as $province) --}}
                     <td class="text-center align-middle">
-                        @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
+                        @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                             {{-- <a href="#" data-bs-toggle="modal"
-                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $province->province_ID ?>"
+                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
                                 id="{{ $province->province_ID }}" class="text-success"> --}}
-                                {{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
+                                {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
                             {{-- </a> --}}
                             {{-- <x-update_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" :target="$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()
                                 ->annual_target_ID" /> --}}
                         @else
                             {{-- <a href="#" data-bs-toggle="modal"
-                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $province->province_ID ?>"
+                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
                                 id="{{ $province->province_ID }}" class="text-danger">N/A</a> --}}
                             {{-- <x-add_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" /> --}}
                         @endif
                     </td>
 
                     {{--  --}}
-                @endforeach
+                {{-- @endforeach --}}
             </tr>
         @endforeach
         </tr>
