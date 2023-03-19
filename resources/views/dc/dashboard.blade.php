@@ -11,7 +11,13 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>Division Chief Dashboard</h1></li>
+                <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Number of Targets</div>
+                    <div class="card-body">
+                      <h5 class="card-title">1</h5>
+                
+                    </div>
+                  </div>
               
             </ol>
     
