@@ -21,7 +21,6 @@
             </ol>
             <div class="alert alert-warning d-inline-block px-4" role="alert">
                 Welcome, {{ $userDetails->first_name . " ". $userDetails->last_name}}!
-                               Passowrord, {{ $userDetails->password}}!
 
             </div>
             <div class="row">
