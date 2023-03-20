@@ -113,21 +113,19 @@
             @yield('content')
         </main>
         <script type="text/javascript">
-            $(document).ready(function () {
-               $('#manage-user').DataTable()({
-                   responsive: true
-               });
-            
-               
-           });
-             
+            $(document).ready(function() {
+                $('#manage-user').DataTable()({
+                    responsive: true
+                });
+
+
+            });
         </script>
-       
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src={{ asset('demo/chart-area-demo.js') }}></script>
         <script src={{ asset('demo/chart-bar-demo.js') }}></script>
         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-
         <script src={{ asset('js/datatables-simple-demo.js') }}></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
@@ -136,16 +134,10 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
         </script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
+        <script src="{{ asset('js/scripts.js') }}"></script>
 
-        {{-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script> --}}
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
- 
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
- 
-<script src="{{ asset('js/scripts.js') }}"></script>
-
-
-        
     </div>
 </body>
 
