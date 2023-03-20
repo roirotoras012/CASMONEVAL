@@ -71,9 +71,43 @@ $(document).ready(function () {
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
+        win.document.write(
+            '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
+        );
+        win.document.write(
+            '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
+        );
+        win.document.write("<style>");
+        win.document.write(`
+    @media print {
+      table {
+        background-color: #fff; /* Set the background color of the table */
+      }
+      td, th {
+        background-color: #f7f7f7; /* Set the background color of the cells */
+      }
+      body {
+        background-image: url('none'); /* Disable background graphics */
+      }
+    }
+  `);
+        win.document.write("</style>");
         win.document.write("</head><body>");
-        win.document.write("<p>DTI</p>");
+        win.document.write(
+            "<div style='display:flex;align-items:center;justify-content:space-between;'>"
+        );
+        win.document.write(
+            "<img style='height:auto;width:100px;' src='/images/dti-logo.png' />"
+        );
+        win.document.write(
+            "<p style='text-align:center;'>Republic of the Philippines<br>Department of Trade and Industry</p>"
+        );
+        win.document.write("<div></div>");
+        win.document.write("</div>");
         win.document.write(table);
+        // win.document.write(
+        //     '<script src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
+        // );
         win.document.write("</body></html>");
         win.document.close();
         setTimeout(() => {
