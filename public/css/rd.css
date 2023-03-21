@@ -1,4 +1,4 @@
-table {
+/* table {
     border: 1px solid #000 !important;
     border-collapse: collapse !important;
     width: 100%;
@@ -14,6 +14,7 @@ th {
     text-align: center !important;
     color: #ffffff;
 }
+/*  */
 tr.table-tr input {
     max-width: 100px;
 }
@@ -40,7 +41,7 @@ a.nav-link.active {
     background-color: #0017c5 !important;
 } */
 
-.sb-nav-link-icon i:active {
+/* .sb-nav-link-icon i:active {
     color: #fff !important;
 }
 
@@ -53,4 +54,4 @@ a.nav-link.active {
 .navbar-expand-md .navbar-nav {
     flex-direction: row;
     display: none;
-}
+} */

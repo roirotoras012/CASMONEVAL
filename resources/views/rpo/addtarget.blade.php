@@ -14,7 +14,7 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>Add Target</h1></li>
+                <li class="breadcrumb-item active"><h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Generate OPCR</h1></li>
            
             </ol>
             <div class="opcr-container">
@@ -33,8 +33,8 @@
 
 
                     <form action="{{ route('add_targets') }}" method="post">
-                        <table class="pt-5 table table-bordered ppo-table shadow">
-                            <thead class="border-primary text-white">
+                        <table class="table table-bordered ppo-table shadow">
+                            <thead class="bg-primary text-white">
                                 <tr>
 
                                     <th>Strategic Objectives</th>
@@ -96,11 +96,11 @@
                                         </td>
 
                                         <td><input type="hidden" name="data[{{ $ctr }}][total_targets]"></td>
-                                        <td><input type="number" name="data[{{ $ctr }}][BUK]"></td>
-                                        <td><input type="number" name="data[{{ $ctr }}][CAM]"></td>
-                                        <td><input type="number" name="data[{{ $ctr }}][LDN]"></td>
-                                        <td><input type="number" name="data[{{ $ctr }}][MISOR]"></td>
-                                        <td><input type="number" name="data[{{ $ctr }}][MISOC]"></td>
+                                        <td><input type="text" name="data[{{ $ctr }}][BUK]"></td>
+                                        <td><input type="text" name="data[{{ $ctr }}][CAM]"></td>
+                                        <td><input type="text" name="data[{{ $ctr }}][LDN]"></td>
+                                        <td><input type="text" name="data[{{ $ctr }}][MISOR]"></td>
+                                        <td><input type="text" name="data[{{ $ctr }}][MISOC]"></td>
 
                                     </tr>
 
@@ -117,11 +117,11 @@
 
                                 {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
                                 <div class="pb-3 opcr-btn">
-                                    <button type="submit" class="btn btn-primary" value="ADD" style="background: #0017c5;">
+                                    <button type="submit" class="btn btn-primary" value="ADD">
                                         Add OPCR
                                     </button>
-                                    <button type="submit" class="btn btn-success">
-                                        View OPCR
+                                    <button type="button" class="btn btn-success">
+                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCR</a> 
                                     </button>
                                 </div>
 

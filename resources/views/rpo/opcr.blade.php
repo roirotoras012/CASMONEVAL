@@ -20,8 +20,8 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>OPCR</h1></li>
-                <div><h2>#{{$opcr_id}} {{count($labels)}}</h2></div>
+                <li class="breadcrumb-item active"><h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">OPCR #{{$opcr_id}}</h1></li>
+              
             </ol>
             <div class="opcr-container">
 
@@ -41,8 +41,8 @@
                     <form action="{{ route('update_targets') }}" method="post">
                         <input type="hidden" name="opcr_id"
                                                 value="{{ $opcr_id }}">
-                        <table class="pt-5">
-                            <thead>
+                        <table class="table table-bordered ppo-table shadow">
+                            <thead class="bg-primary text-white">
                                 <tr>
 
                                     <th>Strategic Objectives</th>
@@ -143,7 +143,7 @@
 
                                 {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
                                 <div class="pb-3 opcr-btn">
-                                    <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" name="submit" class="btn btn-primary" value="update" style="background: #0017c5;">
+                                    <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" name="submit" class="btn btn-primary" value="update">
                                         Update OPCR
                                     </button>
                                     <button type="button" class="btn btn-success" onclick="edit()">
