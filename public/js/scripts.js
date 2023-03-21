@@ -72,25 +72,22 @@ $(document).ready(function () {
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
         win.document.write(
-            '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
+            '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>            '
         );
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
         win.document.write("<style>");
         win.document.write(`
-    @media print {
-      table {
-        background-color: #fff; /* Set the background color of the table */
-      }
-      td, th {
-        background-color: #f7f7f7; /* Set the background color of the cells */
-      }
-      body {
-        background-image: url('none'); /* Disable background graphics */
-      }
-    }
-  `);
+            @media print {
+                table {
+                    background-color: #fff; 
+                }
+                td, th {
+                    background-color: #f7f7f7; 
+                }
+            }
+            `);
         win.document.write("</style>");
         win.document.write("</head><body>");
         win.document.write(
