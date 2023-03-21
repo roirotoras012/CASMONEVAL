@@ -1,7 +1,7 @@
-@props(['driversact', 'measures', 'provinces', 'annual_targets', 'monthly_targets', 'opcrs_active'])
-<h1>BDD division level view</h1>
-<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #00800026;" <?php   } ?> class="table table-bordered border-primary">
-    <thead>
+@props(['driversact', 'measures', 'provinces', 'annual_targets', 'monthly_targets', 'opcrs_active', 'user'])
+<h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">BDD division level view</h1>
+<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #0080000f;" <?php   } ?> class="table table-bordered ppo-table shadow">
+    <thead class="bg-primary text-white">
         <tr>
             <th rowspan="2" class="text-center align-middle">Drivers</th>
             <th rowspan="2" class="text-center align-middle">Measure</th>
@@ -9,7 +9,9 @@
         </tr>
         <tr>
             @foreach ($provinces as $province)
-                <th class="text-center align-middle">{{ $province->province }}</th>
+            @if ($province->province_ID == $user->province_ID)
+            <th class="text-center align-middle">{{ $province->province }}</th>
+            @endif
             @endforeach
         </tr>
     </thead>
@@ -25,18 +27,17 @@
         <tr>
           
             <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-            @foreach ($provinces as $province)
+          
                 <td class="text-center align-middle">
-                    @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
+                    @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                         <p>
-                            {{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
+                            {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
                         </p>
                     @else
                         <p>N/A</p>
                     @endif
                 </td>
 
-            @endforeach
         </tr>
     @endforeach
     </tr>
@@ -51,9 +52,9 @@
 
 
 
-<h1>CPD division level view</h1>
-<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #00800026;" <?php   } ?> class="table table-bordered border-primary">
-    <thead>
+<h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">CPD division level view</h1>
+<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #0080000f;" <?php   } ?> class="table table-bordered ppo-table shadow">
+    <thead class="bg-primary text-white">
         <tr>
             <th rowspan="2" class="text-center align-middle">Drivers</th>
             <th rowspan="2" class="text-center align-middle">Measure</th>
@@ -61,7 +62,9 @@
         </tr>
         <tr>
             @foreach ($provinces as $province)
-                <th class="text-center align-middle">{{ $province->province }}</th>
+            @if ($province->province_ID == $user->province_ID)
+            <th class="text-center align-middle">{{ $province->province }}</th>
+            @endif
             @endforeach
         </tr>
     </thead>
@@ -69,7 +72,7 @@
         @foreach ($driversact as $driver)
         {{-- {{dd($driver->measures)}}     --}}
         @if ($driver->code == "CPD")
-        
+            
         <tr>
             <td rowspan="{{ $driver->measures->count() + 1 }}" class="text-center align-middle">
                 {{ $driver->driver }}</td>
@@ -77,18 +80,18 @@
         <tr>
           
             <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-            @foreach ($provinces as $province)
+            
                 <td class="text-center align-middle">
-                    @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
+                    @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                         <p>
-                            {{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
+                            {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
                         </p>
                     @else
                         <p>N/A</p>
                     @endif
                 </td>
 
-            @endforeach
+         
         </tr>
     @endforeach
     </tr>
@@ -104,9 +107,9 @@
 
 
 
-<h1>FAD division level view</h1>
-<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #00800026;" <?php   } ?> class="table table-bordered border-primary">
-    <thead>
+<h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">FAD division level view</h1>
+<table <?php if ($opcrs_active[0]->is_submitted_division == true){ ?> style="background: #0080000f;" <?php   } ?> class="table table-bordered ppo-table shadow">
+    <thead class="bg-primary text-white">
         <tr>
             <th rowspan="2" class="text-center align-middle">Drivers</th>
             <th rowspan="2" class="text-center align-middle">Measure</th>
@@ -114,7 +117,9 @@
         </tr>
         <tr>
             @foreach ($provinces as $province)
-                <th class="text-center align-middle">{{ $province->province }}</th>
+            @if ($province->province_ID == $user->province_ID)
+            <th class="text-center align-middle">{{ $province->province }}</th>
+            @endif
             @endforeach
         </tr>
     </thead>
@@ -130,18 +135,18 @@
         <tr>
           
             <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-            @foreach ($provinces as $province)
+            
                 <td class="text-center align-middle">
-                    @if (isset($annual_targets[$measure->strategic_measure_ID][$province->province_ID]))
+                    @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                         <p>
-                            {{ $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target }}
+                            {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
                         </p>
                     @else
                         <p>N/A</p>
                     @endif
                 </td>
 
-            @endforeach
+          
         </tr>
     @endforeach
     </tr>

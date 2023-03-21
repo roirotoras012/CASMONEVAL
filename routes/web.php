@@ -92,7 +92,10 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
     Route::get('ppo/opcr', [ProvincialPlanningOfficerController::class, 'opcr'])->name('opcr');
     Route::get('ppo/add-driver', [ProvincialPlanningOfficerController::class, 'savetarget'])->name('add-driver');
-    Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'accomplishment'])->name('manage');
+    Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'manage'])->name('manage');
+    Route::get('ppo/bdd', [ProvincialPlanningOfficerController::class, 'bdd'])->name('bdd');
+    Route::get('ppo/cpd', [ProvincialPlanningOfficerController::class, 'cpd'])->name('cpd');
+    Route::get('ppo/fad', [ProvincialPlanningOfficerController::class, 'fad'])->name('fad');
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
     Route::post('ppo/profile/update-email', [ProvincialPlanningOfficerController::class, 'updateEmailHandler'])->name('ppo.updateEmailHandler');

@@ -157,18 +157,18 @@
                             Manage Measure Drivers
 
                         </a>
-                        <a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
-                            href="#">
+                        <a class="nav-link  {{ Request::is('ppo/bdd') ? 'active' : '' }}"
+                            href="{{ url('ppo/bdd') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             BDD
 
-                        </a><a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
-                            href="#">
+                        </a><a class="nav-link  {{ Request::is('ppo/cpd') ? 'active' : '' }}"
+                            href="{{ url('ppo/cpd') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             CPD
 
-                        </a><a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
-                            href="#">
+                        </a><a class="nav-link  {{ Request::is('ppo/fad') ? 'active' : '' }}"
+                            href="{{ url('ppo/fad') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             FAD
 

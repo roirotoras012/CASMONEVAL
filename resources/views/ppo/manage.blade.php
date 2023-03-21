@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    {{ 'Provincial Planning Officer Add Accomplishment' }}
+    {{ 'Provincial Planning Officer Manage' }}
 @endsection
 @section('content')
     <x-user-sidebar>
@@ -11,7 +11,7 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>Manage Drivers</h1></li>
+                {{-- <li class="breadcrumb-item active"><h1>Manage Drivers</h1></li> --}}
             
             </ol>
             @if ($annual_targets)
@@ -25,15 +25,15 @@
                         </div> --}}
                         @if ($opcrs_active[0]->is_submitted_division == false)
                         <div class="col-12 d-flex">
-                            <x-group_driver_form :measures=$measures :drivers=$driversact :opcrs_active=$opcrs_active />
+                            <x-group_driver_form :measures=$measures :drivers=$driversact :opcrs_active=$opcrs_active :user=$user/>
                         </div>
                        
                         @endif
                        
                     </div>
             
-                    <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets :opcrs_active=$opcrs_active/>
-                    <form method="POST" action="{{ route('submit_to_division') }}" class="card text-bg-dark px-5 py-2 mx-auto my-3">
+                    <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets :opcrs_active=$opcrs_active :user=$user/>
+                    <form method="POST" action="{{ route('submit_to_division') }}" class="">
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
                         

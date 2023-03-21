@@ -33,8 +33,8 @@
 
 
                     <form action="{{ route('add_targets') }}" method="post">
-                        <table class="pt-5">
-                            <thead>
+                        <table class="pt-5 table table-bordered ppo-table shadow">
+                            <thead class="border-primary text-white">
                                 <tr>
 
                                     <th>Strategic Objectives</th>
