@@ -17,8 +17,9 @@ class RegionalPlanningOfficerController extends Controller
     public function index(Request $request)
     {
         $userDetails = $request->input('userDetails');
-        // dd($userDetails);
         $users = User::all();
+       
+      
         return view('rpo.dashboard', ['users' => $users, 'userDetails' => $userDetails]);
     }
     public function users()
@@ -30,7 +31,8 @@ class RegionalPlanningOfficerController extends Controller
     public function adminView()
     {
         $users = User::all();
-        return view('rpo.dashboard', ['users' => $users]);
+        $totalUsers = $users->count();
+        return view('rpo.dashboard', ['users' => $users , 'totalUsers' => $totalUsers]);
     }
     public function updateEmailHandler(Request $request)
     {
