@@ -161,6 +161,10 @@ class RegionalPlanningOfficerController extends Controller
     {
         $annual_targets = $request->data;
         $opcr = new Opcr();
+        $opcr->year = $request->year;
+        $opcr->description = $request->description;
+        $opcr->status = 'INCOMPLETE';
+      
         $opcr->save();
 
         if ($opcr->opcr_ID) {

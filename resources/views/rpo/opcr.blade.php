@@ -163,7 +163,8 @@
                                  
                                 </script>
 
-
+                                <h5><b>Year: {{ $opcr[0]->year }}</b> </h5>
+                                <h5><b>Description: {{ $opcr[0]->description }}</b> </h5>
                             </tbody>
 
                         </table>

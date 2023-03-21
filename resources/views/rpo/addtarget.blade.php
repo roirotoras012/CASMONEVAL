@@ -33,6 +33,7 @@
 
 
                     <form action="{{ route('add_targets') }}" method="post">
+                        
                         <table class="table table-bordered ppo-table shadow">
                             <thead class="bg-primary text-white">
                                 <tr>
@@ -127,7 +128,14 @@
 
 
 
-
+                          <div class="form-group">
+                            <label for="year">Year:</label>
+                            <input type="text" name="year" class="form-control" id="usr" required>
+                          </div>
+                          <div class="form-group">
+                            <label for="description">Description:</label>
+                            <textarea type="password" name="description" class="form-control" id="pwd" required></textarea>
+                          </div>
                             </tbody>
 
                         </table>
