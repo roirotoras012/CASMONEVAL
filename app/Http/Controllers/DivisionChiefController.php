@@ -181,7 +181,11 @@ class DivisionChiefController extends Controller
 
     public function bukidnunBddIndex()
     {
-        $opcrs_active = Opcr::where('is_active', 1)->get();
+        $opcrs_active = Opcr::where('is_active', 1)
+        ->where('is_submitted', 1)
+        ->where('is_submitted_division', 1)
+        
+        ->get();
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
             ->get();
