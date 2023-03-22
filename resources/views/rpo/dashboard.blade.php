@@ -42,7 +42,15 @@
                         </div>
                     </div>
                 </div>
-               
+                <div class="col-xl-3 col-md-6">
+                    <div class="card mb-4 shadow">
+                        <div class="card-body bg-primary text-white">Number of Provincial Planning Officer</div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <h2>{{ $totalUsersPPO}}</h2>
+                            
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Number of Provincial Director</div>
@@ -70,15 +78,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                 {{-- <div class="col-xl-3 col-md-6">
                     <div class="card mb-4 shadow">
-                        <div class="card-body bg-primary text-white">Evaluation</div>
+                        <div class="card-body bg-primary text-white">Number of Admin</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>2</h2>
+                             <h2>{{ $totalUsersADMIN}}</h2>
                             
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 
