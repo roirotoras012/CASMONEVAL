@@ -55,7 +55,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
    
     // Regional Planning Officer
-    Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'adminView'])->name('rpo.adminView');
+    Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
 
     Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
     

@@ -18,10 +18,19 @@ class RegionalPlanningOfficerController extends Controller
     {
         $userDetails = $request->input('userDetails');
         $users = User::all();
+        $user_rd = User::where('user_type_ID', '1');
+        $user_rpo = User::where('user_type_ID', '2');
+        $user_pd = User::where('user_type_ID', '3');
+        $user_ppo = User::where('user_type_ID', '4');
+        $user_dc = User::where('user_type_ID', '5');
         $totalUsers = $users->count();
-
-      
-        return view('rpo.dashboard', ['users' => $users , 'totalUsers' => $totalUsers]);
+        $totalUsersRD = $user_rd->count();
+        $totalUsersRPO = $user_rpo->count();
+        $totalUsersPD = $user_pd->count();
+        $totalUsersPPO = $user_ppo->count();
+        $totalUsersDC = $user_dc->count();
+        return view('rpo.dashboard', ['users' => $users , 'totalUsers' => $totalUsers ,'totalUsersRD' => $totalUsersRD,
+        'totalUsersRPO' => $totalUsersRPO,'totalUsersPD' => $totalUsersPD,'totalUsersPPO' => $totalUsersPPO,'totalUsersDC' => $totalUsersDC]);
     }
     public function users()
     {

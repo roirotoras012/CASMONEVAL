@@ -13,7 +13,7 @@
 
 
                 <li class="breadcrumb-item active">
-                    <h1>Regional Planning Officer Dashboard</h1>
+                    <h1 class="text-uppercase lead">Regional Planning Officer Dashboard</h1>
 
 
                 </li>
@@ -25,7 +25,7 @@
             </div>
             <div class="row">
                 <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Total Number of Users</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <h2>{{$totalUsers}}</h2>
@@ -34,52 +34,44 @@
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Number of Regional Director</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
+                            <h2>{{ $totalUsersRD}}</h2>
                             
                         </div>
                     </div>
                 </div>
-                 <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body bg-primary text-white">Number of Regional Plannig Officer</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
-                            
-                        </div>
-                    </div>
-                </div>
+               
                 <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Number of Provincial Director</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
+                            <h2>{{ $totalUsersPD}}</h2>
                             
                         </div>
                     </div>
                 </div>
                  <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Number of Regional Planning Officer</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
+                           <h2>{{ $totalUsersRPO}}</h2>
                             
                         </div>
                     </div>
                 </div>
                  <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body bg-primary text-white">Number of Division Che</div>
+                    <div class="card mb-4 shadow">
+                        <div class="card-body bg-primary text-white">Number of Division Chief</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
+                             <h2>{{ $totalUsersDC}}</h2>
                             
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
-                    <div class="card mb-4">
+                    <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Evaluation</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <h2>2</h2>
