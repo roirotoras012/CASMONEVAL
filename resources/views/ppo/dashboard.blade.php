@@ -11,8 +11,11 @@
                 
             <ol class="breadcrumb mb-4">
             
-                <li class="breadcrumb-item active"><h1>Provincial Planning Officer Dashboard</h1></li>
-             
+              <li class="breadcrumb-item active">
+                    <h1 class="text-uppercase lead">Provincial Planning Officer Dashboard</h1>
+
+
+                </li>
             </ol>
             
         

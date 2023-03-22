@@ -7,14 +7,16 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-          </div>
+        </div>
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
-
                 <li class="breadcrumb-item active">
-                    <h1>Regional Director Dashboard</h1>
+                    <h1 class="text-uppercase lead">Regional Director Dashboard</h1>
+
+
                 </li>
+
 
             </ol>
             <div class="row">
