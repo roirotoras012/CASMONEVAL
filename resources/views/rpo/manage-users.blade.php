@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-sm-6 text-right">
                             <a href="#addEmployeeModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus"></i><span
+                                class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-plus"></i><span
                                     class="p-1 d-inline-block">Add New Employee</span></a>
                             {{-- <a href="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal"><i class="fa-solid fa-trash"></i><span class="p-1 d-inline-block">Delete</span></a>						 --}}
                         </div>

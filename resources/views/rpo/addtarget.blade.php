@@ -35,17 +35,17 @@
                     <form action="{{ route('add_targets') }}" method="post">
                         
                         <table class="table table-bordered ppo-table shadow">
-                            <thead class="bg-primary text-white">
+                            <thead class="bg-primary text-white text-center">
                                 <tr>
 
-                                    <th>Strategic Objectives</th>
-                                    <th>Strategic Measures</th>
-                                    <th>REGION 10</th>
-                                    <th>BUK</th>
-                                    <th>CAM</th>
-                                    <th>LDN</th>
-                                    <th>MISOR</th>
-                                    <th>MISOC</th>
+                                    <th class="p-3">Strategic Objectives</th>
+                                    <th class="p-3">Strategic Measures</th>
+                                    <th class="p-3">REGION 10</th>
+                                    <th class="p-3">BUK</th>
+                                    <th class="p-3">CAM</th>
+                                    <th class="p-3">LDN</th>
+                                    <th class="p-3">MISOR</th>
+                                    <th class="p-3">MISOC</th>
                                 </tr>
                             </thead>
 

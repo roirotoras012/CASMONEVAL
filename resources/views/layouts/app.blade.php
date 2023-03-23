@@ -17,30 +17,12 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     {{-- <link rel="stylesheet" href="{{ asset('css/rd.css') }}"> --}}
-    <script src="{{ asset('js/custom.js') }}"></script>
+    {{-- <script src="{{ asset('js/custom.js') }}"></script> --}}
     <script src="{{ asset('js/loading.js') }}"></script>
 
 
     <style>
-        .input-group-icon {
-            display: flex;
-            align-items: center;
-            padding: 0.375rem 0.75rem;
-            font-size: 0.9rem;
-            font-weight: 400;
-            line-height: 1.6;
-            color: #212529;
-            text-align: center;
-            white-space: nowrap;
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
-            border-top-left-radius: 0.375rem;
-            border-bottom-left-radius: 0.375rem;
-        }
 
-        .navbar {
-            z-index: 99;
-        }
     </style>
 </head>
 
@@ -112,19 +94,25 @@
         <main class="py-4 vh-100">
             @yield('content')
         </main>
+      
+       
+        
+       
+       
+
+    </div>
+    <script src="{{ asset('js/scripts.js') }}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#manage-user').DataTable()({
-                    responsive: true
+                    responsive: true,
+
                 });
-
-
             });
         </script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src={{ asset('demo/chart-area-demo.js') }}></script>
-        <script src={{ asset('demo/chart-bar-demo.js') }}></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        {{-- <script src={{ asset('demo/chart-area-demo.js') }}></script>
+        <script src={{ asset('demo/chart-bar-demo.js') }}></script> --}}
         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
         <script src={{ asset('js/datatables-simple-demo.js') }}></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
@@ -136,9 +124,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
-        <script src="{{ asset('js/scripts.js') }}"></script>
-
-    </div>
+       
 </body>
 
 </html>
