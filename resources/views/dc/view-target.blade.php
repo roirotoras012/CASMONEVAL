@@ -9,7 +9,7 @@
         </div>
         <div class="container-fluid px-4 py-5">
           
-            <div class="province-name bg-primary text-white text-uppercase mb-5 rounded"> {{ $userDetails->first_name }} -  {{ match ($userDetails->province_ID) {
+            <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5"> {{ $userDetails->first_name }} -  {{ match ($userDetails->province_ID) {
                 1 => 'Bukidnon BDD Division',
                 2 => 'Lanao Del Norte',
                 3 => 'Misamis Oriental',

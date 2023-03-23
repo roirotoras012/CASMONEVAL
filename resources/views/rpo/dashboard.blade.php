@@ -13,8 +13,8 @@
 
 
                 <li class="breadcrumb-item active">
-                    <h1 class="text-uppercase lead">Regional Planning Officer Dashboard</h1>
-
+                    <h1 class="text-uppercase lead bg-primary text-white p-2 rounded">Regional Planning Officer Dashboard</h1>
+ 
 
                 </li>
 

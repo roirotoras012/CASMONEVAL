@@ -1,5 +1,5 @@
-.table>thead {
+.table > thead {
     background: #0d6efd !important;
-    vertical-align: bottom;
+    /* vertical-align: bottom; */
     color: white !important;
 }

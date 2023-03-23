@@ -1,6 +1,6 @@
 @props(['users'])
 
-<div id="updatemodal-{{ $users->user_ID }}" class="modal fade">
+<div id="updatemodal-{{ $users->user_ID }}" class="modal modal-update-rpo fade">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -110,17 +110,33 @@
                                     class="p-1 fa-solid fa-users"></i>
                             </span>
                         </div>
+
                         <select name="user_type_ID" class="form-select">
-                            <option selected disabled>Select Role</option>
-                            <option name="1" {{ old('user_type_ID') == '1' ? 'selected' : '' }} value="1">
+
+                            <option selected disabled>
+                                {{ $users->user_type_ID == 1
+                                    ? 'Regional Director'
+                                    : ($users->user_type_ID == 2
+                                        ? 'Regional Planning Officer'
+                                        : ($users->user_type_ID == 3
+                                            ? 'Provincial Director'
+                                            : ($users->user_type_ID == 4
+                                                ? 'Provincial Planning Officer'
+                                                : ($users->user_type_ID == 5
+                                                    ? 'Division Chief'
+                                                    : '')))) }}
+                            </option>
+
+                            <option disabled>Update User Role</option>
+                            <option name="1" value="1">
                                 Regional Director</option>
-                            <option name="2" {{ old('user_type_ID') == '2' ? 'selected' : '' }} value="2">
+                            <option name="2" value="2">
                                 Regional Planning Officer</option>
-                            <option name="3" {{ old('user_type_ID') == '3' ? 'selected' : '' }} value="3">
+                            <option name="3" value="3">
                                 Provincial Director</option>
-                            <option name="4" {{ old('user_type_ID') == '4' ? 'selected' : '' }} value="4">
+                            <option name="4" value="4">
                                 Provincial Planning Officer</option>
-                            <option name="5" {{ old('user_type_ID') == '5' ? 'selected' : '' }} value="5">
+                            <option name="5" value="5">
                                 Division Chief</option>
                         </select>
                     </div>
@@ -130,14 +146,14 @@
                                     class="p-1 fa-solid fa-lock"></i>
                             </span>
                         </div>
-                        <input placeholder="Password" id="password" type="password"
+                        <input placeholder="Password" id="update_password" type="text"
                             class="form-control @error('password') is-invalid @enderror" name="password"
-                            autocomplete="new-password" />
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                           />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="generate-password">
+                                Generate
+                            </button>
+                        </div>
                     </div>
                     <input type="hidden" value="{{ $users->user_ID }}" name="user_ID" />
 
