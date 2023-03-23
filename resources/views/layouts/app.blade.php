@@ -17,7 +17,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     {{-- <link rel="stylesheet" href="{{ asset('css/rd.css') }}"> --}}
-    <script src="{{ asset('js/custom.js') }}"></script>
+    {{-- <script src="{{ asset('js/custom.js') }}"></script> --}}
     <script src="{{ asset('js/loading.js') }}"></script>
 
 
@@ -94,22 +94,14 @@
         <main class="py-4 vh-100">
             @yield('content')
         </main>
-        <script defer src="{{ asset('js/scripts.js') }}"></script>
+      
+       
+        
+       
+       
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#manage-user').DataTable()({
-                    responsive: true,
-
-                });
-
-
-
-            });
-            
-        </script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    </div>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         {{-- <script src={{ asset('demo/chart-area-demo.js') }}></script>
         <script src={{ asset('demo/chart-bar-demo.js') }}></script> --}}
         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
@@ -123,8 +115,15 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
+       <script src="{{ asset('js/scripts.js') }}"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('#manage-user').DataTable()({
+                    responsive: true,
 
-    </div>
+                });
+            });
+        </script>
 </body>
 
 </html>

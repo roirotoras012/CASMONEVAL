@@ -147,7 +147,7 @@
                             </span>
                         </div>
                         <input placeholder="Password" id="update_password" type="text"
-                            class="form-control @error('password') is-invalid @enderror" name="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" value=""
                            />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" id="generate-password">
