@@ -69,10 +69,23 @@ class DivisionChiefController extends Controller
         $monthly_target->monthly_accomplishment = $request->input('monthly_accom');
         $monthly_target->save();
 
+        $accom = MonthlyTarget::find($monthly_target_id);
 
-        return redirect()
+        $eval = (($accom->monthly_accomplishment/$accom->monthly_target)*100);
+        $monthly_target_data = $monthly_target;
+
+        if($eval < 90){
+            return redirect()
             ->route('dc.accomplishments')
-            ->with('success', 'Annual Target successfully!');
+            ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+        }else{
+            return redirect()
+            ->route('dc.accomplishments')
+            ->with('success', 'Monthly Target successfully added!');
+        }
+
+
+        
     }
 
 
