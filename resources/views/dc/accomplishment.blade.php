@@ -140,7 +140,8 @@
                                                             </td>
 
                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
-                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID" />
+                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID"
+                                                                :strategic_measure="$measure->strategic_measure" />
                                                         @endif
                                                     @else
                                                         <td class="text-center align-middle">No Monthly Target Set</td>

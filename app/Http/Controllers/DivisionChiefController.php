@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use DB;
-
-use Illuminate\Http\Request;
 use App\Models\Opcr;
+
 use App\Models\Driver;
-use App\Models\StrategicMeasure;
-use App\Models\AnnualTarget;
-use App\Models\MonthlyTarget;
 use App\Models\Province;
+use App\Models\Evaluation;
+use App\Models\AnnualTarget;
+use Illuminate\Http\Request;
+use App\Models\MonthlyTarget;
+use App\Models\StrategicMeasure;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -58,7 +59,7 @@ class DivisionChiefController extends Controller
 
     public function storeAccom(Request $request)
     {
-        // dd($request);
+        
         $validatedData = $request->validate([
             'monthly_accom' => 'required',
             'monthly_target_ID' => 'required',
@@ -75,6 +76,11 @@ class DivisionChiefController extends Controller
         $monthly_target_data = $monthly_target;
 
         if($eval < 90){
+            $evaluation = new Evaluation();
+            $evaluation->strategic_measure = $request->input('strategic_measure');
+            $evaluation->monthly_target = $accom->monthly_target;
+            $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
+            $evaluation->save();
             return redirect()
             ->route('dc.accomplishments')
             ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
@@ -192,7 +198,9 @@ class DivisionChiefController extends Controller
 
     public function coaching()
     {
-        return view('dc.coaching');
+        $eval = Evaluation::all();
+
+        return view('dc.coaching', compact('eval'));
     }
 
     public function bukidnunBddIndex()
