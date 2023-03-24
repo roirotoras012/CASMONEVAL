@@ -76,7 +76,9 @@ class DivisionChiefController extends Controller
         $monthly_target_data = $monthly_target;
 
         if($eval < 90){
+            $user = Auth::user();
             $evaluation = new Evaluation();
+            $evaluation->user_ID = $user->user_ID;
             $evaluation->strategic_measure = $request->input('strategic_measure');
             $evaluation->monthly_target = $accom->monthly_target;
             $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
