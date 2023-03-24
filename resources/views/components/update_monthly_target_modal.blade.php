@@ -12,10 +12,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {{-- {{$month}} {{$division_ID}} {{$annual_target}} --}}
-                
-
-{{-- action="{{ route('monthly_targets.store') }}" --}}
                 <form method="POST" action="{{ route('dc.store')}}" >
                     @csrf
                     

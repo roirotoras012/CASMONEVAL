@@ -1,19 +1,20 @@
 <?php
+use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\RegistrationKeyController;
-use App\Http\Middleware\CheckRole;
 
 use App\Http\Controllers\RegionalDirector;
-use App\Http\Controllers\ProvincialDirectorController;
-use App\Http\Controllers\RegionalPlanningOfficerController;
-use App\Http\Controllers\ProvincialPlanningOfficerController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\DivisionChiefController;
+use App\Http\Controllers\RegistrationKeyController;
+use App\Http\Controllers\ProvincialDirectorController;
 use App\Http\Controllers\ProfileUpdateHandlerController;
 
 
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RegionalPlanningOfficerController;
+use App\Http\Controllers\ProvincialPlanningOfficerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,5 +119,5 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
   Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
-
+  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
 });
