@@ -1,6 +1,6 @@
 @props(['users'])
 
-<div id="updatemodal-{{ $users->user_ID }}" class="modal modal-update-rpo fade">
+<div id="updatemodal-{{ $users->user_ID }}" class="modal fade modal-update-rpo" data-target="#changeBetRate">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -18,8 +18,8 @@
                         </span>
                     </div>
                     <input value="{{ $users->first_name }}" placeholder="Firstname" id="first_name" type="text"
-                        class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}"
-                        name="first_name" autocomplete="first_name" autofocus>
+                        class="form-control @error('first_name') is-invalid @enderror" name="first_name"
+                        autocomplete="first_name" autofocus>
                     @error('first_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -34,7 +34,7 @@
                     </div>
                     <input value="{{ $users->last_name }}" placeholder="Lastname" id="last_name" type="text"
                         class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                        value="{{ old('last_name') }}" autocomplete="last_name" autofocus>
+                        autocomplete="last_name" autofocus>
                     @error('last_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -48,8 +48,7 @@
                         </span>
                     </div>
                     <input value="{{ $users->middle_name }}" placeholder="Middlename" id="middle_name" type="text"
-                        class="form-control @error('middle_name') is-invalid @enderror" name="middle_name"
-                        value="{{ old('middle_name') }}">
+                        class="form-control @error('middle_name') is-invalid @enderror" name="middle_name">
                     @error('middle_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -74,8 +73,9 @@
                         <div class="input-group-prepend mb-2">
                             <div class="input-group date" id="datepicker">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                            class="p-1 fa-solid fa-user"></i>
+                                    <span class="input-group-icon" id="inputGroup-sizing-sm logo-input">
+                                        <i class="fa-regular fa-calendar"></i>
+
                                     </span>
                                 </div>
 
@@ -106,8 +106,9 @@
                     </div>
                     <div class="input-group input-group-sm mb-2">
                         <div class="input-group-prepend">
-                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                    class="p-1 fa-solid fa-users"></i>
+                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input">
+                                {{-- <i class="p-1 fa-solid fa-user"></i> --}}
+                                <i class="p-1 fa-solid fa-user-tie"></i>
                             </span>
                         </div>
 
@@ -139,18 +140,47 @@
                             <option name="5" value="5">
                                 Division Chief</option>
                         </select>
+
+                        {{-- <select name="province_ID" class="form-select">
+
+                            <option selected disabled>
+                                {{ $users->user_type_ID == 1
+                                    ? 'Regional Director'
+                                    : ($users->user_type_ID == 2
+                                        ? 'Regional Planning Officer'
+                                        : ($users->user_type_ID == 3
+                                            ? 'Provincial Director'
+                                            : ($users->user_type_ID == 4
+                                                ? 'Provincial Planning Officer'
+                                                : ($users->user_type_ID == 5
+                                                    ? 'Division Chief'
+                                                    : '')))) }}
+                            </option>
+
+                            <option disabled>Update User Role</option>
+                            <option name="1" value="1">
+                                Regional Director</option>
+                            <option name="2" value="2">
+                                Regional Planning Officer</option>
+                            <option name="3" value="3">
+                                Provincial Director</option>
+                            <option name="4" value="4">
+                                Provincial Planning Officer</option>
+                            <option name="5" value="5">
+                                Division Chief</option>
+                        </select> --}}
                     </div>
                     <div class="input-group input-group-sm ">
                         <div class="input-group-prepend">
-                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                    class="p-1 fa-solid fa-lock"></i>
+                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input">
+                                <i class="p-1 fa-solid fa-lock"></i>
                             </span>
                         </div>
-                        <input placeholder="Password" id="update_password" type="text"
-                            class="form-control @error('password') is-invalid @enderror" name="password" value=""
-                           />
+                        <input placeholder="Password" id="update-password-{{ $users->user_ID }}" type="text"
+                            class="form-control user-password {{ $users->user_ID }}" name="password" />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="generate-password">
+                            <button class="btn btn-primary generate-password-btn" type="button"
+                                data-generate-id="{{ $users->user_ID }}">
                                 Generate
                             </button>
                         </div>

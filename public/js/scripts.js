@@ -11,6 +11,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 });
+$(document).on("show.bs.modal", ".modal-update-rpo", function () {
+    $(".generate-password-btn").click(function () {
+        console.log("button click");
+        var generateId = $(this).data("generate-id");
+        var password = Math.random().toString(36).slice(2);
+        $(".user-password." + generateId).val(password);
+    });
+});
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
     var division_chief = $("#division_chief");
@@ -65,7 +73,6 @@ $(document).ready(function () {
     var printButton = document.getElementById("print-button");
     printButton.addEventListener("click", function () {
         var table = document.getElementById("table").outerHTML;
-
         var win = window.open("", "_blank");
         win.document.write("<html><head><title>Print Table</title>");
         win.document.write(
