@@ -82,6 +82,7 @@ class DivisionChiefController extends Controller
             $evaluation->strategic_measure = $request->input('strategic_measure');
             $evaluation->monthly_target = $accom->monthly_target;
             $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
+            $evaluation->month = $request->input('month');
             $evaluation->save();
             return redirect()
             ->route('dc.accomplishments')
@@ -200,7 +201,9 @@ class DivisionChiefController extends Controller
 
     public function coaching()
     {
-        $eval = Evaluation::all();
+        $user = Auth::user();
+        $eval = Evaluation::select('*')->where('user_id', $user->user_ID)->get();
+        // dd($eval);
 
         return view('dc.coaching', compact('eval'));
     }

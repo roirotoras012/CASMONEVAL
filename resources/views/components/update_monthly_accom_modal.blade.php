@@ -18,6 +18,7 @@
                     
                         <input type="text" name="monthly_target_ID" value="{{$monthly_target}}">
                         <input type="text" name="strategic_measure" value="{{$strategic_measure}}">
+                        <input type="text" name="month" value="{{$month}}">
                         <div class="row">
                             <label for="monthly_target"
                                 class="col-form-label text-md-start">{{ __('Monthly Accomplishment') }}</label>

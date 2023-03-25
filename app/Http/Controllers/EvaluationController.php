@@ -21,6 +21,8 @@ class EvaluationController extends Controller
         $evaluation = Evaluation::find($request->input('evaluation_ID'));
         $evaluation->reason = $request->input('reason');
         $evaluation->save();
-        return view('dc/coaching');
+        return redirect()
+                ->back()
+                ->with('update', 'Reason added successfully.');
     }
 }

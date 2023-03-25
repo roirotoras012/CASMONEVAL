@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('strategic_measure');
             $table->string('monthly_target');
             $table->string('monthly_accomplishment');
+            $table->string('month');
             $table->string('reason')->nullable();
             $table->string('remark')->nullable();
             $table->timestamps();
