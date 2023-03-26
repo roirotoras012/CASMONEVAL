@@ -177,7 +177,7 @@
                             </span>
                         </div>
                         <input placeholder="Password" id="update-password-{{ $users->user_ID }}" type="text"
-                            class="form-control user-password {{ $users->user_ID }}" name="password" />
+                            class="form-control user-password {{ $users->user_ID }}" name="password" required/>
                         <div class="input-group-append">
                             <button class="btn btn-primary generate-password-btn" type="button"
                                 data-generate-id="{{ $users->user_ID }}">

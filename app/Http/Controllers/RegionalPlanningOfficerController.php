@@ -46,6 +46,7 @@ class RegionalPlanningOfficerController extends Controller
     // }
     public function updateEmailHandler(Request $request)
     {
+       
         $userType = auth()->user()->user_type_ID;
         $userPass = auth()->user()->password;
 
@@ -146,7 +147,7 @@ class RegionalPlanningOfficerController extends Controller
             'birthday' => 'required|date',
             'email' => 'required|string|email|max:255',
             'user_type_ID' => 'required|integer',
-            'password' => 'required',
+            // 'password' => 'required',
         ]);
         $attributes = [
             'first_name' => $request->first_name,
