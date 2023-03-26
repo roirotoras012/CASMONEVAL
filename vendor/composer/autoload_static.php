@@ -569,6 +569,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Models\\Evaluation' => __DIR__ . '/../..' . '/app/Models/Evaluation.php',
         'App\\Models\\MonthlyEvaluation' => __DIR__ . '/../..' . '/app/Models/MonthlyEvaluation.php',
         'App\\Models\\MonthlyTarget' => __DIR__ . '/../..' . '/app/Models/MonthlyTarget.php',
+        'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',
         'App\\Models\\Opcr' => __DIR__ . '/../..' . '/app/Models/Opcr.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',
         'App\\Models\\RegistrationKey' => __DIR__ . '/../..' . '/app/Models/RegistrationKey.php',

@@ -10,6 +10,7 @@ use App\Models\Division;
 use App\Models\Province;
 use App\Models\Evaluation;
 use App\Models\AnnualTarget;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
@@ -23,6 +24,44 @@ class ProvincialPlanningOfficerController extends Controller
     public function index()
     {
         return view('ppo.dashboard');
+    }
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        $notifications = Notification::where('user_type_ID', $userTypeID)
+            ->where('province_ID', $provinceID)
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        Notification::where('user_type_ID', $userTypeID)
+            ->where('province_ID', $provinceID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $user = $request->user();
+
+        Notification::where('user_ID', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
     }
 
     public function assessment()
@@ -702,5 +741,62 @@ class ProvincialPlanningOfficerController extends Controller
         return view('ppo.fad', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
         // return view('ppo.savetarget');
         // return view('ppo.accomplishment');
+    }
+
+    public function notifyToDC(Request $request)
+    {
+
+        // dd($request->all());
+        $userName = auth()->user()->username;
+        $provinceID = auth()->user()->province_ID;
+        $opcr_id = $request->input('opcr_id');
+        
+
+        // dd($provinceID);
+
+        // Determine division IDs based on province ID
+        switch ($provinceID) {
+            case 1: // Bukidnon
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 2: // Lanao
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 3: // Misamis Oriental
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 4: // Misamis Occidental
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 5: // Camiguin
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            default:
+                $division_IDs = [];
+        }
+
+        // Send notification to DC for each division ID
+      
+        foreach ($division_IDs as $division_ID) {
+            $data = $userName . ' has submitted OPCR #' . $opcr_id;
+            $opcr = Opcr::find($opcr_id);
+            $notification = new Notification([
+                'user_type_ID' => 5, // DC usertype ID
+                'user_ID' => auth()->id(),
+                'division_ID' => $division_ID,
+                'province_ID' => $provinceID,
+                'opcr_ID' => $opcr_id,
+                'year' => $opcr->year,
+                'type' => 'OPCR Submitted',
+                'data' => $data,
+            ]);
+           
+            // dd($notification);
+            $notification->save();
+        }
+        
+        return redirect()
+            ->back()
+            ->with('success', 'Drivers submitted successfully.');
     }
 }

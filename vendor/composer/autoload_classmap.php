@@ -42,6 +42,7 @@ return array(
     'App\\Models\\Evaluation' => $baseDir . '/app/Models/Evaluation.php',
     'App\\Models\\MonthlyEvaluation' => $baseDir . '/app/Models/MonthlyEvaluation.php',
     'App\\Models\\MonthlyTarget' => $baseDir . '/app/Models/MonthlyTarget.php',
+    'App\\Models\\Notification' => $baseDir . '/app/Models/Notification.php',
     'App\\Models\\Opcr' => $baseDir . '/app/Models/Opcr.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
     'App\\Models\\RegistrationKey' => $baseDir . '/app/Models/RegistrationKey.php',

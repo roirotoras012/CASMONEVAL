@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Models\Opcr;
-
+use App\Models\Notification;
 use App\Models\Driver;
 use App\Models\Province;
 use App\Models\Evaluation;
@@ -22,6 +22,49 @@ class DivisionChiefController extends Controller
     {
         return view('dc.dashboard');
     }
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $divisionID = auth()->user()->division_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        $notifications = Notification::where('province_ID', $provinceID)
+            ->where('division_ID', $divisionID)
+
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $divisionID = auth()->user()->division_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        Notification::where('province_ID', $provinceID)
+            ->where('division_ID', $divisionID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $user = $request->user();
+
+        Notification::where('user_ID', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    
     public function store(Request $request)
     {
         // dd($request);
