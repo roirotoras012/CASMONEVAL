@@ -106,7 +106,7 @@
                     type: 'GET',
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
+                        // console.log(response);
                         var notifications = response.notifications;
                         var uniqueNotifications = [];
                         var dropdownMenu = $('#notification-dropdown-menu');
