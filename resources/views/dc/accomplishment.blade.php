@@ -7,6 +7,7 @@
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
+
         <div class="container-fluid px-4 py-5">
             {{ $userDetails->province_ID }}
             <h1>{{ match ($userDetails->province_ID) {
@@ -20,6 +21,16 @@
             </h1>
 
             <div class="col-md-12">
+                @if (session()->has('alert'))
+                    <div class="alert alert-danger">
+                        {{ session('alert') }}
+                    </div>
+                @endif
+                @if (session()->has('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <button class="btn btn-primary my-2" id="print-button">Print Table</button>
                 <table class="table table-bordered shadow" id="table">
                     <thead>
@@ -129,7 +140,8 @@
                                                             </td>
 
                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
-                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID" />
+                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID"
+                                                                :strategic_measure="$measure->strategic_measure" />
                                                         @endif
                                                     @else
                                                         <td class="text-center align-middle">No Monthly Target Set</td>

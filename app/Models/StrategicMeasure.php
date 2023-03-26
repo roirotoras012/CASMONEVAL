@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Driver;
+use App\Models\Division;
+use App\Models\AnnualTarget;
+use App\Models\StrategicObjective;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StrategicMeasure extends Model
 {
@@ -23,5 +27,10 @@ class StrategicMeasure extends Model
     public function driver()
     {
         return $this->belongsTo(Driver::class, 'driver_ID');
+    }
+
+    public function annualTarget()
+    {
+        return $this->belognsTo(AnnualTarget::class);
     }
 }

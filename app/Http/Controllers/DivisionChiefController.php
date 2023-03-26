@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use DB;
-
-use Illuminate\Http\Request;
 use App\Models\Opcr;
+use App\Models\Notification;
 use App\Models\Driver;
-use App\Models\StrategicMeasure;
-use App\Models\AnnualTarget;
-use App\Models\MonthlyTarget;
 use App\Models\Province;
+use App\Models\Evaluation;
+use App\Models\AnnualTarget;
+use Illuminate\Http\Request;
+use App\Models\MonthlyTarget;
+use App\Models\StrategicMeasure;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,6 +22,49 @@ class DivisionChiefController extends Controller
     {
         return view('dc.dashboard');
     }
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $divisionID = auth()->user()->division_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        $notifications = Notification::where('province_ID', $provinceID)
+            ->where('division_ID', $divisionID)
+
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $divisionID = auth()->user()->division_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        Notification::where('province_ID', $provinceID)
+            ->where('division_ID', $divisionID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $user = $request->user();
+
+        Notification::where('user_ID', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    
     public function store(Request $request)
     {
         // dd($request);
@@ -58,7 +102,7 @@ class DivisionChiefController extends Controller
 
     public function storeAccom(Request $request)
     {
-        // dd($request);
+        
         $validatedData = $request->validate([
             'monthly_accom' => 'required',
             'monthly_target_ID' => 'required',
@@ -69,10 +113,31 @@ class DivisionChiefController extends Controller
         $monthly_target->monthly_accomplishment = $request->input('monthly_accom');
         $monthly_target->save();
 
+        $accom = MonthlyTarget::find($monthly_target_id);
 
-        return redirect()
+        $eval = (($accom->monthly_accomplishment/$accom->monthly_target)*100);
+        $monthly_target_data = $monthly_target;
+
+        if($eval < 90){
+            $user = Auth::user();
+            $evaluation = new Evaluation();
+            $evaluation->user_ID = $user->user_ID;
+            $evaluation->strategic_measure = $request->input('strategic_measure');
+            $evaluation->monthly_target = $accom->monthly_target;
+            $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
+            $evaluation->month = $request->input('month');
+            $evaluation->save();
+            return redirect()
             ->route('dc.accomplishments')
-            ->with('success', 'Annual Target successfully!');
+            ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+        }else{
+            return redirect()
+            ->route('dc.accomplishments')
+            ->with('success', 'Monthly Target successfully added!');
+        }
+
+
+        
     }
 
 
@@ -179,7 +244,11 @@ class DivisionChiefController extends Controller
 
     public function coaching()
     {
-        return view('dc.coaching');
+        $user = Auth::user();
+        $eval = Evaluation::select('*')->where('user_id', $user->user_ID)->get();
+        // dd($eval);
+
+        return view('dc.coaching', compact('eval'));
     }
 
     public function bukidnunBddIndex()
