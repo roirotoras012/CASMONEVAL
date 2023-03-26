@@ -45,14 +45,30 @@
                             <thead class="bg-primary text-white">
                                 <tr>
 
-                                    <th>Strategic Objectives</th>
-                                    <th>Strategic Measures</th>
-                                    <th>REGION 10</th>
-                                    <th>BUK</th>
-                                    <th>CAM</th>
-                                    <th>LDN</th>
-                                    <th>MISOR</th>
-                                    <th>MISOC</th>
+                                    <th rowspan="2">Strategic Objectives</th>
+                                    <th rowspan="2">Strategic Measures</th>
+                                    <th rowspan="2">REGION 10</th>
+                                    <th colspan="2">BUK</th>
+
+                                    <th colspan="2">CAM</th>
+                                    <th colspan="2">LDN</th>
+                                    <th colspan="2">MISOR</th>
+                                    <th colspan="2">MISOC</th>
+                                    
+                                </tr>
+                                <tr>
+                                    <th>Target</th>
+                                    <th>Accom</th>
+                                    <th>Target</th>
+                                    <th>Accom</th>
+                                    <th>Target</th>
+                                    <th>Accom</th>
+                                    <th>Target</th>
+                                    <th>Accom</th>
+                                    <th>Target</th>
+                                    <th>Accom</th>
+                                    
+
                                 </tr>
                             </thead>
 
@@ -110,22 +126,65 @@
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
                                             <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][BUK]" value="{{$label->BUK}}">
+                                         
+                                        </td>
+                                        <td>
+                                           @if (isset($monthly_targets[$label->BUK_target]))
+                                               <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }}</b>
+                                           
+                                                
+                                            @else
+                                            No Data
+                                            
+                                           @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
                                             <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][CAM]" value="{{$label->CAM}}">
+                                         
+                                        </td>
+                                        <td>
+                                            @if (isset($monthly_targets[$label->CAM_target]))
+                                               <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
+                                            @else
+                                            No Data   
+                                           @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
                                             <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][LDN]" value="{{$label->LDN}}">
+                                         
+                                        </td>
+                                        <td>
+                                            @if (isset($monthly_targets[$label->LDN_target]))
+                                               <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
+                                               @else
+                                               No Data
+                                           @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOR]" value="">
                                             <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][MISOR]" value="{{$label->MISOR}}">
+                                          
+                                        </td>
+                                        <td>
+                                            @if (isset($monthly_targets[$label->MISOR_target]))
+                                               <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
+                                               @else
+                                               No Data  
+                                           @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOC]" value="">
                                             <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][MISOC]" value="{{$label->MISOC}}">
+                                           
+                                        </td>
+                                        <td>
+                                            @if (isset($monthly_targets[$label->MISOC_target]))
+                                               <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
+                                               @else
+                                               No Data
+                                           @endif
                                         </td>
 
                                     </tr>
@@ -146,11 +205,14 @@
                                     <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" name="submit" class="btn btn-primary" value="update">
                                         Update OPCR
                                     </button>
-                                    <button type="button" class="btn btn-success" onclick="edit()">
+                                    {{-- <button type="button" class="btn btn-success" onclick="edit()">
                                         Edit OPCR
-                                    </button>
+                                    </button> --}}
                                     <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" value="submit" name="submit" class="btn btn-success">
                                         Submit OPCR
+                                    </button>
+                                    <button <?php if ($opcr[0]->status != 'COMPLETE' && $opcr[0]->is_submitted != true){ ?> disabled <?php   } ?> type="submit" value="done" name="submit" class="btn btn-success">
+                                        Mark as Done
                                     </button>
                                    
                                 </div>
