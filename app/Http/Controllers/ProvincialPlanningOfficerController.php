@@ -443,8 +443,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if(count($opcrs_active) > 0){
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -462,6 +462,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+            $measures = null;
+
+        }
+        
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -564,8 +570,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -583,6 +589,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+
+            $measures = null;
+        }
+        
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -684,8 +696,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -703,6 +715,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+            $measures = null;
+
+        }
+       
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
