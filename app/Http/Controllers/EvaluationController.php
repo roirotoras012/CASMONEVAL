@@ -14,15 +14,26 @@ class EvaluationController extends Controller
 
     function addReason(Request $request) {
 
-        $validatedData = $request->validate([
-            'reason' => 'required',
-        ]);
-
         $evaluation = Evaluation::find($request->input('evaluation_ID'));
-        $evaluation->reason = $request->input('reason');
-        $evaluation->save();
-        return redirect()
+        if($request->input('reason') !== null){
+            $evaluation->reason = $request->input('reason');
+            $evaluation->save();
+    
+
+            return redirect()
                 ->back()
                 ->with('update', 'Reason added successfully.');
+        }
+        if($request->input('remark') !== null){
+            $evaluation->remark = $request->input('remark');
+            $evaluation->save();
+    
+
+            return redirect()
+                ->back()
+                ->with('update', 'Remark added successfully.');
+        }
+        
+        
     }
 }
