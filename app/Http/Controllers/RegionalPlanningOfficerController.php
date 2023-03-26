@@ -137,17 +137,20 @@ class RegionalPlanningOfficerController extends Controller
             ->with('success', "$full_name  was deleted successfully.");
     }
     public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            // 'extension_name' => 'required|string|max:255',
-            'birthday' => 'required|date',
-            'email' => 'required|string|email|max:255',
-            'user_type_ID' => 'required|integer',
+    {  
+        // dd($request);
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => "nullable",
+            'birthday' => 'required',
+            'email' => 'required',
+            // 'user_type_ID' => 'required',
             'password' => 'required',
+            'user_ID' => 'required',
         ]);
+        // dd($validatedData);
         $attributes = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -155,10 +158,15 @@ class RegionalPlanningOfficerController extends Controller
             'extension_name' => $request->extension_name,
             'birthday' => $request->birthday,
             'email' => $request->email,
-            'user_type_ID' => $request->user_type_ID,
+            // 'user_type_ID' => $request->user_type_ID,
             'password' => Hash::make($request->password),
         ];
-        DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
+      
+        // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
+        $user = User::find($validatedData['user_ID']);
+
+       
+        $user->update($attributes);
         return redirect()
             ->route('rpo.users')
             ->with('success', 'User updated successfully');

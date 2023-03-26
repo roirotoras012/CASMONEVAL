@@ -18,31 +18,43 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
         var password = Math.random().toString(36).slice(2);
         $(".user-password." + generateId).val(password);
     });
-});
-$(document).ready(function () {
+    var updateId = $(this).data("update-id");
+
     var provincePlanning = $("#province_planning");
+    var provincePlanningUpdate = $("#province-planning-update");
+
     var division_chief = $("#division_chief");
     var addUser = $("#btn-add");
+
     var provincePlanningParent = provincePlanning.parent();
+    var provincePlanningUpdateParent = provincePlanningUpdate.parent();
+
     var division_chiefParent = division_chief.parent();
     var addUserParent = addUser.parent();
 
     provincePlanning.hide().detach();
+    provincePlanningUpdate.hide().detach();
+
     division_chief.hide().detach();
     addUser.hide().detach();
 
-    $("#role").change(function () {
+    $("#role,#role-update").change(function () {
+        console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
             $(this).val() === "5"
         ) {
             provincePlanning.appendTo(provincePlanningParent).show();
+            provincePlanningUpdate
+                .appendTo(provincePlanningUpdateParent)
+                .show();
         } else {
             provincePlanning.hide().detach();
+            provincePlanningUpdate.hide().detach();
         }
     });
-    $("#role").change(function () {
+    $("#role,#role-update").change(function () {
         if ($(this).val() === "5") {
             division_chief.appendTo(division_chiefParent).show();
         } else {
@@ -56,7 +68,8 @@ $(document).ready(function () {
         // $("#btn-add").show();
         addUser.appendTo(addUserParent).show();
     });
-
+});
+$(document).ready(function () {
     // PASSWORD TOGGLE EYE
     $("#toggle-password").click(function () {
         console.log("clicke eye");
