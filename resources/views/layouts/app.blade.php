@@ -65,12 +65,16 @@
                         @else
                             <li class="nav-item dropdown">
                                 <div class="dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre><i
-                                            class="fas fa-bell"></i>
+                                    <a class="nav-link" href="#" id="notification-dropdown" role="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-bell"></i>
+                                        <span class="badge badge-danger" id="notification-count"></span>
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Notifications</a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notification-dropdown"
+                                        id="notification-dropdown-menu">
+                                        <a class="dropdown-item no-notifications" href="#">No new notifications.</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>
                                     </div>
                                 </div>
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -94,6 +98,76 @@
         <main class="py-4 vh-100">
             @yield('content')
         </main>
+
+        <script>
+            function getNotifications() {
+                $.ajax({
+                    url: "{{ url('/notifications') }}",
+                    type: 'GET',
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        var notifications = response.notifications;
+                        var uniqueNotifications = [];
+                        var dropdownMenu = $('#notification-dropdown-menu');
+                        dropdownMenu.empty();
+                        $.each(notifications, function(index, notification) {
+                            var dataYear = notification.data;
+                            if (!uniqueNotifications.includes(dataYear)) {
+                                uniqueNotifications.push(dataYear);
+                                var url = '';
+                                if (notification.user_type_ID == 4) { // PPO user type ID
+                                    url = "{{ url('/ppo/opcr') }}";
+                                } else if (notification.user_type_ID == 5) { // DC user type ID
+                                    url = "{{ url('/dc/view-target') }}";
+                                }
+                                url += '?opcr=' + notification.opcr_ID;
+                                dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
+                                    dataYear + '</a>');
+                            }
+                        });
+                        if (uniqueNotifications.length > 0) {
+                            dropdownMenu.append(
+                                '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
+                            );
+                        } else {
+                            dropdownMenu.append('<a class="dropdown-item" href="#">No notifications</a>');
+                        }
+                        $('#notification-count').text(uniqueNotifications.length);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        var dropdownMenu = $('#notification-dropdown-menu');
+                        dropdownMenu.empty();
+                        dropdownMenu.append('<a class="dropdown-item" href="#">Error loading notifications</a>');
+                    }
+                });
+            }
+            $(document).ready(function() {
+                getNotifications();
+                setInterval(getNotifications, 10000);
+                $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
+                    e.preventDefault();
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{ url('/notifications/mark-all-as-read') }}",
+                        type: 'POST',
+                        dataType: "json",
+                        success: function(response) {
+                            getNotifications();
+                            console.log(response);
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
       
        
         

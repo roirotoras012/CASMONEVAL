@@ -106,6 +106,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
     Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
+    Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {
@@ -122,3 +123,23 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
   
 });
+
+
+// NOTIFICATIONS
+
+// PPO
+Route::get('/notifications', [ProvincialPlanningOfficerController::class, 'getNotifications'])
+    ->name('get_notifications')
+    ->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [ProvincialPlanningOfficerController::class, 'markNotificationsAsRead'])
+    ->name('mark_all_as_read')
+    ->middleware('auth');
+
+
+// DIVISION CHIEF
+Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'])
+    ->name('get_notifications')
+    ->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [DivisionChiefController::class, 'markNotificationsAsRead'])
+    ->name('mark_all_as_read')
+    ->middleware('auth');

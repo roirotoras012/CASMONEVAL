@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 use App\Models\StrategicMeasure;
 use App\Models\AnnualTarget;
 use App\Models\Opcr;
@@ -685,6 +686,69 @@ class RegionalPlanningOfficerController extends Controller
             DB::table('opcr')
                 ->where('opcr_ID', $opcr_id)
                 ->update(['is_submitted' => true, 'is_active' => true]);
+
+                // Send notification to all 5 PPOs
+            $userName = auth()->user()->username;
+            $opcr = Opcr::find($opcr_id);
+            $data = $userName . ' has submitted OPCR #' . $opcr_id;
+            $year = $opcr->year;
+            $description = $opcr->description;
+            $user_ID = Auth::id();
+           
+
+            $notificationData = [
+                [
+                    'province_ID' => 1, // PPo Bukidnon
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => $user_ID,
+                    'opcr_ID' => $opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ],
+                [
+                    'province_ID' => 2, // PPo Lanao
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => $user_ID,
+                    'opcr_ID' => $opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ],
+                [
+                    'province_ID' => 3, // PPo MisOr
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => $user_ID,
+                    'opcr_ID' => $opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ],
+                [
+                    'province_ID' => 4, // PPo Misoc
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => $user_ID,
+                    'opcr_ID' => $opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ],
+                [
+                    'province_ID' => 5, // PPo Camiguin
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => $user_ID,
+                    'opcr_ID' => $opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ],
+            ];
+
+            foreach ($notificationData as $notification) {
+                $newNotification = new Notification($notification);
+                // dd($newNotification);
+                $newNotification->save();
+            }
                 
                 
             return redirect()
