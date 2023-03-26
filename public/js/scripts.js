@@ -12,49 +12,65 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
+    let division_chief = $("#division_chief");
+    var provincePlanningUpdate = $("#province-planning-update");
+    var provincePlanningUpdateParent = provincePlanningUpdate.parent();
+    provincePlanningUpdate.hide().detach();
+
     $(".generate-password-btn").click(function () {
         console.log("button click");
         var generateId = $(this).data("generate-id");
         var password = Math.random().toString(36).slice(2);
         $(".user-password." + generateId).val(password);
     });
-    var updateId = $(this).data("update-id");
 
+    $("#role-update").change(function () {
+        // console.log(updateId);
+        if (
+            $(this).val() === "3" ||
+            $(this).val() === "4" ||
+            $(this).val() === "5"
+        ) {
+            provincePlanningUpdate
+                .appendTo(provincePlanningUpdateParent)
+                .show();
+        } else {
+            provincePlanningUpdate.hide().detach();
+        }
+    });
+    $("#role-update").change(function () {
+        if ($(this).val() === "5") {
+            division_chief.appendTo(division_chiefParent).show();
+        } else {
+            division_chief.hide().detach();
+        }
+    });
+});
+$(document).ready(function () {
     var provincePlanning = $("#province_planning");
-    var provincePlanningUpdate = $("#province-planning-update");
-
-    var division_chief = $("#division_chief");
     var addUser = $("#btn-add");
+    let division_chief = $("#division_chief");
 
     var provincePlanningParent = provincePlanning.parent();
-    var provincePlanningUpdateParent = provincePlanningUpdate.parent();
-
     var division_chiefParent = division_chief.parent();
     var addUserParent = addUser.parent();
 
     provincePlanning.hide().detach();
-    provincePlanningUpdate.hide().detach();
-
     division_chief.hide().detach();
     addUser.hide().detach();
-
-    $("#role,#role-update").change(function () {
-        console.log(updateId);
+    $("#role").change(function () {
+        // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
             $(this).val() === "5"
         ) {
             provincePlanning.appendTo(provincePlanningParent).show();
-            provincePlanningUpdate
-                .appendTo(provincePlanningUpdateParent)
-                .show();
         } else {
             provincePlanning.hide().detach();
-            provincePlanningUpdate.hide().detach();
         }
     });
-    $("#role,#role-update").change(function () {
+    $("#role").change(function () {
         if ($(this).val() === "5") {
             division_chief.appendTo(division_chiefParent).show();
         } else {
@@ -68,8 +84,7 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
         // $("#btn-add").show();
         addUser.appendTo(addUserParent).show();
     });
-});
-$(document).ready(function () {
+
     // PASSWORD TOGGLE EYE
     $("#toggle-password").click(function () {
         console.log("clicke eye");
