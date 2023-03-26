@@ -197,7 +197,8 @@ class ProvincialPlanningOfficerController extends Controller
                 $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
                 // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
                 if ($target->validated != 'Validated') {
-                    $validated = false;
+                    // $validated = false;
+                    $monthly_target->validated = false;
                 }
             }
             $monthly_target->annual_accom = $annual_accom;
