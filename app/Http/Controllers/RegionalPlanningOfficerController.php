@@ -10,6 +10,7 @@ use App\Models\AnnualTarget;
 use App\Models\Opcr;
 use App\Models\User;
 use App\Models\RegistrationKey;
+use App\Models\MonthlyTarget;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -415,6 +416,7 @@ class RegionalPlanningOfficerController extends Controller
     }
     public function show($id)
     {
+        $user = Auth::user();
         $opcr_id = $id;
         $targets = DB::table('annual_targets')
             ->where('opcr_id', '=', $opcr_id)
@@ -439,27 +441,57 @@ class RegionalPlanningOfficerController extends Controller
                 if ($label['strategic_measure_ID'] == $target->strategic_measures_ID) {
                     if ($target->province_ID == 1) {
                         $label['BUK'] = $target->annual_target;
+                        $label['BUK_target'] = $target->annual_target_ID;
                     }
                     if ($target->province_ID == 2) {
                         $label['LDN'] = $target->annual_target;
+                        $label['LDN_target'] = $target->annual_target_ID;
                     }
                     if ($target->province_ID == 3) {
                         $label['MISOR'] = $target->annual_target;
+                        $label['MISOR_target'] = $target->annual_target_ID;
                     }
                     if ($target->province_ID == 4) {
                         $label['MISOC'] = $target->annual_target;
+                        $label['MISOC_target'] = $target->annual_target_ID;
                     }
                     if ($target->province_ID == 5) {
                         $label['CAM'] = $target->annual_target;
+                        $label['CAM_target'] = $target->annual_target_ID;
                     }
                 } else {
                 }
             }
         }
-
+    
         // var_dump($labels);
+        if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE'){
+            $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=' ,null)
+            ->where('annual_targets.opcr_ID', '=' , $opcr_id)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+            foreach($monthly_targets as $monthly_target) {
+                // echo "annual target ID: {$annual_target_ID}<br>";
+                $annual_accom = 0;
+                $validated = true;
+                foreach($monthly_target as $target) {
+                    $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                      
+                }
+                $monthly_target->annual_accom = $annual_accom;
+                
+               
+               
+            }
+        }
+        else{
 
-        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr'));
+            $monthly_targets = null;
+        }
+       
+        // dd($monthly_targets);
+        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets'));
     }
     public function update_targets(Request $request)
     {
@@ -754,6 +786,17 @@ class RegionalPlanningOfficerController extends Controller
             return redirect()
                 ->route('rpo.show', $opcr_id)
                 ->with('success', 'Targets Submitted Successfully.');
+        }
+        elseif ($request->submit == 'done') {
+            DB::table('opcr')
+                ->where('opcr_ID', $opcr_id)
+                ->update(['is_active' => false, 'status' => 'DONE']);
+                
+                
+                
+            return redirect()
+                ->route('rpo.show', $opcr_id)
+                ->with('success', 'OPCR successfully marked as done');
         }
     }
 }

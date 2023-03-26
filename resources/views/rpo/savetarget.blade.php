@@ -38,8 +38,20 @@
                                         Status: {{ $item->status }}</h5>
                                 @elseif ($item->status == 'INCOMPLETE')
                                     <h5 style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">Status: {{ $item->status }}</h5>
+                                @elseif ($item->status == 'DONE')
+                                    <h5 style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 195px;">Status: {{ $item->status }}</h5>
                                 @else
                                     <h4>Status: </h4>
+                                @endif
+
+
+                                @if ($item->is_active == true && $item->status != 'DONE')
+                                <h5 style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 180px;">
+                                    Status: ACTIVE
+                                @elseif ($item->is_active == false && $item->status != 'DONE')
+                                    <h5 style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">Status: INACTIVE</h5>
+                                @else
+                                    
                                 @endif
 
                             </li>
