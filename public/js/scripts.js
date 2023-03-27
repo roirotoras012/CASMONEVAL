@@ -12,9 +12,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
+    let updateID = $(this).data("update-id");
     let division_chief = $("#division_chief");
     let division_chiefParent = division_chief.parent();
-    var provincePlanningUpdate = $("#province-planning-update");
+    var provincePlanningUpdate = $("#province-planning-update-" + updateID);
     var provincePlanningUpdateParent = provincePlanningUpdate.parent();
     provincePlanningUpdate.hide().detach();
 

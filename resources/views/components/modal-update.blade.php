@@ -170,7 +170,7 @@
                                 Division Chief</option>
                         </select> --}}
                     </div>
-                    <div class="input-group input-group-sm" id="province-planning-update" data-update-id="{{ $users->user_ID }}">
+                    <div class="input-group input-group-sm" id="province-planning-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
                         <div class="input-group-prepend">
                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                     class="p-1 fa-solid fa-user"></i>
