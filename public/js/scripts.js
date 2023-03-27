@@ -13,6 +13,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
     let division_chief = $("#division_chief");
+    let division_chiefParent = division_chief.parent();
     var provincePlanningUpdate = $("#province-planning-update");
     var provincePlanningUpdateParent = provincePlanningUpdate.parent();
     provincePlanningUpdate.hide().detach();
@@ -24,13 +25,14 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
         $(".user-password." + generateId).val(password);
     });
 
-    $("#role-update").change(function () {
+    $("#role-update-" + $(this).data("update-id")).change(function () {
         // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
             $(this).val() === "5"
         ) {
+            console.log($(this).val());
             provincePlanningUpdate
                 .appendTo(provincePlanningUpdateParent)
                 .show();
@@ -38,7 +40,7 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
             provincePlanningUpdate.hide().detach();
         }
     });
-    $("#role-update").change(function () {
+    $("#role-update-" + $(this).data("update-id")).change(function () {
         if ($(this).val() === "5") {
             division_chief.appendTo(division_chiefParent).show();
         } else {

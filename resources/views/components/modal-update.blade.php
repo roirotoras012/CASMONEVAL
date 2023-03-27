@@ -112,7 +112,7 @@
                             </span>
                         </div>
 
-                        <select name="user_type_ID" class="form-select" id="role-update" data-update-id="{{ $users->user_ID }}">
+                        <select name="user_type_ID" class="form-select" id="role-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
 
                             <option selected disabled>
                                 {{ $users->user_type_ID == 1
