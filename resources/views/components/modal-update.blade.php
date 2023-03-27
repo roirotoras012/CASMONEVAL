@@ -1,6 +1,6 @@
 @props(['users'])
 
-<div id="updatemodal-{{ $users->user_ID }}" class="modal fade modal-update-rpo" data-target="#changeBetRate">
+<div id="updatemodal-{{ $users->user_ID }}" class="modal fade modal-update-rpo" data-update-id="{{$users->user_ID }}">
     <div class="modal-dialog modal-confirm">
         <div class="modal-content">
             <div class="modal-header flex-column">
@@ -112,7 +112,7 @@
                             </span>
                         </div>
 
-                        <select name="user_type_ID" class="form-select">
+                        <select name="user_type_ID" class="form-select" id="role-update" data-update-id="{{ $users->user_ID }}">
 
                             <option selected disabled>
                                 {{ $users->user_type_ID == 1
@@ -169,6 +169,30 @@
                             <option name="5" value="5">
                                 Division Chief</option>
                         </select> --}}
+                    </div>
+                    <div class="input-group input-group-sm" id="province-planning-update" data-update-id="{{ $users->user_ID }}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
+                                    class="p-1 fa-solid fa-user"></i>
+                            </span>
+                        </div>
+                        <select name="user_province_ID" class="form-select">
+                            <option selected disabled>Select Province</option>
+                            <option name="1" value="1"
+                                {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
+                            <option name="2" value="2"
+                                {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte
+                            </option>
+                            <option name="3" value="3"
+                                {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental
+                            </option>
+                            <option name="4" value="4"
+                                {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental
+                            </option>
+                            <option name="5" value="5"
+                                {{ old('user_province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
+                        </select>
+
                     </div>
                     <div class="input-group input-group-sm ">
                         <div class="input-group-prepend">
