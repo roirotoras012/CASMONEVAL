@@ -12,11 +12,25 @@
       </div>
         <div class="container-fluid px-4 py-5">
                 
-            <ol class="breadcrumb mb-4">
-            
-                <li class="breadcrumb-item active"><h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Generate OPCR</h1></li>
+            <div class="card mb-4 m-4">
+                <div class="card-header">
+                    <div class="table-title">
+                        <div class="row d-flex align-items-center">
+                           
+                              
+                            <div class="col-sm-6 text-left">
+                                <h6 class="m-0">Generate <b>OPCR</b></h6>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+    
+                
+    
            
-            </ol>
+           
+            </div>
             <div class="opcr-container">
                 
 

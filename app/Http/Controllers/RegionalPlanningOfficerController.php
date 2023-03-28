@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 use DB;
+use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\StrategicMeasure;
+use App\Models\StrategicObjective;
 use App\Models\AnnualTarget;
 use App\Models\Opcr;
 use App\Models\User;
 use App\Models\RegistrationKey;
 use App\Models\MonthlyTarget;
+use App\Models\Division;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -811,5 +814,78 @@ class RegionalPlanningOfficerController extends Controller
                 ->route('rpo.show', $opcr_id)
                 ->with('success', 'OPCR successfully marked as done');
         }
+    }
+
+    public function measures(){
+        $objectives = StrategicObjective::all();
+        $divisions = Division::all();
+     
+
+        $measures = StrategicMeasure::join('strategic_objectives', 'strategic_objectives.strategic_objective_ID', '=', 'strategic_measures.strategic_objective_ID')
+            ->where('strategic_measures.type', '=', 'DIRECT')
+            ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
+            ->where('strategic_measures.opcr_ID', '=', null)
+            ->orWhere('strategic_measures.opcr_ID', '=', 0)
+            ->get(['strategic_measures.*', 'strategic_objectives.*'])
+            ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
+        // dd($measures);
+                            
+        return view('rpo.measures', compact('objectives', 'divisions', 'measures')); 
+              
+
+    }
+
+    public function add_objective(Request $request){
+
+        $strategic_objective = new StrategicObjective();
+        $strategic_objective->strategic_objective = $request->strategic_objective;
+        
+        $strategic_objective->save();
+        session()->flash('success', 'Strategic Objective successfully created');
+     
+        return redirect()
+                ->route('rpo.measures')
+                ->with('success', 'Strategic Objective successfully created');
+    }
+
+    public function add_measure(Request $request){
+        $divisions = $request->get('division');
+        $strategic_measure = $request->get('strategic_measure');
+       
+       
+        if($divisions){
+           if(count($divisions) > 1){
+            $strategic_measure_enity = new StrategicMeasure();
+            $strategic_measure_enity->strategic_measure = $strategic_measure;
+            $strategic_measure_enity->division_ID = 0;
+            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            $strategic_measure_enity->type = 'DIRECT MAIN';
+            $strategic_measure_enity->save();
+            foreach ($divisions as $division) {
+                $strategic_measure_enity = new StrategicMeasure();
+                $strategic_measure_enity->strategic_measure = $strategic_measure;
+                $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+                $strategic_measure_enity->division_ID = $division;
+                $strategic_measure_enity->type = 'DIRECT COMMON';
+                $strategic_measure_enity->save();
+            }
+
+           }
+           if(count($divisions) == 1){
+            $strategic_measure_enity = new StrategicMeasure();
+            $strategic_measure_enity->strategic_measure = $strategic_measure;
+            $strategic_measure_enity->division_ID = $divisions[0];
+            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            $strategic_measure_enity->type = 'DIRECT';
+            $strategic_measure_enity->save();
+           }
+            
+
+        }
+        else{
+           
+
+        }
+    
     }
 }
