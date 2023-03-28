@@ -152,6 +152,8 @@ class RegionalPlanningOfficerController extends Controller
             // 'user_type_ID' => 'required',
             'password' => 'required',
             'user_ID' => 'required',
+            // 'province_ID' => 'nullable',
+            // 'division_ID' => 'nullable',
         ]);
         // dd($validatedData);
         $attributes = [
@@ -161,14 +163,16 @@ class RegionalPlanningOfficerController extends Controller
             'extension_name' => $request->extension_name,
             'birthday' => $request->birthday,
             'email' => $request->email,
-            // 'user_type_ID' => $request->user_type_ID,
             'password' => Hash::make($request->password),
+            'user_type_ID' => (int) $request->user_type_ID,
+            'province_ID' => (int) $request->province_ID ?? null,
+            'division_ID' => (int) $request->division_ID ?? null,
         ];
-      
+        // dd($attributes);
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
-        $user = User::find($validatedData['user_ID']);
+        $user = User::find($request->user_ID);
 
-       
+        
         $user->update($attributes);
         return redirect()
             ->route('rpo.users')

@@ -12,11 +12,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
-    let division_chief = $("#division_chief");
+    let updateID = $(this).data("update-id");
+    let division_chief = $("#division_chief-" + updateID);
     let division_chiefParent = division_chief.parent();
-    var provincePlanningUpdate = $("#province-planning-update");
+    var provincePlanningUpdate = $("#province-planning-update-" + updateID);
     var provincePlanningUpdateParent = provincePlanningUpdate.parent();
+
     provincePlanningUpdate.hide().detach();
+    division_chief.hide().detach();
 
     $(".generate-password-btn").click(function () {
         console.log("button click");
@@ -24,9 +27,10 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
         var password = Math.random().toString(36).slice(2);
         $(".user-password." + generateId).val(password);
     });
-
+    setTimeout(() => {
+        console.log($("select[name='user_type_ID']").val());
+    }, 3000);
     $("#role-update-" + $(this).data("update-id")).change(function () {
-        // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
@@ -60,6 +64,7 @@ $(document).ready(function () {
     provincePlanning.hide().detach();
     division_chief.hide().detach();
     addUser.hide().detach();
+
     $("#role").change(function () {
         // console.log(updateId);
         if (
