@@ -377,6 +377,57 @@ class ProvincialPlanningOfficerController extends Controller
         DB::table('opcr')
             ->where('opcr_ID', $request->opcr_id)
             ->update(['is_submitted_division' => true]);
+
+
+            // dd($request->all());
+        $userName = auth()->user()->username;
+        $provinceID = auth()->user()->province_ID;
+        $opcr_id = $request->input('opcr_id');
+        
+
+        // dd($provinceID);
+
+        // Determine division IDs based on province ID
+        switch ($provinceID) {
+            case 1: // Bukidnon
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 2: // Lanao
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 3: // Misamis Oriental
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 4: // Misamis Occidental
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            case 5: // Camiguin
+                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
+                break;
+            default:
+                $division_IDs = [];
+        }
+
+        // Send notification to DC for each division ID
+      
+        foreach ($division_IDs as $division_ID) {
+            $data = $userName . ' has submitted target for OPCR #' . $opcr_id;
+            $opcr = Opcr::find($opcr_id);
+            $notification = new Notification([
+                'user_type_ID' => 5, // DC usertype ID
+                'user_ID' => auth()->id(),
+                'division_ID' => $division_ID,
+                'province_ID' => $provinceID,
+                'opcr_ID' => $opcr_id,
+                'year' => $opcr->year,
+                'type' => 'OPCR Submitted',
+                'data' => $data,
+            ]);
+           
+            // dd($notification);
+            $notification->save();
+        }
+
         return redirect()
             ->route('manage')
             ->with('success', 'OPCR has been submitted to Division successfully!');
@@ -392,8 +443,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if(count($opcrs_active) > 0){
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -411,6 +462,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+            $measures = null;
+
+        }
+        
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -513,8 +570,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -532,6 +589,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+
+            $measures = null;
+        }
+        
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -633,8 +696,8 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-
-        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
         foreach ($measures as $measure) {
@@ -652,6 +715,12 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
+        }
+        else{
+            $measures = null;
+
+        }
+       
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -744,60 +813,5 @@ class ProvincialPlanningOfficerController extends Controller
         // return view('ppo.accomplishment');
     }
 
-    public function notifyToDC(Request $request)
-    {
-
-        // dd($request->all());
-        $userName = auth()->user()->username;
-        $provinceID = auth()->user()->province_ID;
-        $opcr_id = $request->input('opcr_id');
-        
-
-        // dd($provinceID);
-
-        // Determine division IDs based on province ID
-        switch ($provinceID) {
-            case 1: // Bukidnon
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 2: // Lanao
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 3: // Misamis Oriental
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 4: // Misamis Occidental
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 5: // Camiguin
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            default:
-                $division_IDs = [];
-        }
-
-        // Send notification to DC for each division ID
-      
-        foreach ($division_IDs as $division_ID) {
-            $data = $userName . ' has submitted OPCR #' . $opcr_id;
-            $opcr = Opcr::find($opcr_id);
-            $notification = new Notification([
-                'user_type_ID' => 5, // DC usertype ID
-                'user_ID' => auth()->id(),
-                'division_ID' => $division_ID,
-                'province_ID' => $provinceID,
-                'opcr_ID' => $opcr_id,
-                'year' => $opcr->year,
-                'type' => 'OPCR Submitted',
-                'data' => $data,
-            ]);
-           
-            // dd($notification);
-            $notification->save();
-        }
-        
-        return redirect()
-            ->back()
-            ->with('success', 'Drivers submitted successfully.');
-    }
+    
 }

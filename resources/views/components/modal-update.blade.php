@@ -112,7 +112,7 @@
                             </span>
                         </div>
 
-                        <select name="user_type_ID" class="form-select" id="role-update" data-update-id="{{ $users->user_ID }}">
+                        <select name="user_type_ID" class="form-select" id="role-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
 
                             <option selected disabled>
                                 {{ $users->user_type_ID == 1
@@ -170,7 +170,7 @@
                                 Division Chief</option>
                         </select> --}}
                     </div>
-                    <div class="input-group input-group-sm" id="province-planning-update" data-update-id="{{ $users->user_ID }}">
+                    <div class="input-group input-group-sm" id="province-planning-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
                         <div class="input-group-prepend">
                             <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
                                     class="p-1 fa-solid fa-user"></i>
@@ -201,7 +201,7 @@
                             </span>
                         </div>
                         <input placeholder="Password" id="update-password-{{ $users->user_ID }}" type="text"
-                            class="form-control user-password {{ $users->user_ID }}" name="password" />
+                            class="form-control user-password {{ $users->user_ID }}" name="password" required/>
                         <div class="input-group-append">
                             <button class="btn btn-primary generate-password-btn" type="button"
                                 data-generate-id="{{ $users->user_ID }}">
