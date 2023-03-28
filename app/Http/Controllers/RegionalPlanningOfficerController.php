@@ -163,6 +163,9 @@ class RegionalPlanningOfficerController extends Controller
             'email' => $request->email,
             // 'user_type_ID' => $request->user_type_ID,
             'password' => Hash::make($request->password),
+            'user_type_ID' => (int) $request['user_type_ID'],
+            'province_ID' => (int) $request['user_province_ID'],
+            'division_ID' => (int) $request['user_division_ID'],
         ];
       
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
