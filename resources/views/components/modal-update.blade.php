@@ -176,21 +176,21 @@
                                     class="p-1 fa-solid fa-user"></i>
                             </span>
                         </div>
-                        <select name="user_province_ID" class="form-select">
+                        <select name="province_ID" class="form-select">
                             <option selected disabled>Select Province</option>
                             <option name="1" value="1"
-                                {{ old('user_province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
+                                {{ old('province_ID') == '1' ? 'selected' : '' }}>Bukidnon</option>
                             <option name="2" value="2"
-                                {{ old('user_province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte
+                                {{ old('province_ID') == '2' ? 'selected' : '' }}>Lanao Del Norte
                             </option>
                             <option name="3" value="3"
-                                {{ old('user_province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental
+                                {{ old('province_ID') == '3' ? 'selected' : '' }}>Misamis Oriental
                             </option>
                             <option name="4" value="4"
-                                {{ old('user_province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental
+                                {{ old('province_ID ') == '4' ? 'selected' : '' }}>Misamis Occidental
                             </option>
                             <option name="5" value="5"
-                                {{ old('user_province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
+                                {{ old('province_ID ') == '5' ? 'selected' : '' }}>Camiguin</option>
                         </select>
 
                     </div>
@@ -200,16 +200,16 @@
                                     class="p-1 fa-solid fa-user"></i>
                             </span>
                         </div>
-                        <select name="user_division_ID" class="form-select">
+                        <select name="division_ID" class="form-select">
                             <option selected disabled>Select Type</option>
                             <option name="1" value="1"
-                                {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development
+                                {{ old('division_ID') == '1' ? 'selected' : '' }}>Business Development
                                 Division</option>
                             <option name="2" value="2"
-                                {{ old('user_division_ID') == '2' ? 'selected' : '' }}>Consumer Protection
+                                {{ old('division_ID') == '2' ? 'selected' : '' }}>Consumer Protection
                                 Division</option>
                             <option name="3" value="3"
-                                {{ old('user_division_ID') == '3' ? 'selected' : '' }}>Finance
+                                {{ old('division_ID') == '3' ? 'selected' : '' }}>Finance
                                 Administrative Division</option>
                         </select>
                     </div>
