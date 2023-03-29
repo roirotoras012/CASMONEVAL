@@ -27,23 +27,21 @@ class ProvincialPlanningOfficerController extends Controller
     }
 
     public function getNotifications(Request $request)
-{
-    $userTypeID = auth()->user()->user_type_ID;
-    $provinceID = auth()->user()->province_ID;
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
 
-    $notifications = Notification::where('province_ID', $provinceID)
-    ->where('user_type_ID', $userTypeID)
-    ->whereNull('read_at')
-    ->orderBy('created_at', 'desc')
-    
-    ->get();
+        $notifications = Notification::where('province_ID', $provinceID)
+            ->where('user_type_ID', $userTypeID)
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
 
+            ->get();
 
-    Log::debug('Number of notifications: ' . $notifications->count());
+        Log::debug('Number of notifications: ' . $notifications->count());
 
-    return response()->json(['notifications' => $notifications]);
-}
-
+        return response()->json(['notifications' => $notifications]);
+    }
 
     public function markNotificationsAsRead(Request $request)
     {
@@ -69,7 +67,28 @@ class ProvincialPlanningOfficerController extends Controller
         return response()->json(['success' => true]);
     }
 
-    
+    public function assessment()
+    {
+        $provincialUser = Auth::user();
+        $provinceId = $provincialUser->province_ID;
+
+        $divisionUsers = User::whereNotNull('division_ID')
+            ->where('province_ID', $provinceId)
+            ->get();
+
+        $divisionUserIds = $divisionUsers->pluck('user_ID');
+
+        // $eval = Evaluation::whereIn('user_id', $divisionUserIds)
+        //     ->with('division')
+        //     ->get();
+        $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
+            ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
+            ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
+            ->select('evaluations.*', 'divisions.division')
+            ->get();
+
+        return view('ppo.assessment', compact('eval'));
+    }
 
     public function profile()
     {
@@ -362,12 +381,10 @@ class ProvincialPlanningOfficerController extends Controller
             ->where('opcr_ID', $request->opcr_id)
             ->update(['is_submitted_division' => true]);
 
-
-            // dd($request->all());
+        // dd($request->all());
         $userName = auth()->user()->username;
         $provinceID = auth()->user()->province_ID;
         $opcr_id = $request->input('opcr_id');
-        
 
         // dd($provinceID);
 
@@ -393,7 +410,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
 
         // Send notification to DC for each division ID
-      
+
         foreach ($division_IDs as $division_ID) {
             $data = $userName . ' has submitted target for OPCR #' . $opcr_id;
             $opcr = Opcr::find($opcr_id);
@@ -407,7 +424,7 @@ class ProvincialPlanningOfficerController extends Controller
                 'type' => 'OPCR Submitted',
                 'data' => $data,
             ]);
-           
+
             // dd($notification);
             $notification->save();
         }
@@ -427,31 +444,29 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectivesact = StrategicObjective::all();
 
         // $objectives = StrategicObjective::all();
-        if(count($opcrs_active) > 0){
+        if (count($opcrs_active) > 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
-            ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
-            ->get();
-        foreach ($measures as $measure) {
-            if ($measure->driver_ID != null) {
-                $driver_data = DB::table('drivers')
-                    ->where('drivers.driver_ID', '=', $measure->driver_ID)
-                    ->get();
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
 
-                if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
-                    $measure['show'] = false;
+                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
                 } else {
                     $measure['show'] = true;
                 }
-            } else {
-                $measure['show'] = true;
             }
-        }
-        }
-        else{
+        } else {
             $measures = null;
-
         }
-        
+
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -496,7 +511,6 @@ class ProvincialPlanningOfficerController extends Controller
             $validated = true;
             foreach ($monthly_target as $target) {
                 $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
 
                 if ($target->validated != 'Validated') {
                     $validated = false;
@@ -528,6 +542,7 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 11;
                 }
             }
+
             $monthly_target->annual_accom = $annual_accom;
             if ($validated = true) {
                 if (count($monthly_target) < 12) {
@@ -556,29 +571,27 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectives = StrategicObjective::all();
         if (count($opcrs_active) != 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
-            ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
-            ->get();
-        foreach ($measures as $measure) {
-            if ($measure->driver_ID != null) {
-                $driver_data = DB::table('drivers')
-                    ->where('drivers.driver_ID', '=', $measure->driver_ID)
-                    ->get();
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
 
-                if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
-                    $measure['show'] = false;
+                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
                 } else {
                     $measure['show'] = true;
                 }
-            } else {
-                $measure['show'] = true;
             }
-        }
-        }
-        else{
-
+        } else {
             $measures = null;
         }
-        
+
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -643,7 +656,7 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 6;
                 } elseif ($target->month == 'aug') {
                     $target->month_code = 7;
-                } elseif ($target->month == 'sept') {
+                } elseif ($target->month == 'sep') {
                     $target->month_code = 8;
                 } elseif ($target->month == 'oct') {
                     $target->month_code = 9;
@@ -682,29 +695,27 @@ class ProvincialPlanningOfficerController extends Controller
         // $objectives = StrategicObjective::all();
         if (count($opcrs_active) != 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
-            ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
-            ->get();
-        foreach ($measures as $measure) {
-            if ($measure->driver_ID != null) {
-                $driver_data = DB::table('drivers')
-                    ->where('drivers.driver_ID', '=', $measure->driver_ID)
-                    ->get();
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
 
-                if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
-                    $measure['show'] = false;
+                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
                 } else {
                     $measure['show'] = true;
                 }
-            } else {
-                $measure['show'] = true;
             }
-        }
-        }
-        else{
+        } else {
             $measures = null;
-
         }
-       
+
         // dd($measures);
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
@@ -799,12 +810,10 @@ class ProvincialPlanningOfficerController extends Controller
 
     public function notifyToDC(Request $request)
     {
-
         // dd($request->all());
         $userName = auth()->user()->username;
         $provinceID = auth()->user()->province_ID;
         $opcr_id = $request->input('opcr_id');
-        
 
         // dd($provinceID);
 
@@ -830,7 +839,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
 
         // Send notification to DC for each division ID
-      
+
         foreach ($division_IDs as $division_ID) {
             $data = $userName . ' has submitted OPCR #' . $opcr_id;
             $opcr = Opcr::find($opcr_id);
@@ -844,15 +853,24 @@ class ProvincialPlanningOfficerController extends Controller
                 'type' => 'OPCR Submitted',
                 'data' => $data,
             ]);
-           
+
             // dd($notification);
             $notification->save();
         }
-        
+
         return redirect()
             ->back()
             ->with('success', 'Drivers submitted successfully.');
     }
 
-    
+    public function validateMonthlyTarget(Request $request)
+    {
+        $monthly_target = MonthlyTarget::find($request->input('monthly_target_ID'));
+        $monthly_target->validated = $request->input('validated');
+        $monthly_target->save();
+
+        return redirect()
+            ->back()
+            ->with('update', 'Validation updated successfully.');
+    }
 }
