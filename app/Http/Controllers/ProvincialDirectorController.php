@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Evaluation;
+use App\Models\User;
 class ProvincialDirectorController extends Controller
 {
     public function index()
@@ -61,7 +63,18 @@ class ProvincialDirectorController extends Controller
     }
     public function assessment()
     {
-        return view('pd.assessment');
+        $provincialUser = Auth::user();
+        $provinceId = $provincialUser->province_ID;
+        $divisionUsers = User::whereNotNull('division_ID')
+            ->where('province_ID', $provinceId)
+            ->get();
+        $divisionUserIds = $divisionUsers->pluck('user_ID');
+        $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
+                  ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
+                  ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
+                  ->select('evaluations.*', 'divisions.division')
+                  ->get();
+        return view('pd.assessment', compact('eval'));
     }
 
     public function profile()

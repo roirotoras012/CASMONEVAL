@@ -64,28 +64,7 @@ class ProvincialPlanningOfficerController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function assessment()
-    {
-        $provincialUser = Auth::user();
-        $provinceId = $provincialUser->province_ID;
-
-        $divisionUsers = User::whereNotNull('division_ID')
-            ->where('province_ID', $provinceId)
-            ->get();
-        
-        $divisionUserIds = $divisionUsers->pluck('user_ID');
-
-        // $eval = Evaluation::whereIn('user_id', $divisionUserIds)
-        //     ->with('division')
-        //     ->get();
-        $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
-                  ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
-                  ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
-                  ->select('evaluations.*', 'divisions.division')
-                  ->get();
-
-        return view('ppo.assessment', compact('eval'));
-    }
+    
 
     public function profile()
     {
