@@ -173,97 +173,100 @@
         </script> --}}
 
         <script>
-            $(document).ready(function() {
-                function getNotifications() {
-                    $.ajax({
-                        url: "{{ url('/notifications') }}",
-                        type: 'GET',
-                        dataType: "json",
-                        success: function(response) {
-                            var notifications = response.notifications;
-                            var dropdownMenu = $('#notification-dropdown-menu');
-                            dropdownMenu.empty();
-                            $.each(notifications, function(index, notification) {
-                                var dataYear = notification.data;
-                                var url = '';
-                                if (notification.user_type_ID == 4) { // PPO user type ID
-                                    url = "{{ url('/ppo/opcr') }}";
-                                    if (notification.province_ID == 1 && notification.division_ID == 1) {
-                                        url = "{{ url('/ppo/bdd') }}";
-                                    } else if (notification.province_ID == 1 && notification.division_ID == 2) {
-                                        url = "{{ url('/ppo/cpd') }}";
-                                    } else if (notification.province_ID == 1 && notification.division_ID == 3) {
-                                        url = "{{ url('/ppo/fad') }}";
-                                    }
-                                } else if (notification.user_type_ID == 5) { // DC user type ID
-                                    url = "{{ url('/dc/view-target') }}";
-                                }
-                                url += '?opcr=' + notification.opcr_ID;
-                                dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
-                                    dataYear + '</a>');
-                            });
-                            var count = notifications.length;
-                            if (count > 0) {
-                                dropdownMenu.append(
-                                    '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
-                                );
-                            } else {
-                                dropdownMenu.append(
-                                    '<a class="dropdown-item" href="#">No notifications</a>');
-                            }
-                            $('#notification-count').text(count);
-
-                            // Show current notification on breadcrumbs and fade after 10 seconds
-                            var currentNotification = notifications[0];
-                            var currentNotificationText = currentNotification.data;
-                            var notificationTextElement = $('#notification-text');
-                            if (notificationTextElement.css('display') === 'none') {
-                                notificationTextElement.text(currentNotificationText);
-                                notificationTextElement.fadeIn(1000);
-                                setTimeout(function() {
-                                    notificationTextElement.fadeOut(1000, function() {
-                                        notificationTextElement.text('');
-                                        notificationTextElement
-                                            .remove(); // Remove the notification text element after fading out
-                                    });
-                                }, 10000);
-                            }
-
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                            var dropdownMenu = $('#notification-dropdown-menu');
-                            dropdownMenu.empty();
-                            dropdownMenu.append(
-                                '<a class="dropdown-item" href="#">Error loading notifications</a>');
+           $(document).ready(function() {
+    function getNotifications() {
+        $.ajax({
+            url: "{{ url('/notifications') }}",
+            type: 'GET',
+            dataType: "json",
+            success: function(response) {
+                var notifications = response.notifications;
+                var dropdownMenu = $('#notification-dropdown-menu');
+                dropdownMenu.empty();
+                $.each(notifications, function(index, notification) {
+                    var dataYear = notification.data;
+                    var url = '';
+                    if (notification.user_type_ID == 4) { // PPO user type ID
+                        url = "{{ url('/ppo/opcr') }}";
+                        if (notification.type == 'BDD') {
+                            url = "{{ url('/ppo/bdd') }}";
+                        } else if (notification.type == 'CPD') {
+                            url = "{{ url('/ppo/cpd') }}";
+                        } else if (notification.type == 'FAD') {
+                            url = "{{ url('/ppo/fad') }}";
                         }
-                    });
+                    } 
+               
+                    else if (notification.user_type_ID == 5) { // DC user type ID
+                        url = "{{ url('/dc/view-target') }}";
+                    }
+                    // url += '?opcr=' + notification.opcr_ID;
+                    dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
+                        dataYear + '</a>');
+                });
+                var count = notifications.length;
+                if (count > 0) {
+                    dropdownMenu.append(
+                        '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
+                    );
+                } else {
+                    dropdownMenu.append(
+                        '<a class="dropdown-item" href="#">No notifications</a>');
+                }
+                $('#notification-count').text(count);
+
+                // Show current notification on breadcrumbs and fade after 10 seconds
+                var currentNotification = notifications[0];
+                var currentNotificationText = currentNotification.data;
+                var notificationTextElement = $('#notification-text');
+                if (notificationTextElement.css('display') === 'none') {
+                    notificationTextElement.text(currentNotificationText);
+                    notificationTextElement.fadeIn(1000);
+                    setTimeout(function() {
+                        notificationTextElement.fadeOut(1000, function() {
+                            notificationTextElement.text('');
+                            notificationTextElement
+                                .remove(); // Remove the notification text element after fading out
+                        });
+                    }, 10000);
                 }
 
-                getNotifications();
-                setInterval(getNotifications, 10000);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                var dropdownMenu = $('#notification-dropdown-menu');
+                dropdownMenu.empty();
+                dropdownMenu.append(
+                    '<a class="dropdown-item" href="#">Error loading notifications</a>');
+            }
+        });
+    }
 
-                $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
-                    e.preventDefault();
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: "{{ url('/notifications/mark-all-as-read') }}",
-                        type: 'POST',
-                        dataType: "json",
-                        success: function(response) {
-                            getNotifications();
-                            console.log(response);
-                        },
-                        error: function(xhr) {
-                            console.log(xhr.responseText);
-                        }
-                    });
-                });
-            });
+    getNotifications();
+    setInterval(getNotifications, 10000);
+
+    $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "{{ url('/notifications/mark-all-as-read') }}",
+            type: 'POST',
+            dataType: "json",
+            success: function(response) {
+                getNotifications();
+                console.log(response);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+
         </script>
 
 

@@ -28,10 +28,9 @@ class DivisionChiefController extends Controller
         $userTypeID = auth()->user()->user_type_ID;
         $divisionID = auth()->user()->division_ID;
         $provinceID = auth()->user()->province_ID;
-        
+
         //  $opcr_id = $request->input('opcr_id');
         //  $opcr = Opcr::find($opcr_id);
-   
 
         $notifications = Notification::where('province_ID', $provinceID)
             ->where('division_ID', $divisionID)
@@ -68,7 +67,6 @@ class DivisionChiefController extends Controller
         return response()->json(['success' => true]);
     }
 
-    
     public function store(Request $request)
     {
         // dd($request);
@@ -106,7 +104,6 @@ class DivisionChiefController extends Controller
 
     public function storeAccom(Request $request)
     {
-        
         $validatedData = $request->validate([
             'monthly_accom' => 'required',
             'monthly_target_ID' => 'required',
@@ -119,10 +116,10 @@ class DivisionChiefController extends Controller
 
         $accom = MonthlyTarget::find($monthly_target_id);
 
-        $eval = (($accom->monthly_accomplishment/$accom->monthly_target)*100);
+        $eval = ($accom->monthly_accomplishment / $accom->monthly_target) * 100;
         $monthly_target_data = $monthly_target;
 
-        if($eval < 90){
+        if ($eval < 90) {
             $user = Auth::user();
             $evaluation = new Evaluation();
             $evaluation->user_ID = $user->user_ID;
@@ -132,10 +129,9 @@ class DivisionChiefController extends Controller
             $evaluation->month = $request->input('month');
             $evaluation->save();
             return redirect()
-            ->route('dc.accomplishments')
-            ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
-        }else{
-
+                ->route('dc.accomplishments')
+                ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+        } else {
             $userName = auth()->user()->first_name;
             $provinceID = auth()->user()->province_ID;
             $divisionID = auth()->user()->division_ID;
@@ -143,14 +139,26 @@ class DivisionChiefController extends Controller
             // $opcr_id = $request->input('opcr_id');
             // $opcr = Opcr::find($opcr_id);
             $accom = MonthlyTarget::find($monthly_target_id);
-            $accom= $request->input('month');
-           
+            $accom = $request->input('month');
 
-            $data = $userName . ' has updated monthly accomplishment for the month of ' .$accom;
-        
-        
+            $data = $userName . ' has updated monthly accomplishment for the month of ' . $accom;
+
             $user_ID = Auth::id();
-        
+
+            $divisionID = '';
+            switch (auth()->user()->division_ID) {
+                case 1:
+                    $divisionID = 'BDD';
+                    break;
+                case 2:
+                    $divisionID = 'CPD';
+                    break;
+                case 3:
+                    $divisionID = 'FAD';
+                    break;
+                default:
+                    $divisionID = ''; // or you can set a default value if needed
+            }
 
             $notification = new Notification([
                 'user_type_ID' => 4, // Notify to PPO
@@ -159,28 +167,18 @@ class DivisionChiefController extends Controller
                 'province_ID' => $provinceID,
                 // 'opcr_ID' => $opcr_id,
                 // 'year' => $opcr->year,
-                'type' => $accom,
+                'type' => $divisionID,
                 'data' => $data,
             ]);
 
             //  dd($notification);
-             $notification->save();
-
-
+            $notification->save();
 
             return redirect()
-            ->route('dc.accomplishments')
-            ->with('success', 'Monthly Target successfully added!');
+                ->route('dc.accomplishments')
+                ->with('success', 'Monthly Target successfully added!');
         }
-
-
-        
     }
-
-
-
-
-
 
     public function updateEmailHandler(Request $request)
     {
@@ -240,9 +238,9 @@ class DivisionChiefController extends Controller
     public function accomplishment()
     {
         $opcrs_active = Opcr::where('is_active', 1)
-        ->where('is_submitted', 1)
-        ->where('is_submitted_division', 1)
-        ->get();
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+            ->get();
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
             ->get();
@@ -282,7 +280,9 @@ class DivisionChiefController extends Controller
     public function coaching()
     {
         $user = Auth::user();
-        $eval = Evaluation::select('*')->where('user_id', $user->user_ID)->get();
+        $eval = Evaluation::select('*')
+            ->where('user_id', $user->user_ID)
+            ->get();
         // dd($eval);
 
         return view('dc.coaching', compact('eval'));
@@ -291,10 +291,10 @@ class DivisionChiefController extends Controller
     public function bukidnunBddIndex()
     {
         $opcrs_active = Opcr::where('is_active', 1)
-        ->where('is_submitted', 1)
-        ->where('is_submitted_division', 1)
-        
-        ->get();
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+
+            ->get();
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
             ->get();
