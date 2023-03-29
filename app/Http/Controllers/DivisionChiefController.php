@@ -28,10 +28,14 @@ class DivisionChiefController extends Controller
         $userTypeID = auth()->user()->user_type_ID;
         $divisionID = auth()->user()->division_ID;
         $provinceID = auth()->user()->province_ID;
+        
+        //  $opcr_id = $request->input('opcr_id');
+        //  $opcr = Opcr::find($opcr_id);
+   
 
         $notifications = Notification::where('province_ID', $provinceID)
             ->where('division_ID', $divisionID)
-
+            ->where('user_type_ID', $userTypeID)
             ->whereNull('read_at')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -131,6 +135,39 @@ class DivisionChiefController extends Controller
             ->route('dc.accomplishments')
             ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
         }else{
+
+            $userName = auth()->user()->first_name;
+            $provinceID = auth()->user()->province_ID;
+            $divisionID = auth()->user()->division_ID;
+            $userTypeID = auth()->user()->user_type_ID;
+            // $opcr_id = $request->input('opcr_id');
+            // $opcr = Opcr::find($opcr_id);
+            $accom = MonthlyTarget::find($monthly_target_id);
+            $accom= $request->input('month');
+           
+
+            $data = $userName . ' has updated monthly accomplishment for the month of ' .$accom;
+        
+        
+            $user_ID = Auth::id();
+        
+
+            $notification = new Notification([
+                'user_type_ID' => 4, // Notify to PPO
+                'user_ID' => $user_ID,
+                // 'division_ID' => $divisionID,
+                'province_ID' => $provinceID,
+                // 'opcr_ID' => $opcr_id,
+                // 'year' => $opcr->year,
+                'type' => $accom,
+                'data' => $data,
+            ]);
+
+            //  dd($notification);
+             $notification->save();
+
+
+
             return redirect()
             ->route('dc.accomplishments')
             ->with('success', 'Monthly Target successfully added!');

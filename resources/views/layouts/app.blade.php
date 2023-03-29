@@ -106,34 +106,32 @@
                     type: 'GET',
                     dataType: "json",
                     success: function(response) {
-                        // console.log(response);
+                        console.log(response);
                         var notifications = response.notifications;
-                        var uniqueNotifications = [];
                         var dropdownMenu = $('#notification-dropdown-menu');
                         dropdownMenu.empty();
                         $.each(notifications, function(index, notification) {
                             var dataYear = notification.data;
-                            if (!uniqueNotifications.includes(dataYear)) {
-                                uniqueNotifications.push(dataYear);
-                                var url = '';
-                                if (notification.user_type_ID == 4) { // PPO user type ID
-                                    url = "{{ url('/ppo/opcr') }}";
-                                } else if (notification.user_type_ID == 5) { // DC user type ID
-                                    url = "{{ url('/dc/view-target') }}";
-                                }
-                                url += '?opcr=' + notification.opcr_ID;
-                                dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
-                                    dataYear + '</a>');
+                            var url = '';
+                            if (notification.user_type_ID == 4) { // PPO user type ID
+                                url = "{{ url('/ppo/opcr') }}";
+                            } else if (notification.user_type_ID == 5) { // DC user type ID
+                                url = "{{ url('/dc/view-target') }}";
                             }
+                            
+                            url += '?opcr=' + notification.opcr_ID;
+                            dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
+                                dataYear + '</a>');
                         });
-                        if (uniqueNotifications.length > 0) {
+                        var count = notifications.length;
+                        if (count > 0) {
                             dropdownMenu.append(
                                 '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
                             );
                         } else {
                             dropdownMenu.append('<a class="dropdown-item" href="#">No notifications</a>');
                         }
-                        $('#notification-count').text(uniqueNotifications.length);
+                        $('#notification-count').text(count);
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -168,6 +166,10 @@
                 });
             });
         </script>
+        
+          
+            
+        
       
        
         
