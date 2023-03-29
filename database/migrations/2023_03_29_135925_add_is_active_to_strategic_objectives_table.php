@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('strategic_objectives', function (Blueprint $table) {
-            $table->boolean('is_active');
+            $table->boolean('is_active')->nullable()->default(1);
         });
     }
 

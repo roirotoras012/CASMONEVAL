@@ -11,8 +11,6 @@ use App\Http\Controllers\RegistrationKeyController;
 use App\Http\Controllers\ProvincialDirectorController;
 use App\Http\Controllers\ProfileUpdateHandlerController;
 
-
-
 use App\Http\Controllers\RegionalPlanningOfficerController;
 use App\Http\Controllers\ProvincialPlanningOfficerController;
 
@@ -37,24 +35,20 @@ Route::get('/register-validated', [RegistrationKeyController::class, 'index'])->
 Route::get('/register-error', [RegistrationKeyController::class, 'error'])->name('registerUser.error');
 Route::get('/register-key', [RegistrationKeyController::class, 'checkKey'])->name('registerUser.checkKey');
 
-
-
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function () {
     // RD routes here
-     // Regional Director
-     Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
-     Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
-     Route::get('rd/profile', [RegionalDirector::class, 'profile']);
-     Route::post('rd/profile/update-email', [RegionalDirector::class, 'updateEmailHandler'])->name('rd.updateEmailHandler');
-     Route::post('rd/profile/update-password', [RegionalDirector::class, 'updatePasswordHandler'])->name('rd.updatePasswordHandler');
-     Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
-     Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
-     Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
-    });
-    
+    // Regional Director
+    Route::get('rd/dashboard', [RegionalDirector::class, 'index'])->name('rd.index');
+    Route::get('rd/assessment', [RegionalDirector::class, 'assessment']);
+    Route::get('rd/profile', [RegionalDirector::class, 'profile']);
+    Route::post('rd/profile/update-email', [RegionalDirector::class, 'updateEmailHandler'])->name('rd.updateEmailHandler');
+    Route::post('rd/profile/update-password', [RegionalDirector::class, 'updatePasswordHandler'])->name('rd.updatePasswordHandler');
+    Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
+    Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
+    Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
+});
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
-   
     // Regional Planning Officer
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
 
@@ -72,25 +66,22 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('add_objective', [RegionalPlanningOfficerController::class, 'add_objective'])->name('rpo.add_objective');
     Route::post('add_measure', [RegionalPlanningOfficerController::class, 'add_measure'])->name('rpo.add_measure');
 
-
-    
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function () {
     // PD routes here
-     // Provincial Director
-     Route::get('pd/dashboard', [ProvincialDirectorController::class, 'index'])->name('pd.index');
-     Route::get('pd/addtarget', [ProvincialDirectorController::class, 'addtarget']);
-     Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
+    // Provincial Director
+    Route::get('pd/dashboard', [ProvincialDirectorController::class, 'index'])->name('pd.index');
+    Route::get('pd/addtarget', [ProvincialDirectorController::class, 'addtarget']);
+    Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
     //  Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
-     Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
-     Route::post('pd/profile/update-email', [ProvincialDirectorController::class, 'updateEmailHandler'])->name('pd.updateEmailHandler');
-     Route::post('pd/profile/update-password', [ProvincialDirectorController::class, 'updatePasswordHandler'])->name('pd.updatePasswordHandler');
-     Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
-     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
-
+    Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
+    Route::post('pd/profile/update-email', [ProvincialDirectorController::class, 'updateEmailHandler'])->name('pd.updateEmailHandler');
+    Route::post('pd/profile/update-password', [ProvincialDirectorController::class, 'updatePasswordHandler'])->name('pd.updatePasswordHandler');
+    Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
+    Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
@@ -114,21 +105,19 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {
-  // Division Chief
-  Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('dc.index');
-  Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
-  Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
-  Route::get('dc/view-target', [DivisionChiefController::class, 'bukidnunBddIndex'])->name('dc.bukidnunBddIndex');
-  Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
-  Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
-  Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
-  Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
-  Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
-  Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
-  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
-  
+    // Division Chief
+    Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('dc.index');
+    Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
+    Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
+    Route::get('dc/view-target', [DivisionChiefController::class, 'bukidnunBddIndex'])->name('dc.bukidnunBddIndex');
+    Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
+    Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
+    Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
+    Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
+    Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
+    Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
+    Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
 });
-
 
 // NOTIFICATIONS
 
@@ -140,6 +129,9 @@ Route::post('/notifications/mark-all-as-read', [ProvincialPlanningOfficerControl
     ->name('mark_all_as_read')
     ->middleware('auth');
 
+Route::post('/notifications/mark-as-read', [ProvincialPlanningOfficerController::class, 'markAsRead'])
+    ->name('mark_as_read')
+    ->middleware('auth');
 
 // DIVISION CHIEF
 Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'])
@@ -147,4 +139,8 @@ Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'
     ->middleware('auth');
 Route::post('/notifications/mark-all-as-read', [DivisionChiefController::class, 'markNotificationsAsRead'])
     ->name('mark_all_as_read')
+    ->middleware('auth');
+
+Route::post('/notifications/mark-as-read', [DivisionChiefController::class, 'markAsRead'])
+    ->name('mark_as_read')
     ->middleware('auth');

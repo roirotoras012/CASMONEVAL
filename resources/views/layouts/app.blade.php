@@ -199,8 +199,34 @@
                                     url = "{{ url('/dc/view-target') }}";
                                 }
                                 // url += '?opcr=' + notification.opcr_ID;
-                                dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
+                                var notificationLink = $('<a class="dropdown-item" href="' + url +
+                                    '">' +
                                     dataYear + '</a>');
+                                notificationLink.click(function(e) {
+                                    e.preventDefault();
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $(
+                                                'meta[name="csrf-token"]').attr(
+                                                'content')
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: "{{ url('/notifications/mark-as-read') }}",
+                                        type: 'POST',
+                                        dataType: "json",
+                                        data: {
+                                            notification_id: notification.id
+                                        },
+                                        success: function(response) {
+                                            window.location.href = url;
+                                        },
+                                        error: function(xhr) {
+                                            console.log(xhr.responseText);
+                                        }
+                                    });
+                                });
+                                dropdownMenu.append(notificationLink);
                             });
                             var count = notifications.length;
                             if (count > 0) {
@@ -240,8 +266,11 @@
                     });
                 }
 
+
                 getNotifications();
                 setInterval(getNotifications, 10000);
+
+
 
                 $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
                     e.preventDefault();
