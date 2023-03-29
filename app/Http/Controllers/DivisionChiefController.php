@@ -56,13 +56,22 @@ class DivisionChiefController extends Controller
         return response()->json(['success' => true]);
     }
 
+    // public function markAsRead(Request $request)
+    // {
+    //     $user = $request->user();
+
+    //     Notification::where('user_ID', $user->id)
+    //         ->whereNull('read_at')
+    //         ->update(['read_at' => now()]);
+
+    //     return response()->json(['success' => true]);
+    // }
+
     public function markAsRead(Request $request)
     {
-        $user = $request->user();
-
-        Notification::where('user_ID', $user->id)
-            ->whereNull('read_at')
-            ->update(['read_at' => now()]);
+        $notificationId = $request->input('notification_id');
+        $notification = Notification::findOrFail($notificationId);
+        $notification->markAsRead();
 
         return response()->json(['success' => true]);
     }
