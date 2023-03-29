@@ -84,11 +84,13 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
      Route::get('pd/dashboard', [ProvincialDirectorController::class, 'index'])->name('pd.index');
      Route::get('pd/addtarget', [ProvincialDirectorController::class, 'addtarget']);
      Route::get('pd/savetarget', [ProvincialDirectorController::class, 'savetarget']);
-     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
+    //  Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment']);
      Route::get('pd/profile', [ProvincialDirectorController::class, 'profile']);
      Route::post('pd/profile/update-email', [ProvincialDirectorController::class, 'updateEmailHandler'])->name('pd.updateEmailHandler');
      Route::post('pd/profile/update-password', [ProvincialDirectorController::class, 'updatePasswordHandler'])->name('pd.updatePasswordHandler');
      Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
+     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
+
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
@@ -99,7 +101,6 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/bdd', [ProvincialPlanningOfficerController::class, 'bdd'])->name('bdd');
     Route::get('ppo/cpd', [ProvincialPlanningOfficerController::class, 'cpd'])->name('cpd');
     Route::get('ppo/fad', [ProvincialPlanningOfficerController::class, 'fad'])->name('fad');
-    Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment']);
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
     Route::post('ppo/profile/update-email', [ProvincialPlanningOfficerController::class, 'updateEmailHandler'])->name('ppo.updateEmailHandler');
     Route::post('ppo/profile/update-password', [ProvincialPlanningOfficerController::class, 'updatePasswordHandler'])->name('ppo.updatePasswordHandler');
@@ -109,6 +110,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
     Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
     Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
+    Route::post('ppo/monthly_target_validate', [ProvincialPlanningOfficerController::class, 'validateMonthlyTarget'])->name('monthly_target.validate');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {

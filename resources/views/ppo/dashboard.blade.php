@@ -6,17 +6,22 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
+        </div>
+        <div class="container-fluid px-4 py-5">
+
           </div>
          
           <div class="container-fluid px-4 py-5">
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">
+            
+              <li class="breadcrumb-item active">
                     <h1 class="text-uppercase lead bg-primary text-white p-2 rounded">Provincial Planning Officer Dashboard</h1>
-                   
+
+
                 </li>
             </ol>
-            {{-- <span id="notification-text" class="alert alert-success" role="alert" style="display: none;"></span> --}}
-
+            
+        
         </div>
         
 
