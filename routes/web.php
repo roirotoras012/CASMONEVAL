@@ -59,8 +59,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
 
     Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
-    
-    Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcr_target');
+    Route::get('rpo/measures', [RegionalPlanningOfficerController::class, 'measures'])->name('rpo.measures');
+    Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcrarget');
     Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
@@ -69,6 +69,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('rpo/profile/update-password', [RegionalPlanningOfficerController::class, 'updatePasswordHandler'])->name('rpo.updatePasswordHandler');
     Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
     Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
+    Route::post('add_objective', [RegionalPlanningOfficerController::class, 'add_objective'])->name('rpo.add_objective');
+    Route::post('add_measure', [RegionalPlanningOfficerController::class, 'add_measure'])->name('rpo.add_measure');
 
 
     
@@ -121,6 +123,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
   Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
+  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
   
 });
 

@@ -12,17 +12,51 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 });
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
+    let updateID = $(this).data("update-id");
+    let division_chief = $("#division_chief-" + updateID);
+    let division_chiefParent = division_chief.parent();
+    var provincePlanningUpdate = $("#province-planning-update-" + updateID);
+    var provincePlanningUpdateParent = provincePlanningUpdate.parent();
+
+    provincePlanningUpdate.hide().detach();
+    division_chief.hide().detach();
+
     $(".generate-password-btn").click(function () {
         console.log("button click");
         var generateId = $(this).data("generate-id");
         var password = Math.random().toString(36).slice(2);
         $(".user-password." + generateId).val(password);
     });
+    setTimeout(() => {
+        console.log($("select[name='user_type_ID']").val());
+    }, 3000);
+    $("#role-update-" + $(this).data("update-id")).change(function () {
+        if (
+            $(this).val() === "3" ||
+            $(this).val() === "4" ||
+            $(this).val() === "5"
+        ) {
+            console.log($(this).val());
+            provincePlanningUpdate
+                .appendTo(provincePlanningUpdateParent)
+                .show();
+        } else {
+            provincePlanningUpdate.hide().detach();
+        }
+    });
+    $("#role-update-" + $(this).data("update-id")).change(function () {
+        if ($(this).val() === "5") {
+            division_chief.appendTo(division_chiefParent).show();
+        } else {
+            division_chief.hide().detach();
+        }
+    });
 });
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
-    var division_chief = $("#division_chief");
     var addUser = $("#btn-add");
+    let division_chief = $("#division_chief");
+
     var provincePlanningParent = provincePlanning.parent();
     var division_chiefParent = division_chief.parent();
     var addUserParent = addUser.parent();
@@ -32,6 +66,7 @@ $(document).ready(function () {
     addUser.hide().detach();
 
     $("#role").change(function () {
+        // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||

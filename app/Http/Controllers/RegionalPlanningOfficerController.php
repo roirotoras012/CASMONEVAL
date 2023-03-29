@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 use DB;
+use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\StrategicMeasure;
+use App\Models\StrategicObjective;
 use App\Models\AnnualTarget;
 use App\Models\Opcr;
 use App\Models\User;
 use App\Models\RegistrationKey;
 use App\Models\MonthlyTarget;
+use App\Models\Division;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,6 +51,7 @@ class RegionalPlanningOfficerController extends Controller
     // }
     public function updateEmailHandler(Request $request)
     {
+       
         $userType = auth()->user()->user_type_ID;
         $userPass = auth()->user()->password;
 
@@ -139,17 +143,22 @@ class RegionalPlanningOfficerController extends Controller
             ->with('success', "$full_name  was deleted successfully.");
     }
     public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
-            // 'extension_name' => 'required|string|max:255',
-            'birthday' => 'required|date',
-            'email' => 'required|string|email|max:255',
-            'user_type_ID' => 'required|integer',
+    {  
+        // dd($request);
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => "nullable",
+            'birthday' => 'required',
+            'email' => 'required',
+            // 'user_type_ID' => 'required',
             'password' => 'required',
+            'user_ID' => 'required',
+            // 'province_ID' => 'nullable',
+            // 'division_ID' => 'nullable',
         ]);
+        // dd($validatedData);
         $attributes = [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -157,10 +166,17 @@ class RegionalPlanningOfficerController extends Controller
             'extension_name' => $request->extension_name,
             'birthday' => $request->birthday,
             'email' => $request->email,
-            'user_type_ID' => $request->user_type_ID,
             'password' => Hash::make($request->password),
+            'user_type_ID' => (int) $request->user_type_ID,
+            'province_ID' => (int) $request->province_ID ?? null,
+            'division_ID' => (int) $request->division_ID ?? null,
         ];
-        DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
+        // dd($attributes);
+        // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
+        $user = User::find($request->user_ID);
+
+        
+        $user->update($attributes);
         return redirect()
             ->route('rpo.users')
             ->with('success', 'User updated successfully');
@@ -798,5 +814,78 @@ class RegionalPlanningOfficerController extends Controller
                 ->route('rpo.show', $opcr_id)
                 ->with('success', 'OPCR successfully marked as done');
         }
+    }
+
+    public function measures(){
+        $objectives = StrategicObjective::all();
+        $divisions = Division::all();
+     
+
+        $measures = StrategicMeasure::join('strategic_objectives', 'strategic_objectives.strategic_objective_ID', '=', 'strategic_measures.strategic_objective_ID')
+            ->where('strategic_measures.type', '=', 'DIRECT')
+            ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
+            ->where('strategic_measures.opcr_ID', '=', null)
+            ->orWhere('strategic_measures.opcr_ID', '=', 0)
+            ->get(['strategic_measures.*', 'strategic_objectives.*'])
+            ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
+        // dd($measures);
+                            
+        return view('rpo.measures', compact('objectives', 'divisions', 'measures')); 
+              
+
+    }
+
+    public function add_objective(Request $request){
+
+        $strategic_objective = new StrategicObjective();
+        $strategic_objective->strategic_objective = $request->strategic_objective;
+        
+        $strategic_objective->save();
+        session()->flash('success', 'Strategic Objective successfully created');
+     
+        return redirect()
+                ->route('rpo.measures')
+                ->with('success', 'Strategic Objective successfully created');
+    }
+
+    public function add_measure(Request $request){
+        $divisions = $request->get('division');
+        $strategic_measure = $request->get('strategic_measure');
+       
+       
+        if($divisions){
+           if(count($divisions) > 1){
+            $strategic_measure_enity = new StrategicMeasure();
+            $strategic_measure_enity->strategic_measure = $strategic_measure;
+            $strategic_measure_enity->division_ID = 0;
+            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            $strategic_measure_enity->type = 'DIRECT MAIN';
+            $strategic_measure_enity->save();
+            foreach ($divisions as $division) {
+                $strategic_measure_enity = new StrategicMeasure();
+                $strategic_measure_enity->strategic_measure = $strategic_measure;
+                $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+                $strategic_measure_enity->division_ID = $division;
+                $strategic_measure_enity->type = 'DIRECT COMMON';
+                $strategic_measure_enity->save();
+            }
+
+           }
+           if(count($divisions) == 1){
+            $strategic_measure_enity = new StrategicMeasure();
+            $strategic_measure_enity->strategic_measure = $strategic_measure;
+            $strategic_measure_enity->division_ID = $divisions[0];
+            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            $strategic_measure_enity->type = 'DIRECT';
+            $strategic_measure_enity->save();
+           }
+            
+
+        }
+        else{
+           
+
+        }
+    
     }
 }

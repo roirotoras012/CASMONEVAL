@@ -46,8 +46,8 @@
 
                             Dashboard
                         </a>
-                          <a class="nav-link  {{ Request::is('rpo/dashboard') ? 'active' : '' }}"
-                            href="{{ url('rpo/dashboard') }}">
+                          <a class="nav-link  {{ Request::is('rpo/measures') ? 'active' : '' }}"
+                            href="{{ url('rpo/measures') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 
                             Objectives & Measures
