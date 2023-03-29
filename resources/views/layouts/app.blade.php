@@ -28,10 +28,15 @@
 
 <body>
     <div id="app">
+        <span id="notification-text" class="notification-design" role="alert" style="display: none;"></span>
+
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Casmonevals') }}
+
+
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -46,7 +51,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto" style="align-items: center;">
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -99,7 +104,7 @@
             @yield('content')
         </main>
 
-        <script>
+        {{-- <script>
             function getNotifications() {
                 $.ajax({
                     url: "{{ url('/notifications') }}",
@@ -165,43 +170,135 @@
                     });
                 });
             });
+        </script> --}}
+
+        <script>
+           $(document).ready(function() {
+    function getNotifications() {
+        $.ajax({
+            url: "{{ url('/notifications') }}",
+            type: 'GET',
+            dataType: "json",
+            success: function(response) {
+                var notifications = response.notifications;
+                var dropdownMenu = $('#notification-dropdown-menu');
+                dropdownMenu.empty();
+                $.each(notifications, function(index, notification) {
+                    var dataYear = notification.data;
+                    var url = '';
+                    if (notification.user_type_ID == 4) { // PPO user type ID
+                        url = "{{ url('/ppo/opcr') }}";
+                        if (notification.type == 'BDD') {
+                            url = "{{ url('/ppo/bdd') }}";
+                        } else if (notification.type == 'CPD') {
+                            url = "{{ url('/ppo/cpd') }}";
+                        } else if (notification.type == 'FAD') {
+                            url = "{{ url('/ppo/fad') }}";
+                        }
+                    } 
+               
+                    else if (notification.user_type_ID == 5) { // DC user type ID
+                        url = "{{ url('/dc/view-target') }}";
+                    }
+                    // url += '?opcr=' + notification.opcr_ID;
+                    dropdownMenu.append('<a class="dropdown-item" href="' + url + '">' +
+                        dataYear + '</a>');
+                });
+                var count = notifications.length;
+                if (count > 0) {
+                    dropdownMenu.append(
+                        '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
+                    );
+                } else {
+                    dropdownMenu.append(
+                        '<a class="dropdown-item" href="#">No notifications</a>');
+                }
+                $('#notification-count').text(count);
+
+                // Show current notification on breadcrumbs and fade after 10 seconds
+                var currentNotification = notifications[0];
+                var currentNotificationText = currentNotification.data;
+                var notificationTextElement = $('#notification-text');
+                if (notificationTextElement.css('display') === 'none') {
+                    notificationTextElement.text(currentNotificationText);
+                    notificationTextElement.fadeIn(1000);
+                    setTimeout(function() {
+                        notificationTextElement.fadeOut(1000, function() {
+                            notificationTextElement.text('');
+                            notificationTextElement
+                                .remove(); // Remove the notification text element after fading out
+                        });
+                    }, 10000);
+                }
+
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                var dropdownMenu = $('#notification-dropdown-menu');
+                dropdownMenu.empty();
+                dropdownMenu.append(
+                    '<a class="dropdown-item" href="#">Error loading notifications</a>');
+            }
+        });
+    }
+
+    getNotifications();
+    setInterval(getNotifications, 10000);
+
+    $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "{{ url('/notifications/mark-all-as-read') }}",
+            type: 'POST',
+            dataType: "json",
+            success: function(response) {
+                getNotifications();
+                console.log(response);
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+
         </script>
-        
-          
-            
-        
-      
-       
-        
-       
-       
+
+
+
+
+
 
     </div>
     <script src="{{ asset('js/scripts.js') }}"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#manage-user').DataTable()({
-                    responsive: true,
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#manage-user').DataTable()({
+                responsive: true,
 
-                });
             });
-            
-        </script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        {{-- <script src={{ asset('demo/chart-area-demo.js') }}></script>
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    {{-- <script src={{ asset('demo/chart-area-demo.js') }}></script>
         <script src={{ asset('demo/chart-bar-demo.js') }}></script> --}}
-        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-        <script src={{ asset('js/datatables-simple-demo.js') }}></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-        </script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
-       
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src={{ asset('js/datatables-simple-demo.js') }}></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js" "></script>
+
 </body>
 
 </html>

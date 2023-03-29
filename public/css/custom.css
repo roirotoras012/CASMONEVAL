@@ -8,6 +8,31 @@
     padding: 20px;
     font-size: 18px;
 }
+div#app {
+    position: relative;
+}
+
+#notification-text {
+    position: absolute;
+    top: 7%;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.notification-design {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
 .input-group-icon {
     display: flex;
