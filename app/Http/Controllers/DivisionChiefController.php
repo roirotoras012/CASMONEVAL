@@ -38,7 +38,7 @@ class DivisionChiefController extends Controller
             ->whereNull('read_at')
             ->orderBy('created_at', 'desc')
             ->get();
-
+        
         return response()->json(['notifications' => $notifications]);
     }
 
@@ -150,7 +150,8 @@ class DivisionChiefController extends Controller
             $accom = MonthlyTarget::find($monthly_target_id);
             $accom = $request->input('month');
 
-            $data = $userName . ' has updated monthly accomplishment for the month of ' . $accom;
+            // $data = $userName . ' has updated monthly accomplishment for the month of ' . $accom;
+            $data = $userName . ' has updated monthly accomplishment';
 
             $user_ID = Auth::id();
 

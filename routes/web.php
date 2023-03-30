@@ -82,6 +82,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::post('pd/profile/update-password', [ProvincialDirectorController::class, 'updatePasswordHandler'])->name('pd.updatePasswordHandler');
     Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
+    Route::post('eval/remark', [EvaluationController::class, 'addRemark'])->name('eval.remark');
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
@@ -99,7 +100,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('ppo/measures', [ProvincialPlanningOfficerController::class, 'store'])->name('measures.store');
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
-    Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
+    // Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
     Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
     Route::post('ppo/monthly_target_validate', [ProvincialPlanningOfficerController::class, 'validateMonthlyTarget'])->name('monthly_target.validate');
 });
@@ -116,7 +117,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
     Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
     Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
     Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
-    Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
+    Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.reason');
 });
 
 // NOTIFICATIONS
@@ -142,5 +143,18 @@ Route::post('/notifications/mark-all-as-read', [DivisionChiefController::class, 
     ->middleware('auth');
 
 Route::post('/notifications/mark-as-read', [DivisionChiefController::class, 'markAsRead'])
+    ->name('mark_as_read')
+    ->middleware('auth');
+
+// PD
+
+Route::get('/notifications', [ProvincialDirectorController::class, 'getNotifications'])
+    ->name('get_notifications')
+    ->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [ProvincialDirectorController::class, 'markNotificationsAsRead'])
+    ->name('mark_all_as_read')
+    ->middleware('auth');
+
+Route::post('/notifications/mark-as-read', [ProvincialDirectorController::class, 'markAsRead'])
     ->name('mark_as_read')
     ->middleware('auth');

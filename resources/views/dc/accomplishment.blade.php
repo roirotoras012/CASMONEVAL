@@ -125,7 +125,23 @@
                                                                     $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID
                                                                 ]->first()->monthly_accomplishment))
                                                             <td class="text-center align-middle">
+                                                                @if ( $monthly_targets[strtolower($month->format('M'))][
+                                                                    $annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID
+                                                                ]->first()->validated == 'Invalid')
+                                                                    
+                                                                     <a href="#" data-bs-toggle="modal"
+                                                                    data-bs-target="#<?= strtolower($month->format('M')) . '_' .$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                    id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                    class="text-danger">
+                                                                    {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                </a>
+                                                                <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
+                                                                    :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID"
+                                                                    :strategic_measure="$measure->strategic_measure" />
+                                                                @else
+                                                              
                                                                 {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                @endif
                                                             </td>
                                                         @else
                                                             {{-- {{dd(strtolower($month->format('M')))}} --}}

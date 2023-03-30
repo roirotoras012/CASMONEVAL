@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Notification;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,6 +15,48 @@ class ProvincialDirectorController extends Controller
     {
         return view('pd.dashboard');
     }
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        $notifications = Notification::where('province_ID', $provinceID)
+            ->where('user_type_ID', $userTypeID)
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+
+            ->get();
+
+        // Log::debug('Number of notifications: ' . $notifications->count());
+        
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        Notification::where('user_type_ID', $userTypeID)
+            ->where('province_ID', $provinceID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $notificationId = $request->input('notification_id');
+        $notification = Notification::findOrFail($notificationId);
+        $notification->markAsRead();
+
+        return response()->json(['success' => true]);
+    }
+
+    
     public function updateEmailHandler(Request $request)
     {
         // dd($request);

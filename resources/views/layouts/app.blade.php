@@ -197,7 +197,10 @@
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/view-target') }}";
+                                }else if (notification.user_type_ID == 3) { // DC user type ID
+                                    url = "{{ url('/pd/assessment') }}";
                                 }
+                                
                                 // url += '?opcr=' + notification.opcr_ID;
                                 var notificationLink = $('<a class="dropdown-item" href="' + url +
                                     '">' +
