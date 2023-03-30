@@ -20,9 +20,11 @@ class ProvincialDirectorController extends Controller
     {
         $userTypeID = auth()->user()->user_type_ID;
         $provinceID = auth()->user()->province_ID;
+        $userID = auth()->user()->user_ID;
 
         $notifications = Notification::where('province_ID', $provinceID)
             ->where('user_type_ID', $userTypeID)
+         
             ->whereNull('read_at')
             ->orderBy('created_at', 'desc')
 

@@ -180,6 +180,7 @@
                         type: 'GET',
                         dataType: "json",
                         success: function(response) {
+                            console.log(response);
                             var notifications = response.notifications;
                             var dropdownMenu = $('#notification-dropdown-menu');
                             dropdownMenu.empty();
@@ -197,7 +198,7 @@
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/view-target') }}";
-                                }else if (notification.user_type_ID == 3) { // DC user type ID
+                                }else if (notification.user_type_ID == 3) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
                                 }
                                 

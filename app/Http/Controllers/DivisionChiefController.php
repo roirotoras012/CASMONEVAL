@@ -28,17 +28,22 @@ class DivisionChiefController extends Controller
         $userTypeID = auth()->user()->user_type_ID;
         $divisionID = auth()->user()->division_ID;
         $provinceID = auth()->user()->province_ID;
+        $userID = auth()->user()->user_ID;
 
         //  $opcr_id = $request->input('opcr_id');
         //  $opcr = Opcr::find($opcr_id);
 
-        $notifications = Notification::where('province_ID', $provinceID)
-            ->where('division_ID', $divisionID)
-            ->where('user_type_ID', $userTypeID)
+        $notifications = Notification::where('user_type_ID', $userTypeID)
+            ->where(function ($query) use ($divisionID) {
+                $query->where('division_ID', $divisionID)->orWhereNull('division_ID');
+            })
+          
+
+            ->where('province_ID', $provinceID)
             ->whereNull('read_at')
             ->orderBy('created_at', 'desc')
             ->get();
-        
+
         return response()->json(['notifications' => $notifications]);
     }
 

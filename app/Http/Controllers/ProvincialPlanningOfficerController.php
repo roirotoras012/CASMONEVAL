@@ -39,7 +39,7 @@ class ProvincialPlanningOfficerController extends Controller
             ->get();
 
         // Log::debug('Number of notifications: ' . $notifications->count());
-        return response()->json(['notifications' => $notifications]);
+        // return response()->json(['notifications' => $notifications]);
 
         return response()->json(['notifications' => $notifications]);
     }

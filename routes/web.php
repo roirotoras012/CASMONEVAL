@@ -134,6 +134,20 @@ Route::post('/notifications/mark-as-read', [ProvincialPlanningOfficerController:
     ->name('mark_as_read')
     ->middleware('auth');
 
+
+// PD
+
+Route::get('/notifications', [ProvincialDirectorController::class, 'getNotifications'])
+->name('get_notifications')
+->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [ProvincialDirectorController::class, 'markNotificationsAsRead'])
+->name('mark_all_as_read')
+->middleware('auth');
+
+Route::post('/notifications/mark-as-read', [ProvincialDirectorController::class, 'markAsRead'])
+->name('mark_as_read')
+->middleware('auth');
+
 // DIVISION CHIEF
 Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'])
     ->name('get_notifications')
@@ -146,15 +160,4 @@ Route::post('/notifications/mark-as-read', [DivisionChiefController::class, 'mar
     ->name('mark_as_read')
     ->middleware('auth');
 
-// PD
 
-Route::get('/notifications', [ProvincialDirectorController::class, 'getNotifications'])
-    ->name('get_notifications')
-    ->middleware('auth');
-Route::post('/notifications/mark-all-as-read', [ProvincialDirectorController::class, 'markNotificationsAsRead'])
-    ->name('mark_all_as_read')
-    ->middleware('auth');
-
-Route::post('/notifications/mark-as-read', [ProvincialDirectorController::class, 'markAsRead'])
-    ->name('mark_as_read')
-    ->middleware('auth');
