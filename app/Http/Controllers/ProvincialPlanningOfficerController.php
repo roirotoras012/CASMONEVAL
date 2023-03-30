@@ -38,7 +38,8 @@ class ProvincialPlanningOfficerController extends Controller
 
             ->get();
 
-        Log::debug('Number of notifications: ' . $notifications->count());
+        // Log::debug('Number of notifications: ' . $notifications->count());
+        // return response()->json(['notifications' => $notifications]);
 
         return response()->json(['notifications' => $notifications]);
     }
@@ -292,13 +293,15 @@ class ProvincialPlanningOfficerController extends Controller
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
             ->get();
+        // dd($measures);
         foreach ($measures as $measure) {
             if ($measure->driver_ID != null) {
                 $driver_data = DB::table('drivers')
                     ->where('drivers.driver_ID', '=', $measure->driver_ID)
                     ->get();
 
-                if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
                     $measure['show'] = false;
                 } else {
                     $measure['show'] = true;
@@ -307,7 +310,7 @@ class ProvincialPlanningOfficerController extends Controller
                 $measure['show'] = true;
             }
         }
-        // dd($measures);
+
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
             ->get();
@@ -463,7 +466,8 @@ class ProvincialPlanningOfficerController extends Controller
                         ->where('drivers.driver_ID', '=', $measure->driver_ID)
                         ->get();
 
-                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
                         $measure['show'] = false;
                     } else {
                         $measure['show'] = true;
@@ -588,7 +592,8 @@ class ProvincialPlanningOfficerController extends Controller
                         ->where('drivers.driver_ID', '=', $measure->driver_ID)
                         ->get();
 
-                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
                         $measure['show'] = false;
                     } else {
                         $measure['show'] = true;
@@ -712,7 +717,8 @@ class ProvincialPlanningOfficerController extends Controller
                         ->where('drivers.driver_ID', '=', $measure->driver_ID)
                         ->get();
 
-                    if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
                         $measure['show'] = false;
                     } else {
                         $measure['show'] = true;

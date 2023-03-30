@@ -109,11 +109,13 @@
                                                                     data-bs-target="#_<?= $accom->monthly_target_ID ?>"
                                                                     class="text-warning">{{ $accom->monthly_accomplishment }}</a>
                                                             @elseif($accom->validated == 'Validated')
-                                                                <span
-                                                                    class="text-success">{{ $accom->monthly_accomplishment }}</span>
+                                                                <a href="" data-bs-toggle="modal"
+                                                                    data-bs-target="#_<?= $accom->monthly_target_ID ?>"
+                                                                    class="text-success">{{ $accom->monthly_accomplishment }}</a>
                                                             @elseif($accom->validated == 'Invalid')
-                                                                <span
-                                                                    class="text-danger">{{ $accom->monthly_accomplishment }}</span>
+                                                                <a href="" data-bs-toggle="modal"
+                                                                    data-bs-target="#_<?= $accom->monthly_target_ID ?>"
+                                                                    class="text-danger">{{ $accom->monthly_accomplishment }}</a>
                                                             @endif
                                                         @endif
                                                         <x-validate-modal :monthly_target_ID="$accom->monthly_target_ID" />
