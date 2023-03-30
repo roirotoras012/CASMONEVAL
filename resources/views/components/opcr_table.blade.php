@@ -32,56 +32,59 @@
                     {{ $objective->strategic_objective }}</td>
                {{-- {{ dd($objective->measures) }}      --}}
                 @foreach ($objective->measures as $measure)
-            <tr>
-                <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-                {{-- @foreach ($provinces as $province) --}}
-                    <td class="text-center align-middle">
-                        @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
-                            {{-- <a href="#" data-bs-toggle="modal"
-                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
-                                id="{{ $province->province_ID }}" class="text-success"> --}}
-                                {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
-                                
-                            {{-- </a> --}}
-                            {{-- <x-update_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" :target="$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()
-                                ->annual_target_ID" /> --}}
-                        @else
-                            {{-- <a href="#" data-bs-toggle="modal"
-                                data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
-                                id="{{ $province->province_ID }}" class="text-danger">N/A</a> --}}
-                            {{-- <x-add_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" /> --}}
-                        @endif
-                    </td>
-                    @php
-                
-                     if(isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
-                     {
-                        $accom = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->annual_accom;
-
-                     }
-                     else{
-                        $accom = '';
-                     }
-                       
-                    @endphp
-                    <td <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
-                                        && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target > $accom){ ?> style="background: #ff000021;" <?php   } ?> 
-                                        class="text-center align-middle">
-                        @if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
-                        
-                            <span <?php if ($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true){ ?> style="font-weight: bold;" <?php   } ?> >{{ $accom }}</span>
+                @if ($measure->type != '')
+                <tr>
+                    <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
+                    {{-- @foreach ($provinces as $province) --}}
+                        <td class="text-center align-middle">
+                            @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
+                                {{-- <a href="#" data-bs-toggle="modal"
+                                    data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
+                                    id="{{ $province->province_ID }}" class="text-success"> --}}
+                                    {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
+                                    
+                                {{-- </a> --}}
+                                {{-- <x-update_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" :target="$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()
+                                    ->annual_target_ID" /> --}}
+                            @else
+                                {{-- <a href="#" data-bs-toggle="modal"
+                                    data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
+                                    id="{{ $province->province_ID }}" class="text-danger">N/A</a> --}}
+                                {{-- <x-add_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" /> --}}
+                            @endif
+                        </td>
+                        @php
+                    
+                         if(isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
+                         {
+                            $accom = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->annual_accom;
+    
+                         }
+                         else{
+                            $accom = '';
+                         }
                            
-                        @else
+                        @endphp
+                        <td <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
+                                            && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target > $accom){ ?> style="background: #ff000021;" <?php   } ?> 
+                                            class="text-center align-middle">
+                            @if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
+                            
+                                <span <?php if ($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true){ ?> style="font-weight: bold;" <?php   } ?> >{{ $accom }}</span>
                                
-
-
-                        @endif
-                        
-                       
-                    </td>
-                    {{--  --}}
-                {{-- @endforeach --}}
-            </tr>
+                            @else
+                                   
+    
+    
+                            @endif
+                            
+                           
+                        </td>
+                        {{--  --}}
+                    {{-- @endforeach --}}
+                </tr>
+                @endif
+            
         @endforeach
         </tr>
         @endforeach

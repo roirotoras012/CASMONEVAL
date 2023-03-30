@@ -32,6 +32,19 @@
                     </div> --}}
             
                     {{-- <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets/> --}}
+                <form method="POST" action="{{ route('submit_to_division') }}" class="">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
+                        
+                       @if ($opcrs_active[0]->is_submitted_division == true)
+                       <button class="btn btn-primary" disabled type="submit">{{ __('Already Submitted to Division') }}</button>
+                       @else
+                       <button class="btn btn-primary" type="submit">{{ __('Submit to Division') }}</button>
+                       @endif
+                            
+                       
+                    
+                </form>
                 </div>
                 @else
                 <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>

@@ -13,6 +13,11 @@
                 {{ Session::get('success') }}
             </div>
             @endif
+            @if(Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
+            </div>
+            @endif
         <div class="card mb-4 m-4">
            
             {{-- {{var_dump(Session::all())}} --}}
@@ -46,17 +51,24 @@
                 <div>
                     @foreach ($objectives as $objective)
                      <div>
-                        <div class="table table-bordered ppo-table bg-primary text-white px-3 py-1 d-flex justify-content-between align-items-center">
-                            <div><span class="fs-6 text-uppercase text-normal font-weight-bold"> {{$objective->strategic_objective}}</span></div>
-                            <div>
-                                <a class="btn btn-secondary p-2" href="#" data-bs-toggle="modal"
+                        <div class="table table-bordered ppo-table bg-primary text-white p-2 d-flex justify-content-between align-items-center">
+                            <div><span class="fs-5"> {{$objective->strategic_objective}}</span></div>
+                            <div class="d-flex gap-1">
+                                <form method="POST" action="{{ route('rpo.remove_objective') }}">
+                                    @csrf
+                                    <input type="hidden" name="objective_ID" value="{{ $objective->strategic_objective_ID}}">
+                                    <input onclick="return confirm('Are you sure you want to remove this objective?')" type="submit" value="remove" class="bg-white">
+                                    
+                                </form>
+                                
+                              
+                                
+                                <button class="bg-white"><a href="#" data-bs-toggle="modal"
                                     data-bs-target="#_{{$objective->strategic_objective_ID}}"
                                     id="#_{{$objective->strategic_objective_ID}}"
                                     ><i class="fa-solid fa-plus"></i>
     
-                                </a>
-                                
-                                    
+                                </a></button>      
     
                                
                               
@@ -70,7 +82,20 @@
                             @if (isset($measures[$objective->strategic_objective_ID]))
                             @foreach ($measures[$objective->strategic_objective_ID] as $measure)
                             @foreach ($measure as $item)
-                                <div class="table-bordered p-3">{{$item->strategic_measure }}</div>
+                                <div class="table-bordered p-1 d-flex justify-content-between align-items-center">
+                                    <span>{{$item->strategic_measure }}</span>
+                                
+                                    <form method="POST" action="{{ route('rpo.remove_measure') }}">
+                                        @csrf
+                                        <input type="hidden" name="measure_ID" value="{{ $item->strategic_measure_ID }}">
+                                        <button type="submit" class="border-0" 
+                                        onclick="return confirm('Are you sure you want to remove this measure?')">
+                                        <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
+                                        </button>
+                                        
+                                    </form>
+                                </div>
+                                
                             @endforeach
                             @endforeach
                             @endif

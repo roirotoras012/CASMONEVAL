@@ -150,19 +150,19 @@
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('ppo/add-driver') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('ppo/add-driver') ? 'active' : '' }}"
                             href="{{ url('ppo/add-driver') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
                             Add Drivers
 
-                        </a>
+                        </a> --}}
 
-                        <a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('ppo/manage') ? 'active' : '' }}"
                             href="{{ url('ppo/manage') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             Manage Measure Drivers
 
-                        </a>
+                        </a> --}}
                         <a class="nav-link  {{ Request::is('ppo/bdd') ? 'active' : '' }}"
                             href="{{ url('ppo/bdd') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
@@ -203,6 +203,12 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 
                             Dashboard
+                        </a>
+                        <a class="nav-link  {{ Request::is('dc/manage') ? 'active' : '' }}"
+                        href="{{ url('dc/manage') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
+                        Measures & Drivers
+
                         </a>
                         <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
                             href="{{ url('dc/view-target') }}">
