@@ -23,13 +23,13 @@
                           
                         <div class="text-left d-flex justify-content-between align-items-center">
                             <h6 class="m-0">Manage <b>Measures & Objectives</b></h6>
-                            <button><a href="#" data-bs-toggle="modal"
+                            <a href="#" data-bs-toggle="modal"
                                 data-bs-target="#objectiveModal"
                                 id="#objectiveModal"
-                                class="text-decoration-none text-black"
+                                class="text-decoration-none text-black btn btn-primary text-white"
                                 >Add Objective
 
-                            </a></button>
+                            </a>
                             
                                 
 
@@ -46,15 +46,15 @@
                 <div>
                     @foreach ($objectives as $objective)
                      <div>
-                        <div class="table table-bordered ppo-table bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-                            <div><span class="fs-5"> {{$objective->strategic_objective}}</span></div>
+                        <div class="table table-bordered ppo-table bg-primary text-white px-3 py-1 d-flex justify-content-between align-items-center">
+                            <div><span class="fs-6 text-uppercase text-normal font-weight-bold"> {{$objective->strategic_objective}}</span></div>
                             <div>
-                                <button><a href="#" data-bs-toggle="modal"
+                                <a class="btn btn-secondary p-2" href="#" data-bs-toggle="modal"
                                     data-bs-target="#_{{$objective->strategic_objective_ID}}"
                                     id="#_{{$objective->strategic_objective_ID}}"
                                     ><i class="fa-solid fa-plus"></i>
     
-                                </a></button>
+                                </a>
                                 
                                     
     
@@ -70,7 +70,7 @@
                             @if (isset($measures[$objective->strategic_objective_ID]))
                             @foreach ($measures[$objective->strategic_objective_ID] as $measure)
                             @foreach ($measure as $item)
-                                <div class="table-bordered p-1">{{$item->strategic_measure }}</div>
+                                <div class="table-bordered p-3">{{$item->strategic_measure }}</div>
                             @endforeach
                             @endforeach
                             @endif
