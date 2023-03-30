@@ -13,6 +13,10 @@ class Driver extends Model
     {
         return $this->hasMany(StrategicMeasure::class, 'driver_ID');
     }
+    public function targets()
+    {
+        return $this->hasMany(AnnualTarget::class, 'driver_ID');
+    }
 
     public function opcr()
     {

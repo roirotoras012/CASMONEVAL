@@ -120,10 +120,14 @@ class RegionalPlanningOfficerController extends Controller
     public function opcr_target()
     {
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+            ->where('strategic_objectives.is_active', '=', true)
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
             ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
+        // dd($labels);
+
+        
 
         return view('rpo.addtarget', compact('labels'));
     }
@@ -442,6 +446,7 @@ class RegionalPlanningOfficerController extends Controller
             ->get();
 
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+            ->where('strategic_objectives.is_active', '=', true)        
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
@@ -481,7 +486,7 @@ class RegionalPlanningOfficerController extends Controller
         }
     
         // var_dump($labels);
-        if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE'){
+        if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE'){
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->where('monthly_accomplishment', '!=' ,null)
             ->where('annual_targets.opcr_ID', '=' , $opcr_id)
@@ -491,21 +496,31 @@ class RegionalPlanningOfficerController extends Controller
                 // echo "annual target ID: {$annual_target_ID}<br>";
                 $annual_accom = 0;
                 $validated = true;
+                if(count($monthly_targets) == 12){
+                    $validated = true;
+                }
+                else{
+                    $validated = false;
+                }
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                      
+                    if($target->validated == 'Not Validated'){
+                        $validated = false;
+                    }
                 }
+
                 $monthly_target->annual_accom = $annual_accom;
-                
+                $monthly_target->validated = $validated;
                
                
             }
+           
         }
         else{
 
             $monthly_targets = null;
         }
-       
+        // dd($monthly_targets);
         // dd($monthly_targets);
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets'));
     }
@@ -817,7 +832,8 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function measures(){
-        $objectives = StrategicObjective::all();
+        $objectives = StrategicObjective::where('is_active', '=', true)
+                                        ->get();
         $divisions = Division::all();
      
 
@@ -883,9 +899,36 @@ class RegionalPlanningOfficerController extends Controller
 
         }
         else{
-           
+            return redirect()
+            ->route('rpo.measures')
+            ->with('error', 'No Division Selected');      
 
         }
-    
+        return redirect()
+            ->route('rpo.measures')
+            ->with('success', 'Strategic Measure successfully created');      
+    }
+
+
+    public function remove_objective(Request $request){
+       
+        $objective = StrategicObjective::find($request->objective_ID);
+        $objective->is_active = false;
+        $objective->save();
+        return redirect()
+            ->route('rpo.measures')
+            ->with('success', 'Strategic Objective successfully removed');      
+
+    }
+
+    public function remove_measure(Request $request){
+
+        $measure = StrategicMeasure::find($request->measure_ID);
+        $measure->type = '';
+        $measure->save();
+        return redirect()
+            ->route('rpo.measures')
+            ->with('success', 'Strategic Measure successfully removed');      
+
     }
 }

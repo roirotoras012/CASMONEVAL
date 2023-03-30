@@ -65,6 +65,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('update_targets', [RegionalPlanningOfficerController::class, 'update_targets'])->name('update_targets');
     Route::post('add_objective', [RegionalPlanningOfficerController::class, 'add_objective'])->name('rpo.add_objective');
     Route::post('add_measure', [RegionalPlanningOfficerController::class, 'add_measure'])->name('rpo.add_measure');
+    Route::post('remove_objective', [RegionalPlanningOfficerController::class, 'remove_objective'])->name('rpo.remove_objective');
+    Route::post('remove_measure', [RegionalPlanningOfficerController::class, 'remove_measure'])->name('rpo.remove_measure');
 
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
@@ -88,8 +90,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     // Provincial Planning Officer
     Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
     Route::get('ppo/opcr', [ProvincialPlanningOfficerController::class, 'opcr'])->name('opcr');
-    Route::get('ppo/add-driver', [ProvincialPlanningOfficerController::class, 'savetarget'])->name('add-driver');
-    Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'manage'])->name('manage');
+    // Route::get('ppo/add-driver', [ProvincialPlanningOfficerController::class, 'savetarget'])->name('add-driver');
+    // Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'manage'])->name('manage');
     Route::get('ppo/bdd', [ProvincialPlanningOfficerController::class, 'bdd'])->name('bdd');
     Route::get('ppo/cpd', [ProvincialPlanningOfficerController::class, 'cpd'])->name('cpd');
     Route::get('ppo/fad', [ProvincialPlanningOfficerController::class, 'fad'])->name('fad');
@@ -106,18 +108,21 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {
-    // Division Chief
-    Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('dc.index');
-    Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
-    Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
-    Route::get('dc/view-target', [DivisionChiefController::class, 'bukidnunBddIndex'])->name('dc.bukidnunBddIndex');
-    Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
-    Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
-    Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
-    Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
-    Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
-    Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
-    Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.reason');
+  // Division Chief
+  Route::get('dc/dashboard', [DivisionChiefController::class, 'index'])->name('dc.index');
+  Route::get('dc/manage', [DivisionChiefController::class, 'manage'])->name('dc.manage');
+  Route::get('dc/coaching', [DivisionChiefController::class, 'coaching']);
+  Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
+  Route::get('dc/view-target', [DivisionChiefController::class, 'bukidnunBddIndex'])->name('dc.bukidnunBddIndex');
+  Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
+  Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
+  Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
+  Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
+  Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
+  Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
+  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
+  Route::post('add_driver', [DivisionChiefController::class, 'add_driver'])->name('dc.add_driver');
+  
 });
 
 // NOTIFICATIONS

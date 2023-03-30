@@ -157,9 +157,11 @@ class ProvincialPlanningOfficerController extends Controller
             ->where('is_submitted', '=', 1)
             ->get();
 
-        $objectivesact = StrategicObjective::all();
-
-        $objectives = StrategicObjective::all();
+        $objectivesact = StrategicObjective::where('is_active', 1)
+                                           ->get();
+        
+        $objectives = StrategicObjective::where('is_active', 1)
+                                        ->get();
 
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
