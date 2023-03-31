@@ -23,7 +23,84 @@ class ProvincialPlanningOfficerController extends Controller
 {
     public function index()
     {
-        return view('ppo.dashboard');
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', '=', 1)
+            ->get();
+
+        $objectivesact = StrategicObjective::where('is_active', 1)
+                                           ->get();
+        
+        $objectives = StrategicObjective::where('is_active', 1)
+                                        ->get();
+
+        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+            ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+            ->get();
+
+        // dd($measures);
+        $provinces = Province::select('province_ID', 'province')
+
+            ->orderBy('province_ID')
+            ->get();
+
+        // $annual_targets = AnnualTarget::all()
+        //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
+        //     ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+        if (count($opcrs_active) != 0) {
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+        } else {
+            $annual_targets = null;
+        }
+
+        // dd($annual_targets);
+
+        $divisions = Division::all();
+        $opcrs = Opcr::all();
+        // dd( $opcrs_active);
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
+            ->whereHas('opcr', function ($query) use ($opcrs_active) {
+                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
+            })
+            ->get(['drivers.*', 'divisions.division', 'divisions.code']);
+
+        // dd($driversact);
+        $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=', null)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+
+        foreach ($monthly_targets as $monthly_target) {
+            // echo "annual target ID: {$annual_target_ID}<br>";
+            $annual_accom = 0;
+            $validated = true;
+            foreach ($monthly_target as $target) {
+                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
+                if ($target->validated != 'Validated') {
+                    // $validated = false;
+                    $monthly_target->validated = false;
+                }
+            }
+            $monthly_target->annual_accom = $annual_accom;
+            if ($validated = true) {
+                if (count($monthly_target) < 12) {
+                    $monthly_target->validated = false;
+                }
+            } else {
+                $monthly_target->validated = false;
+            }
+
+            // echo $monthly_target->annual_accom;
+        }
+
+        // dd($monthly_targets);
+        return view('ppo.dashboard', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
     }
 
     public function getNotifications(Request $request)

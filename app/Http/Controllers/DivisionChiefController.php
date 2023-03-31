@@ -20,7 +20,15 @@ class DivisionChiefController extends Controller
 {
     public function index()
     {
-        return view('dc.dashboard');
+       
+        $divisionID = auth()->user()->division_ID;
+        $provinceID =auth()->user()->province_ID;
+        $annualTargetNumber = AnnualTarget::where('division_ID', $divisionID)
+        ->where('province_ID', $provinceID)
+        ->count();
+        // $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
+        return view('dc.dashboard' , ['division_ID' => $divisionID ,'annual_target_number' => $annualTargetNumber]);
+        
     }
 
     public function getNotifications(Request $request)

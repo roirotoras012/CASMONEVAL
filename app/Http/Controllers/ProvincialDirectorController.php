@@ -13,7 +13,19 @@ class ProvincialDirectorController extends Controller
 {
     public function index()
     {
-        return view('pd.dashboard');
+        $provincialUser = Auth::user();
+        $provinceId = $provincialUser->province_ID;
+        $divisionUsers = User::whereNotNull('division_ID')
+            ->where('province_ID', $provinceId)
+            ->get();
+        $divisionUserIds = $divisionUsers->pluck('user_ID');
+        $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
+                  ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
+                  ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
+                  ->select('evaluations.*', 'divisions.division')
+                  ->get();
+        return view('pd.dashboard', compact('eval'));
+        // return view('pd.dashboard');
     }
 
     public function getNotifications(Request $request)

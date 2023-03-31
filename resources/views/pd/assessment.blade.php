@@ -8,14 +8,9 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
         <div class="container-fluid px-4 py-5">
-
-            <ol class="breadcrumb mb-4">
-
-                <li class="breadcrumb-item active">
-                    <h1>Provincial Director Performance Assessment</h1>
-                </li>
-
-            </ol>
+                <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
+                    Provincial Director Performance Assessment
+                </div>
             <div>
                 @if (session()->has('update'))
                     <div class="alert alert-success">
