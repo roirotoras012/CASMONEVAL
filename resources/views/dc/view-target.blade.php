@@ -18,9 +18,19 @@
                 4 => 'Misamis Occidental',
                 5 => 'Camiguin',
                 default => 'other',
-            } }}
+            } }} 
+           
             </div>
-
+                <div class="text-uppercase lead bg-danger text-white p-2 rounded d-inline-block mb-5">
+                 {{
+                 match ($userDetails->division_ID) {
+                                    1 => 'Business Development Division',
+                                    2 => 'Consumer Protection Division',
+                                    3 => 'Finance Administrative Division',
+                                    default => 'other',
+                                };
+            }}
+                </div>
             <div >
                 <button class="btn btn-primary my-2"  id="print-button">Print Table</button>
                 <table class="table table-bordered shadow" id="table">
