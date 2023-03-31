@@ -141,6 +141,7 @@ class DivisionChiefController extends Controller
             $evaluation->monthly_target = $accom->monthly_target;
             $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
             $evaluation->month = $request->input('month');
+            dd($evaluation);
             $evaluation->save();
             return redirect()
                 ->route('dc.accomplishments')

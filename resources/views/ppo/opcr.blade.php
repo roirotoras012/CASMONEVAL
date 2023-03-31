@@ -8,6 +8,11 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
           </div>
         <div class="container-fluid px-4 py-5">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p class="m-0">{{ $message }}</p>
+            </div>
+        @endif
                 
             <ol class="breadcrumb mb-4">
             
