@@ -175,11 +175,17 @@ class RegionalPlanningOfficerController extends Controller
             'province_ID' => (int) $request->province_ID ?? null,
             'division_ID' => (int) $request->division_ID ?? null,
         ];
-        // dd($attributes);
+        //  dd($attributes);
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
-        $user = User::find($request->user_ID);
-
+       
+        if (!isset($request->province_ID)) {
+            $attributes['province_ID'] = null;
+        }
         
+        if (!isset($request->division_ID)) {
+            $attributes['division_ID'] = null;
+        }
+        $user = User::find($request->user_ID);
         $user->update($attributes);
         return redirect()
             ->route('rpo.users')
