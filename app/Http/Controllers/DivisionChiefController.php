@@ -30,8 +30,7 @@ class DivisionChiefController extends Controller
         $provinceID = auth()->user()->province_ID;
         $userID = auth()->user()->user_ID;
 
-        //  $opcr_id = $request->input('opcr_id');
-        //  $opcr = Opcr::find($opcr_id);
+  
 
         $notifications = Notification::where('user_type_ID', $userTypeID)
             ->where(function ($query) use ($divisionID) {
@@ -61,16 +60,7 @@ class DivisionChiefController extends Controller
         return response()->json(['success' => true]);
     }
 
-    // public function markAsRead(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     Notification::where('user_ID', $user->id)
-    //         ->whereNull('read_at')
-    //         ->update(['read_at' => now()]);
-
-    //     return response()->json(['success' => true]);
-    // }
+   
 
     public function markAsRead(Request $request)
     {
@@ -141,7 +131,7 @@ class DivisionChiefController extends Controller
             $evaluation->monthly_target = $accom->monthly_target;
             $evaluation->monthly_accomplishment = $accom->monthly_accomplishment;
             $evaluation->month = $request->input('month');
-            dd($evaluation);
+            // dd($evaluation);
             $evaluation->save();
             return redirect()
                 ->route('dc.accomplishments')
@@ -327,6 +317,8 @@ class DivisionChiefController extends Controller
                 $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
             })
             ->get(['drivers.*', 'divisions.division']);
+
+        
 
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID) 
                                         ->get()
@@ -517,4 +509,6 @@ class DivisionChiefController extends Controller
         ->with('success', 'Transaction Completed');     
 
     }
+
+
 }

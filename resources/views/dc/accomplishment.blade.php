@@ -97,6 +97,7 @@
                                     @foreach ($measures as $measure)
                                     @if ($measure->province_ID == $user->province_ID)
                                     <tr>
+                                          {{-- {{dd($measures)}} --}}
                                         <td class="text-center align-middle">{{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}</td>
                                         <td class="text-center align-middle">{{ $measure->division->division }}</td>
     
@@ -151,7 +152,7 @@
     
                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
                                                                 :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID"
-                                                                :strategic_measure="$measure->strategic_measure" />
+                                                                :strategic_measure="$measures_list[$measure->strategic_measures_ID]->first()->strategic_measure" />
                                                         @endif
                                                     @else
                                                         <td class="text-center align-middle">No Monthly Target Set</td>
@@ -171,6 +172,8 @@
     
     
                 </div>
+
+  
     
                 @else
                 <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>

@@ -115,13 +115,16 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/job-fam', [DivisionChiefController::class, 'jobfam']);
   Route::get('dc/view-target', [DivisionChiefController::class, 'bukidnunBddIndex'])->name('dc.bukidnunBddIndex');
   Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
+  
   Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
   Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
   Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
-  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
+  Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.reason');
   Route::post('add_driver', [DivisionChiefController::class, 'add_driver'])->name('dc.add_driver');
+
+  Route::post('dc/accomplishment', [DivisionChiefController::class, 'sentToPD'])->name('notify_to_pd');
   
 });
 
