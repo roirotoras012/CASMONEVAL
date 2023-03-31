@@ -197,7 +197,7 @@
                                         url = "{{ url('/ppo/fad') }}";
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
-                                    url = "{{ url('/dc/view-target') }}";
+                                    url = "{{ url('/dc/manage') }}";
                                 }else if (notification.user_type_ID == 3) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
                                 }

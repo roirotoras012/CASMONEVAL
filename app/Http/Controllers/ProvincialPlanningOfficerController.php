@@ -521,7 +521,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
 
         return redirect()
-            ->route('manage')
+            ->route('opcr')
             ->with('success', 'OPCR has been submitted to Division successfully!');
     }
 
