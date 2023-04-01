@@ -555,11 +555,12 @@ class ProvincialPlanningOfficerController extends Controller
                     $measure['show'] = true;
                 }
             }
+            //   dd($measure);
         } else {
             $measures = null;
         }
 
-        // dd($measures);
+      
         $provinces = Province::select('province_ID', 'province')
             ->orderBy('province_ID')
             ->get();
