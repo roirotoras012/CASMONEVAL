@@ -129,17 +129,18 @@
                                         {{$total}}
                                         </td>
                                         <td>
+
                                             <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
                                             <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][BUK]" value="{{$label->BUK}}">
-                                         
+                                        
                                         </td>
                                         <td>
-                                           @if ((isset($monthly_targets[$label->BUK_target])) && $monthly_targets[$label->BUK_target]->validated)
-                                               <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }}</b>
-                                               
-                                                
+                                            @if ((isset($monthly_targets[$label->BUK_target])))
+                                               <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
                                             @else
-                                            
+                                               @if (isset($label->BUK_accom))
+                                                   <b>{{ $label->BUK_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
                                         <td>
@@ -151,7 +152,9 @@
                                             @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                                <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
                                             @else
-                                               
+                                            @if (isset($label->CAM_accom))
+                                            <b>{{ $label->CAM_accom}}</b>
+                                            @endif
                                            @endif
                                         </td>
                                         <td>
@@ -164,7 +167,9 @@
                                                <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
                                               
                                                @else
-                                               
+                                               @if (isset($label->LDN_accom))
+                                                   <b>{{ $label->LDN_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
                                         <td>
@@ -176,7 +181,9 @@
                                             @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
                                                @else
-                                                 
+                                               @if (isset($label->MISOR_accom))
+                                               <b>{{ $label->MISOR_accom}}</b>
+                                           @endif
                                            @endif
                                         </td>
                                         <td>
@@ -188,7 +195,9 @@
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               
+                                               @if (isset($label->MISOC_accom))
+                                                   <b>{{ $label->MISOC_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
 

@@ -43,7 +43,7 @@
                     <table class="table table-bordered ppo-table shadow" id="table">
                         <thead class="bg-primary text-white">
                             <tr>
-                                <th rowspan="2" class="text-center align-middle">Drivers</th>
+                                <th rowspan="2" class="text-center align-middle">Objectives</th>
                                 <th rowspan="2" class="text-center align-middle">Measure</th>
                                 <th colspan="" class="text-center align-middle">Annual Target</th>
                                 <th colspan="12" class="text-center align-middle bg-success">Accomplished</th>
@@ -70,12 +70,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($driversact as $driver)
+                            @foreach ($objectives as $driver)
                                 {{-- {{dd($driver->measures)}}     --}}
-                                @if ($driver->code == 'CPD')
+                                {{-- @if ($driver->code == 'CPD') --}}
                                     <tr>
                                         <td rowspan="{{ $driver->measures->count() + 1 }}" class="text-center align-middle">
-                                            {{ $driver->driver }}</td>
+                                            {{ $driver->strategic_objective }}</td>
                                         @foreach ($driver->measures as $measure)
                                     <tr>
 
@@ -136,7 +136,7 @@
                                     </tr>
                                 @endforeach
                                 </tr>
-                            @endif
+                            {{-- @endif --}}
             @endforeach
             </tbody>
             </table>

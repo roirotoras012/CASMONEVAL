@@ -72,7 +72,7 @@
                         <div class="d-flex justify-content-between align-items-center flex-column p-2">
                             <button type="button" id="addInputField">Add Input Field</button>
                             <div id="inputFieldsContainer" class="w-100 border p-2 my-2">
-                                <div class="input-field d-flex align-items-center gap-1">
+                                {{-- <div class="input-field d-flex align-items-center gap-1">
                                     <label for="measure">New Measure</label>
                                     <textarea type="text" name="add[0][measure]" class="measure_input w-100" placeholder="Enter value" id="measure_textare"></textarea>
                                     <div>
@@ -89,7 +89,7 @@
                                     </div>
                                     
                                     <button class="removeInputField">Remove</button>
-                                </div>
+                                </div> --}}
                                 
                             </div>
                             <div class="w-100">
@@ -209,16 +209,16 @@
         var driverSelect = document.querySelector('#driver_select');
         var measureInput = document.querySelector('#measure_textare');
         var measureSelect = document.querySelector('#measure_select');
-        measureInput.addEventListener('input', function(event) {
+        // measureInput.addEventListener('input', function(event) {
             
-        if (measureInput.value) {
-            measureSelect.required = true;
-        } else {
-            measureSelect.required = false;
-            // There is no input in the input element
-        }
+        // if (measureInput.value) {
+        //     measureSelect.required = true;
+        // } else {
+        //     measureSelect.required = false;
+        //     // There is no input in the input element
+        // }
       
-        });
+        // });
 
 
         console.log(driverInput)
@@ -253,17 +253,17 @@
 
 
         $(document).ready(function() {
-            var counter = 1;
+            var counter = 0;
         $("#addInputField").click(function() {
             var newField = `<div class="input-field d-flex align-items-center gap-1">
                                 <label for="measure">New Measure</label>
-                                <textarea type="text" name="add[`+counter+`][measure]" class="measure_input w-100" placeholder="Enter value"></textarea>
+                                <textarea type="text" name="add[`+counter+`][measure]" class="measure_input w-100" placeholder="Enter value" required></textarea>
                                 <div>
                                     <label for="measure">Annual Target</label>
-                                    <input type="text" name="add[`+counter+`][target]">
+                                    <input type="text" name="add[`+counter+`][target]" required>
                                     <label for="measure">Type</label>
                                     <select name="add[`+counter+`][type]" id="" required>
-                                        
+                                        <option value="">select</option>
                                         <option value="INDIRECT">INDIRECT</option>
                                         <option value="MANDATORY">MANDATORY</option>
                                      
