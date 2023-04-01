@@ -458,7 +458,60 @@ class RegionalPlanningOfficerController extends Controller
             ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
             ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
 
+        if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE'){
+            $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=' ,null)
+            ->where('annual_targets.opcr_ID', '=' , $opcr_id)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+            foreach($monthly_targets as $monthly_target) {
+                // echo "annual target ID: {$annual_target_ID}<br>";
+                if($monthly_target){
+
+
+
+                }
+
+                $annual_accom = 0;
+                $validated = true;
+                if(count($monthly_targets) == 12){
+                    $validated = true;
+                }
+                else{
+                    $validated = false;
+                }
+                foreach($monthly_target as $target) {
+                    $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                    if($target->validated == 'Not Validated'){
+                        $validated = false;
+                    }
+
+
+
+
+                    
+                }
+
+                $monthly_target->annual_accom = $annual_accom;
+                $monthly_target->validated = $validated;
+               
+               
+            }
+           
+        }
+        else{
+
+            $monthly_targets = null;
+        }
+
+
+
+
+        
         foreach ($labels as $label) {
+
+           
+
             $label['BUK'] = null;
             $label['LDN'] = null;
             $label['MISOR'] = null;
@@ -489,43 +542,111 @@ class RegionalPlanningOfficerController extends Controller
                 } else {
                 }
             }
-        }
-    
-        // var_dump($labels);
-        if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE'){
-            $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-            ->where('monthly_accomplishment', '!=' ,null)
-            ->where('annual_targets.opcr_ID', '=' , $opcr_id)
-            ->get(['monthly_targets.*', 'annual_targets.*'])
-            ->groupBy(['annual_target_ID']);
-            foreach($monthly_targets as $monthly_target) {
-                // echo "annual target ID: {$annual_target_ID}<br>";
-                $annual_accom = 0;
-                $validated = true;
-                if(count($monthly_targets) == 12){
-                    $validated = true;
-                }
-                else{
-                    $validated = false;
-                }
-                foreach($monthly_target as $target) {
-                    $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                    if($target->validated == 'Not Validated'){
-                        $validated = false;
-                    }
-                }
 
-                $monthly_target->annual_accom = $annual_accom;
-                $monthly_target->validated = $validated;
-               
-               
+
+            if($label->division_ID == 0){
+                $measure_for_common = StrategicMeasure::join('annual_targets', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                ->where('annual_targets.opcr_id', '=', $opcr_id)
+                ->where('annual_targets.strategic_objectives_ID', '=', $label->strategic_objective_ID)
+                ->where('type', '=', 'DIRECT COMMON')
+                ->where('strategic_measure', '=', $label->strategic_measure)
+                ->get()
+                ->groupBy('province_ID');
+          
+
+                // dd($measure_for_common );
+            // dd($measure_for_common[2]);
+            if(!isset($label['BUK_accom'])){
+                
+                foreach ($measure_for_common[1] as $by_province) {
+                    # code...  
+                    // dd($by_province);
+                        
+
+                        if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                            
+                        }
+                        
+    
+                   }
+                  
+            }
+            if(isset($label['BUK_accom'])){
+                $label['BUK_accom'] = $label['BUK_accom']/3;
+            }
+
+         
+            if(!isset($label['LDN_accom'])){
+                foreach ($measure_for_common[2] as $by_province) {
+                    # code...
+                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                        $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                    }
+    
+                   }
+            } 
+            if(isset($label['LDN_accom'])){
+                $label['LDN_accom'] = $label['LDN_accom']/3;
+            } 
+            if(!isset($label['MISOR_accom'])){
+                foreach ($measure_for_common[3] as $by_province) {
+                    # code...
+                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                        $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                    }
+    
+                   }
+            } 
+            if(isset($label['MISOR_accom'])){
+                $label['MISOR_accom'] = $label['MISOR_accom']/3;
+            } 
+
+
+            if(!isset($label['MISOC_accom'])){
+                foreach ($measure_for_common[4] as $by_province) {
+                    # code...
+                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                        $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                    }
+    
+                   }
+            } 
+            if(isset($label['MISOC_accom'])){
+                $label['MISOC_accom'] = $label['MISOC_accom']/3;
+            } 
+            if(!isset($label['CAM_accom'])){
+                foreach ($measure_for_common[5] as $by_province) {
+                    # code...
+                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                        $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                    }
+    
+                   }
+            } 
+            if(isset($label['CAM_accom'])){
+                $label['CAM_accom'] = $label['CAM_accom']/3;
             }
            
-        }
-        else{
+               
+              
+           
+             
+              
+              
+             
+               
+         
 
-            $monthly_targets = null;
+             
+            
+            
+            
+            
+            }
         }
+        // dd($labels);
+        // var_dump($labels);
         // dd($monthly_targets);
         // dd($monthly_targets);
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets'));
