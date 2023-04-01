@@ -141,6 +141,50 @@ class DivisionChiefController extends Controller
             $evaluation->month = $request->input('month');
             // dd($evaluation);
             $evaluation->save();
+
+            $userName = auth()->user()->first_name;
+            $provinceID = auth()->user()->province_ID;
+            $divisionID = auth()->user()->division_ID;
+            $userTypeID = auth()->user()->user_type_ID;
+            // $opcr_id = $request->input('opcr_id');
+            // $opcr = Opcr::find($opcr_id);
+            $accom = MonthlyTarget::find($monthly_target_id);
+            $accom = $request->input('month');
+
+            // $data = $userName . ' has updated monthly accomplishment for the month of ' . $accom;
+            $data = $userName . ' has failed to achieved the target';
+
+            $user_ID = Auth::id();
+
+            $divisionID = '';
+            switch (auth()->user()->division_ID) {
+                case 1:
+                    $divisionID = 'BDD';
+                    break;
+                case 2:
+                    $divisionID = 'CPD';
+                    break;
+                case 3:
+                    $divisionID = 'FAD';
+                    break;
+                default:
+                    $divisionID = ''; // or you can set a default value if needed
+            }
+
+            $notification = new Notification([
+                'user_type_ID' => 4, // Notify to PPO
+                'user_ID' => $user_ID,
+                // 'division_ID' => $divisionID,
+                'province_ID' => $provinceID,
+                // 'opcr_ID' => $opcr_id,
+                // 'year' => $opcr->year,
+                'type' => $divisionID,
+                'data' => $data,
+            ]);
+
+            //  dd($notification);
+            $notification->save();
+
             return redirect()
                 ->route('dc.accomplishments')
                 ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');

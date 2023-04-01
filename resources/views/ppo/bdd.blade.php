@@ -73,14 +73,18 @@
                         <tbody>
                             @foreach ($driversact as $driver)
                                 {{-- {{dd($driver->measures)}}     --}}
+                            
                                 @if ($driver->code == 'BDD')
                                     <tr>
                                         <td rowspan="{{ $driver->measures->count() + 1 }}" class="text-center align-middle">
                                             {{ $driver->driver }}</td>
+                                        
                                         @foreach ($driver->measures as $measure)
+                                      
                                     <tr>
-
+                                      
                                         <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
+                                     
 
                                         <td class="text-center align-middle">
                                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
@@ -136,6 +140,7 @@
 
 
                                     </tr>
+                                    
                                 @endforeach
                                 </tr>
                             @endif
