@@ -24,7 +24,7 @@
             <form method="POST" action="{{ route('dc.add_driver') }}">
                 @csrf
                 {{-- {{var_dump(Session::all())}} --}}
-                <div class="card-header">
+                <div class="card-header bg-primary text-white p-3">
                     <div class="table-title">
                         <div class="row d-flex align-items-center">
                             
@@ -43,15 +43,15 @@
                 
     
                 
-                <div class="d-flex align-items-top gap-3">
+                <div class="d-flex align-items-top gap-3 p-3">
                     <div class="d-flex align-items-center flex-column p-2 border">
                         <div>
-                            <label for="driver">New Driver</label>
-                            <input type="text" name="driver" id="driver_input" class="w-100" required>
+                            <label for="driver" class="form-label">New Driver</label>
+                            <input type="text" name="driver" id="driver_input" class="w-100 form-control" required>
                         </div>
                         <div class="text-center w-100">
                             <span>or</span>
-                           <select name="driver_ID" id="driver_select" required>
+                           <select name="driver_ID" id="driver_select" required class="form-select">
                             <option value="">CHOOSE DRIVER</option>
                             @foreach ($drivers as $driver)
                             <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
@@ -70,16 +70,16 @@
                     </div> --}}
                     <div class="w-100 border">
                         <div class="d-flex justify-content-between align-items-center flex-column p-2">
-                            <button type="button" id="addInputField">Add Input Field</button>
+                            <button type="button" id="addInputField" class="btn btn-primary mb-3">Add Input Field</button>
                             <div id="inputFieldsContainer" class="w-100 border p-2 my-2">
                                 <div class="input-field d-flex align-items-center gap-1">
-                                    <label for="measure">New Measure</label>
-                                    <textarea type="text" name="add[0][measure]" class="measure_input w-100" placeholder="Enter value" id="measure_textare"></textarea>
+                                    <label for="measure" class="form-label">New Measure</label>
+                                    <textarea type="text" name="add[0][measure]" class="measure_input w-100 form-control" placeholder="Enter value" id="measure_textare"></textarea>
                                     <div>
                                         <label for="measure">Annual Target</label>
-                                        <input type="text" name="add[0][target]">
+                                        <input type="text" name="add[0][target]" class="form-control">
                                         <label for="measure">Type</label>
-                                        <select name="add[0][type]" id="measure_select">
+                                        <select name="add[0][type]" id="measure_select" class="form-select">
                                             <option value="">select</option>
                                             <option value="INDIRECT">INDIRECT</option>
                                             <option value="MANDATORY">MANDATORY</option>
@@ -88,7 +88,7 @@
                                         </select>
                                     </div>
                                     
-                                    <button class="removeInputField">Remove</button>
+                                    <button class="removeInputField btn btn-primary mb-3" >Remove</button>
                                 </div>
                                 
                             </div>
@@ -115,7 +115,7 @@
                                         @if (isset($annual_targets[$measure->strategic_measure_ID]))
                                         
                                         
-                                        <input type="text" disabled value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target}}">
+                                        <input type="text" disabled value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target}}" class="form-control">
                                     
                                         
                                             
@@ -141,7 +141,7 @@
         
         
                                     <div class="form-check">
-                                        <input type="text" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
                                         
                                     </div>
                                 </div>
@@ -183,8 +183,8 @@
                   
                 </div>
     
-                <div class="text-right">
-                    <input type="submit" name="" id="">
+                <div class="text-right pr-3" style="display: flex; justify-content: flex-end;">
+                    <input type="submit" name="" id="" class="btn btn-primary mb-3">
                 </div>
            
             </form>
