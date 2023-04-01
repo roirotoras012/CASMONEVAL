@@ -62,43 +62,60 @@ class EvaluationController extends Controller
 
         if ($request->input('remark') !== null) {
             $evaluation->remark = $request->input('remark');
+
+            $userName = auth()->user()->first_name;
+            $provinceID = auth()->user()->province_ID;
+            $userTypeID = auth()->user()->user_type_ID;
+
+            $data = $userName . ' has added remarks';
+
+            $user_ID = Auth::id();
+
+            $divisionName = $request->input('division');
+            $divisionMap = [
+                'Business Development Division' => 'BDD',
+                'Consumer Protective Division' => 'CPD',
+                'Finance Administrative Division' => 'FAD',
+            ];
+            $division = Division::where('division', $divisionName)->first();
+
+            if ($division) {
+                $divisionNameAcronym = $divisionMap[$division->division] ?? $division->division;
+                $evalDiv = [
+                    'division' => $divisionNameAcronym,
+                ];
+
+                // Set division_ID based on divisionNameAcronym value
+                $divisionID = null;
+                switch ($divisionNameAcronym) {
+                    case 'BDD':
+                        $divisionID = 1;
+                        break;
+                    case 'CPD':
+                        $divisionID = 2;
+                        break;
+                    case 'FAD':
+                        $divisionID = 3;
+                        break;
+                }
+            } else {
+                // Handle the case where the Division model with the given division name does not exist
+            }
+
+            $notification = new Notification([
+                'user_type_ID' => 5, // Notify to DC
+                'user_ID' => $user_ID,
+                'division_ID' => $divisionID,
+                'province_ID' => $provinceID,
+                // 'opcr_ID' => $opcr_id,
+                'type' => $divisionNameAcronym,
+                'data' => $data,
+            ]);
+
+            // dd($notification);
+            $notification->save();
+
             $evaluation->save();
-
-            // $userName = auth()->user()->first_name;
-            // $provinceID = auth()->user()->province_ID;
-            // $userTypeID = auth()->user()->user_type_ID;
-            // $opcr_id = $request->input('opcr_id');
-            // $opcr = Opcr::find($opcr_id);
-
-            // $data = $userName . ' has added remarks';
-
-            // $user_ID = Auth::id();
-
-            // // Define an array of division IDs and corresponding division names
-            // $divisions = [
-            //     1 => 'BDD',
-            //     2 => 'CPD',
-            //     3 => 'FAD',
-            // ];
-
-            // // Loop through the division IDs and create a notification for each division
-            // foreach ($divisions as $divisionID => $divisionName) {
-            //     $notification = new Notification([
-            //         'user_type_ID' => 5, // Notify to DC
-            //         'user_ID' => $user_ID,
-            //         'division_ID' => $divisionID,
-            //         'province_ID' => $provinceID,
-            //         // 'opcr_ID' => $opcr_id,
-            //         'type' => 'Division Chief Evaluation',
-            //         'data' => $data,
-            //     ]);
-
-            //     // Add the division name to the notification message
-            //     $message = $data . ' for ' . $divisionName;
-            //     $notification->data = $message;
-            //     dd($notification);
-            //     $notification->save();
-            // }
 
             return redirect()
                 ->back()

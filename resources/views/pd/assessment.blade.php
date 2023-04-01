@@ -52,7 +52,7 @@
                                                     data-bs-target="#reason<?= $eva->evaluation_ID ?>">
                                                     Add Remarks
                                                 </a>
-                                                <x-update_remark_eval_modal :evaluation_ID="$eva->evaluation_ID" />
+                                                <x-update_remark_eval_modal :evaluation_ID="$eva->evaluation_ID" :division_ID="$eva->division" />
                                             </td>
                                         @else
                                             <td>{{ $eva->remark }}</td>
