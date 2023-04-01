@@ -41,7 +41,7 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
                         
-                       @if ($opcrs_active[0]->is_submitted_division == true)
+                       @if (count($notification) > 0)
                        <button class="btn btn-primary" disabled type="submit">{{ __('Already Submitted to Division') }}</button>
                        @else
                        <button class="btn btn-primary" type="submit">{{ __('Submit to Division') }}</button>

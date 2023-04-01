@@ -304,9 +304,18 @@ class ProvincialPlanningOfficerController extends Controller
 
             // echo $monthly_target->annual_accom;
         }
-
+        
+        $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+            ->where(function($query) {
+                $query->where('division_ID', 1)
+                    ->orWhere('division_ID', 2)
+                    ->orWhere('division_ID', 3);
+            })
+            ->where('province_ID', '=', $user->province_ID)
+            ->get();
+        // dd($notification);
         // dd($monthly_targets);
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification'));
     }
 
     public function savetarget()
@@ -531,10 +540,10 @@ class ProvincialPlanningOfficerController extends Controller
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', '=', 1)
             ->get();
+        $objectivesact = StrategicObjective::where('is_active', 1)
+            ->get();
 
-        // $objectivesact = StrategicObjective::all();
-
-        // $objectives = StrategicObjective::all();
+       
         if (count($opcrs_active) > 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
                 ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
@@ -571,14 +580,39 @@ class ProvincialPlanningOfficerController extends Controller
 
         if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
-                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
-                ->where('province_ID', '=', $user->province_ID)
-                ->get()
-                ->groupBy(['strategic_measures_ID', 'province_ID']);
+            ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+            ->where('province_ID', '=', $user->province_ID)
+            ->get()
+            ->groupBy(['strategic_measures_ID', 'province_ID']);
+            // dd($annual_targets);
+
+            $annual_targets2 = DB::table('annual_targets')
+            ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+            ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->where('divisions.code', '=', 'BDD')
+            ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+            ->get('annual_targets.*', 'divisions.code','divisions.division_ID')
+            ->groupBy(['strategic_objectives_ID']);
+
+            
+            // dd($annual_targets2);
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+             if($objective){
+                $objectives[] = $objective;
+
+             }
+            }
+            // dd("asd");
+            // dd($objectives);
+
+                
         } else {
             $annual_targets = null;
         }
-
+        
         // dd($annual_targets);
 
         // $divisions = Division::all();
@@ -597,7 +631,7 @@ class ProvincialPlanningOfficerController extends Controller
             ->where('annual_targets.province_ID', '=', $user->province_ID)
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['annual_target_ID']);
-
+            // dd($monthly_targets);
         foreach ($monthly_targets as $monthly_target) {
             // echo "annual target ID: {$annual_target_ID}<br>";
             $annual_accom = 0;
@@ -648,7 +682,7 @@ class ProvincialPlanningOfficerController extends Controller
             //    dd($monthly_targets);
             // echo $monthly_target->annual_accom;
         }
-        return view('ppo.bdd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
+        return view('ppo.bdd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'objectivesact', 'objectives'));
         // return view('ppo.savetarget');
         // return view('ppo.accomplishment');
     }
@@ -701,6 +735,27 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('province_ID', '=', $user->province_ID)
                 ->get()
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+                $annual_targets2 = DB::table('annual_targets')
+            ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+            ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->where('divisions.code', '=', 'CPD')
+            ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+            ->get('annual_targets.*', 'divisions.code','divisions.division_ID')
+            ->groupBy(['strategic_objectives_ID']);
+            // dd($annual_targets2);
+            
+            // dd($annual_targets2);
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+             if($objective){
+                $objectives[] = $objective;
+
+             }
+            }
+            // dd($objectives);
         } else {
             $annual_targets = null;
         }
@@ -773,7 +828,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
 
         // dd($monthly_targets);
-        return view('ppo.cpd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
+        return view('ppo.cpd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'annual_targets2', 'objectives'));
         // return view('ppo.savetarget');
         // return view('ppo.accomplishment');
     }
@@ -826,6 +881,27 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('province_ID', '=', $user->province_ID)
                 ->get()
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+
+                $annual_targets2 = DB::table('annual_targets')
+            ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+            ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->where('divisions.code', '=', 'FAD')
+            ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+            ->get('annual_targets.*', 'divisions.code','divisions.division_ID')
+            ->groupBy(['strategic_objectives_ID']);
+
+            
+            // dd($annual_targets2);
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+             if($objective){
+                $objectives[] = $objective;
+
+             }
+            }
         } else {
             $annual_targets = null;
         }
@@ -898,7 +974,7 @@ class ProvincialPlanningOfficerController extends Controller
             // echo $monthly_target->annual_accom;
         }
 
-        return view('ppo.fad', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets'));
+        return view('ppo.fad', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'annual_targets2', 'objectives'));
         // return view('ppo.savetarget');
         // return view('ppo.accomplishment');
     }
@@ -968,4 +1044,6 @@ class ProvincialPlanningOfficerController extends Controller
             ->back()
             ->with('update', 'Validation updated successfully.');
     }
+
+    
 }
