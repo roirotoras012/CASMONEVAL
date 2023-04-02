@@ -7,9 +7,10 @@
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
-          
-            <div class="container-fluid px-4 py-5">
-                @if (count($notification) > 0)
+
+        <div class="container-fluid px-4 py-5">
+            {{-- @if (count($notification) > 0) --}}
+            @if (!is_null($notification) && count($notification) > 0)
                 {{ $userDetails->province_ID }}
                 <h1>{{ match ($userDetails->province_ID) {
                     1 => 'Bukidnon BDD Division',
@@ -20,7 +21,7 @@
                     default => 'other',
                 } }}
                 </h1>
-    
+
                 <div class="col-md-12">
                     @if (session()->has('alert'))
                         <div class="alert alert-danger">
@@ -41,7 +42,8 @@
                                 <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
                                 <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">Annual
                                     Target</th>
-                                <th colspan="12" class="text-center align-middle bg-primary text-white">Month Accomplishment
+                                <th colspan="12" class="text-center align-middle bg-primary text-white">Month
+                                    Accomplishment
                                 </th>
                             </tr>
                             <tr>
@@ -64,7 +66,7 @@
                             </tr>
                         </thead>
                         <tbody>
-    
+
                             {{-- {{dd($driversact)}} --}}
                             @foreach ($driversact as $driver)
                                 @php
@@ -79,15 +81,15 @@
                                     $measure_count = $measures->count();
                                     $has_province = false;
                                     $annual_count = 0;
-                                    foreach ( $measures as  $measure_key) {
+                                    foreach ($measures as $measure_key) {
                                         # code...
-                                        if($measure_key->province_ID == $user->province_ID) {
+                                        if ($measure_key->province_ID == $user->province_ID) {
                                             $has_province = true;
                                             $annual_count++;
                                         }
                                     }
                                 @endphp
-    
+
                                 @if ($measure_count > 0 && $has_province)
                                     <tr>
                                         <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
@@ -95,94 +97,136 @@
                                     </tr>
                                     {{-- {{dd($measures)}} --}}
                                     @foreach ($measures as $measure)
-                                    @if ($measure->province_ID == $user->province_ID)
-                                    <tr>
-                                          {{-- {{dd($measures)}} --}}
-                                        <td class="text-center align-middle">{{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}</td>
-                                        <td class="text-center align-middle">{{ $measure->division->division }}</td>
-    
-                                        @foreach ($provinces as $province)
-                                            @php
-                                                $provinceName = match ($userDetails->province_ID) {
-                                                    1 => 'Bukidnon',
-                                                    2 => 'Lanao Del Norte',
-                                                    3 => 'Misamis Oriental',
-                                                    4 => 'Misamis Occidental',
-                                                    5 => 'Camiguin',
-                                                    default => 'Other',
-                                                };
-                                            @endphp
-    
-                                            @if ($province->province == $provinceName)
+                                        @if ($measure->province_ID == $user->province_ID)
+                                            <tr>
+                                                {{-- {{dd($measures)}} --}}
                                                 <td class="text-center align-middle">
-                                                    @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
-                                                        <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
-                                                        </p>
-                                                    @else
-                                                        <p>N/A</p>
-                                                    @endif
+                                                    {{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}
                                                 </td>
-    
-                                                {{-- loop for the months of the year monthly target area --}}
-                                                @for ($i = 1; $i <= 12; $i++)
-                                                    <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-    
-                                                    @if (isset(
-                                                            $monthly_targets[strtolower($month->format('M'))][
-                                                                $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                            ]))
-                                                        @if (isset(
-                                                                $monthly_targets[strtolower($month->format('M'))][
-                                                                    $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                ]->first()->monthly_accomplishment))
-                                                            <td class="text-center align-middle">
+                                                <td class="text-center align-middle">{{ $measure->division->division }}
+                                                </td>
+
+                                                @foreach ($provinces as $province)
+                                                    @php
+                                                        $provinceName = match ($userDetails->province_ID) {
+                                                            1 => 'Bukidnon',
+                                                            2 => 'Lanao Del Norte',
+                                                            3 => 'Misamis Oriental',
+                                                            4 => 'Misamis Occidental',
+                                                            5 => 'Camiguin',
+                                                            default => 'Other',
+                                                        };
+                                                    @endphp
+
+                                                    @if ($province->province == $provinceName)
+                                                        <td class="text-center align-middle">
+                                                            @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
+                                                                <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
+                                                                </p>
+                                                            @else
+                                                                <p>N/A</p>
+                                                            @endif
+                                                        </td>
+                                                        {{-- loop for the months of the year monthly target area --}}
+                                                        @for ($i = 1; $i <= 12; $i++)
+                                                            <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
+
+                                                            @if (isset(
+                                                                    $monthly_targets[strtolower($month->format('M'))][
+                                                                        $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                    ]))
+                                                                @if (isset(
+                                                                        $monthly_targets[strtolower($month->format('M'))][
+                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                        ]->first()->monthly_accomplishment))
+                                                                    {{-- {{ dd($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->validated == 'Invalid') }} --}}
+                                                                    {{-- <td class="text-center align-middle">
+
                                                                 {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                            </td>
-                                                        @else
-                                                            {{-- {{dd(strtolower($month->format('M')))}} --}}
-                                                            <td class="text-center align-middle">
-                                                                <a href="#" data-bs-toggle="modal"
-                                                                    data-bs-target="#<?= strtolower($month->format('M')) . '_' .$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                    id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                    class="text-danger">N/A
-    
-                                                                </a>
-    
-                                                            </td>
-    
-                                                            <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
-                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID"
-                                                                :strategic_measure="$measures_list[$measure->strategic_measures_ID]->first()->strategic_measure" />
-                                                        @endif
-                                                    @else
-                                                        <td class="text-center align-middle">No Monthly Target Set</td>
+                                                           
+                                                            </td> --}}
+
+
+
+                                                                    {{-- @else --}}
+
+                                                                    <td class="text-center align-middle">
+                                                                        @if (
+                                                                            $monthly_targets[strtolower($month->format('M'))][
+                                                                                $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                            ]->first()->validated == 'Invalid')
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                class="text-danger">
+                                                                                {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                            </a>
+                                                                            <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
+                                                                                :division_ID="$userDetails->division_ID" :year="202"
+                                                                                :monthly_target="$monthly_targets[
+                                                                                    strtolower($month->format('M'))
+                                                                                ][
+                                                                                    $annual_targets[
+                                                                                        $measure->strategic_measures_ID
+                                                                                    ][$province->province_ID]->first()
+                                                                                        ->annual_target_ID
+                                                                                ]->first()->monthly_target_ID" :strategic_measure="$measures_list[
+                                                                                    $measure->strategic_measures_ID
+                                                                                ]->first()->strategic_measure" />
+                                                                        @else
+                                                                            {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                        @endif
+                                                                    </td>
+                                                                @else
+                                                                    <td class="text-center align-middle">
+                                                                        <a href="#" data-bs-toggle="modal"
+                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                            id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                            class="text-danger">
+                                                                            N/A
+                                                                        </a>
+
+                                                                    </td>
+
+                                                                    <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
+                                                                        :division_ID="$userDetails->division_ID" :year="202"
+                                                                        :monthly_target="$monthly_targets[
+                                                                            strtolower($month->format('M'))
+                                                                        ][
+                                                                            $annual_targets[
+                                                                                $measure->strategic_measures_ID
+                                                                            ][$province->province_ID]->first()
+                                                                                ->annual_target_ID
+                                                                        ]->first()->monthly_target_ID" :strategic_measure="$measures_list[
+                                                                            $measure->strategic_measures_ID
+                                                                        ]->first()->strategic_measure" />
+                                                                @endif
+                                                            @else
+                                                                <td class="text-center align-middle">No Monthly Target Set
+                                                                </td>
+                                                            @endif
+                                                        @endfor
+                                                        {{-- end of loop for the months of the year monthly target area --}}
                                                     @endif
-                                                @endfor
-                                                {{-- end of loop for the months of the year monthly target area --}}
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                    @endif
-                                        
+                                                @endforeach
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 @endif
                             @endforeach
                         </tbody>
                     </table>
-    
-    
-                </div>
 
-  
-    
-                @else
-                <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>
-                @endif
-    
-    
-            </div>
-           
-       
+
+                </div>
+            @else
+                <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
+            @endif
+
+
+        </div>
+
+
 
     </x-user-sidebar>
 @endsection
