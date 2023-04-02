@@ -207,7 +207,7 @@
                         <a class="nav-link  {{ Request::is('dc/manage') ? 'active' : '' }}"
                         href="{{ url('dc/manage') }}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
-                        Measures & Drivers
+                        Job Family Shopping
 
                         </a>
                         <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
@@ -217,12 +217,12 @@
 
                         </a>
                         {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
-                        <a class="nav-link  {{ Request::is('dc/job-fam') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('dc/job-fam') ? 'active' : '' }}"
                             href="{{ url('dc/job-fam') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Job Family Shopping
 
-                        </a>
+                        </a> --}}
 
                         <a class="nav-link  {{ Request::is('dc/accomplishment') ? 'active' : '' }}"
                             href="{{ url('dc/accomplishment') }}">
