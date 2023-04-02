@@ -99,7 +99,7 @@ class RegionalPlanningOfficerController extends Controller
     public function store(Request $request)
     {
         //
-        // dd($request);
+        dd($request);
         $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',
