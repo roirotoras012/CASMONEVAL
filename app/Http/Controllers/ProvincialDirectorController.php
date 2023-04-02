@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Notification;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,8 +13,64 @@ class ProvincialDirectorController extends Controller
 {
     public function index()
     {
-        return view('pd.dashboard');
+        $provincialUser = Auth::user();
+        $provinceId = $provincialUser->province_ID;
+        $divisionUsers = User::whereNotNull('division_ID')
+            ->where('province_ID', $provinceId)
+            ->get();
+        $divisionUserIds = $divisionUsers->pluck('user_ID');
+        $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
+                  ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
+                  ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
+                  ->select('evaluations.*', 'divisions.division')
+                  ->get();
+        return view('pd.dashboard', compact('eval'));
+        // return view('pd.dashboard');
     }
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+        $userID = auth()->user()->user_ID;
+
+        $notifications = Notification::where('province_ID', $provinceID)
+            ->where('user_type_ID', $userTypeID)
+         
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+
+            ->get();
+
+        // Log::debug('Number of notifications: ' . $notifications->count());
+        
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+        $provinceID = auth()->user()->province_ID;
+
+        Notification::where('user_type_ID', $userTypeID)
+            ->where('province_ID', $provinceID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $notificationId = $request->input('notification_id');
+        $notification = Notification::findOrFail($notificationId);
+        $notification->markAsRead();
+
+        return response()->json(['success' => true]);
+    }
+
+    
     public function updateEmailHandler(Request $request)
     {
         // dd($request);

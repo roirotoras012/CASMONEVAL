@@ -16,4 +16,13 @@ class AnnualTarget extends Model
     {
         return $this->hasMany(StrategicMeasure::class);
     }
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class, 'driver_ID');
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_ID');
+    }
 }

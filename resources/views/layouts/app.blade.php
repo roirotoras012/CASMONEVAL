@@ -180,6 +180,7 @@
                         type: 'GET',
                         dataType: "json",
                         success: function(response) {
+                            console.log(response);
                             var notifications = response.notifications;
                             var dropdownMenu = $('#notification-dropdown-menu');
                             dropdownMenu.empty();
@@ -196,8 +197,18 @@
                                         url = "{{ url('/ppo/fad') }}";
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
-                                    url = "{{ url('/dc/view-target') }}";
+                                    url = "{{ url('/dc/manage') }}";
+                                    if (notification.type == 'BDD') {
+                                        url = "{{ url('/dc/coaching') }}";
+                                    } else if (notification.type == 'CPD') {
+                                        url = "{{ url('/dc/coaching') }}";
+                                    } else if (notification.type == 'FAD') {
+                                        url = "{{ url('/dc/coaching') }}";
+                                    }
+                                }else if (notification.user_type_ID == 3) { // PD user type ID
+                                    url = "{{ url('/pd/assessment') }}";
                                 }
+                                
                                 // url += '?opcr=' + notification.opcr_ID;
                                 var notificationLink = $('<a class="dropdown-item" href="' + url +
                                     '">' +

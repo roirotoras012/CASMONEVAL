@@ -1,6 +1,6 @@
 <!-- Modal -->
 
-@props(['evaluation_ID'])
+@props(['evaluation_ID', 'division_ID'])
 
 
 
@@ -14,12 +14,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('eval.store') }}">
+                <form method="POST" action="{{ route('eval.remark') }}">
                     @csrf
 
 
                     <input type="hidden" name="evaluation_ID" value="<?= $evaluation_ID ?>">
-                    {{-- <input type="hidden" name="month" value="<?= $evaluation_ID ?>"> --}}
+                    {{-- <input type="hidden" name="month" value="<?= $division ?>"> --}}
+                    <input name="division" value="<?= $division_ID ?>">
+
                     <div class="row">
                         <div class="form-floating">
                             <select class="form-select" name="remark">

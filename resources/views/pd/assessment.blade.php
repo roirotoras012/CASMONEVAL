@@ -8,14 +8,9 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
         <div class="container-fluid px-4 py-5">
-
-            <ol class="breadcrumb mb-4">
-
-                <li class="breadcrumb-item active">
-                    <h1>Provincial Director Performance Assessment</h1>
-                </li>
-
-            </ol>
+                <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
+                    Provincial Director Performance Assessment
+                </div>
             <div>
                 @if (session()->has('update'))
                     <div class="alert alert-success">
@@ -57,7 +52,7 @@
                                                     data-bs-target="#reason<?= $eva->evaluation_ID ?>">
                                                     Add Remarks
                                                 </a>
-                                                <x-update_remark_eval_modal :evaluation_ID="$eva->evaluation_ID" />
+                                                <x-update_remark_eval_modal :evaluation_ID="$eva->evaluation_ID" :division_ID="$eva->division" />
                                             </td>
                                         @else
                                             <td>{{ $eva->remark }}</td>

@@ -81,6 +81,7 @@
                                 $current_objective = '';
                                     $ctr = 0;
                                     $is_edit = false;
+                                    $total = 0;
                                 @endphp
                                
                                 @foreach ($labels as $label)
@@ -121,69 +122,82 @@
                                                 value="{{ $label->division_ID }}">
 
                                         </td>
-                                     
-                                        <td><input type="hidden" name="data[{{ $ctr }}][total_targets]"></td>
-                                        <td>
-                                            <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
-                                            <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][BUK]" value="{{$label->BUK}}">
-                                         
+                                        @php
+                                            $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
+                                        @endphp
+                                        <td><input type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                        {{$total}}
                                         </td>
                                         <td>
-                                           @if (isset($monthly_targets[$label->BUK_target]))
-                                               <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }}</b>
-                                           
-                                                
+
+                                            <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
+                                            <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][BUK]" value="{{$label->BUK}}">
+                                        
+                                        </td>
+                                        <td>
+                                            @if ((isset($monthly_targets[$label->BUK_target])))
+                                               <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
                                             @else
-                                            No Data
-                                            
+                                               @if (isset($label->BUK_accom))
+                                                   <b>{{ $label->BUK_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
-                                            <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][CAM]" value="{{$label->CAM}}">
+                                            <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][CAM]" value="{{$label->CAM}}">
                                          
                                         </td>
                                         <td>
-                                            @if (isset($monthly_targets[$label->CAM_target]))
+                                            @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                                <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
                                             @else
-                                            No Data   
+                                            @if (isset($label->CAM_accom))
+                                            <b>{{ $label->CAM_accom}}</b>
+                                            @endif
                                            @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
-                                            <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][LDN]" value="{{$label->LDN}}">
+                                            <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][LDN]" value="{{$label->LDN}}">
                                          
                                         </td>
                                         <td>
-                                            @if (isset($monthly_targets[$label->LDN_target]))
+                                            @if ((isset($monthly_targets[$label->LDN_target])) && $monthly_targets[$label->LDN_target]->validated)
                                                <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
+                                              
                                                @else
-                                               No Data
+                                               @if (isset($label->LDN_accom))
+                                                   <b>{{ $label->LDN_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOR]" value="">
-                                            <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][MISOR]" value="{{$label->MISOR}}">
+                                            <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOR]" value="{{$label->MISOR}}">
                                           
                                         </td>
                                         <td>
-                                            @if (isset($monthly_targets[$label->MISOR_target]))
+                                            @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
                                                @else
-                                               No Data  
+                                               @if (isset($label->MISOR_accom))
+                                               <b>{{ $label->MISOR_accom}}</b>
+                                           @endif
                                            @endif
                                         </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOC]" value="">
-                                            <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="number" name="data[{{ $ctr }}][MISOC]" value="{{$label->MISOC}}">
+                                            <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOC]" value="{{$label->MISOC}}">
                                            
                                         </td>
                                         <td>
-                                            @if (isset($monthly_targets[$label->MISOC_target]))
+                                            @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               No Data
+                                               @if (isset($label->MISOC_accom))
+                                                   <b>{{ $label->MISOC_accom}}</b>
+                                               @endif
                                            @endif
                                         </td>
 
