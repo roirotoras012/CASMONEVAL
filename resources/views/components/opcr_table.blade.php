@@ -65,12 +65,15 @@
                          }
                            
                         @endphp
-                        <td <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
-                                            && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target > $accom){ ?> style="background: #ff000021;" <?php   } ?> 
-                                            class="text-center align-middle">
+                       <td style="<?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
+                        && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target == $accom) { ?>background-color: #4CAF50; color: white;<?php } elseif (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
+                        && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target > $accom) { ?>background-color: #ff000021;<?php } ?>;"
+                        class="text-center align-middle">
+                   
                             @if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
                             
-                                <span <?php if ($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true){ ?> style="font-weight: bold;" <?php   } ?> >{{ $accom }}</span>
+                                <span <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated) && $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>{{ $accom }}</span>
+
                                
                             @else
                                    
