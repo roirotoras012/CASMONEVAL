@@ -305,14 +305,29 @@ class ProvincialPlanningOfficerController extends Controller
             // echo $monthly_target->annual_accom;
         }
         
-        $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
-            ->where(function($query) {
-                $query->where('division_ID', 1)
-                    ->orWhere('division_ID', 2)
-                    ->orWhere('division_ID', 3);
-            })
-            ->where('province_ID', '=', $user->province_ID)
-            ->get();
+        // $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+        //     ->where(function($query) {
+        //         $query->where('division_ID', 1)
+        //             ->orWhere('division_ID', 2)
+        //             ->orWhere('division_ID', 3);
+        //     })
+        //     ->where('province_ID', '=', $user->province_ID)
+        //     ->get();
+
+        if ($opcrs_active->isNotEmpty()) {
+            $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+                ->where(function($query) {
+                    $query->where('division_ID', 1)
+                        ->orWhere('division_ID', 2)
+                        ->orWhere('division_ID', 3);
+                })
+                ->where('province_ID', '=', $user->province_ID)
+                ->get();
+        } else {
+            $notification = null;
+        }
+        
+        
         // dd($notification);
         // dd($monthly_targets);
         return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification'));
@@ -577,7 +592,7 @@ class ProvincialPlanningOfficerController extends Controller
         // $annual_targets = AnnualTarget::all()
         //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
         //     ->groupBy(['strategic_measures_ID', 'province_ID']);
-
+        $objectives = [];
         if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
             ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
@@ -597,6 +612,7 @@ class ProvincialPlanningOfficerController extends Controller
 
             
             // dd($annual_targets2);
+           
             foreach ($annual_targets2 as $key => $value) {
                 // echo $key;
                 $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
@@ -728,6 +744,9 @@ class ProvincialPlanningOfficerController extends Controller
         // $annual_targets = AnnualTarget::all()
         //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
         //     ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+        $annual_targets2 = null;
+        $objectives = [];
 
         if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
@@ -875,6 +894,9 @@ class ProvincialPlanningOfficerController extends Controller
         //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
         //     ->groupBy(['strategic_measures_ID', 'province_ID']);
 
+        $annual_targets2 = null;
+        $objectives = [];
+
         if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
@@ -979,60 +1001,7 @@ class ProvincialPlanningOfficerController extends Controller
         // return view('ppo.accomplishment');
     }
 
-    public function notifyToDC(Request $request)
-    {
-        // dd($request->all());
-        $userName = auth()->user()->username;
-        $provinceID = auth()->user()->province_ID;
-        $opcr_id = $request->input('opcr_id');
-
-        // dd($provinceID);
-
-        // Determine division IDs based on province ID
-        switch ($provinceID) {
-            case 1: // Bukidnon
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 2: // Lanao
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 3: // Misamis Oriental
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 4: // Misamis Occidental
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            case 5: // Camiguin
-                $division_IDs = [1, 2, 3]; // BDD, CPD, FAD
-                break;
-            default:
-                $division_IDs = [];
-        }
-
-        // Send notification to DC for each division ID
-
-        foreach ($division_IDs as $division_ID) {
-            $data = $userName . ' has submitted OPCR #' . $opcr_id;
-            $opcr = Opcr::find($opcr_id);
-            $notification = new Notification([
-                'user_type_ID' => 5, // DC usertype ID
-                'user_ID' => auth()->id(),
-                'division_ID' => $division_ID,
-                'province_ID' => $provinceID,
-                'opcr_ID' => $opcr_id,
-                'year' => $opcr->year,
-                'type' => 'OPCR Submitted',
-                'data' => $data,
-            ]);
-
-            // dd($notification);
-            $notification->save();
-        }
-
-        return redirect()
-            ->back()
-            ->with('success', 'Drivers submitted successfully.');
-    }
+   
 
     public function validateMonthlyTarget(Request $request)
     {
