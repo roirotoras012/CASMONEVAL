@@ -161,6 +161,7 @@
                                                                                 class="text-danger">
                                                                                 {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
                                                                             </a>
+                                                                            <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
                                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
                                                                                 :division_ID="$userDetails->division_ID" :year="202"
                                                                                 :monthly_target="$monthly_targets[
@@ -175,7 +176,8 @@
                                                                                 ]->first()->strategic_measure" />
                                                                         @else
                                                                             {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                        @endif
+                                                                            <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
+                                                                            @endif
                                                                     </td>
                                                                 @else
                                                                     <td class="text-center align-middle">
@@ -185,7 +187,7 @@
                                                                             class="text-danger">
                                                                             N/A
                                                                         </a>
-
+                                                                        <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
                                                                     </td>
 
                                                                     <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"

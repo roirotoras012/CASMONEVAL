@@ -36,7 +36,7 @@
 
 
                     <form action="{{ route('add_targets') }}" method="post">
-                        <table class="pt-5">
+                        <table class="pt-5" id="table">
                             <thead>
                                 <tr>
 

@@ -562,9 +562,19 @@ class RegionalPlanningOfficerController extends Controller
                     # code...  
                     // dd($by_province);
                         
-
-                        if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                       
+                        if(isset($monthly_targets[$by_province->annual_target_ID])){
+                          
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                            // dd($monthly_targets[$by_province->annual_target_ID]->validated);
+                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                                $label['BUK_accom_validated'] = true;
+
+                            }
+                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                                $label['BUK_accom_validated'] = false;
+
+                            }
                             
                         }
                         
@@ -572,7 +582,7 @@ class RegionalPlanningOfficerController extends Controller
                    }
                   
             }
-            if(isset($label['BUK_accom'])){
+            if(isset($label['BUK_accom']) && $label['BUK_accom_validated']){
                 $label['BUK_accom'] = $label['BUK_accom']/3;
             }
 
@@ -580,25 +590,43 @@ class RegionalPlanningOfficerController extends Controller
             if(!isset($label['LDN_accom'])){
                 foreach ($measure_for_common[2] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['LDN_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['LDN_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['LDN_accom'])){
+            if(isset($label['LDN_accom']) && $label['LDN_accom_validated']){
                 $label['LDN_accom'] = $label['LDN_accom']/3;
             } 
             if(!isset($label['MISOR_accom'])){
                 foreach ($measure_for_common[3] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOR_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOR_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOR_accom'])){
+            if(isset($label['MISOR_accom'])  && $label['MISOR_accom_validated']){
                 $label['MISOR_accom'] = $label['MISOR_accom']/3;
             } 
 
@@ -606,25 +634,44 @@ class RegionalPlanningOfficerController extends Controller
             if(!isset($label['MISOC_accom'])){
                 foreach ($measure_for_common[4] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOC_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOC_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOC_accom'])){
+            if(isset($label['MISOC_accom']) && $label['MISOC_accom_validated']){
                 $label['MISOC_accom'] = $label['MISOC_accom']/3;
             } 
             if(!isset($label['CAM_accom'])){
                 foreach ($measure_for_common[5] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['CAM_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['CAM_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['CAM_accom'])){
+            if(isset($label['CAM_accom']) && $label['CAM_accom_validated']){
                 $label['CAM_accom'] = $label['CAM_accom']/3;
             }
            

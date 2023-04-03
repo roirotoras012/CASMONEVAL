@@ -4,7 +4,7 @@
 
 
 
-<table class="table table-bordered ppo-table shadow">
+<table class="table table-bordered ppo-table shadow" id="table">
     <thead class="bg-primary text-white">
         <tr>
             <th rowspan="2" class="text-center align-middle">Objectives</th>
@@ -91,6 +91,7 @@
         @endforeach
         </tr>
         @endforeach
+        
     </tbody>
 </table>
 

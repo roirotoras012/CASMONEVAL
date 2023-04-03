@@ -41,7 +41,7 @@
                     <form action="{{ route('update_targets') }}" method="post">
                         <input type="hidden" name="opcr_id"
                                                 value="{{ $opcr_id }}">
-                        <table class="table table-bordered ppo-table shadow">
+                        <table class="table table-bordered ppo-table shadow" id="table">
                             <thead class="bg-primary text-white">
                                 <tr>
 
@@ -135,10 +135,10 @@
                                         
                                         </td>
                                         <td>
-                                            @if ((isset($monthly_targets[$label->BUK_target])))
+                                            @if ((isset($monthly_targets[$label->BUK_target])) && $monthly_targets[$label->BUK_target]->validated)
                                                <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
                                             @else
-                                               @if (isset($label->BUK_accom))
+                                               @if (isset($label->BUK_accom) && $label->BUK_accom_validated)
                                                    <b>{{ $label->BUK_accom}}</b>
                                                @endif
                                            @endif
@@ -152,7 +152,7 @@
                                             @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                                <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
                                             @else
-                                            @if (isset($label->CAM_accom))
+                                            @if (isset($label->CAM_accom) && $label->CAM_accom_validated)
                                             <b>{{ $label->CAM_accom}}</b>
                                             @endif
                                            @endif
@@ -167,7 +167,7 @@
                                                <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
                                               
                                                @else
-                                               @if (isset($label->LDN_accom))
+                                               @if (isset($label->LDN_accom)  && $label->LDN_accom_validated)
                                                    <b>{{ $label->LDN_accom}}</b>
                                                @endif
                                            @endif
@@ -181,7 +181,7 @@
                                             @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
                                                @else
-                                               @if (isset($label->MISOR_accom))
+                                               @if (isset($label->MISOR_accom)  && $label->MISOR_accom_validated)
                                                <b>{{ $label->MISOR_accom}}</b>
                                            @endif
                                            @endif
@@ -195,7 +195,7 @@
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               @if (isset($label->MISOC_accom))
+                                               @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
                                                    <b>{{ $label->MISOC_accom}}</b>
                                                @endif
                                            @endif
@@ -228,7 +228,7 @@
                                     <button <?php if ($opcr[0]->status != 'COMPLETE' && $opcr[0]->is_submitted != true){ ?> disabled <?php   } ?> type="submit" value="done" name="submit" class="btn btn-success">
                                         Mark as Done
                                     </button>
-                                   
+                                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button>
                                 </div>
                                 @if ($opcr[0]->is_submitted == true)
                                 <div class="alert alert-success">
