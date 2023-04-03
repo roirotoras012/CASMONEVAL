@@ -96,27 +96,29 @@
                             Dashboard
                         </a>
 
+                        <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
+                        href="{{ url('pd/savetarget') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
+                        Save Target
 
-                        <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"
+                     </a>
+
+
+                        {{-- <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"
                             href="{{ url('pd/addtarget') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
                             Add Target
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
-                            href="{{ url('pd/savetarget') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                            Save Target
-
-                        </a>
+                  
 
                         <a class="nav-link  {{ Request::is('pd/accomplishment') ? 'active' : '' }}"
                             href="{{ url('pd/accomplishment') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             Add Accomplishment
 
-                        </a>
+                        </a> --}}
 
                         <a class="nav-link  {{ Request::is('pd/assessment') ? 'active' : '' }}"
                             href="{{ url('pd/assessment') }}">

@@ -85,6 +85,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
     Route::post('eval/remark', [EvaluationController::class, 'addRemark'])->name('eval.remark');
+
+    Route::get('pd/savedtarget  ', [ProvincialDirectorController::class, 'savetarget']);
+    Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer

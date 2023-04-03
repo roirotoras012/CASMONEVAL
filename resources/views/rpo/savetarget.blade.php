@@ -6,7 +6,7 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-          </div>
+        </div>
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
@@ -22,7 +22,7 @@
                         <ul>
                             <li style="list-style: none !important;">
                                 <a href="{{ url('rpo/opcr/' . $item->opcr_ID) }}">
-                                    <h4>ID: {{ $item->opcr_ID }}</h4>
+                                    <h4>OPCR #: {{ $item->opcr_ID }}</h4>
                                 </a>
 
                             </li>
@@ -34,24 +34,31 @@
                             </li>
                             <li style="list-style: none !important;">
                                 @if ($item->status == 'COMPLETE')
-                                    <h5 style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 180px;">
+                                    <h5
+                                        style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 180px;">
                                         Status: {{ $item->status }}</h5>
                                 @elseif ($item->status == 'INCOMPLETE')
-                                    <h5 style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">Status: {{ $item->status }}</h5>
+                                    <h5
+                                        style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">
+                                        Status: {{ $item->status }}</h5>
                                 @elseif ($item->status == 'DONE')
-                                    <h5 style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 195px;">Status: {{ $item->status }}</h5>
+                                    <h5
+                                        style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 195px;">
+                                        Status: {{ $item->status }}</h5>
                                 @else
                                     <h4>Status: </h4>
                                 @endif
 
 
                                 @if ($item->is_active == true && $item->status != 'DONE')
-                                <h5 style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 180px;">
-                                    Status: ACTIVE
-                                @elseif ($item->is_active == false && $item->status != 'DONE')
-                                    <h5 style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">Status: INACTIVE</h5>
-                                @else
-                                    
+                                    <h5
+                                        style="color: #fff; background: green; padding: 10px; border-radius: 20px; width: 180px;">
+                                        Status: ACTIVE
+                                    @elseif ($item->is_active == false && $item->status != 'DONE')
+                                        <h5
+                                            style="color: #fff; background: red; padding: 10px; border-radius: 20px; width: 195px;">
+                                            Status: INACTIVE</h5>
+                                    @else
                                 @endif
 
                             </li>
