@@ -1,6 +1,6 @@
 <!-- Modal -->
 {{-- @props(['month', 'annual_target', 'division_ID']) --}}
-@props(['month', 'division_ID', 'annual_target', 'monthly_target_ID'])
+@props(['month', 'division_ID', 'annual_target', 'monthly_target_ID', 'monthly_target'])
 
 
 
@@ -12,13 +12,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('dc.store')}}" >
+                <form method="POST" action="{{ route('dc.updateTar')}}" >
                     @csrf
                     
                         <input type="hidden" name="annual_target_ID" value="{{$annual_target}}">
                         <input type="hidden" name="division_ID" value="{{$division_ID}}">
                         <input type="hidden" name="month" value="{{$month}}">
-                        {{-- <input type="hidden" name="monthly_target_ID" value="{{$monthly_target_ID}}"> --}}
+                        <input type="hidden" name="monthly_target_ID" value="{{$monthly_target_ID}}">
                         {{-- <input type="hidden" name="year" value="2032"> --}}
 
                         <div class="row">
@@ -28,8 +28,8 @@
                             <div>
                                 <input type="text" id="monthly_target"
                                     class="form-control @error('monthly_target') is-invalid @enderror"
-                                    name="monthly_target" value="{{ old('monthly_target') }}" required autofocus />
-
+                                    name="monthly_target" value="{{ old('monthly_target') }}" required autofocus placeholder="{{ $monthly_target }}"/>
+                                    
 
                                 @error('monthly_target')
                                     <span class="invalid-feedback" role="alert">

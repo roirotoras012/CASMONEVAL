@@ -72,12 +72,12 @@
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('rpo/assessment') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('rpo/assessment') ? 'active' : '' }}"
                             href="{{ url('rpo/assessment') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
                             Performance Assessment
 
-                        </a>
+                        </a> --}}
 
 
 
