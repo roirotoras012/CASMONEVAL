@@ -55,7 +55,7 @@
                     @endif
                     <div class="d-flex align-items-center gap-3">
                     <div><button class="btn btn-primary my-2" id="print-button">Print Table</button></div>
-                    <div><a href="/dc/accomplishment"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a></div>
+                    <div><a href="/dc/view-target"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a></div>
                 </div>
                     <table class="table table-bordered shadow" id="table">
                         <thead>

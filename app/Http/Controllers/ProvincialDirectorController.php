@@ -191,15 +191,13 @@ class ProvincialDirectorController extends Controller
 
                 $annual_accom = 0;
                 $validated = true;
-                if(count($monthly_targets) == 12){
-                    $validated = true;
-                }
-                else{
+                if(!count($monthly_target) >= 12){
                     $validated = false;
                 }
+            
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                    if($target->validated == 'Not Validated'){
+                    if($target->validated != 'Validated'){
                         $validated = false;
                     }
 
@@ -220,7 +218,7 @@ class ProvincialDirectorController extends Controller
 
             $monthly_targets = null;
         }
-
+        // dd($monthly_targets);
 
 
 
@@ -273,15 +271,25 @@ class ProvincialDirectorController extends Controller
 
                 // dd($measure_for_common );
             // dd($measure_for_common[2]);
-            if(!isset($label['BUK_accom'])){
+            if(!isset($label['BUK_accom']) && isset($measure_for_common[1])){
                 
                 foreach ($measure_for_common[1] as $by_province) {
                     # code...  
                     // dd($by_province);
                         
-
-                        if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                       
+                        if(isset($monthly_targets[$by_province->annual_target_ID])){
+                          
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                            // dd($monthly_targets[$by_province->annual_target_ID]->validated);
+                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                                $label['BUK_accom_validated'] = true;
+
+                            }
+                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                                $label['BUK_accom_validated'] = false;
+
+                            }
                             
                         }
                         
@@ -289,63 +297,112 @@ class ProvincialDirectorController extends Controller
                    }
                   
             }
-            if(isset($label['BUK_accom'])){
+            if(isset($label['BUK_accom']) && $label['BUK_accom_validated']){
                 $label['BUK_accom'] = $label['BUK_accom']/3;
             }
 
          
-            if(!isset($label['LDN_accom'])){
+            if(!isset($label['LDN_accom']) && isset($measure_for_common[2])){
                 foreach ($measure_for_common[2] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['LDN_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['LDN_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['LDN_accom'])){
+            if(isset($label['LDN_accom']) && $label['LDN_accom_validated']){
                 $label['LDN_accom'] = $label['LDN_accom']/3;
             } 
-            if(!isset($label['MISOR_accom'])){
+            if(!isset($label['MISOR_accom']) && isset($measure_for_common[3])){
                 foreach ($measure_for_common[3] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOR_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOR_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOR_accom'])){
+            if(isset($label['MISOR_accom'])  && $label['MISOR_accom_validated']){
                 $label['MISOR_accom'] = $label['MISOR_accom']/3;
             } 
 
 
-            if(!isset($label['MISOC_accom'])){
+            if(!isset($label['MISOC_accom']) && isset($measure_for_common[4])){
                 foreach ($measure_for_common[4] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOC_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOC_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOC_accom'])){
+            if(isset($label['MISOC_accom']) && $label['MISOC_accom_validated']){
                 $label['MISOC_accom'] = $label['MISOC_accom']/3;
             } 
-            if(!isset($label['CAM_accom'])){
+            if(!isset($label['CAM_accom']) && isset($measure_for_common[5])){
                 foreach ($measure_for_common[5] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['CAM_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['CAM_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['CAM_accom'])){
+            if(isset($label['CAM_accom']) && $label['CAM_accom_validated']){
                 $label['CAM_accom'] = $label['CAM_accom']/3;
             }
            
+               
+              
+           
+             
+              
+              
+             
+               
+         
 
+             
+            
+            
             
             
             }
