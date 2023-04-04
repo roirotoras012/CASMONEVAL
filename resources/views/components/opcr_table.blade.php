@@ -28,11 +28,14 @@
         {{-- {{ dd($objectivesact[0]->strategic_measures) }} --}}
         @foreach ($objectivesact as $objective)
             <tr>
-                <td rowspan="{{ $objective->measures->count() + 1 }}" class="text-center align-middle">
+                <td rowspan="{{ $objective->measures()
+                    ->where('strategic_measures.type', 'DIRECT MAIN')
+                    ->orWhere('strategic_measures.type', 'DIRECT')
+                    ->count() + 1 }}" class="text-center align-middle">
                     {{ $objective->strategic_objective }}</td>
                {{-- {{ dd($objective->measures) }}      --}}
                 @foreach ($objective->measures as $measure)
-                @if ($measure->type != '')
+                @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
                 <tr>
                     <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
                     {{-- @foreach ($provinces as $province) --}}

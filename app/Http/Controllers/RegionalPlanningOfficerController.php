@@ -554,7 +554,7 @@ class RegionalPlanningOfficerController extends Controller
 
                 // dd($measure_for_common );
             // dd($measure_for_common[2]);
-            if(!isset($label['BUK_accom'])){
+            if(!isset($label['BUK_accom']) && isset($measure_for_common[1])){
                 
                 foreach ($measure_for_common[1] as $by_province) {
                     # code...  
@@ -585,7 +585,7 @@ class RegionalPlanningOfficerController extends Controller
             }
 
          
-            if(!isset($label['LDN_accom'])){
+            if(!isset($label['LDN_accom']) && isset($measure_for_common[2])){
                 foreach ($measure_for_common[2] as $by_province) {
                     # code...
                     if(isset($monthly_targets[$by_province->annual_target_ID])){
@@ -606,7 +606,7 @@ class RegionalPlanningOfficerController extends Controller
             if(isset($label['LDN_accom']) && $label['LDN_accom_validated']){
                 $label['LDN_accom'] = $label['LDN_accom']/3;
             } 
-            if(!isset($label['MISOR_accom'])){
+            if(!isset($label['MISOR_accom']) && isset($measure_for_common[3])){
                 foreach ($measure_for_common[3] as $by_province) {
                     # code...
                     if(isset($monthly_targets[$by_province->annual_target_ID])){
@@ -629,7 +629,7 @@ class RegionalPlanningOfficerController extends Controller
             } 
 
 
-            if(!isset($label['MISOC_accom'])){
+            if(!isset($label['MISOC_accom']) && isset($measure_for_common[4])){
                 foreach ($measure_for_common[4] as $by_province) {
                     # code...
                     if(isset($monthly_targets[$by_province->annual_target_ID])){
@@ -651,7 +651,7 @@ class RegionalPlanningOfficerController extends Controller
             if(isset($label['MISOC_accom']) && $label['MISOC_accom_validated']){
                 $label['MISOC_accom'] = $label['MISOC_accom']/3;
             } 
-            if(!isset($label['CAM_accom'])){
+            if(!isset($label['CAM_accom']) && isset($measure_for_common[5])){
                 foreach ($measure_for_common[5] as $by_province) {
                     # code...
                     if(isset($monthly_targets[$by_province->annual_target_ID])){

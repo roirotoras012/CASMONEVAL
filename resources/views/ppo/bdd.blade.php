@@ -76,8 +76,12 @@
                             
                               
                                     <tr>
-                                        <td rowspan="{{ $driver->measures->count() + 1 }}" class="text-center align-middle">
-                                            {{ $driver->strategic_objective }}</td>
+                                        <td rowspan="{{ $driver->measures()
+                                            ->where('strategic_measures.type', 'DIRECT MAIN')
+                                            ->orWhere('strategic_measures.type', 'DIRECT')
+                                            ->count() + 1 }}" class="text-center align-middle">
+                                            {{ $driver->strategic_objective }}
+                                            </td>
                                         
                                        @php
                                             $measures = $driver->measures->where('division.code', 'BDD');
