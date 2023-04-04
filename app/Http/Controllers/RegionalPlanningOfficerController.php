@@ -474,15 +474,13 @@ class RegionalPlanningOfficerController extends Controller
 
                 $annual_accom = 0;
                 $validated = true;
-                if(count($monthly_targets) == 12){
-                    $validated = true;
-                }
-                else{
+                if(!count($monthly_target) >= 12){
                     $validated = false;
                 }
+            
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                    if($target->validated == 'Not Validated'){
+                    if($target->validated != 'Validated'){
                         $validated = false;
                     }
 
@@ -503,7 +501,7 @@ class RegionalPlanningOfficerController extends Controller
 
             $monthly_targets = null;
         }
-
+        // dd($monthly_targets);
 
 
 

@@ -10,6 +10,7 @@
 
 
         <div class="container-fluid px-4 py-5">
+           
             {{-- @if (count($notification) > 0)
             <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5"> {{ $userDetails->first_name }} -  {{ match ($userDetails->province_ID) {
                 1 => 'Bukidnon BDD Division',
@@ -41,7 +42,21 @@
                     } }}
                 </div>
                 <div>
-                    <button class="btn btn-primary my-2" id="print-button">Print Table</button>
+                    <div class="col-md-12">
+                    @if (session()->has('alert'))
+                        <div class="alert alert-danger">
+                            {{ session('alert') }}
+                        </div>
+                    @endif
+                    @if (session()->has('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <div class="d-flex align-items-center gap-3">
+                    <div><button class="btn btn-primary my-2" id="print-button">Print Table</button></div>
+                    <div><a href="/dc/accomplishment"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a></div>
+                </div>
                     <table class="table table-bordered shadow" id="table">
                         <thead>
                             <tr>
@@ -52,6 +67,8 @@
                                     Target</th>
                                 <th colspan="12" class="text-center align-middle bg-primary text-white">Monthly Target
                                 </th>
+                                <th rowspan="2" class="text-center align-middle bg-primary text-white">Total Target</th>
+
                             </tr>
                             <tr>
                                 <th class="text-center align-middle bg-danger text-white">
@@ -73,6 +90,7 @@
                             </tr>
                         </thead>
                         <tbody>
+
 
                             {{-- {{dd($driversact)}} --}}
                             @foreach ($driversact as $driver)
@@ -140,31 +158,46 @@
                                                             <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
                                                             {{-- {{dd( $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()->annual_target_ID ]->first()->monthly_target     )}} --}}
                                                             @if (isset($annual_targets[$measure->strategic_measures_ID]))
-                                                                @if (isset(
-                                                                        $monthly_targets[strtolower($month->format('M'))][
-                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                        ]))
+                                                                @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
+                                                                    <?php
+                                                                    $annualTarget = $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first();
+                                                                    $totalTarget = 0;
+                                                                    ?>
+                                                                    @for ($i = 1; $i <= 12; $i++)
+                                                                        <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
+                                                                        @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))
+                                                                            <?php $monthlyTarget = $monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]->first(); ?>
+                                                                            <td class="text-center align-middle">
+                                                                                <a href="#" data-bs-toggle="modal"
+                                                                                    data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
+                                                                                    id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>">
+                                                                                    {{ $monthlyTarget->monthly_target }}
+                                                                                </a>
+                                                                                <x-edit_monthly_target_modal
+                                                                                    :month="strtolower(
+                                                                                        $month->format('M'),
+                                                                                    )" :division_ID="$userDetails->division_ID"
+                                                                                    :year="202" :annual_target="$annualTarget->annual_target_ID"
+                                                                                    :monthly_target_ID="$monthlyTarget->monthly_target_ID"
+                                                                                    :monthly_target="$monthlyTarget->monthly_target" />
+                                                                            </td>
+                                                                            <?php $totalTarget += $monthlyTarget->monthly_target; ?>
+                                                                        @else
+                                                                            <td class="text-center align-middle">
+                                                                                <a href="#" data-bs-toggle="modal"
+                                                                                    data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
+                                                                                    id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
+                                                                                    class="text-danger">N/A</a>
+                                                                                <x-update_monthly_target_modal
+                                                                                    :month="strtolower(
+                                                                                        $month->format('M'),
+                                                                                    )" :division_ID="$userDetails->division_ID"
+                                                                                    :year="202" :annual_target="$annualTarget->annual_target_ID" />
+                                                                            </td>
+                                                                        @endif
+                                                                    @endfor
                                                                     <td class="text-center align-middle">
-                                                                        {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
-                                                                    </td>
-                                                                @else
-                                                                    {{-- {{dd(strtolower($month->format('M')))}} --}}
-                                                                    <td class="text-center align-middle">
-                                                                        <a href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID ?>"
-                                                                            id="#<?= strtolower($month->format('M')) . '_' . $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID ?>"
-                                                                            class="text-danger">N/A
-
-                                                                        </a>
-
-                                                                    </td>
-
-                                                                    <x-update_monthly_target_modal :month="strtolower($month->format('M'))"
-                                                                        :division_ID="$userDetails->division_ID" :year="202"
-                                                                        :annual_target="$annual_targets[
-                                                                            $measure->strategic_measures_ID
-                                                                        ][$province->province_ID]->first()
-                                                                            ->annual_target_ID" />
+                                                                        {{ $totalTarget }}</td>
                                                                 @endif
                                                             @endif
                                                         @endfor
@@ -172,6 +205,13 @@
                                                         {{-- end of loop for the months of the year monthly target area --}}
                                                     @endif
                                                 @endforeach
+                                                <!-- New column for total target -->
+
+
+
+
+
+
                                             </tr>
                                         @endif
                                     @endforeach

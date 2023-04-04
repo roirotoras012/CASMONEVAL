@@ -33,11 +33,23 @@
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Casmonevals') }}
-
-
+                <a class="navbar-brand" href="{{ 
+                    auth()->check() ? (
+                        auth()->user()->user_type_ID === 1 ? url('/rd/dashboard') : 
+                        (auth()->user()->user_type_ID === 2 ? url('/rpo/dashboard') : 
+                        (auth()->user()->user_type_ID === 3 ? url('/pd/dashboard') : 
+                        (auth()->user()->user_type_ID === 4 ? url('/ppo/dashboard') : 
+                        (auth()->user()->user_type_ID === 5 ? url('/dc/dashboard') : '#'))))) : url('/') 
+                }}">
+                    <b>DTI's M&E System</b>
                 </a>
+                
+                
+                
+                
+                
+                
+                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
