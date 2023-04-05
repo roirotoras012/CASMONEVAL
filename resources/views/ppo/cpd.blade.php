@@ -73,90 +73,81 @@
                             @foreach ($objectives as $driver)
                                 {{-- {{dd($driver->measures)}}     --}}
                                 {{-- @if ($driver->code == 'CPD') --}}
-                                    <tr>
-                                        <td rowspan="{{ $driver->measures()
-                                         
-                                           ->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)
-                                           ->where(function($query) {
-                                                   $query ->where('division_ID', 2);
-                                                  
-                                                      
-                                               })
-                                           
-                                           ->count() + 1 }}" class="text-center align-middle">
-                                            {{ $driver->strategic_objective }}</td>
-                                       @php
-                                            $measures = $driver->measures()
-                                
-                                                ->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)
-                                                
-                                                ->where(function($query) {
-                                                    $query ->where('division_ID', 2);
-                                                     
-                                                       
-                                                })
-                                                ->get();
-                                       @endphp
-                                        @foreach ($measures as $measure)
-                                    <tr>
+                                <tr>
+                                    <td rowspan="{{ $driver->measures()->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)->where(function ($query) {
+                                            $query->where('division_ID', 2);
+                                        })->count() + 1 }}"
+                                        class="text-center align-middle">
+                                        {{ $driver->strategic_objective }}</td>
+                                    @php
+                                        $measures = $driver
+                                            ->measures()
+                                        
+                                            ->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)
+                                        
+                                            ->where(function ($query) {
+                                                $query->where('division_ID', 2);
+                                            })
+                                            ->get();
+                                    @endphp
+                                    @foreach ($measures as $measure)
+                                <tr>
 
-                                        <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
+                                    <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
 
-                                        <td class="text-center align-middle">
-                                            @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
-                                                {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
-                                            @else
-                                                N/A
-                                            @endif
-                                        </td>
+                                    <td class="text-center align-middle">
+                                        @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
+                                            {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
 
-                                        @php
-                                            if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID])) {
-                                                $accoms = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID];
-                                            } else {
-                                                $accoms = null;
-                                            }
-                                        @endphp
+                                    @php
+                                        if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID])) {
+                                            $accoms = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID];
+                                        } else {
+                                            $accoms = null;
+                                        }
+                                    @endphp
 
-                                        {{-- loop for the months of the year monthly target area --}}
-                                        @for ($i = 1; $i <= 12; $i++)
-                                            <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-                                            <td>
-                                                @if (isset($accoms))
-                                                    @foreach ($accoms as $accom)
-                                                        @if ($accom->month == strtolower($month->format('M')))
-                                                            @if ($accom->validated == 'Not Validated')
-                                                                <a href="" data-bs-toggle="modal"
-                                                                    data-bs-target="#_<?= $accom->monthly_target_ID ?>"
-                                                                    class="text-warning">{{ $accom->monthly_accomplishment }}</a>
-                                                            @elseif($accom->validated == 'Validated')
-                                                                <span
-                                                                    class="text-success">{{ $accom->monthly_accomplishment }}</span>
-                                                            @elseif($accom->validated == 'Invalid')
-                                                                <span
-                                                                    class="text-danger">{{ $accom->monthly_accomplishment }}</span>
-                                                            @endif
-                                                        @endif
+                                    {{-- loop for the months of the year monthly target area --}}
+                                    @for ($i = 1; $i <= 12; $i++)
+                                        <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
+                                        <td>
+                                            @if (isset($accoms))
+                                                <?php $monthly_accomplishment = null;
+                                                $validated = null; ?>
+                                                @foreach ($accoms as $accom)
+                                                    @if ($accom->month == strtolower($month->format('M')))
+                                                        <?php $monthly_accomplishment = $accom->monthly_accomplishment;
+                                                        $validated = $accom->validated; ?>
+                                                        <a href="" data-bs-toggle="modal"
+                                                            data-bs-target="#_{{ $accom->monthly_target_ID }}"
+                                                            class="text-{{ $validated == 'Validated' ? 'success' : ($validated == 'Invalid' ? 'danger' : 'warning') }}">
+                                                            {{ $monthly_accomplishment }}
+                                                        </a>
                                                         <x-validate-modal :monthly_target_ID="$accom->monthly_target_ID" />
-                                                    @endforeach
-                                                @endif
-                                            </td>
-                                        @endfor
-                                        {{-- end of loop for the months of the year monthly target area --}}
-
-
-                                        <td class="text-center align-middle">
-                                            @if (isset($accoms->annual_accom))
-                                                {{ $accoms->annual_accom }}
-                                            @else
+                                                    @endif
+                                                @endforeach
                                             @endif
                                         </td>
+                                    @endfor
+
+                                    {{-- end of loop for the months of the year monthly target area --}}
+                                    <td class="text-center align-middle">
+                                        @if (isset($accoms->annual_accom))
+                                            {{ $accoms->annual_accom }}
+                                        @else
+                                        @endif
+                                    </td>
 
 
 
-                                    </tr>
-                                @endforeach
+
                                 </tr>
+                            @endforeach
+                            </tr>
                             {{-- @endif --}}
             @endforeach
             </tbody>

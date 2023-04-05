@@ -305,14 +305,6 @@ class ProvincialPlanningOfficerController extends Controller
             // echo $monthly_target->annual_accom;
         }
         
-        // $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
-        //     ->where(function($query) {
-        //         $query->where('division_ID', 1)
-        //             ->orWhere('division_ID', 2)
-        //             ->orWhere('division_ID', 3);
-        //     })
-        //     ->where('province_ID', '=', $user->province_ID)
-        //     ->get();
 
         if ($opcrs_active->isNotEmpty()) {
             $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)

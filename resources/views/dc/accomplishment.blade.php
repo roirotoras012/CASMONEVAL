@@ -34,14 +34,16 @@
                         </div>
                     @endif
                     <div class="d-flex align-items-center gap-3">
-                    <div><button class="btn btn-primary my-2" id="print-button">Print Table</button></div>
-                    <div><a href="/dc/accomplishment"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a></div>
-                </div>
+                        <div><button class="btn btn-primary my-2" id="print-button">Print Table</button></div>
+                        <div><a href="/dc/accomplishment"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a></div>
+                    </div>
                     <table class="table table-bordered shadow" id="table">
                         <thead>
                             <tr>
-                                <th rowspan="2" class="text-center align-middle bg-primary text-white">Drivers</th>
-                                <th rowspan="2" class="text-center align-middle bg-primary text-white">Measure</th>
+                                <th colspan="2" rowspan="2" class="text-center align-middle bg-primary text-white">
+                                    Operational Driver</th>
+                                <th rowspan="2" class="text-center align-middle bg-primary text-white">#</th>
+                                <th rowspan="2" class="text-center align-middle bg-primary text-white">KPI</th>
                                 <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
                                 <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">Annual
                                     Target</th>
@@ -69,9 +71,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $a = 0;
+                            @endphp
 
                             {{-- {{dd($driversact)}} --}}
-                            @foreach ($driversact as $driver)
+                            @foreach ($driversact as $key => $driver)
                                 @php
                                     $divisionName = match ($userDetails->division_ID) {
                                         1 => 'Business Development Division',
@@ -96,13 +101,25 @@
                                 @if ($measure_count > 0 && $has_province)
                                     <tr>
                                         <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
+                                            {{ chr($key + 65) }}</td>
+                                        @php
+                                            $i++;
+                                        @endphp
+                                        <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
                                             {{ $driver->driver }}</td>
                                     </tr>
                                     {{-- {{dd($measures)}} --}}
                                     @foreach ($measures as $measure)
                                         @if ($measure->province_ID == $user->province_ID)
+                                            @php
+                                                
+                                                $a++;
+                                            @endphp
                                             <tr>
                                                 {{-- {{dd($measures)}} --}}
+                                                <td class="text-center align-middle">
+                                                    {{ $a }}
+                                                </td>
                                                 <td class="text-center align-middle">
                                                     {{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}
                                                 </td>
@@ -164,7 +181,8 @@
                                                                                 class="text-danger">
                                                                                 {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
                                                                             </a>
-                                                                            <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
+                                                                            <span>out of
+                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
                                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
                                                                                 :division_ID="$userDetails->division_ID" :year="202"
                                                                                 :monthly_target="$monthly_targets[
@@ -179,8 +197,9 @@
                                                                                 ]->first()->strategic_measure" />
                                                                         @else
                                                                             {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                            <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
-                                                                            @endif
+                                                                            <span>out of
+                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                        @endif
                                                                     </td>
                                                                 @else
                                                                     <td class="text-center align-middle">
@@ -190,7 +209,8 @@
                                                                             class="text-danger">
                                                                             N/A
                                                                         </a>
-                                                                        <span>out of <b>{{$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target}}</b></span>
+                                                                        <span>out of
+                                                                            <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
                                                                     </td>
 
                                                                     <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
