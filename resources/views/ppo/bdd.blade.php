@@ -77,14 +77,31 @@
                               
                                     <tr>
                                         <td rowspan="{{ $driver->measures()
-                                            ->where('strategic_measures.type', 'DIRECT MAIN')
-                                            ->orWhere('strategic_measures.type', 'DIRECT')
+                                           
+                                            ->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)
+                                            ->where(function($query) {
+                                                    $query ->where('division_ID', 1);
+                                                    
+                                                       
+                                                })
+                                            
                                             ->count() + 1 }}" class="text-center align-middle">
                                             {{ $driver->strategic_objective }}
+                                        
                                             </td>
                                         
                                        @php
-                                            $measures = $driver->measures->where('division.code', 'BDD');
+                                            $measures = $driver->measures()
+                                          
+                                            
+                                                ->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)
+                                                
+                                                ->where(function($query) {
+                                                    $query ->where('division_ID', 1);
+                                                      
+                                                       
+                                                })
+                                                ->get();
                                        @endphp
                                         @foreach ($measures as $measure)
                                         

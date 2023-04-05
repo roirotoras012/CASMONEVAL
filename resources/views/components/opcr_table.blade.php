@@ -28,16 +28,19 @@
         {{-- {{ dd($objectivesact[0]->strategic_measures) }} --}}
         @foreach ($objectivesact as $objective)
             <tr>
+                @if (count($objective->measures) > 0)
                 <td rowspan="{{ $objective->measures()
                     ->where('strategic_measures.type', 'DIRECT MAIN')
                     ->orWhere('strategic_measures.type', 'DIRECT')
                     ->count() + 1 }}" class="text-center align-middle">
-                    {{ $objective->strategic_objective }}</td>
+                    {{ $objective->strategic_objective }}</td> 
+                @endif
+                
                {{-- {{ dd($objective->measures) }}      --}}
                 @foreach ($objective->measures as $measure)
                 @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
                 <tr>
-                    <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
+                    <td class="text-center align-middle">{{ $measure->strategic_measure }} {{ $measure->type }}</td>
                     {{-- @foreach ($provinces as $province) --}}
                         <td class="text-center align-middle">
                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
