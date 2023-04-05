@@ -31,6 +31,6 @@ class StrategicMeasure extends Model
 
     public function annualTarget()
     {
-        return $this->belognsTo(AnnualTarget::class);
+        return $this->belongsTo(AnnualTarget::class);
     }
 }
