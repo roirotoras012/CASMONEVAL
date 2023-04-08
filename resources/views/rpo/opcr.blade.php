@@ -38,7 +38,7 @@
                     @endif
 
 
-                    <form action="{{ route('update_targets') }}" method="post">
+                    <form action="{{ route('update_targets') }}" method="post" id="opcr_form-{{$opcr_id}}">
                         <input type="hidden" name="opcr_id"
                                                 value="{{ $opcr_id }}">
                         <table class="table table-bordered ppo-table shadow" id="table">
@@ -254,4 +254,33 @@
         </div>
 
     </x-user-sidebar>
+
+    <script>
+        
+$(document).ready(function() {
+  
+//   var opcr_form = document.getElementById('opcr_form-{{$opcr_id}}');
+
+//   opcr_form.addEventListener('submit', (event) => {
+//     console.log("WEW");
+//         // Prevent the form from submitting normally
+//       event.preventDefault();
+     
+//       // Disable the submit button
+//       const button = event.submitter;
+//       button.disabled = true;
+//       if (button.name === 'update') {
+//       console.log('Button 1 was clicked');
+//         } else if (button.name === 'button2') {
+//         console.log('Button 2 was clicked');
+//         }
+      
+//       event.target.submit();
+//     });
+
+
+
+  // your code goes here
+});
+    </script>
 @endsection

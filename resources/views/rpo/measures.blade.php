@@ -2,6 +2,7 @@
 @section('title')
     {{ 'RPO Add Measures' }}
 @endsection
+
 @section('content')
     <x-user-sidebar>
         <div class="loading-screen">
@@ -18,8 +19,15 @@
                 {{ Session::get('error') }}
             </div>
             @endif
-        <div class="card mb-4 m-4">
-           
+            <div class="disable-message" >
+                <h1 class="text-success" style="font-size: 50px">ON GOING PROCESS FOR OPCR #{{$opcrs[0]->opcr_ID}} {{$opcrs[0]->year}}</h1>
+            
+            </div>      
+        <div class="card mb-4 m-4" @if ($opcr_gotActive)
+            style="pointer-events: none; opacity: 0.5;"
+        @endif
+        >
+        
             {{-- {{var_dump(Session::all())}} --}}
             <div class="card-header">
                 <div class="table-title">

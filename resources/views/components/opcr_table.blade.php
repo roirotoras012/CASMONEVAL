@@ -1,4 +1,4 @@
-@props(['objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets'])
+@props(['objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures'])
 
 
 
@@ -55,7 +55,9 @@
                                         $accom = '';
                                     }
                                 @endphp
-                                <td style="<?php 
+                                <td 
+                                
+                                {{-- style="<?php 
                             if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
                                 && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target == $accom) {
                                 ?>background-color: #4CAF50; color: white;<?php 
@@ -66,15 +68,28 @@
                             if ($accom >= 0.9 * $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target) {
                                 ?>background-color: #4CAF50;<?php
                             }
-                        ?>"
+                        ?>" --}}
                                     class="text-center align-middle">
                                     @if (isset(
                                             $monthly_targets[
                                                 $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID
                                             ]))
                                         <span <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated) && $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>
-                                            {{ $measure->strategic_measure }} {{ $measure->type }} {{ $accom }}
+                                             {{ $accom }}
                                         </span>
+                                    
+                                        
+                                    
+                                    @endif
+                                    @if ($measure->type == 'DIRECT MAIN')
+                                    <span>
+                                        @if ($commonMeasures[$measure->strategic_measure]->annual == 0)
+                                            <span></span>
+                                        @else
+                                        <span>{{$commonMeasures[$measure->strategic_measure]->annual}}</span>
+                                        @endif
+                                         
+                                    </span>
                                     @endif
                                 </td>
                             @else

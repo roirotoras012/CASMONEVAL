@@ -154,3 +154,9 @@ $(document).ready(function () {
         }, 1000);
     });
 });
+
+
+// var button = document.getElementById('disableWhenClicked');
+
+
+

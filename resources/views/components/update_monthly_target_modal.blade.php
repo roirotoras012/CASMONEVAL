@@ -12,7 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('dc.store')}}" >
+                <form method="POST" action="{{ route('dc.store')}}" id="addMonthlyForm-{{$annual_target}}">
                     @csrf
                     
                         <input type="hidden" name="annual_target_ID" value="{{$annual_target}}">
@@ -43,7 +43,7 @@
 
 
                         <div class="d-grid col-10 mx-auto my-3">
-                            <button class="btn btn-primary" type="submit">{{ __('Add Monthly Target') }}</button>
+                            <button class="btn btn-primary" type="submit" id="disableWhenClicked">{{ __('Add Monthly Target') }}</button>
                         </div>
                     </div>
                 </form>
@@ -54,3 +54,31 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+$(document).ready(function() {
+  
+  var edit_form = document.getElementById('addMonthlyForm-{{$annual_target}}');
+
+  edit_form.addEventListener('submit', (event) => {
+
+      // Prevent the form from submitting normally
+      event.preventDefault();
+     
+      // Disable the submit button
+      const button = event.submitter;
+      button.disabled = true;
+      
+      // Submit the form
+      
+      event.target.submit();
+    });
+
+
+
+  // your code goes here
+});
+
+</script>

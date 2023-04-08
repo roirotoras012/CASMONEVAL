@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
                 
-                <form method="POST" action="{{ route('dc.store-accom')}}" >
+                <form method="POST" action="{{ route('dc.store-accom')}}" id="addAccom-{{$monthly_target}}">
                     @csrf
                     
                         <input type="hidden" name="monthly_target_ID" value="{{$monthly_target}}">
@@ -52,3 +52,29 @@
         </div>
     </div>
 </div>
+<script>
+
+    
+$(document).ready(function() {
+  
+  var accom_form = document.getElementById('addAccom-{{$monthly_target}}');
+
+  accom_form.addEventListener('submit', (event) => {
+
+      // Prevent the form from submitting normally
+      event.preventDefault();
+     
+      // Disable the submit button
+      const button = event.submitter;
+      button.disabled = true;
+      
+      // Submit the form
+      
+      event.target.submit();
+    });
+
+
+
+  // your code goes here
+});
+</script>
