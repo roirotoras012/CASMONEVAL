@@ -319,10 +319,41 @@ class ProvincialPlanningOfficerController extends Controller
             $notification = null;
         }
         
+        $commonMeasures = StrategicMeasure::join('annual_targets', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                                            ->where('strategic_measures.type', '=', 'DIRECT COMMON')
+                                            ->where('annual_targets.opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+                                            ->where('annual_targets.province_ID', '=', $user->province_ID)
+                                            ->get()
+                                            ->groupBy(['strategic_measure']);
+
+
+        foreach ($commonMeasures as $commonMeasure) {
+            $commonMeasure->annual = 0;
+            foreach ($commonMeasure as $commonAccom) {
+                # code...
+               
+                if(isset($monthly_targets[$commonAccom->annual_target_ID]))
+                // $annual_accom = $monthly_targets[$commonAccom->annual_target_ID];
+                // echo 'annual_target_id = '.$commonAccom->annual_target_ID;
+                // echo '<br/>';
+                if(isset($monthly_targets[$commonAccom->annual_target_ID])){
+                    foreach ($monthly_targets[$commonAccom->annual_target_ID] as $monthly_accom) {
+                        # code...
+                        // echo $monthly_accom->monthly_accomplishment;
+                        $commonMeasure->annual =  $commonMeasure->annual + $monthly_accom->monthly_accomplishment;      
+                     }
+                    //  echo '<br />';
+
+                }
+                
+            }
+          
+        }                                      
+        // dd($commonMeasures);
         
         // dd($notification);
         // dd($monthly_targets);
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification','commonMeasures'));
     }
 
     public function savetarget()

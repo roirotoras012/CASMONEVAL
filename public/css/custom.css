@@ -447,3 +447,16 @@ table.table.table-bordered.border-primary thead {
     height: 20px;
     border-radius: 80px;
   }
+
+  .disable-message {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    margin-top: -90px;
+    text-align: center;
+}
+

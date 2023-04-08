@@ -76,7 +76,13 @@
                                 <tr>
                                     <td rowspan="{{ $driver->measures()->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)->where(function ($query) {
                                             $query->where('division_ID', 2);
-                                        })->count() + 1 }}"
+                                        })
+                                        ->where(function ($query) {
+                                            $query->where('type', 'DIRECT')
+                                                  ->orWhere('type', 'DIRECT COMMON');
+                                                
+                                        })
+                                        ->count() + 1 }}"
                                         class="text-center align-middle">
                                         {{ $driver->strategic_objective }}</td>
                                     @php
@@ -88,6 +94,11 @@
                                             ->where(function ($query) {
                                                 $query->where('division_ID', 2);
                                             })
+                                            ->where(function ($query) {
+                                            $query->where('type', 'DIRECT')
+                                                  ->orWhere('type', 'DIRECT COMMON');
+                                                
+                                        })
                                             ->get();
                                     @endphp
                                     @foreach ($measures as $measure)

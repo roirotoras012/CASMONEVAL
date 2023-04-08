@@ -471,10 +471,10 @@ class RegionalPlanningOfficerController extends Controller
 
 
                 }
-
+               
                 $annual_accom = 0;
                 $validated = true;
-                if(!count($monthly_target) >= 12){
+                if(!(count($monthly_target) >= 12)){
                     $validated = false;
                 }
             
@@ -559,21 +559,22 @@ class RegionalPlanningOfficerController extends Controller
                 foreach ($measure_for_common[1] as $by_province) {
                     # code...  
                     // dd($by_province);
-                        
-                       
+                    $label['BUK_accom_validated'] = true;
+                        // dd(count($measure_for_common[1]));
                         if(isset($monthly_targets[$by_province->annual_target_ID])){
                           
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
                             // dd($monthly_targets[$by_province->annual_target_ID]->validated);
-                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
-                                $label['BUK_accom_validated'] = true;
-
-                            }
+                        
                             if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
                                 $label['BUK_accom_validated'] = false;
 
                             }
                             
+                        }
+                        else{
+
+                            $label['BUK_accom_validated'] = false;
                         }
                         
     
@@ -581,7 +582,7 @@ class RegionalPlanningOfficerController extends Controller
                   
             }
             if(isset($label['BUK_accom']) && $label['BUK_accom_validated']){
-                $label['BUK_accom'] = $label['BUK_accom']/3;
+                $label['BUK_accom'] = $label['BUK_accom']/count($measure_for_common[1]);
             }
 
          
@@ -1004,6 +1005,18 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function measures(){
+
+        $opcrs = Opcr::where('is_active', 1)
+        ->where('is_submitted', '=', 1)
+        ->get();
+        if(count($opcrs) > 0){
+            $opcr_gotActive = true;
+
+        }
+        else{
+
+            $opcr_gotActive = false;
+        }
         $objectives = StrategicObjective::where('is_active', '=', true)
                                         ->get();
         $divisions = Division::all();
@@ -1018,7 +1031,7 @@ class RegionalPlanningOfficerController extends Controller
             ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
         // dd($measures);
                             
-        return view('rpo.measures', compact('objectives', 'divisions', 'measures')); 
+        return view('rpo.measures', compact('objectives', 'divisions', 'measures', 'opcr_gotActive', 'opcrs')); 
               
 
     }
