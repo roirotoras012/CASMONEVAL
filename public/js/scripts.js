@@ -119,6 +119,7 @@ $(document).ready(function () {
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
+
         win.document.write("<style>");
         win.document.write(`
             @media print {
@@ -128,6 +129,8 @@ $(document).ready(function () {
                 td, th {
                     background-color: #f7f7f7; 
                 }
+
+            
             }
             `);
         win.document.write("</style>");
@@ -155,8 +158,4 @@ $(document).ready(function () {
     });
 });
 
-
 // var button = document.getElementById('disableWhenClicked');
-
-
-

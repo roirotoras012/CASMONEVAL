@@ -48,8 +48,8 @@
                        @endif
                             
                      
-            
-                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button>
+{{--             
+                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button> --}}
                      
                     
                 </form>
