@@ -12,7 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('rpo.add_objective')}}" >
+                <form method="POST" action="{{ route('rpo.add_objective')}}" id="add_objective">
                     @csrf
                     
                     
@@ -46,3 +46,30 @@
 
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+          
+            var add_form = document.getElementById('add_objective');
+          
+            add_form.addEventListener('submit', (event) => {
+           
+                // Prevent the form from submitting normally
+                event.preventDefault();
+               
+                // Disable the submit button
+                const button = event.submitter;
+                button.disabled = true;
+                
+                // Submit the form
+                
+                event.target.submit();
+              });
+        
+        
+        
+            // your code goes here
+          });
+        
+           
+        
+        </script>

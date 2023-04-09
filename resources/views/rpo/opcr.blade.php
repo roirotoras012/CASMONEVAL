@@ -195,9 +195,9 @@
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
+                                               {{-- @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
                                                    <b>{{ $label->MISOC_accom}}</b>
-                                               @endif
+                                               @endif --}}
                                            @endif
                                         </td>
 

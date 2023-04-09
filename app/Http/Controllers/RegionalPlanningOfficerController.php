@@ -1052,22 +1052,29 @@ class RegionalPlanningOfficerController extends Controller
     public function add_measure(Request $request){
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
-       
-       
+        // dd($request->accountable_division);
         if($divisions){
            if(count($divisions) > 1){
-            $strategic_measure_enity = new StrategicMeasure();
-            $strategic_measure_enity->strategic_measure = $strategic_measure;
-            $strategic_measure_enity->division_ID = 0;
-            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
-            $strategic_measure_enity->type = 'DIRECT MAIN';
-            $strategic_measure_enity->save();
+            // $strategic_measure_enity = new StrategicMeasure();
+            // $strategic_measure_enity->strategic_measure = $strategic_measure;
+            // $strategic_measure_enity->division_ID = 0;
+            // $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            // $strategic_measure_enity->type = 'DIRECT MAIN';
+            // $strategic_measure_enity->save();
             foreach ($divisions as $division) {
+                // dd($division);
                 $strategic_measure_enity = new StrategicMeasure();
                 $strategic_measure_enity->strategic_measure = $strategic_measure;
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->division_ID = $division;
-                $strategic_measure_enity->type = 'DIRECT COMMON';
+                if($request->accountable_division == $division){
+                    $strategic_measure_enity->type = 'DIRECT MAIN';
+
+                }
+                else{
+                    $strategic_measure_enity->type = 'DIRECT COMMON';
+                }
+              
                 $strategic_measure_enity->save();
             }
 

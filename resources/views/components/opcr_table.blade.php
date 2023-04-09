@@ -93,13 +93,13 @@
                             }
                             // Check if $annual_target exists and is greater than 0 before setting the $bgColor variable
                             if (isset($annual_target) && $annual_target > 0) {
-                                if ($measure->type == 'DIRECT MAIN') {
-                                    if ($commonMeasures[$measure->strategic_measure]->annual >= 0.9 * $annual_target) {
-                                        $bgColor = 'background-color: #4CAF50;';
-                                    } else {
-                                        $bgColor = 'background-color: #FF0000;';
-                                    }
-                                } else {
+                                // if ($measure->type == 'DIRECT MAIN') {
+                                //     if ($commonMeasures[$measure->strategic_measure]->annual >= 0.9 * $annual_target) {
+                                //         $bgColor = 'background-color: #4CAF50;';
+                                //     } else {
+                                //         $bgColor = 'background-color: #FF0000;';
+                                //     }
+                                // } else {
                                     if ($accomPercentage >= 0.9) {
                                         $bgColor = 'background-color: #4CAF50;';
                                     } elseif ($accomPercentage >= 0.5) {
@@ -107,7 +107,7 @@
                                     } else {
                                         $bgColor = 'background-color: #FF0000;';
                                     }
-                                }
+                                // }
                             } else {
                                 $bgColor = 'background-color: none;';
                             }
@@ -118,7 +118,7 @@
                     @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
                         <tr>
                             <td class="text-center align-middle">
-                                {{ $measure->strategic_measure }} ({{ $measure->division_ID }} - {{ $measure->type }})
+                                {{ $measure->strategic_measure }} 
                             </td>
                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                                 <td class="text-center align-middle">
@@ -130,7 +130,7 @@
                                             {{ $accom }}
                                         </span>
                                     @endif
-                                    @if ($measure->type == 'DIRECT MAIN')
+                                    {{-- @if ($measure->type == 'DIRECT MAIN')
                                         <span class="{{ $colors[$measure->type] }} full-width">
                                             @if ($commonMeasures[$measure->strategic_measure]->annual == 0)
                                                 <span></span>
@@ -138,7 +138,7 @@
                                                 <span>{{ $commonMeasures[$measure->strategic_measure]->annual }}</span>
                                             @endif
                                         </span>
-                                    @endif
+                                    @endif --}}
                                 </td>
                             @else
                                 <td class="text-center align-middle">
