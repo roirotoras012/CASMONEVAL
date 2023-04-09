@@ -463,6 +463,7 @@ class DivisionChiefController extends Controller
                 $query
                     ->where('strategic_measures.type', 'DIRECT')
                     ->orWhere('strategic_measures.type', 'DIRECT COMMON')
+                    ->orWhere('strategic_measures.type', 'DIRECT MAIN')
                     ->orWhere('strategic_measures.type', 'INDIRECT')
                     ->orWhere('strategic_measures.type', 'MANDATORY');
             })

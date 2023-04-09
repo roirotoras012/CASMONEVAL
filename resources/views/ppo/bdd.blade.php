@@ -83,8 +83,8 @@
                                         })
                                         ->where(function ($query) {
                                             $query->where('type', 'DIRECT')
-                                                  ->orWhere('type', 'DIRECT COMMON');
-                                                
+                                                  ->orWhere('type', 'DIRECT COMMON')
+                                                  ->orWhere('type', 'DIRECT MAIN');
                                         })
                                         ->count() + 1 }}"
                                         class="text-center align-middle">
@@ -105,7 +105,8 @@
                                             })
                                             ->where(function ($query) {
                                                 $query->where('type', 'DIRECT')
-                                                    ->orWhere('type', 'DIRECT COMMON');
+                                                    ->orWhere('type', 'DIRECT COMMON')
+                                                    ->orWhere('type', 'DIRECT MAIN');
                                                     
                                             })
                                             ->get();
