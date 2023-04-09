@@ -1123,4 +1123,27 @@ class RegionalPlanningOfficerController extends Controller
             ->with('success', 'Strategic Measure successfully removed');      
 
     }
+
+
+    public function upload_opcr(Request $request){
+        // dd($request->opcr_id);
+        // dd($request->hasFile('opcr_file'));
+        if ($request->hasFile('opcr_file')) {
+            $file = $request->file('opcr_file');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $filename);
+
+            
+            return redirect()
+            ->route('rpo.show', $request->opcr_id)
+            ->with('success', 'OPCR successfully marked as done');
+        }
+        else{
+
+             return redirect()
+            ->route('rpo.show', $request->opcr_id)
+            ->with('success', 'OPCR upload error');
+        }
+     
+    }
 }

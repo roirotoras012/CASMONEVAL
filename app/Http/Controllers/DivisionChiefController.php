@@ -375,7 +375,7 @@ class DivisionChiefController extends Controller
                     ->get();
             }
             
-        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification'));
+        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification','opcrs_active'));
     }
 
     public function profile()
@@ -442,7 +442,7 @@ class DivisionChiefController extends Controller
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
 
-        return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification'));
+        return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
 
     

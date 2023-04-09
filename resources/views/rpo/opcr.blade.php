@@ -225,10 +225,13 @@
                                     <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" value="submit" name="submit" class="btn btn-success">
                                         Submit OPCR
                                     </button>
-                                    <button <?php if ($opcr[0]->status != 'COMPLETE' && $opcr[0]->is_submitted != true){ ?> disabled <?php   } ?> type="submit" value="done" name="submit" class="btn btn-success">
-                                        Mark as Done
-                                    </button>
-                                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#opcr-{{$opcr_id}}"
+                                    id="#opcr-{{$opcr_id}}"
+                                    class="text-decoration-none text-black btn btn-primary text-white">Mark as Done
+
+                                    </a>
+                                    
+                                    <button type="button" class="btn btn-primary my-2" data-file-name="opcr-{{$opcr_id}}_{{$opcr[0]->year}}" id="print-button">Print Table</button>
                                 </div>
                                 @if ($opcr[0]->is_submitted == true)
                                 <div class="alert alert-success">
@@ -245,7 +248,7 @@
 
                         </table>
                     </form>
-
+                    <x-mark_as_done_modal :opcr_id=$opcr_id />
                 </div>
 
 
