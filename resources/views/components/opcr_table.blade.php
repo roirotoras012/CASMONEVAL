@@ -1,8 +1,16 @@
-@props(['objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures'])
+@props(['objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active'])
 
 
+@foreach ($provinces as $province)
+    @if ($province->province_ID == $user->province_ID)
+    @php
+           $printProvince = substr($province->province, 0, 3)
+    @endphp
+     
+    @endif
+@endforeach
 <div class="d-flex justify-content-between">
-    <button class="btn btn-primary my-2" id="print-button">Print Table</button>
+    <button class="btn btn-primary my-2" data-file-name="{{$printProvince}}_OPCR-{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button>
     <div class="legend-container">
 
 

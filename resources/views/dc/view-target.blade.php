@@ -54,7 +54,31 @@
                             </div>
                         @endif
                         <div class="d-flex align-items-center gap-3">
-                            <div><button class="btn btn-primary my-2" id="print-button">Print Table</button></div>
+                            @foreach ($provinces as $province)
+                            @if ($province->province_ID == $user->province_ID)
+                            @php
+                                $printProvince = substr($province->province, 0, 3)
+                                
+                            @endphp
+                           
+                            
+                            @endif
+                            @endforeach
+                            @php
+                                if($user->division_ID == 1){
+                                    $printDiv = 'bdd';
+
+                                }
+                                if($user->division_ID == 2){
+
+                                    $printDiv = 'cpd';
+                                }
+                                if($user->division_ID == 3){
+
+                                    $printDiv = 'fad';
+                                }
+                            @endphp
+                            <div><button class="btn btn-primary my-2" data-file-name="{{$printProvince}}-{{$printDiv}}Targets-OPCR{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button></div>
                             <div><a href="/dc/view-target"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a>
                             </div>
                         </div>
