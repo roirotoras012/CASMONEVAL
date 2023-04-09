@@ -38,10 +38,10 @@
                     @endif
 
 
-                    <form action="{{ route('update_targets') }}" method="post">
+                    <form action="{{ route('update_targets') }}" method="post" id="opcr_form-{{$opcr_id}}">
                         <input type="hidden" name="opcr_id"
                                                 value="{{ $opcr_id }}">
-                        <table class="table table-bordered ppo-table shadow">
+                        <table class="table table-bordered ppo-table shadow" id="table">
                             <thead class="bg-primary text-white">
                                 <tr>
 
@@ -135,10 +135,10 @@
                                         
                                         </td>
                                         <td>
-                                            @if ((isset($monthly_targets[$label->BUK_target])))
+                                            @if ((isset($monthly_targets[$label->BUK_target])) && $monthly_targets[$label->BUK_target]->validated)
                                                <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
                                             @else
-                                               @if (isset($label->BUK_accom))
+                                               @if (isset($label->BUK_accom) && $label->BUK_accom_validated)
                                                    <b>{{ $label->BUK_accom}}</b>
                                                @endif
                                            @endif
@@ -152,7 +152,7 @@
                                             @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                                <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
                                             @else
-                                            @if (isset($label->CAM_accom))
+                                            @if (isset($label->CAM_accom) && $label->CAM_accom_validated)
                                             <b>{{ $label->CAM_accom}}</b>
                                             @endif
                                            @endif
@@ -167,7 +167,7 @@
                                                <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
                                               
                                                @else
-                                               @if (isset($label->LDN_accom))
+                                               @if (isset($label->LDN_accom)  && $label->LDN_accom_validated)
                                                    <b>{{ $label->LDN_accom}}</b>
                                                @endif
                                            @endif
@@ -181,7 +181,7 @@
                                             @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
                                                @else
-                                               @if (isset($label->MISOR_accom))
+                                               @if (isset($label->MISOR_accom)  && $label->MISOR_accom_validated)
                                                <b>{{ $label->MISOR_accom}}</b>
                                            @endif
                                            @endif
@@ -195,7 +195,7 @@
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               @if (isset($label->MISOC_accom))
+                                               @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
                                                    <b>{{ $label->MISOC_accom}}</b>
                                                @endif
                                            @endif
@@ -215,7 +215,21 @@
 
 
                                 {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
-                              
+                                <div class="pb-3 opcr-btn">
+                                    <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" name="submit" class="btn btn-primary" value="update">
+                                        Update OPCR
+                                    </button>
+                                    {{-- <button type="button" class="btn btn-success" onclick="edit()">
+                                        Edit OPCR
+                                    </button> --}}
+                                    <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" value="submit" name="submit" class="btn btn-success">
+                                        Submit OPCR
+                                    </button>
+                                    <button <?php if ($opcr[0]->status != 'COMPLETE' && $opcr[0]->is_submitted != true){ ?> disabled <?php   } ?> type="submit" value="done" name="submit" class="btn btn-success">
+                                        Mark as Done
+                                    </button>
+                                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button>
+                                </div>
                                 @if ($opcr[0]->is_submitted == true)
                                 <div class="alert alert-success">
                                     <p class="m-0">OPCR is already submitted.</p>
@@ -240,4 +254,33 @@
         </div>
 
     </x-user-sidebar>
+
+    <script>
+        
+$(document).ready(function() {
+  
+//   var opcr_form = document.getElementById('opcr_form-{{$opcr_id}}');
+
+//   opcr_form.addEventListener('submit', (event) => {
+//     console.log("WEW");
+//         // Prevent the form from submitting normally
+//       event.preventDefault();
+     
+//       // Disable the submit button
+//       const button = event.submitter;
+//       button.disabled = true;
+//       if (button.name === 'update') {
+//       console.log('Button 1 was clicked');
+//         } else if (button.name === 'button2') {
+//         console.log('Button 2 was clicked');
+//         }
+      
+//       event.target.submit();
+//     });
+
+
+
+  // your code goes here
+});
+    </script>
 @endsection

@@ -125,7 +125,7 @@
                                     {{-- loop for the months of the year monthly target area --}}
                                     @for ($i = 1; $i <= 12; $i++)
                                         <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-                                        <td>
+                                        <td class="text-center align-middle">
                                             @if (isset($accoms))
                                                 <?php $monthly_accomplishment = null;
                                                 $validated = null; ?>
