@@ -23,6 +23,12 @@
                 <li class="breadcrumb-item active"><h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">OPCR #{{$opcr_id}}</h1></li>
               
             </ol>
+
+
+            @if (($opcr[0]->status == 'DONE') && isset($file))
+            {{-- {{public_path()}} --}}
+            <iframe style="border: none;" src="/uploads/{{$file->file_name}}" width="100%" height="900px"></iframe>
+            @else
             <div class="opcr-container">
 
 
@@ -253,6 +259,9 @@
 
 
             </div>
+            @endif
+
+            
         
         </div>
 

@@ -141,6 +141,8 @@ $(document).ready(function () {
                 page-break-inside: avoid;
                 page-break-after: auto;
                 }
+                
+               
             }
             `);
         win.document.write("</style>");
@@ -157,7 +159,8 @@ $(document).ready(function () {
         win.document.write("<div></div>");
         win.document.write("</div>");
         win.document.write(table);
-        //   // Create anchor element with file name
+        
+          // Create anchor element with file name
         // var anchor = document.createElement("a");
         // anchor.setAttribute("href", "#");
         // anchor.setAttribute("download", fileName);

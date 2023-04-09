@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\RegistrationKey;
 use App\Models\MonthlyTarget;
 use App\Models\Division;
+use App\Models\FileUpload;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -450,6 +451,12 @@ class RegionalPlanningOfficerController extends Controller
         $opcr = DB::table('opcr')
             ->where('opcr_ID', '=', $opcr_id)
             ->get();
+        if($opcr[0]->status == 'DONE'){
+          
+            $file = FileUpload::where('opcr_ID', '=', $opcr_id)
+                            ->get()->first();
+           
+        }
 
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('strategic_objectives.is_active', '=', true)        
@@ -695,7 +702,7 @@ class RegionalPlanningOfficerController extends Controller
         // var_dump($labels);
         // dd($monthly_targets);
         // dd($monthly_targets);
-        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets'));
+        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file'));
     }
     public function update_targets(Request $request)
     {
@@ -1132,12 +1139,19 @@ class RegionalPlanningOfficerController extends Controller
             $file = $request->file('opcr_file');
             $filename = $file->getClientOriginalName();
             $file->move(public_path('uploads'), $filename);
-
+            $file = new FileUpload();
+            $file->opcr_ID = $request->opcr_id;
+            $file->file_name = $filename;
+            $file->type = 'REGIONAL OPCR';
+            $file->save();
+            DB::table('opcr')
+            ->where('opcr_ID', $request->opcr_id)
+            ->update(['is_active' => false, 'status' => 'DONE']);
             
             return redirect()
             ->route('rpo.show', $request->opcr_id)
             ->with('success', 'OPCR successfully marked as done');
-        }
+        }   
         else{
 
              return redirect()
