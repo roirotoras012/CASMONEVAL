@@ -22,7 +22,7 @@
                                 class="col-form-label text-md-start">{{ __('Strategic Objective: ') }}</label>
                             <span><b>{{$objective->strategic_objective}}</b></span>
 
-                            <div id="my-div">
+                            <div id="my-div-{{$objective->strategic_objective_ID}}">
                                 <input type="hidden" name="strategic_objective_ID" value="{{$objective->strategic_objective_ID}}">
                                 <textarea placeholder="Input Strategic Measure" class="form-control w-100" name="strategic_measure" required></textarea>
                              
@@ -43,42 +43,45 @@
                                     
                                   </div>
                                   <script>
-                                    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="division[]"]');
-                                    const dropdownContainer = document.createElement('div');
-                                    dropdownContainer.id = 'new-dropdown';
-                                    const dropdownSelect = document.createElement('select');
-                                    dropdownSelect.name = 'accountable_division';
-                                    dropdownContainer.appendChild(dropdownSelect);
+                                    let checkboxes_{{$objective->strategic_objective_ID}} = document.querySelectorAll('#_{{$objective->strategic_objective_ID}} input[type="checkbox"][name="division[]"]');
+      
+                                    let dropdownContainer_{{$objective->strategic_objective_ID}} = document.createElement('div');
+                                    dropdownContainer_{{$objective->strategic_objective_ID}}.id = 'new-dropdown_{{$objective->strategic_objective_ID}}';
+                                    let dropdownSelect_{{$objective->strategic_objective_ID}} = document.createElement('select');
+                                    dropdownSelect_{{$objective->strategic_objective_ID}}.name = 'accountable_division';
+                                    dropdownContainer_{{$objective->strategic_objective_ID}}.appendChild(dropdownSelect_{{$objective->strategic_objective_ID}});
                                     
-                                    checkboxes.forEach(checkbox => {
-                                      checkbox.addEventListener('change', () => {
-                                        const selectedCheckboxes = document.querySelectorAll('input[type="checkbox"][name="division[]"]:checked');
+                                    checkboxes_{{$objective->strategic_objective_ID}}.forEach(checkbox_{{$objective->strategic_objective_ID}} => {
+                                      
+                                      checkbox_{{$objective->strategic_objective_ID}}.addEventListener('change', () => {
+                                     
+                                        let selectedCheckboxes_{{$objective->strategic_objective_ID}} = document.querySelectorAll('#_{{$objective->strategic_objective_ID}} input[type="checkbox"][name="division[]"]:checked');
                                         
-                                        if (selectedCheckboxes.length > 1) {
-                                          const dropdownOptions = document.createDocumentFragment();
-                                          const dropdownOption = document.createElement('option');
-                                            dropdownOption.value = '';
+                                        if (selectedCheckboxes_{{$objective->strategic_objective_ID}}.length > 1) {
+                                          let dropdownOptions_{{$objective->strategic_objective_ID}} = document.createDocumentFragment();
+                                          let dropdownOption_{{$objective->strategic_objective_ID}} = document.createElement('option');
+                                            dropdownOption_{{$objective->strategic_objective_ID}}.value = '';
                                             
-                                            dropdownOption.textContent = 'Select Accountable Division';
-                                            dropdownOptions.appendChild(dropdownOption);
-                                          selectedCheckboxes.forEach(selectedCheckbox => {
-                                            const optionValue = selectedCheckbox.value;
-                                            const optionText = selectedCheckbox.nextElementSibling.innerText;
-                                            const dropdownOption = document.createElement('option');
-                                            dropdownOption.value = optionValue;
-                                            dropdownSelect.required = true;
-                                            dropdownOption.textContent = optionText;
-                                            dropdownOptions.appendChild(dropdownOption);
+                                            dropdownOption_{{$objective->strategic_objective_ID}}.textContent = 'Select Accountable Division';
+                                            dropdownOptions_{{$objective->strategic_objective_ID}}.appendChild(dropdownOption_{{$objective->strategic_objective_ID}});
+                                          selectedCheckboxes_{{$objective->strategic_objective_ID}}.forEach(selectedCheckbox_{{$objective->strategic_objective_ID}} => {
+                                            let optionValue_{{$objective->strategic_objective_ID}} = selectedCheckbox_{{$objective->strategic_objective_ID}}.value;
+                                            let optionText_{{$objective->strategic_objective_ID}} = selectedCheckbox_{{$objective->strategic_objective_ID}}.nextElementSibling.innerText;
+                                            let dropdownOption_{{$objective->strategic_objective_ID}} = document.createElement('option');
+                                            dropdownOption_{{$objective->strategic_objective_ID}}.value = optionValue_{{$objective->strategic_objective_ID}};
+                                            dropdownSelect_{{$objective->strategic_objective_ID}}.required = true;
+                                            dropdownOption_{{$objective->strategic_objective_ID}}.textContent = optionText_{{$objective->strategic_objective_ID}};
+                                            dropdownOptions_{{$objective->strategic_objective_ID}}.appendChild(dropdownOption_{{$objective->strategic_objective_ID}});
                                           });
-                                          dropdownSelect.innerHTML = '';
-                                          dropdownSelect.appendChild(dropdownOptions);
-                                          if (!document.getElementById('new-dropdown')) {
-                                            const dropdownParent = document.querySelector('#my-div');
-                                            dropdownParent.appendChild(dropdownContainer);
+                                          dropdownSelect_{{$objective->strategic_objective_ID}}.innerHTML = '';
+                                          dropdownSelect_{{$objective->strategic_objective_ID}}.appendChild(dropdownOptions_{{$objective->strategic_objective_ID}});
+                                          if (!document.getElementById('new-dropdown_{{$objective->strategic_objective_ID}}')) {
+                                            let dropdownParent_{{$objective->strategic_objective_ID}} = document.querySelector('#my-div-{{$objective->strategic_objective_ID}}');
+                                            dropdownParent_{{$objective->strategic_objective_ID}}.appendChild(dropdownContainer_{{$objective->strategic_objective_ID}});
                                           }
                                         } else {
-                                          if (document.getElementById('new-dropdown')) {
-                                            document.getElementById('new-dropdown').remove();
+                                          if (document.getElementById('new-dropdown_{{$objective->strategic_objective_ID}}')) {
+                                            document.getElementById('new-dropdown_{{$objective->strategic_objective_ID}}').remove();
                                           }
                                         }
                                       });
