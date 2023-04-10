@@ -55,30 +55,27 @@
                         @endif
                         <div class="d-flex align-items-center gap-3">
                             @foreach ($provinces as $province)
-                            @if ($province->province_ID == $user->province_ID)
-                            @php
-                                $printProvince = substr($province->province, 0, 3)
-                                
-                            @endphp
-                           
-                            
-                            @endif
+                                @if ($province->province_ID == $user->province_ID)
+                                    @php
+                                        $printProvince = substr($province->province, 0, 3);
+                                        
+                                    @endphp
+                                @endif
                             @endforeach
                             @php
-                                if($user->division_ID == 1){
+                                if ($user->division_ID == 1) {
                                     $printDiv = 'bdd';
-
                                 }
-                                if($user->division_ID == 2){
-
+                                if ($user->division_ID == 2) {
                                     $printDiv = 'cpd';
                                 }
-                                if($user->division_ID == 3){
-
+                                if ($user->division_ID == 3) {
                                     $printDiv = 'fad';
                                 }
                             @endphp
-                            <div><button class="btn btn-primary my-2" data-file-name="{{$printProvince}}-{{$printDiv}}Targets-OPCR{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button></div>
+                            <div><button class="btn btn-primary my-2"
+                                    data-file-name="{{ $printProvince }}-{{ $printDiv }}Targets-OPCR{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
+                                    id="print-button">Print Table</button></div>
                             <div><a href="/dc/view-target"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a>
                             </div>
                         </div>
@@ -126,7 +123,9 @@
                                 {{-- {{dd($driversact)}} --}}
                                 @php
                                     $a = 0;
+                                    $driver_letter = 65;
                                 @endphp
+
                                 @foreach ($driversact as $key => $driver)
                                     @php
                                         $divisionName = match ($userDetails->division_ID) {
@@ -153,8 +152,9 @@
                                     @if ($measure_count > 0 && $has_province)
                                         <tr>
                                             <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
-                                                {{ chr($key + 65) }}</td>
+                                                {{ chr($driver_letter) }}</td>
                                             @php
+                                                $driver_letter++;
                                                 $i++;
                                             @endphp
                                             <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
