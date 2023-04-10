@@ -451,6 +451,8 @@ class RegionalPlanningOfficerController extends Controller
         $opcr = DB::table('opcr')
             ->where('opcr_ID', '=', $opcr_id)
             ->get();
+
+        $file = null;
         if($opcr[0]->status == 'DONE'){
           
             $file = FileUpload::where('opcr_ID', '=', $opcr_id)
