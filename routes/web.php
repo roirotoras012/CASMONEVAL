@@ -67,6 +67,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('add_measure', [RegionalPlanningOfficerController::class, 'add_measure'])->name('rpo.add_measure');
     Route::post('remove_objective', [RegionalPlanningOfficerController::class, 'remove_objective'])->name('rpo.remove_objective');
     Route::post('remove_measure', [RegionalPlanningOfficerController::class, 'remove_measure'])->name('rpo.remove_measure');
+    Route::post('upload_opcr', [RegionalPlanningOfficerController::class, 'upload_opcr'])->name('rpo.upload_opcr');
 
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
@@ -85,6 +86,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
     Route::post('eval/remark', [EvaluationController::class, 'addRemark'])->name('eval.remark');
+
+    Route::get('pd/savedtarget  ', [ProvincialDirectorController::class, 'savetarget']);
+    Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
@@ -117,6 +121,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::get('dc/accomplishment', [DivisionChiefController::class, 'accomplishment'])->name('dc.accomplishments');
   
   Route::post('dc/monthly_targets', [DivisionChiefController::class, 'store'])->name('dc.store');
+  Route::post('dc/dashboard', [DivisionChiefController::class, 'updateTar'])->name('dc.updateTar');
   Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
   Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');

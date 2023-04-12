@@ -1,97 +1,164 @@
+@props(['objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active'])
 
 
-@props(['objectivesact', 'measures', 'provinces', 'annual_targets','user', 'monthly_targets'])
+@foreach ($provinces as $province)
+    @if ($province->province_ID == $user->province_ID)
+    @php
+           $printProvince = substr($province->province, 0, 3)
+    @endphp
+     
+    @endif
+@endforeach
+<div class="d-flex justify-content-between">
+    <button class="btn btn-primary my-2" data-file-name="{{$printProvince}}_OPCR-{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button>
+    <div class="legend-container">
 
 
+        <div class="legend-item">
+            <div class="box" style="background: #4CAF50"></div>
+            <div class="text-success">Passed</div>
+        </div>
 
-<table class="table table-bordered ppo-table shadow">
+        <div class="legend-item">
+            <div class="box" style="background: #FF0000"></div>
+            <div class="text-danger">Failed</div>
+        </div>
+
+    </div>
+</div>
+<table class="table table-bordered ppo-table-opcr shadow" id="table">
     <thead class="bg-primary text-white">
         <tr>
             <th rowspan="2" class="text-center align-middle">Objectives</th>
             <th rowspan="2" class="text-center align-middle">Measure</th>
             <th colspan="{{ $provinces->count() }}" class="text-center align-middle bg-warning">Annual Target</th>
-          
+
         </tr>
         <tr>
             @foreach ($provinces as $province)
-            @if ($province->province_ID ==  $user->province_ID)
-            <th class="text-center align-middle bg-danger">{{ $province->province }}</th>
-            <th class="text-center align-middle bg-danger">Accomplished</th>
-            @endif
-                
+                @if ($province->province_ID == $user->province_ID)
+                    <th class="text-center align-middle bg-danger">{{ $province->province }}</th>
+                    <th class="text-center align-middle bg-danger">Accomplished</th>
+                @endif
             @endforeach
-            
+
         </tr>
     </thead>
     <tbody>
 
         {{-- {{ dd($objectivesact[0]->strategic_measures) }} --}}
         @foreach ($objectivesact as $objective)
-            <tr>
-                <td rowspan="{{ $objective->measures->count() + 1 }}" class="text-center align-middle">
-                    {{ $objective->strategic_objective }}</td>
-               {{-- {{ dd($objective->measures) }}      --}}
-                @foreach ($objective->measures as $measure)
-                @if ($measure->type != '')
-                <tr>
-                    <td class="text-center align-middle">{{ $measure->strategic_measure }}</td>
-                    {{-- @foreach ($provinces as $province) --}}
-                        <td class="text-center align-middle">
-                            @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
-                                {{-- <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
-                                    id="{{ $province->province_ID }}" class="text-success"> --}}
-                                    {{ $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target }}
-                                    
-                                {{-- </a> --}}
-                                {{-- <x-update_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" :target="$annual_targets[$measure->strategic_measure_ID][$province->province_ID]->first()
-                                    ->annual_target_ID" /> --}}
-                            @else
-                                {{-- <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#<?= $measure->strategic_measure_ID . '_' . $user->province_ID ?>"
-                                    id="{{ $province->province_ID }}" class="text-danger">N/A</a> --}}
-                                {{-- <x-add_target_modal :measure="$measure->strategic_measure_ID" :province="$province->province_ID" /> --}}
-                            @endif
-                        </td>
-                        @php
+            @if (count($objective->measures) > 0)
+                @php
+                    $mainDirectMeasures = $objective
+                        ->measures()
+                        ->where(function ($query) {
+                            $query->where('strategic_measures.type', 'DIRECT MAIN')->orWhere('strategic_measures.type', 'DIRECT');
+                        })
+                        ->get();
                     
-                         if(isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
-                         {
-                            $accom = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->annual_accom;
-    
-                         }
-                         else{
-                            $accom = '';
-                         }
-                           
-                        @endphp
-                       <td style="<?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
-                        && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target == $accom) { ?>background-color: #4CAF50; color: white;<?php } elseif (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]) 
-                        && $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target > $accom) { ?>background-color: #ff000021;<?php } ?>;"
-                        class="text-center align-middle">
-                   
-                            @if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]))
-                            
-                                <span <?php if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated) && $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>{{ $accom }}</span>
-
-                               
-                            @else
-                                   
-    
-    
-                            @endif
-                            
-                           
-                        </td>
-                        {{--  --}}
-                    {{-- @endforeach --}}
+                @endphp
+                <tr>
+                    <td rowspan="{{ count($mainDirectMeasures) + 1 }}" class="text-center align-middle">
+                        {{ $objective->strategic_objective }}
+                    </td>
                 </tr>
-                @endif
-            
+                @php
+                    $colors = [
+                        'DIRECT' => 'text-white',
+                        'DIRECT MAIN' => 'text-white',
+                    ];
+                    
+                @endphp
+                @foreach ($objective->measures as $measure)
+                    @php
+                        if ($measure->type == 'DIRECT') {
+                            $accomClass = $colors[$measure->type];
+                        } elseif ($measure->type == 'DIRECT MAIN') {
+                            $accomClass = $colors[$measure->type];
+                        } else {
+                            $accomClass = '';
+                        }
+                        $accomPercentage = 0;
+                        $bgColor = '';
+                        if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID])) {
+                            $annual_target = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target;
+                            $annual_target_ID = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID;
+                            if (isset($monthly_targets[$annual_target_ID])) {
+                                $accom = $monthly_targets[$annual_target_ID]->annual_accom;
+                                $accomPercentage = $accom / $annual_target;
+                                // Set the background color based on the value of $accomPercentage
+                                if ($accomPercentage >= 0.9) {
+                                    $bgColor = 'background-color: #4CAF50;';
+                                } elseif ($accomPercentage >= 0.5) {
+                                    $bgColor = 'background-color: #FFC107;';
+                                } else {
+                                    $bgColor = 'background-color: #FF0000;';
+                                }
+                            } else {
+                                $accom = '';
+                                $bgColor = 'background-color: none;';
+                            }
+                            // Check if $annual_target exists and is greater than 0 before setting the $bgColor variable
+                            if (isset($annual_target) && $annual_target > 0) {
+                                // if ($measure->type == 'DIRECT MAIN') {
+                                //     if ($commonMeasures[$measure->strategic_measure]->annual >= 0.9 * $annual_target) {
+                                //         $bgColor = 'background-color: #4CAF50;';
+                                //     } else {
+                                //         $bgColor = 'background-color: #FF0000;';
+                                //     }
+                                // } else {
+                                    if ($accomPercentage >= 0.9) {
+                                        $bgColor = 'background-color: #4CAF50;';
+                                    } elseif ($accomPercentage >= 0.5) {
+                                        $bgColor = 'background-color: #FFC107;';
+                                    } else {
+                                        $bgColor = 'background-color: #FF0000;';
+                                    }
+                                // }
+                            } else {
+                                $bgColor = 'background-color: none;';
+                            }
+                        }
+                        
+                    @endphp
+
+                    @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
+                        <tr>
+                            <td class="text-center align-middle">
+                                {{ $measure->strategic_measure }} 
+                            </td>
+                            @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
+                                <td class="text-center align-middle">
+                                    {{ $annual_target }}
+                                </td>
+                                <td class="text-center align-middle" style="{{ $bgColor }} color: #fff">
+                                    @if (isset($monthly_targets[$annual_target_ID]))
+                                        <span <?php if (isset($monthly_targets[$annual_target_ID]->validated) && $monthly_targets[$annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>
+                                            {{ $accom }}
+                                        </span>
+                                    @endif
+                                    {{-- @if ($measure->type == 'DIRECT MAIN')
+                                        <span class="{{ $colors[$measure->type] }} full-width">
+                                            @if ($commonMeasures[$measure->strategic_measure]->annual == 0)
+                                                <span></span>
+                                            @else
+                                                <span>{{ $commonMeasures[$measure->strategic_measure]->annual }}</span>
+                                            @endif
+                                        </span>
+                                    @endif --}}
+                                </td>
+                            @else
+                                <td class="text-center align-middle">
+                                    N/A
+                                </td>
+                                <td class="text-center align-middle" style="background-color: none;"></td>
+                            @endif
+                        </tr>
+                    @endif
+                @endforeach
+            @endif
         @endforeach
-        </tr>
-        @endforeach
+
     </tbody>
 </table>
-
-

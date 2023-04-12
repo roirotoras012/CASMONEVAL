@@ -109,7 +109,8 @@ $(document).ready(function () {
     printButton.addEventListener("click", function () {
         var table = document.getElementById("table").outerHTML;
         var win = window.open("", "_blank");
-        win.document.write("<html><head><title>Print Table</title>");
+        var fileName = printButton.dataset.fileName;
+        win.document.write("<html><head><title>"+fileName+"</title>");
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
@@ -119,15 +120,29 @@ $(document).ready(function () {
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
+
         win.document.write("<style>");
         win.document.write(`
             @media print {
                 table {
-                    background-color: #fff; 
+                width: 100%;
+                max-width: 100%;
+                page-break-inside: avoid;
+                background-color: #fff;
                 }
                 td, th {
-                    background-color: #f7f7f7; 
+                background-color: #f7f7f7;
+                word-wrap: break-word;
+                padding: 5px;
+                font-size: 12px;
+                line-height: 1.5;
                 }
+                tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+                }
+                
+               
             }
             `);
         win.document.write("</style>");
@@ -144,13 +159,28 @@ $(document).ready(function () {
         win.document.write("<div></div>");
         win.document.write("</div>");
         win.document.write(table);
+        
+          // Create anchor element with file name
+        // var anchor = document.createElement("a");
+        // anchor.setAttribute("href", "#");
+        // anchor.setAttribute("download", fileName);
+        // anchor.textContent = fileName;
+
+        // // Add anchor element to document body
+        // win.document.body.appendChild(anchor);
         // win.document.write(
         //     '<script src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
         // );
         win.document.write("</body></html>");
         win.document.close();
         setTimeout(() => {
-            win.print();
+            
+           
+           
+            win.print(fileName);
         }, 1000);
     });
 });
+
+
+// var button = document.getElementById('disableWhenClicked');

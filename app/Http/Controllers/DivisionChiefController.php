@@ -75,7 +75,9 @@ class DivisionChiefController extends Controller
     public function store(Request $request)
     {
         // dd($request);
+        // $monthly_target_id = $request->input('monthly_target_ID');
         $validatedData = $request->validate([
+          
             'monthly_target' => 'required',
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
@@ -92,20 +94,63 @@ class DivisionChiefController extends Controller
         if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
             return redirect()
                 ->back()
-                ->with('error', 'Monthly target exceeds the annual target.');
+                ->with('alert', 'Monthly target exceeds the annual target.');
+                
+                
         }
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
+     
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];
         $monthlyTarget->annual_target_ID = $validatedData['annual_target_ID'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
+      
         $monthlyTarget->save();
+       
 
         return redirect()
             ->route('dc.bukidnunBddIndex')
             ->with('success', 'Annual Target successfully!');
     }
+
+    public function updateTar(Request $request) {
+        $validatedData = $request->validate([
+            'monthly_target_ID' => 'required',
+            'monthly_target' => 'required',
+            'annual_target_ID' => 'required',
+            'division_ID' => 'required',
+            'month' => 'required',
+        ]);
+    
+        // Get the monthly target for the given monthly_target_ID
+        $monthlyTarget = MonthlyTarget::find($validatedData['monthly_target_ID']);
+    
+        // Get the annual target for the given annual_target_ID
+        $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
+    
+        // Get the sum of monthly targets for the given annual_target_ID
+        $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])->where('monthly_target_ID', '<>', $validatedData['monthly_target_ID'])->sum('monthly_target');
+    
+        // Check if the sum of monthly targets and the new monthly target exceeds the annual target
+        if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
+            return redirect()
+                ->back()
+                ->with('alert', 'Monthly target exceeds the annual target.');
+        }
+    
+        // Update the monthly target
+        $monthlyTarget->monthly_target = $validatedData['monthly_target'];
+        $monthlyTarget->division_ID = $validatedData['division_ID'];
+        $monthlyTarget->month = $validatedData['month'];
+        //   dd($monthlyTarget);
+        $monthlyTarget->update();
+    
+        return redirect()
+            ->route('dc.bukidnunBddIndex')
+            ->with('success', 'Monthly Target successfully updated!');
+    }
+    
 
     public function storeAccom(Request $request)
     {
@@ -330,7 +375,7 @@ class DivisionChiefController extends Controller
                     ->get();
             }
             
-        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification'));
+        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification','opcrs_active'));
     }
 
     public function profile()
@@ -397,7 +442,7 @@ class DivisionChiefController extends Controller
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
 
-        return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification'));
+        return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
 
     
@@ -418,6 +463,7 @@ class DivisionChiefController extends Controller
                 $query
                     ->where('strategic_measures.type', 'DIRECT')
                     ->orWhere('strategic_measures.type', 'DIRECT COMMON')
+                    ->orWhere('strategic_measures.type', 'DIRECT MAIN')
                     ->orWhere('strategic_measures.type', 'INDIRECT')
                     ->orWhere('strategic_measures.type', 'MANDATORY');
             })

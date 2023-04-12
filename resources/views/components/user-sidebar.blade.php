@@ -72,12 +72,12 @@
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('rpo/assessment') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('rpo/assessment') ? 'active' : '' }}"
                             href="{{ url('rpo/assessment') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
                             Performance Assessment
 
-                        </a>
+                        </a> --}}
 
 
 
@@ -96,27 +96,29 @@
                             Dashboard
                         </a>
 
+                        <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
+                        href="{{ url('pd/savetarget') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
+                        Save Target
 
-                        <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"
+                     </a>
+
+
+                        {{-- <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"
                             href="{{ url('pd/addtarget') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
                             Add Target
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
-                            href="{{ url('pd/savetarget') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                            Save Target
-
-                        </a>
+                  
 
                         <a class="nav-link  {{ Request::is('pd/accomplishment') ? 'active' : '' }}"
                             href="{{ url('pd/accomplishment') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             Add Accomplishment
 
-                        </a>
+                        </a> --}}
 
                         <a class="nav-link  {{ Request::is('pd/assessment') ? 'active' : '' }}"
                             href="{{ url('pd/assessment') }}">
@@ -207,7 +209,7 @@
                         <a class="nav-link  {{ Request::is('dc/manage') ? 'active' : '' }}"
                         href="{{ url('dc/manage') }}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
-                        Measures & Drivers
+                        Job Family Shopping
 
                         </a>
                         <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
@@ -217,12 +219,12 @@
 
                         </a>
                         {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
-                        <a class="nav-link  {{ Request::is('dc/job-fam') ? 'active' : '' }}"
+                        {{-- <a class="nav-link  {{ Request::is('dc/job-fam') ? 'active' : '' }}"
                             href="{{ url('dc/job-fam') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Job Family Shopping
 
-                        </a>
+                        </a> --}}
 
                         <a class="nav-link  {{ Request::is('dc/accomplishment') ? 'active' : '' }}"
                             href="{{ url('dc/accomplishment') }}">

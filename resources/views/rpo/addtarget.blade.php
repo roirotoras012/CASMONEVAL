@@ -46,7 +46,7 @@
                     @endif
 
 
-                    <form action="{{ route('add_targets') }}" method="post">
+                    <form action="{{ route('add_targets') }}" method="post" id="addTargetForm">
                         
                         <table class="table table-bordered ppo-table shadow">
                             <thead class="bg-primary text-white text-center">
@@ -163,4 +163,29 @@
         </div>
 
     </x-user-sidebar>
+    <script>
+        
+$(document).ready(function() {
+  
+  var target_form = document.getElementById('addTargetForm');
+
+  target_form.addEventListener('submit', (event) => {
+
+      // Prevent the form from submitting normally
+      event.preventDefault();
+     
+      // Disable the submit button
+      const button = event.submitter;
+      button.disabled = true;
+      
+      // Submit the form
+      
+      event.target.submit();
+    });
+
+
+
+  // your code goes here
+});
+    </script>
 @endsection

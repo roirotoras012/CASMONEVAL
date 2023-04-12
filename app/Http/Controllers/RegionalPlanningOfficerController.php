@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\RegistrationKey;
 use App\Models\MonthlyTarget;
 use App\Models\Division;
+use App\Models\FileUpload;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -450,6 +451,14 @@ class RegionalPlanningOfficerController extends Controller
             ->where('opcr_ID', '=', $opcr_id)
             ->get();
 
+        $file = null;
+        if($opcr[0]->status == 'DONE'){
+          
+            $file = FileUpload::where('opcr_ID', '=', $opcr_id)
+                            ->get()->first();
+           
+        }
+
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('strategic_objectives.is_active', '=', true)        
             ->where('type', '=', 'DIRECT')
@@ -470,18 +479,16 @@ class RegionalPlanningOfficerController extends Controller
 
 
                 }
-
+               
                 $annual_accom = 0;
                 $validated = true;
-                if(count($monthly_targets) == 12){
-                    $validated = true;
-                }
-                else{
+                if(!(count($monthly_target) >= 12)){
                     $validated = false;
                 }
+            
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                    if($target->validated == 'Not Validated'){
+                    if($target->validated != 'Validated'){
                         $validated = false;
                     }
 
@@ -502,7 +509,7 @@ class RegionalPlanningOfficerController extends Controller
 
             $monthly_targets = null;
         }
-
+        // dd($monthly_targets);
 
 
 
@@ -555,75 +562,123 @@ class RegionalPlanningOfficerController extends Controller
 
                 // dd($measure_for_common );
             // dd($measure_for_common[2]);
-            if(!isset($label['BUK_accom'])){
+            if(!isset($label['BUK_accom']) && isset($measure_for_common[1])){
                 
                 foreach ($measure_for_common[1] as $by_province) {
                     # code...  
                     // dd($by_province);
-                        
-
-                        if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    $label['BUK_accom_validated'] = true;
+                        // dd(count($measure_for_common[1]));
+                        if(isset($monthly_targets[$by_province->annual_target_ID])){
+                          
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+                            // dd($monthly_targets[$by_province->annual_target_ID]->validated);
+                        
+                            if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                                $label['BUK_accom_validated'] = false;
+
+                            }
                             
+                        }
+                        else{
+
+                            $label['BUK_accom_validated'] = false;
                         }
                         
     
                    }
                   
             }
-            if(isset($label['BUK_accom'])){
-                $label['BUK_accom'] = $label['BUK_accom']/3;
+            if(isset($label['BUK_accom']) && $label['BUK_accom_validated']){
+                $label['BUK_accom'] = $label['BUK_accom']/count($measure_for_common[1]);
             }
 
          
-            if(!isset($label['LDN_accom'])){
+            if(!isset($label['LDN_accom']) && isset($measure_for_common[2])){
                 foreach ($measure_for_common[2] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['LDN_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['LDN_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['LDN_accom'])){
+            if(isset($label['LDN_accom']) && $label['LDN_accom_validated']){
                 $label['LDN_accom'] = $label['LDN_accom']/3;
             } 
-            if(!isset($label['MISOR_accom'])){
+            if(!isset($label['MISOR_accom']) && isset($measure_for_common[3])){
                 foreach ($measure_for_common[3] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOR_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOR_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOR_accom'])){
+            if(isset($label['MISOR_accom'])  && $label['MISOR_accom_validated']){
                 $label['MISOR_accom'] = $label['MISOR_accom']/3;
             } 
 
 
-            if(!isset($label['MISOC_accom'])){
+            if(!isset($label['MISOC_accom']) && isset($measure_for_common[4])){
                 foreach ($measure_for_common[4] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['MISOC_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['MISOC_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['MISOC_accom'])){
+            if(isset($label['MISOC_accom']) && $label['MISOC_accom_validated']){
                 $label['MISOC_accom'] = $label['MISOC_accom']/3;
             } 
-            if(!isset($label['CAM_accom'])){
+            if(!isset($label['CAM_accom']) && isset($measure_for_common[5])){
                 foreach ($measure_for_common[5] as $by_province) {
                     # code...
-                    if(isset($monthly_targets[$by_province->annual_target_ID]) && ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                    if(isset($monthly_targets[$by_province->annual_target_ID])){
                         $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
+
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == true)){
+                            $label['CAM_accom_validated'] = true;
+
+                        }
+                        if( ($monthly_targets[$by_province->annual_target_ID]->validated == false)){
+                            $label['CAM_accom_validated'] = false;
+
+                        }
                     }
     
                    }
             } 
-            if(isset($label['CAM_accom'])){
+            if(isset($label['CAM_accom']) && $label['CAM_accom_validated']){
                 $label['CAM_accom'] = $label['CAM_accom']/3;
             }
            
@@ -648,7 +703,7 @@ class RegionalPlanningOfficerController extends Controller
         // var_dump($labels);
         // dd($monthly_targets);
         // dd($monthly_targets);
-        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets'));
+        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file'));
     }
     public function update_targets(Request $request)
     {
@@ -958,6 +1013,18 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function measures(){
+
+        $opcrs = Opcr::where('is_active', 1)
+        ->where('is_submitted', '=', 1)
+        ->get();
+        if(count($opcrs) > 0){
+            $opcr_gotActive = true;
+
+        }
+        else{
+
+            $opcr_gotActive = false;
+        }
         $objectives = StrategicObjective::where('is_active', '=', true)
                                         ->get();
         $divisions = Division::all();
@@ -972,7 +1039,7 @@ class RegionalPlanningOfficerController extends Controller
             ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
         // dd($measures);
                             
-        return view('rpo.measures', compact('objectives', 'divisions', 'measures')); 
+        return view('rpo.measures', compact('objectives', 'divisions', 'measures', 'opcr_gotActive', 'opcrs')); 
               
 
     }
@@ -993,22 +1060,29 @@ class RegionalPlanningOfficerController extends Controller
     public function add_measure(Request $request){
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
-       
-       
+        // dd($request->accountable_division);
         if($divisions){
            if(count($divisions) > 1){
-            $strategic_measure_enity = new StrategicMeasure();
-            $strategic_measure_enity->strategic_measure = $strategic_measure;
-            $strategic_measure_enity->division_ID = 0;
-            $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
-            $strategic_measure_enity->type = 'DIRECT MAIN';
-            $strategic_measure_enity->save();
+            // $strategic_measure_enity = new StrategicMeasure();
+            // $strategic_measure_enity->strategic_measure = $strategic_measure;
+            // $strategic_measure_enity->division_ID = 0;
+            // $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
+            // $strategic_measure_enity->type = 'DIRECT MAIN';
+            // $strategic_measure_enity->save();
             foreach ($divisions as $division) {
+                // dd($division);
                 $strategic_measure_enity = new StrategicMeasure();
                 $strategic_measure_enity->strategic_measure = $strategic_measure;
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->division_ID = $division;
-                $strategic_measure_enity->type = 'DIRECT COMMON';
+                if($request->accountable_division == $division){
+                    $strategic_measure_enity->type = 'DIRECT MAIN';
+
+                }
+                else{
+                    $strategic_measure_enity->type = 'DIRECT COMMON';
+                }
+              
                 $strategic_measure_enity->save();
             }
 
@@ -1056,5 +1130,35 @@ class RegionalPlanningOfficerController extends Controller
             ->route('rpo.measures')
             ->with('success', 'Strategic Measure successfully removed');      
 
+    }
+
+
+    public function upload_opcr(Request $request){
+        // dd($request->opcr_id);
+        // dd($request->hasFile('opcr_file'));
+        if ($request->hasFile('opcr_file')) {
+            $file = $request->file('opcr_file');
+            $filename = $file->getClientOriginalName();
+            $file->move(public_path('uploads'), $filename);
+            $file = new FileUpload();
+            $file->opcr_ID = $request->opcr_id;
+            $file->file_name = $filename;
+            $file->type = 'REGIONAL OPCR';
+            $file->save();
+            DB::table('opcr')
+            ->where('opcr_ID', $request->opcr_id)
+            ->update(['is_active' => false, 'status' => 'DONE']);
+            
+            return redirect()
+            ->route('rpo.show', $request->opcr_id)
+            ->with('success', 'OPCR successfully marked as done');
+        }   
+        else{
+
+             return redirect()
+            ->route('rpo.show', $request->opcr_id)
+            ->with('success', 'OPCR upload error');
+        }
+     
     }
 }

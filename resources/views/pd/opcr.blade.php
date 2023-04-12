@@ -4,7 +4,7 @@
 </head>
 @extends('layouts.app')
 @section('title')
-    {{ 'RPO Save Target' }}
+    {{ 'PD Save Target' }}
 @endsection
 @section('content')
     @php
@@ -23,12 +23,6 @@
                 <li class="breadcrumb-item active"><h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">OPCR #{{$opcr_id}}</h1></li>
               
             </ol>
-
-
-            @if (($opcr[0]->status == 'DONE') && isset($file))
-            {{-- {{public_path()}} --}}
-            <iframe style="border: none;" src="/uploads/{{$file->file_name}}" width="100%" height="900px"></iframe>
-            @else
             <div class="opcr-container">
 
 
@@ -201,9 +195,9 @@
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                                <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                @else
-                                               {{-- @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
+                                               @if (isset($label->MISOC_accom)  && $label->MISOC_accom_validated)
                                                    <b>{{ $label->MISOC_accom}}</b>
-                                               @endif --}}
+                                               @endif
                                            @endif
                                         </td>
 
@@ -222,22 +216,7 @@
 
                                 {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
                                 <div class="pb-3 opcr-btn">
-                                    <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" name="submit" class="btn btn-primary" value="update">
-                                        Update OPCR
-                                    </button>
-                                    {{-- <button type="button" class="btn btn-success" onclick="edit()">
-                                        Edit OPCR
-                                    </button> --}}
-                                    <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit" value="submit" name="submit" class="btn btn-success">
-                                        Submit OPCR
-                                    </button>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#opcr-{{$opcr_id}}"
-                                    id="#opcr-{{$opcr_id}}"
-                                    class="text-decoration-none text-black btn btn-primary text-white">Mark as Done
-
-                                    </a>
-                                    
-                                    <button type="button" class="btn btn-primary my-2" data-file-name="opcr-{{$opcr_id}}_{{$opcr[0]->year}}" id="print-button">Print Table</button>
+                                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button>
                                 </div>
                                 @if ($opcr[0]->is_submitted == true)
                                 <div class="alert alert-success">
@@ -254,14 +233,11 @@
 
                         </table>
                     </form>
-                    <x-mark_as_done_modal :opcr_id=$opcr_id />
+
                 </div>
 
 
             </div>
-            @endif
-
-            
         
         </div>
 
