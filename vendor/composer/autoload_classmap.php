@@ -40,6 +40,7 @@ return array(
     'App\\Models\\Division' => $baseDir . '/app/Models/Division.php',
     'App\\Models\\Driver' => $baseDir . '/app/Models/Driver.php',
     'App\\Models\\Evaluation' => $baseDir . '/app/Models/Evaluation.php',
+    'App\\Models\\FileUpload' => $baseDir . '/app/Models/FileUpload.php',
     'App\\Models\\MonthlyEvaluation' => $baseDir . '/app/Models/MonthlyEvaluation.php',
     'App\\Models\\MonthlyTarget' => $baseDir . '/app/Models/MonthlyTarget.php',
     'App\\Models\\Notification' => $baseDir . '/app/Models/Notification.php',

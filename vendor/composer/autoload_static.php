@@ -567,6 +567,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Models\\Division' => __DIR__ . '/../..' . '/app/Models/Division.php',
         'App\\Models\\Driver' => __DIR__ . '/../..' . '/app/Models/Driver.php',
         'App\\Models\\Evaluation' => __DIR__ . '/../..' . '/app/Models/Evaluation.php',
+        'App\\Models\\FileUpload' => __DIR__ . '/../..' . '/app/Models/FileUpload.php',
         'App\\Models\\MonthlyEvaluation' => __DIR__ . '/../..' . '/app/Models/MonthlyEvaluation.php',
         'App\\Models\\MonthlyTarget' => __DIR__ . '/../..' . '/app/Models/MonthlyTarget.php',
         'App\\Models\\Notification' => __DIR__ . '/../..' . '/app/Models/Notification.php',
