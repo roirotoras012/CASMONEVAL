@@ -497,6 +497,7 @@ class DivisionChiefController extends Controller
             ->where('is_submitted_division', 1)
             ->get();
         $new_driver = $request->driver;
+        $new_driver_letter = $request->number_driver;
         $select_driver = $request->driver_ID;
         // echo $request->driver;
         // echo $request->driver_ID;
@@ -510,6 +511,7 @@ class DivisionChiefController extends Controller
             $driver->driver = $new_driver;
             $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
             $driver->division_ID = $user->division_ID;
+            $driver->number_driver = $new_driver_letter;
             $driver->save();
             $driver_use = $driver->driver_ID;
         } elseif ($select_driver) {

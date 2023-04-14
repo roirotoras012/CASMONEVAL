@@ -49,6 +49,15 @@
                             <label for="driver" class="form-label">New Driver</label>
                             <input type="text" name="driver" id="driver_input" class="w-100 form-control" required>
                         </div>
+                        <div>
+                            <label for="driver" class="form-label">Select Driver Letter</label>
+                            <select name="number_driver" required class="form-select">
+                                <option>Choose Letter</option>
+                                @foreach(range('A', 'Z') as $letter)
+                                    <option value="{{ $letter }}">{{ $letter }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="text-center w-100">
                             <span>or</span>
                            <select name="driver_ID" id="driver_select" required class="form-select">

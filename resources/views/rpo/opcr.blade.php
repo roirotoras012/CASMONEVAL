@@ -54,25 +54,29 @@
                                     <th rowspan="2">Strategic Objectives</th>
                                     <th rowspan="2">Strategic Measures</th>
                                     <th rowspan="2">REGION 10</th>
-                                    <th colspan="2">BUK</th>
-
-                                    <th colspan="2">CAM</th>
-                                    <th colspan="2">LDN</th>
-                                    <th colspan="2">MISOR</th>
-                                    <th colspan="2">MISOC</th>
+                                    <th colspan="3">BUK</th>
+                                    <th colspan="3">CAM</th>
+                                    <th colspan="3">LDN</th>
+                                    <th colspan="3">MISOR</th>
+                                    <th colspan="3">MISOC</th>
                                     
                                 </tr>
                                 <tr>
                                     <th>Target</th>
                                     <th>Accom</th>
+                                    <th>%</th>
                                     <th>Target</th>
                                     <th>Accom</th>
+                                    <th>%</th>
                                     <th>Target</th>
                                     <th>Accom</th>
+                                    <th>%</th>
                                     <th>Target</th>
                                     <th>Accom</th>
+                                    <th>%</th>
                                     <th>Target</th>
                                     <th>Accom</th>
+                                    <th>%</th>
                                     
 
                                 </tr>
@@ -131,7 +135,8 @@
                                         @php
                                             $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
                                         @endphp
-                                        <td><input type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                        <td>
+                                            <input type="hidden" name="data[{{ $ctr }}][total_targets]">
                                         {{$total}}
                                         </td>
                                         <td>
@@ -150,10 +155,19 @@
                                            @endif
                                         </td>
                                         <td>
+                                            @if ((isset($monthly_targets[$label->BUK_target])) && $monthly_targets[$label->BUK_target]->validated)
+                                            <?=(intval($monthly_targets[$label->BUK_target]->annual_accom)/intval($label->BUK))*100?>
+                                            @else
+                                            <?=(intval($label->BUK_accom)/intval($label->BUK))*100?>
+                                            @endif
+                                            %
+                                        </td>
+                                        <td>
                                             <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
                                             <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][CAM]" value="{{$label->CAM}}">
                                          
                                         </td>
+                                        
                                         <td>
                                             @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                                <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
@@ -163,6 +177,7 @@
                                             @endif
                                            @endif
                                         </td>
+                                        <td>100%</td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
                                             <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][LDN]" value="{{$label->LDN}}">
@@ -178,6 +193,7 @@
                                                @endif
                                            @endif
                                         </td>
+                                        <td>100%</td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOR]" value="">
                                             <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOR]" value="{{$label->MISOR}}">
@@ -192,6 +208,7 @@
                                            @endif
                                            @endif
                                         </td>
+                                        <td>100%</td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOC]" value="">
                                             <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOC]" value="{{$label->MISOC}}">
@@ -206,6 +223,7 @@
                                                @endif --}}
                                            @endif
                                         </td>
+                                        <td>100%</td>
 
                                     </tr>
 
