@@ -1045,21 +1045,23 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function add_objective(Request $request){
-
+      
         $strategic_objective = new StrategicObjective();
         $strategic_objective->strategic_objective = $request->strategic_objective;
-        
+        $strategic_objective->objective_letter = $request->objective_letter;
         $strategic_objective->save();
         session()->flash('success', 'Strategic Objective successfully created');
-     
         return redirect()
                 ->route('rpo.measures')
                 ->with('success', 'Strategic Objective successfully created');
     }
 
     public function add_measure(Request $request){
+      
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
+        $number_measure = $request->get('number_measure');
+
         // dd($request->accountable_division);
         if($divisions){
            if(count($divisions) > 1){
@@ -1075,6 +1077,9 @@ class RegionalPlanningOfficerController extends Controller
                 $strategic_measure_enity->strategic_measure = $strategic_measure;
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->division_ID = $division;
+                $strategic_measure_enity->number_measure = $number_measure;
+
+
                 if($request->accountable_division == $division){
                     $strategic_measure_enity->type = 'DIRECT MAIN';
 
@@ -1093,6 +1098,8 @@ class RegionalPlanningOfficerController extends Controller
             $strategic_measure_enity->division_ID = $divisions[0];
             $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
             $strategic_measure_enity->type = 'DIRECT';
+            $strategic_measure_enity->number_measure = $number_measure;
+
             $strategic_measure_enity->save();
            }
             
