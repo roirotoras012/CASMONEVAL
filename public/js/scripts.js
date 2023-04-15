@@ -123,27 +123,38 @@ $(document).ready(function () {
 
         win.document.write("<style>");
         win.document.write(`
-            @media print {
-                table {
+        
+        @media print {
+         
+            #rpo_scoreCard {
                 width: 100%;
-                max-width: 100%;
                 page-break-inside: avoid;
                 background-color: #fff;
-                }
-                td, th {
+                table-layout: fixed;
+                overflow-x: auto;
+            }
+            td,
+            th {
                 background-color: #f7f7f7;
                 word-wrap: break-word;
                 padding: 5px;
                 font-size: 12px;
                 line-height: 1.5;
-                }
-                tr {
-                page-break-inside: avoid;
-                page-break-after: auto;
-                }
-                
-               
             }
+            th {
+                white-space: nowrap;
+                page-break-inside: avoid;
+              
+                width: 100px; /* or set a width that works for your table */
+            }
+            tr {
+                page-break-inside: avoid;
+             
+            }
+            .page-break {
+                page-break-after: always;
+            }
+        }
             `);
         win.document.write("</style>");
         win.document.write("</head><body>");
@@ -180,6 +191,106 @@ $(document).ready(function () {
             win.print(fileName);
         }, 1000);
     });
+
+
+
+
+
+
+
+    var printScoreCard = document.getElementById("print-scoreCard");
+
+    if (printScoreCard) {
+        printScoreCard.addEventListener("click", function () {
+            var rpo_scoreCard = document.getElementById("rpo_scoreCard");
+            rpo_scoreCard.classList.remove("d-none");
+            var contentWidth = rpo_scoreCard.offsetWidth;
+            var contentHeight = rpo_scoreCard.offsetHeight;
+            var winScorecard = window.open("", "_blank");
+            var fileNameScorecard = printScoreCard.dataset.fileName;
+    
+            winScorecard.document.write("<html><head><title>" + fileNameScorecard + "</title>");
+            winScorecard.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />');
+            winScorecard.document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
+            winScorecard.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />');
+    
+            winScorecard.document.write("<style>");
+            winScorecard.document.write(`
+            @media print {
+              
+                @page {
+                    size: A4 landscape;
+                  }
+                #rpo_scoreCard {
+            
+                width: 100%;
+                max-width: 100%;
+                page-break-inside: avoid;
+                background-color: #fff;
+                }
+                td,
+                th {
+                background-color: #f7f7f7;
+                word-wrap: break-word;
+                padding: 3px;
+                font-size: 10px;
+                line-height: 1.2;
+                text-align: center;
+                }
+                th {
+                white-space: nowrap;
+                page-break-inside: avoid;
+                page-break-after: always;
+                }
+            
+                .page-break {
+                page-break-after: always;
+                }
+            }
+            
+            `);
+            winScorecard.document.write("</style>");
+            winScorecard.document.write("</head><body>");
+            winScorecard.document.write(
+            "<div style='display:flex;align-items:center;justify-content:space-between;'>"
+            );
+            winScorecard.document.write(
+            "<img style='height:auto;width:70px;' src='/images/dti-logo.png' />"
+            );
+            winScorecard.document.write(
+            "<p style='text-align:center;font-size:10px;'>Republic of the Philippines<br>Department of Trade and Industry</p>"
+            );
+            winScorecard.document.write("<div></div>");
+            winScorecard.document.write("</div>");
+            
+            winScorecard.document.write("<div id='content'>");
+            winScorecard.document.write(rpo_scoreCard.outerHTML);
+            winScorecard.document.write("</div>");
+            winScorecard.document.write("</body></html>");
+            winScorecard.document.close();
+            rpo_scoreCard.classList.add("d-none");
+            var printWindow = function (win) {
+                win.print(fileNameScorecard);
+                if (win.innerHeight > win.outerHeight) {
+                    winScorecard.location.reload();
+                }
+            };
+    
+            var adjustContentSize = function (win) {
+                var content = win.document.getElementById("content");
+                var scale = Math.min(win.innerWidth / contentWidth, win.innerHeight / contentHeight);
+                content.style.transform = "scale(" + scale + ")";
+                content.style.transformOrigin = "top left";
+            };
+    
+            winScorecard.onload = function () {
+                adjustContentSize(winScorecard);
+                printWindow(winScorecard);
+               
+            };
+        });
+    }
+    
 });
 
 
