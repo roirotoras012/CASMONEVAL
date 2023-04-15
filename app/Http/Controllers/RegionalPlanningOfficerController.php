@@ -124,7 +124,7 @@ class RegionalPlanningOfficerController extends Controller
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
-            ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
+            ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type','strategic_measures.number_measure']);
         // dd($labels);
 
         

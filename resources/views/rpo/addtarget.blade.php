@@ -51,7 +51,7 @@
                         <table class="table table-bordered ppo-table shadow">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
-
+                                    <th class="p-3">Number Measure</th>
                                     <th class="p-3">Strategic Objectives</th>
                                     <th class="p-3">Strategic Measures</th>
                                     <th class="p-3">REGION 10</th>
@@ -72,8 +72,8 @@
                                 $current_objective = '';
                                     $ctr = 0;
                                 @endphp
-                               
                                 @foreach ($labels as $label)
+                              
                                   
                                     <tr class="table-tr">
                                         
@@ -89,11 +89,12 @@
                                         }
                                         @endphp
                                         {{-- <h2>{{$qwe}}</h2> --}}
+                                        <td>{{$label->number_measure}}</td>
+
                                         <td rowspan="{{$obj_count}}">
                                         {{ $label->strategic_objective }} 
                                         </td>
                                         @endif
-                                       
                                        
                                         <td>{{ $label->strategic_measure }} 
                                             <input type="hidden"
