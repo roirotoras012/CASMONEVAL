@@ -28,7 +28,7 @@ class ProvincialPlanningOfficerController extends Controller
             ->where('is_submitted', '=', 1)
             ->get();
 
-        $objectivesact = StrategicObjective::where('is_active', 1)->get();
+        $objectivesact = StrategicObjective::where('is_active', 1)->orderBy('objective_letter', 'ASC')->get();
 
         $objectives = StrategicObjective::where('is_active', 1)->get();
 
@@ -185,7 +185,78 @@ class ProvincialPlanningOfficerController extends Controller
 
         // dd($notification);
         // dd($monthly_targets);
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures'));
+        $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+        ->where('monthly_accomplishment', '!=' ,null)
+        ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
+        ->where('annual_targets.province_ID', '=' , $user->province_ID)
+        ->get(['monthly_targets.*', 'annual_targets.*'])
+        ->groupBy(['strategic_measures_ID']);
+
+        foreach ($monthly_targets2 as $monthly_target2) {
+
+            if(count($monthly_target2) >= 12){
+                $monthly_target2->total_targets = 0;
+                $monthly_target2->first_sem = 0;
+                $monthly_target2->second_sem = 0;
+                $monthly_target2->first_qrtr = 0;
+                $monthly_target2->second_qrtr = 0;
+                $monthly_target2->third_qrtr = 0;
+                $monthly_target2->fourth_qrtr= 0;
+
+                $monthly_target2->total_accom = 0;
+                $monthly_target2->first_sem_accom = 0;
+                $monthly_target2->second_sem_accom = 0;
+                $monthly_target2->first_qrtr_accom = 0;
+                $monthly_target2->second_qrtr_accom = 0;
+                $monthly_target2->third_qrtr_accom = 0;
+                $monthly_target2->fourth_qrtr_accom = 0;
+
+                $total_accom = null;
+                $first_sem_accom = null;
+                $second_sem_accom = null;
+                $first_qrtr_accom = null;
+                $second_qrtr_accom = null;
+                $third_qrtr_accom = null;
+                $fourth_qrtr_accom = null;
+                
+                foreach ($monthly_target2 as $target2) {
+                    # code...
+                    $monthly_target2->total_targets += $target2->monthly_target;
+                    $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                    if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+
+                        $monthly_target2->first_sem += $target2->monthly_target;
+                        $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                        if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
+                            $monthly_target2->first_qrtr += $target2->monthly_target;
+                            $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+                            $monthly_target2->second_qrtr += $target2->monthly_target;
+                            $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                    }
+                    if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+
+                        $monthly_target2->second_sem += $target2->monthly_target;
+                        $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                        
+                        if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
+                            $monthly_target2->third_qrtr += $target2->monthly_target;
+                            $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+                            $monthly_target2->fourth_qrtr += $target2->monthly_target;
+                            $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                    }
+
+                }
+               
+
+            }
+        }
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures','monthly_targets2'));
     }
 
     public function getNotifications(Request $request)
@@ -319,7 +390,9 @@ class ProvincialPlanningOfficerController extends Controller
             ->where('is_submitted', '=', 1)
             ->get();
 
-        $objectivesact = StrategicObjective::where('is_active', 1)->get();
+        $objectivesact = StrategicObjective::where('is_active', 1)
+                                            ->orderBy('objective_letter', 'ASC')
+                                            ->get();
 
         $objectives = StrategicObjective::where('is_active', 1)->get();
 
@@ -455,7 +528,81 @@ class ProvincialPlanningOfficerController extends Controller
 
         // dd($notification);
         // dd($monthly_targets);
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures'));
+
+        $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+        ->where('monthly_accomplishment', '!=' ,null)
+        ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
+        ->where('annual_targets.province_ID', '=' , $user->province_ID)
+        ->get(['monthly_targets.*', 'annual_targets.*'])
+        ->groupBy(['strategic_measures_ID']);
+
+        foreach ($monthly_targets2 as $monthly_target2) {
+
+            if(count($monthly_target2) >= 12){
+                $monthly_target2->total_targets = 0;
+                $monthly_target2->first_sem = 0;
+                $monthly_target2->second_sem = 0;
+                $monthly_target2->first_qrtr = 0;
+                $monthly_target2->second_qrtr = 0;
+                $monthly_target2->third_qrtr = 0;
+                $monthly_target2->fourth_qrtr= 0;
+
+                $monthly_target2->total_accom = 0;
+                $monthly_target2->first_sem_accom = 0;
+                $monthly_target2->second_sem_accom = 0;
+                $monthly_target2->first_qrtr_accom = 0;
+                $monthly_target2->second_qrtr_accom = 0;
+                $monthly_target2->third_qrtr_accom = 0;
+                $monthly_target2->fourth_qrtr_accom = 0;
+
+                $total_accom = null;
+                $first_sem_accom = null;
+                $second_sem_accom = null;
+                $first_qrtr_accom = null;
+                $second_qrtr_accom = null;
+                $third_qrtr_accom = null;
+                $fourth_qrtr_accom = null;
+                
+                foreach ($monthly_target2 as $target2) {
+                    # code...
+                    $monthly_target2->total_targets += $target2->monthly_target;
+                    $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                    if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+
+                        $monthly_target2->first_sem += $target2->monthly_target;
+                        $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                        if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
+                            $monthly_target2->first_qrtr += $target2->monthly_target;
+                            $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+                            $monthly_target2->second_qrtr += $target2->monthly_target;
+                            $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                    }
+                    if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+
+                        $monthly_target2->second_sem += $target2->monthly_target;
+                        $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                        
+                        if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
+                            $monthly_target2->third_qrtr += $target2->monthly_target;
+                            $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+                            $monthly_target2->fourth_qrtr += $target2->monthly_target;
+                            $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                    }
+
+                }
+               
+
+            }
+        }
+        // dd($monthly_targets2);
+
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2'));
     }
 
     public function savetarget()
