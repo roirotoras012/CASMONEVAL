@@ -62,7 +62,7 @@
                             <div>
                                 <div
                                     class="table table-bordered ppo-table bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-                                    <div><span class="fs-5"> {{ $objective->strategic_objective }}</span></div>
+                                    <div><span class="fs-5">{{ $objective->objective_letter }}. {{ $objective->strategic_objective }}</span></div>
                                     <div class="d-flex gap-1">
                                         <form method="POST" action="{{ route('rpo.remove_objective') }}">
                                             @csrf
@@ -97,7 +97,7 @@
                                             @foreach ($measure as $item)
                                                 <div
                                                     class="table-bordered p-1 d-flex justify-content-between align-items-center">
-                                                    <span>{{ $item->strategic_measure }}</span>
+                                                    <span>{{ $item->number_measure }}. {{ $item->strategic_measure }}</span>
 
                                                     <form method="POST" action="{{ route('rpo.remove_measure') }}">
                                                         @csrf

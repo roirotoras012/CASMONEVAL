@@ -1101,6 +1101,7 @@ class RegionalPlanningOfficerController extends Controller
             $opcr_gotActive = false;
         }
         $objectives = StrategicObjective::where('is_active', '=', true)
+                                        ->orderBy('objective_letter','asc')
                                         ->get();
         $divisions = Division::all();
      
@@ -1110,6 +1111,7 @@ class RegionalPlanningOfficerController extends Controller
             ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
             ->where('strategic_measures.opcr_ID', '=', null)
             ->orWhere('strategic_measures.opcr_ID', '=', 0)
+            ->orderBy('strategic_measures.number_measure','asc')
             ->get(['strategic_measures.*', 'strategic_objectives.*'])
             ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
         // dd($measures);
