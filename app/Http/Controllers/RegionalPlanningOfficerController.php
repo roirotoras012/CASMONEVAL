@@ -100,7 +100,6 @@ class RegionalPlanningOfficerController extends Controller
     public function store(Request $request)
     {
         //
-        // dd($request);
         $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',
@@ -124,8 +123,9 @@ class RegionalPlanningOfficerController extends Controller
             ->where('strategic_objectives.is_active', '=', true)
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
-            ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
-            ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
+            ->orderBy('strategic_objectives.objective_letter', 'ASC')
+            ->orderBy('strategic_measures.number_measure', 'ASC')
+            ->get(['strategic_objectives.objective_letter','strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type','strategic_measures.number_measure']);
         // dd($labels);
 
         
@@ -464,8 +464,9 @@ class RegionalPlanningOfficerController extends Controller
             ->where('strategic_objectives.is_active', '=', true)        
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
-            ->orderBy('strategic_measures.strategic_objective_ID', 'ASC')
-            ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type']);
+            ->orderBy('strategic_objectives.objective_letter', 'ASC')
+            ->orderBy('strategic_measures.number_measure', 'ASC')
+            ->get(['strategic_objectives.objective_letter','strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type','strategic_measures.number_measure']);
 
         if($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE'){
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
@@ -486,6 +487,7 @@ class RegionalPlanningOfficerController extends Controller
                 if(!(count($monthly_target) >= 12)){
                     $validated = false;
                 }
+              
             
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
@@ -493,7 +495,7 @@ class RegionalPlanningOfficerController extends Controller
                         $validated = false;
                     }
 
-
+                    
 
 
                     
@@ -502,7 +504,7 @@ class RegionalPlanningOfficerController extends Controller
                 $monthly_target->annual_accom = $annual_accom;
                 $monthly_target->validated = $validated;
                
-               
+                
             }
            
         }
@@ -700,11 +702,83 @@ class RegionalPlanningOfficerController extends Controller
             
             }
         }
+
+        $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=' ,null)
+            ->where('annual_targets.opcr_ID', '=' , $opcr_id)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['strategic_measures_ID']);
+
+            foreach ($monthly_targets2 as $monthly_target2) {
+                // echo count($monthly_target2);
+                if(count($monthly_target2) >= 60){
+                    $monthly_target2->total_targets = 0;
+                    $monthly_target2->first_sem = 0;
+                    $monthly_target2->second_sem = 0;
+                    $monthly_target2->first_qrtr = 0;
+                    $monthly_target2->second_qrtr = 0;
+                    $monthly_target2->third_qrtr = 0;
+                    $monthly_target2->fourth_qrtr= 0;
+
+                    $monthly_target2->total_accom = 0;
+                    $monthly_target2->first_sem_accom = 0;
+                    $monthly_target2->second_sem_accom = 0;
+                    $monthly_target2->first_qrtr_accom = 0;
+                    $monthly_target2->second_qrtr_accom = 0;
+                    $monthly_target2->third_qrtr_accom = 0;
+                    $monthly_target2->fourth_qrtr_accom = 0;
+
+                    $total_accom = null;
+                    $first_sem_accom = null;
+                    $second_sem_accom = null;
+                    $first_qrtr_accom = null;
+                    $second_qrtr_accom = null;
+                    $third_qrtr_accom = null;
+                    $fourth_qrtr_accom = null;
+                    
+                    foreach ($monthly_target2 as $target2) {
+                        # code...
+                        $monthly_target2->total_targets += $target2->monthly_target;
+                        $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                        if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+
+                            $monthly_target2->first_sem += $target2->monthly_target;
+                            $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                            if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
+                                $monthly_target2->first_qrtr += $target2->monthly_target;
+                                $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                            }
+                            if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+                                $monthly_target2->second_qrtr += $target2->monthly_target;
+                                $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                            }
+                        }
+                        if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+
+                            $monthly_target2->second_sem += $target2->monthly_target;
+                            $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                            
+                            if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
+                                $monthly_target2->third_qrtr += $target2->monthly_target;
+                                $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                            }
+                            if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+                                $monthly_target2->fourth_qrtr += $target2->monthly_target;
+                                $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                            }
+                        }
+
+                    }
+                   
+
+                }
+                # code...
+            }
         // dd($labels);
         // var_dump($labels);
+        // dd($monthly_targets2);
         // dd($monthly_targets);
-        // dd($monthly_targets);
-        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file'));
+        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file','monthly_targets2'));
     }
     public function update_targets(Request $request)
     {
@@ -1027,6 +1101,7 @@ class RegionalPlanningOfficerController extends Controller
             $opcr_gotActive = false;
         }
         $objectives = StrategicObjective::where('is_active', '=', true)
+                                        ->orderBy('objective_letter','asc')
                                         ->get();
         $divisions = Division::all();
      
@@ -1036,6 +1111,7 @@ class RegionalPlanningOfficerController extends Controller
             ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
             ->where('strategic_measures.opcr_ID', '=', null)
             ->orWhere('strategic_measures.opcr_ID', '=', 0)
+            ->orderBy('strategic_measures.number_measure','asc')
             ->get(['strategic_measures.*', 'strategic_objectives.*'])
             ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
         // dd($measures);
@@ -1046,21 +1122,23 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function add_objective(Request $request){
-
+      
         $strategic_objective = new StrategicObjective();
         $strategic_objective->strategic_objective = $request->strategic_objective;
-        
+        $strategic_objective->objective_letter = $request->objective_letter;
         $strategic_objective->save();
         session()->flash('success', 'Strategic Objective successfully created');
-     
         return redirect()
                 ->route('rpo.measures')
                 ->with('success', 'Strategic Objective successfully created');
     }
 
     public function add_measure(Request $request){
+      
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
+        $number_measure = $request->get('number_measure');
+
         // dd($request->accountable_division);
         if($divisions){
            if(count($divisions) > 1){
@@ -1076,6 +1154,9 @@ class RegionalPlanningOfficerController extends Controller
                 $strategic_measure_enity->strategic_measure = $strategic_measure;
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->division_ID = $division;
+                $strategic_measure_enity->number_measure = $number_measure;
+
+
                 if($request->accountable_division == $division){
                     $strategic_measure_enity->type = 'DIRECT MAIN';
 
@@ -1094,6 +1175,8 @@ class RegionalPlanningOfficerController extends Controller
             $strategic_measure_enity->division_ID = $divisions[0];
             $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
             $strategic_measure_enity->type = 'DIRECT';
+            $strategic_measure_enity->number_measure = $number_measure;
+
             $strategic_measure_enity->save();
            }
             

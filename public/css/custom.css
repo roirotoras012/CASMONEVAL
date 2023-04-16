@@ -472,3 +472,10 @@ table.table.table-bordered.border-primary thead {
     text-align: center;
 }
 
+
+#rpo_scoreCard th{
+
+    white-space: nowrap;
+    text-align: center;
+}
+
