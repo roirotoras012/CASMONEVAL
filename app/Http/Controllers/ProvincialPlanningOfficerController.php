@@ -524,10 +524,15 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
         }
-        // dd($commonMeasures);
+        //pgs rating
+        $pgs = [
+            'total_number_of_valid_measures' => '4',
+            'total_number_of_accomplished_measure' => '23',
+            'numerical_rating' => '2.50',
+            'rating' => 'Satisfactory',
+        ];
 
-        // dd($notification);
-        // dd($monthly_targets);
+               
 
         $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
         ->where('monthly_accomplishment', '!=' ,null)
@@ -602,7 +607,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs'));
     }
 
     public function savetarget()

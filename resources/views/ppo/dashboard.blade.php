@@ -11,7 +11,8 @@
 
         <div class="container-fluid px-4 py-5">
 
-            <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Provincial Planning Officer Dashboard</div>
+            <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Provincial Planning
+                Officer Dashboard</div>
             <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                 {{ match ($userDetails->province_ID) {
                     1 => 'Bukidnon',
@@ -26,8 +27,11 @@
             @if ($annual_targets)
                 <div class="container">
                     <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h1>
-                    <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2/>
                     
+                    <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures
+                        :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
+                        :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 />
+
                     {{-- <div class="row">
                         <div class="col-6 mx-auto">
                             <x-add_driver_form :opcrs=$opcrs :divisions=$divisions />
@@ -36,9 +40,9 @@
                             <x-group_driver_form :measures=$measures :drivers=$driversact />
                         </div>
                     </div> --}}
-            
+
                     {{-- <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets/> --}}
-                {{-- <form method="POST" action="{{ route('submit_to_division') }}" class="">
+                    {{-- <form method="POST" action="{{ route('submit_to_division') }}" class="">
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
                         
@@ -51,10 +55,13 @@
                        
                     
                 </form> --}}
+
                 </div>
-                @else
-                <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>
-                @endif
+                
+            @else
+                <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
+            @endif
+
         </div>
 
 
