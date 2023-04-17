@@ -172,6 +172,7 @@
                                                 <tr>
                                                     <td class="text-center align-middle">
                                                         {{ $a }}
+                                                        {{-- {{ $measures_list[$measure->strategic_measures_ID]->first()->number_measure }} --}}
                                                     </td>
                                                     <td class="text-center align-middle">
                                                         {{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}
