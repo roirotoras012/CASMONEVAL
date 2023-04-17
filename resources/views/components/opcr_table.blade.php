@@ -332,7 +332,7 @@
                     @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
                         <tr>
                             <td class="text-center align-middle">
-                               
+                                {{ $measure->number_measure }} 
                             </td>
                             <td class="text-center align-middle">
                                 {{ $measure->strategic_measure }} 
@@ -341,7 +341,8 @@
                                 <td class="text-center align-middle">
                                     {{ $annual_target }}
                                 </td>
-                                @if (isset($monthly_targets2[$measure->strategic_measure_ID]))
+ 
+                                @if ((isset($monthly_targets2[$measure->strategic_measure_ID])) && count($monthly_targets2[$measure->strategic_measure_ID]) >= 12) 
                                 <td>{{$monthly_targets2[$measure->strategic_measure_ID]->first_qrtr}}</td>
                                 <td>{{$monthly_targets2[$measure->strategic_measure_ID]->second_qrtr}}</td>
                                 <td>{{$monthly_targets2[$measure->strategic_measure_ID]->third_qrtr}}</td>
