@@ -101,8 +101,7 @@
                                 // Set the background color based on the value of $accomPercentage
                                 if ($accomPercentage >= 0.9) {
                                     $bgColor = 'background-color: #4CAF50;';
-                                } elseif ($accomPercentage >= 0.5) {
-                                    $bgColor = 'background-color: #FFC107;';
+                                
                                 } else {
                                     $bgColor = 'background-color: #FF0000;';
                                 }
@@ -121,8 +120,6 @@
                                 // } else {
                                     if ($accomPercentage >= 0.9) {
                                         $bgColor = 'background-color: #4CAF50;';
-                                    } elseif ($accomPercentage >= 0.5) {
-                                        $bgColor = 'background-color: #FFC107;';
                                     } else {
                                         $bgColor = 'background-color: #FF0000;';
                                     }
@@ -296,8 +293,6 @@
                                 // Set the background color based on the value of $accomPercentage
                                 if ($accomPercentage >= 0.9) {
                                     $bgColor = 'background-color: #4CAF50;';
-                                } elseif ($accomPercentage >= 0.5) {
-                                    $bgColor = 'background-color: #FFC107;';
                                 } else {
                                     $bgColor = 'background-color: #FF0000;';
                                 }
@@ -316,8 +311,6 @@
                                 // } else {
                                     if ($accomPercentage >= 0.9) {
                                         $bgColor = 'background-color: #4CAF50;';
-                                    } elseif ($accomPercentage >= 0.5) {
-                                        $bgColor = 'background-color: #FFC107;';
                                     } else {
                                         $bgColor = 'background-color: #FF0000;';
                                     }
