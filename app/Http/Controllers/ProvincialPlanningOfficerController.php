@@ -185,13 +185,18 @@ class ProvincialPlanningOfficerController extends Controller
 
         // dd($notification);
         // dd($monthly_targets);
-        $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-        ->where('monthly_accomplishment', '!=' ,null)
-        ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
-        ->where('annual_targets.province_ID', '=' , $user->province_ID)
-        ->get(['monthly_targets.*', 'annual_targets.*'])
-        ->groupBy(['strategic_measures_ID']);
-
+        if (count($opcrs_active) > 0) {
+            $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=' ,null)
+            ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=' , $user->province_ID)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['strategic_measures_ID']);
+        }
+        else {
+            $monthly_targets2 = []; 
+        }
+       
         foreach ($monthly_targets2 as $monthly_target2) {
 
             if(count($monthly_target2) >= 12){
@@ -532,14 +537,18 @@ class ProvincialPlanningOfficerController extends Controller
             'rating' => 'Satisfactory',
         ];
 
-               
-
-        $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-        ->where('monthly_accomplishment', '!=' ,null)
-        ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
-        ->where('annual_targets.province_ID', '=' , $user->province_ID)
-        ->get(['monthly_targets.*', 'annual_targets.*'])
-        ->groupBy(['strategic_measures_ID']);
+        // dd($notification);
+        // dd($monthly_targets);
+        if (count($opcrs_active) > 0) {
+            $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=' ,null)
+            ->where('annual_targets.opcr_ID', '=' , $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=' , $user->province_ID)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['strategic_measures_ID']);
+        } else {
+            $monthly_targets2 = [];
+        }
 
         foreach ($monthly_targets2 as $monthly_target2) {
 
