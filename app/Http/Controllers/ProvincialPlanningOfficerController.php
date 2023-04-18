@@ -7,6 +7,7 @@ use App\Models\Opcr;
 use App\Models\User;
 use App\Models\Driver;
 use App\Models\Division;
+use App\Models\Pgs;
 use App\Models\Province;
 use App\Models\Evaluation;
 use App\Models\AnnualTarget;
@@ -18,6 +19,7 @@ use App\Models\StrategicObjective;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+
 
 class ProvincialPlanningOfficerController extends Controller
 {
@@ -529,10 +531,48 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
         }
-        // dd($commonMeasures);
+        //pgs rating
+        $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                                            ->where('annual_targets.province_ID', $user->province_ID)
+                                            ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+                                            ->where('strategic_measures.type', '<>', 'DIRECT COMMON')
+                                            ->select('annual_targets.*','strategic_measures.strategic_measure',DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+                                            ->having('total_accomplishment', '<>', 0)
+                                            ->get();
+        $total_number_of_accomplished_measure = 0;
+        foreach($total_number_of_valid_measures as $acc_meas){
+            if(($acc_meas->total_accomplishment/$acc_meas->annual_target)*100 > 90) {
+                $total_number_of_accomplished_measure++;
+            }
+           
+        }
+        $pgsratingtext;
+        // for the numeric
+        $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+                        ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
+                        ->select('numeric')
+                        ->first();
+        //for the rating
+        if($pgsrating->numeric == 5.00){
+            $pgsratingtext = "Outstanding";
+        }else if($pgsrating->numeric >= 4.50 ) {
+            $pgsratingtext = "Very Satisfactory";
+        }else if($pgsrating->numeric >= 3.25 ) {
+            $pgsratingtext = "Satisfactory";
+        }else if($pgsrating->numeric >= 2.50) {
+            $pgsratingtext = "Below Satisfactory";
+        }else if($pgsrating->numeric < 2.50) {
+            $pgsratingtext = "Poor";
+        }
+        
+        // PGS array
+        $pgs = [
+            'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
+            'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
+            'numerical_rating' => $pgsrating->numeric,
+            'rating' => $pgsratingtext,
+        ];
 
-        // dd($notification);
-        // dd($monthly_targets);
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->where('monthly_accomplishment', '!=' ,null)
@@ -610,7 +650,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs'));
     }
 
     public function savetarget()

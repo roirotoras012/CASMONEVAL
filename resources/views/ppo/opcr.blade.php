@@ -24,6 +24,7 @@
 
                 @if ($annual_targets)
                 <div class="container">
+                    
                     <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h1>
                     <x-opcr_table :opcrs_active=$opcrs_active :provinces=$provinces :objectivesact=$objectivesact :measures=$measures :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2/>
                     
@@ -54,6 +55,34 @@
                     
                 </form>
                 </div>
+                @if(isset($pgs))
+                <div class="p-5">
+                    <table class="table" style="width:50%">
+                        <thead>
+                            <th>Description</th>
+                            <th>Number</th>
+                            <th>Rating</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>No. of valid measure</th>
+                                <td>{{$pgs['total_number_of_valid_measures']}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <th>No. of valid measure atleast 90%</th>
+                                <td>{{$pgs['total_number_of_accomplished_measure']}}</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <th>OPCR rating</th>
+                                <td>{{$pgs['numerical_rating']}}</td>
+                                <td>{{$pgs['rating']}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                @endif
                 @else
                 <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>
                 @endif
