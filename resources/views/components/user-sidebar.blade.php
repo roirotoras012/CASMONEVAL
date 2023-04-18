@@ -17,20 +17,16 @@
                             Dashboard
                         </a>
 
-                        {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
-                        <a class="nav-link  {{ Request::is('rd/opcr-target') ? 'active' : '' }}"
-                            href="{{ url('rd/opcr-target') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            OPCR Target
+
+
+                        <a class="nav-link  {{ Request::is('rd/savetarget') ? 'active' : '' }}"
+                            href="{{ url('rd/savetarget') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
+                            Save Target
 
                         </a>
 
-                        <a class="nav-link  {{ Request::is('rd/assessment') ? 'active' : '' }}"
-                            href="{{ url('rd/assessment') }}">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
-                            Performance Assessment
 
-                        </a>
 
                         {{-- <div class="sb-sidenav-menu-heading">Addons</div> --}}
                         <a class="nav-link  {{ Request::is('rd/profile') ? 'active' : '' }}"
@@ -46,7 +42,7 @@
 
                             Dashboard
                         </a>
-                          <a class="nav-link  {{ Request::is('rpo/measures') ? 'active' : '' }}"
+                        <a class="nav-link  {{ Request::is('rpo/measures') ? 'active' : '' }}"
                             href="{{ url('rpo/measures') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 
@@ -97,11 +93,11 @@
                         </a>
 
                         <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
-                        href="{{ url('pd/savetarget') }}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
-                        Save Target
+                            href="{{ url('pd/savetarget') }}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
+                            Save Target
 
-                     </a>
+                        </a>
 
 
                         {{-- <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"
@@ -165,8 +161,7 @@
                             Manage Measure Drivers
 
                         </a> --}}
-                        <a class="nav-link  {{ Request::is('ppo/bdd') ? 'active' : '' }}"
-                            href="{{ url('ppo/bdd') }}">
+                        <a class="nav-link  {{ Request::is('ppo/bdd') ? 'active' : '' }}" href="{{ url('ppo/bdd') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
                             BDD
 
@@ -207,9 +202,9 @@
                             Dashboard
                         </a>
                         <a class="nav-link  {{ Request::is('dc/manage') ? 'active' : '' }}"
-                        href="{{ url('dc/manage') }}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
-                        Job Family Shopping
+                            href="{{ url('dc/manage') }}">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-eye"></i></div>
+                            Job Family Shopping
 
                         </a>
                         <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
