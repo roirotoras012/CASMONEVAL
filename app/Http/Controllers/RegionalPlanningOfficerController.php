@@ -41,7 +41,8 @@ class RegionalPlanningOfficerController extends Controller
     public function users()
     {
         $users = User::all();
-        return view('rpo.manage-users', ['users' => $users]);
+        $userRegistrationKeys = RegistrationKey::all();
+        return view('rpo.manage-users', ['users' => $users , 'userRegistrationKeys' => $userRegistrationKeys ]);
     }
 
     // public function adminView()

@@ -6,26 +6,28 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-          </div>
+        </div>
         <div class="card mb-4 m-4">
             <div class="card-header">
                 <div class="table-title">
                     <div class="row d-flex align-items-center">
-                       
-                          
                         <div class="col-sm-6 text-left">
                             <h6 class="m-0">Manage <b>Employees</b></h6>
                         </div>
                         <div class="col-sm-6 text-right">
+                            <a href="#viewUserKeys" data-bs-toggle="modal" data-bs-target="#viewUserKeys"
+                                class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-eye"></i><span
+                                    class="p-1 d-inline-block">View User Keys</span></a>
+                                <x-modal-view-user-keys :userRegistrationKeys='$userRegistrationKeys' />
+                          
                             <a href="#addEmployeeModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-plus"></i><span
                                     class="p-1 d-inline-block">Add New Employee</span></a>
-                            {{-- <a href="#deleteEmployeeModal"  class="btn btn-danger" data-toggle="modal"><i class="fa-solid fa-trash"></i><span class="p-1 d-inline-block">Delete</span></a>						 --}}
                         </div>
+
                     </div>
                 </div>
             </div>
-
             <div class="card-body p-2">
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
@@ -67,21 +69,39 @@
                                 <td>{{ $user->middle_name }}</td>
                                 <td>{{ $user->extension_name }}</td>
                                 <td>{{ $user->birthday }}</td>
-                             <td>{{ $user->user_type_ID == "1" ? "Regional Director" :
-                                ($user->user_type_ID == "2" ? "Regional Planning Officer" :
-                                ($user->user_type_ID == "3" ? "Provincial Director" :
-                                ($user->user_type_ID == "4" ? "Provincial Planning Officer" :
-                                    ($user->user_type_ID == "5" ? "Division Chief" : "N/A") )))}}
-                            </td>
-                            <td>  {{ $user->division_ID == "1" ? "Business Development Division" :
-                                ($user->division_ID == "2" ? "Consumer Protection Division" :
-                                    ($user->division_ID == "3" ? "Finance Administrative Division" : "N/A") )}}</td>
+                                <td>{{ $user->user_type_ID == '1'
+                                    ? 'Regional Director'
+                                    : ($user->user_type_ID == '2'
+                                        ? 'Regional Planning Officer'
+                                        : ($user->user_type_ID == '3'
+                                            ? 'Provincial Director'
+                                            : ($user->user_type_ID == '4'
+                                                ? 'Provincial Planning Officer'
+                                                : ($user->user_type_ID == '5'
+                                                    ? 'Division Chief'
+                                                    : 'N/A')))) }}
+                                </td>
+                                <td> {{ $user->division_ID == '1'
+                                    ? 'Business Development Division'
+                                    : ($user->division_ID == '2'
+                                        ? 'Consumer Protection Division'
+                                        : ($user->division_ID == '3'
+                                            ? 'Finance Administrative Division'
+                                            : 'N/A')) }}
+                                </td>
 
-                                <td>  {{ $user->province_ID == "1" ? "Bukidnon" :
-                                ($user->province_ID == "2" ? "Lanao De Norte" :
-                                ($user->province_ID == "3" ? "Misamis Oriental" :
-                                ($user->province_ID == "4" ? "Misamis Occidental" :
-                                    ($user->province_ID == "5" ? "Camiguin" : "N/A") )))}}</td>
+                                <td> {{ $user->province_ID == '1'
+                                    ? 'Bukidnon'
+                                    : ($user->province_ID == '2'
+                                        ? 'Lanao De Norte'
+                                        : ($user->province_ID == '3'
+                                            ? 'Misamis Oriental'
+                                            : ($user->province_ID == '4'
+                                                ? 'Misamis Occidental'
+                                                : ($user->province_ID == '5'
+                                                    ? 'Camiguin'
+                                                    : 'N/A')))) }}
+                                </td>
                                 <td>
                                     <div class="form-container d-flex">
                                         <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
@@ -215,5 +235,4 @@
 
 
     </x-user-sidebar>
-    
 @endsection

@@ -1320,4 +1320,6 @@ class ProvincialPlanningOfficerController extends Controller
             ->back()
             ->with('update', 'Validation updated successfully.');
     }
+
+    
 }
