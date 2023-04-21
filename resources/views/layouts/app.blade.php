@@ -183,7 +183,7 @@
                 });
             });
         </script> --}}
-
+      
         <script>
             $(document).ready(function() {
                 function getNotifications() {
@@ -222,9 +222,9 @@
                                 }
                                 
                                 // url += '?opcr=' + notification.opcr_ID;
-                                var notificationLink = $('<a class="dropdown-item" href="' + url +
-                                    '">' +
-                                    dataYear + '</a>');
+                                var dateFromNow = moment(notification.created_at).fromNow();
+                    var notificationText = dataYear + " (" + dateFromNow + ")";
+                    var notificationLink = $('<a class="dropdown-item" href="' + url + '">' + notificationText + '</a>');
                                 notificationLink.click(function(e) {
                                     e.preventDefault();
                                     $.ajaxSetup({
@@ -333,6 +333,7 @@
             });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     {{-- <script src={{ asset('demo/chart-area-demo.js') }}></script>
         <script src={{ asset('demo/chart-bar-demo.js') }}></script> --}}
