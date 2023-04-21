@@ -183,7 +183,13 @@
                                             @endif
                                            @endif
                                         </td>
-                                        <td>100%</td>
+                                        <td> @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
+                                            <?=(intval($monthly_targets[$label->CAM_target]->annual_accom)/intval($label->CAM))*100?>
+                                            @else
+                                            <?=(intval($label->CAM_accom)/intval($label->CAM))*100?>
+                                            @endif
+                                            %
+                                        </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
                                             <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][LDN]" value="{{$label->LDN}}">
@@ -199,7 +205,14 @@
                                                @endif
                                            @endif
                                         </td>
-                                        <td>100%</td>
+                                        <td>
+                                            @if ((isset($monthly_targets[$label->LDN_target])) && $monthly_targets[$label->LDN_target]->validated)
+                                            <?=(intval($monthly_targets[$label->LDN_target]->annual_accom)/intval($label->LDN))*100?>
+                                            @else
+                                            <?=(intval($label->LDN_accom)/intval($label->LDN))*100?>
+                                            @endif
+                                            %
+                                        </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOR]" value="">
                                             <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOR]" value="{{$label->MISOR}}">
@@ -214,7 +227,14 @@
                                            @endif
                                            @endif
                                         </td>
-                                        <td>100%</td>
+                                        <td>
+                                            @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
+                                            <?=(intval($monthly_targets[$label->MISOR_target]->annual_accom)/intval($label->MISOR))*100?>
+                                            @else
+                                            <?=(intval($label->MISOR_accom)/intval($label->MISOR))*100?>
+                                            @endif
+                                            %
+                                        </td>
                                         <td>
                                             <input type="hidden" name="data[{{ $ctr }}][MISOC]" value="">
                                             <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled style="font-weight: bold;"<?php   } ?> type="text" name="data[{{ $ctr }}][MISOC]" value="{{$label->MISOC}}">
@@ -229,7 +249,14 @@
                                                @endif --}}
                                            @endif
                                         </td>
-                                        <td>100%</td>
+                                        <td>
+                                            @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
+                                            <?=(intval($monthly_targets[$label->MISOC_target]->annual_accom)/intval($label->MISOC))*100?>
+                                            @else
+                                            <?=(intval($label->MISOC_accom)/intval($label->MISOC))*100?>
+                                            @endif
+                                            %
+                                        </td>
 
                                     </tr>
 
@@ -522,8 +549,8 @@
                         $nov_target= null;
                         $dec_target= null;
                             if (isset($monthly_targets2[$label->strategic_measure_ID])) {
-                                
-                                foreach ($monthly_targets2[$label->strategic_measure_ID] as $measure_target) {
+                                if (count($monthly_targets2[$label->strategic_measure_ID])>=60) {
+                                    foreach ($monthly_targets2[$label->strategic_measure_ID] as $measure_target) {
                                     if($measure_target->month == 'jan'){
                                         $jan_total += $measure_target->monthly_accomplishment;
                                         $jan_target += $measure_target->monthly_target;
@@ -575,6 +602,8 @@
                                     }
                                  
                                 }
+                                }
+                                
                             }
                         @endphp
                       
