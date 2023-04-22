@@ -199,16 +199,28 @@ $(document).ready(function () {
 
 
     var printScoreCard = document.getElementById("print-scoreCard");
+   
 
     if (printScoreCard) {
         printScoreCard.addEventListener("click", function () {
             var rpo_scoreCard = document.getElementById("rpo_scoreCard");
+            var rating = document.getElementById("rating_table");
             rpo_scoreCard.classList.remove("d-none");
             var contentWidth = rpo_scoreCard.offsetWidth;
             var contentHeight = rpo_scoreCard.offsetHeight;
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
+            if (rpo_scoreCard.offsetWidth > window.innerWidth) {
+                // Calculate the font size adjustment ratio
+                var ratio = window.innerWidth / rpo_scoreCard.offsetWidth;
+                var newFontSize = 10 * ratio;
     
+                // Adjust the font size of the table cells
+                var cells = rpo_scoreCard.querySelectorAll("td, th");
+                for (var i = 0; i < cells.length; i++) {
+                    cells[i].style.fontSize = newFontSize + "px";
+                }
+            }
             winScorecard.document.write("<html><head><title>" + fileNameScorecard + "</title>");
             winScorecard.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />');
             winScorecard.document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
@@ -216,12 +228,14 @@ $(document).ready(function () {
     
             winScorecard.document.write("<style>");
             winScorecard.document.write(`
+            
             @media print {
-              
+                
                 @page {
                     size: A4 landscape;
+                    margin: 10px;
                   }
-                #rpo_scoreCard {
+                #rpo_scoreCard, #rating_table {
             
                 width: 100%;
                 max-width: 100%;
@@ -232,15 +246,24 @@ $(document).ready(function () {
                 th {
                 background-color: #f7f7f7;
                 word-wrap: break-word;
-                padding: 3px;
+                padding: 3px !important;
                 font-size: 10px;
                 line-height: 1.2;
                 text-align: center;
                 }
+                #rating_table td, th {
+                background-color: #f7f7f7;
+                word-wrap: break-word;
+                padding: 3px !important;
+                font-size: 10px;
+                line-height: 1.2;
+                text-align: left !important;
+               
+                }
                 th {
                 white-space: nowrap;
                 page-break-inside: avoid;
-                page-break-after: always;
+                page-break-after: auto;
                 }
             
                 .page-break {
@@ -265,7 +288,12 @@ $(document).ready(function () {
             
             winScorecard.document.write("<div id='content'>");
             winScorecard.document.write(rpo_scoreCard.outerHTML);
+            if(rating){
+
+                winScorecard.document.write(rating.outerHTML);
+            }
             winScorecard.document.write("</div>");
+        
             winScorecard.document.write("</body></html>");
             winScorecard.document.close();
             rpo_scoreCard.classList.add("d-none");
@@ -279,8 +307,7 @@ $(document).ready(function () {
             var adjustContentSize = function (win) {
                 var content = win.document.getElementById("content");
                 var scale = Math.min(win.innerWidth / contentWidth, win.innerHeight / contentHeight);
-                content.style.transform = "scale(" + scale + ")";
-                content.style.transformOrigin = "top left";
+              
             };
     
             winScorecard.onload = function () {

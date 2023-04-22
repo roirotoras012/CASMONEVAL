@@ -67,7 +67,7 @@
                 </div>
                 @if (isset($pgs))
                     <div class="p-5">
-                        <table class="table" style="width:50%">
+                        <table class="table" style="width:50%" id="rating_table">
                             <thead>
                                 <th>Description</th>
                                 <th>Number</th>

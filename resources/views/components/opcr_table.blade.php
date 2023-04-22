@@ -617,10 +617,14 @@
                                 <td class="text-center align-middle" style="background-color: none;"></td>
                             @endif
                         </tr>
+
+
+                    
                     @endif
                 @endforeach
             @endif
         @endforeach
-
+                  
     </tbody>
+
 </table>
