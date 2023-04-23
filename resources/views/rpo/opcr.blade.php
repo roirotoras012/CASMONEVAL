@@ -163,8 +163,7 @@
                                         <td>
                                             @if ((isset($monthly_targets[$label->BUK_target])) && $monthly_targets[$label->BUK_target]->validated)
                                             <?=(intval($monthly_targets[$label->BUK_target]->annual_accom)/intval($label->BUK))*100?>
-                                            @else
-                                            <?=(intval($label->BUK_accom)/intval($label->BUK))*100?>
+                                         
                                             @endif
                                             %
                                         </td>
@@ -185,8 +184,7 @@
                                         </td>
                                         <td> @if ((isset($monthly_targets[$label->CAM_target])) && $monthly_targets[$label->CAM_target]->validated)
                                             <?=(intval($monthly_targets[$label->CAM_target]->annual_accom)/intval($label->CAM))*100?>
-                                            @else
-                                            <?=(intval($label->CAM_accom)/intval($label->CAM))*100?>
+                                    
                                             @endif
                                             %
                                         </td>
@@ -208,8 +206,7 @@
                                         <td>
                                             @if ((isset($monthly_targets[$label->LDN_target])) && $monthly_targets[$label->LDN_target]->validated)
                                             <?=(intval($monthly_targets[$label->LDN_target]->annual_accom)/intval($label->LDN))*100?>
-                                            @else
-                                            <?=(intval($label->LDN_accom)/intval($label->LDN))*100?>
+                                      
                                             @endif
                                             %
                                         </td>
@@ -230,8 +227,7 @@
                                         <td>
                                             @if ((isset($monthly_targets[$label->MISOR_target])) && $monthly_targets[$label->MISOR_target]->validated)
                                             <?=(intval($monthly_targets[$label->MISOR_target]->annual_accom)/intval($label->MISOR))*100?>
-                                            @else
-                                            <?=(intval($label->MISOR_accom)/intval($label->MISOR))*100?>
+                                
                                             @endif
                                             %
                                         </td>
@@ -252,8 +248,7 @@
                                         <td>
                                             @if ((isset($monthly_targets[$label->MISOC_target])) && $monthly_targets[$label->MISOC_target]->validated)
                                             <?=(intval($monthly_targets[$label->MISOC_target]->annual_accom)/intval($label->MISOC))*100?>
-                                            @else
-                                            <?=(intval($label->MISOC_accom)/intval($label->MISOC))*100?>
+                                  
                                             @endif
                                             %
                                         </td>
