@@ -235,11 +235,12 @@ $(document).ready(function () {
                     size: A4 landscape;
                     margin: 10px;
                   }
+             
                 #rpo_scoreCard, #rating_table {
             
                 width: 100%;
                 max-width: 100%;
-                page-break-inside: avoid;
+         
                 background-color: #fff;
                 }
                 td,
@@ -250,33 +251,40 @@ $(document).ready(function () {
                 font-size: 10px;
                 line-height: 1.2;
                 text-align: center;
+                border-collapse: collapse !important;
+                page-break-inside: avoid;
                 }
+                
                 #rating_table td, th {
                 background-color: #f7f7f7;
                 word-wrap: break-word;
                 padding: 3px !important;
                 font-size: 10px;
                 line-height: 1.2;
-                text-align: left !important;
-               
+                text-align: left !important;    
+                page-break-inside: avoid;
                 }
                 th {
                 white-space: nowrap;
                 page-break-inside: avoid;
                 page-break-after: auto;
                 }
+                .ratings_table td{
+                    text-align: left !important; 
+
+                }
             
                 .page-break {
                 page-break-after: always;
                 }
+                
+                
             }
             
             `);
             winScorecard.document.write("</style>");
             winScorecard.document.write("</head><body>");
-            winScorecard.document.write(
-            "<div style='display:flex;align-items:center;justify-content:space-between;'>"
-            );
+            winScorecard.document.write("<div class='header' style='display:flex;align-items:center;justify-content:space-between; page-break-inside: avoid;'>");
             winScorecard.document.write(
             "<img style='height:auto;width:70px;' src='/images/dti-logo.png' />"
             );

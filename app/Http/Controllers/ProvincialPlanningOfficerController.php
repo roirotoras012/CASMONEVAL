@@ -436,6 +436,9 @@ class ProvincialPlanningOfficerController extends Controller
         // dd($driversact);
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->where('monthly_accomplishment', '!=', null)
+            ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->where('monthly_targets.validated', '=', 'Validated')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['annual_target_ID']);
 
@@ -459,7 +462,7 @@ class ProvincialPlanningOfficerController extends Controller
             } else {
                 $monthly_target->validated = false;
             }
-
+            // dd($monthly_targets);
             // echo $monthly_target->annual_accom;
         }
 
@@ -530,16 +533,24 @@ class ProvincialPlanningOfficerController extends Controller
         $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
             ->where('annual_targets.province_ID', $user->province_ID)
             ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
-            ->where('strategic_measures.type', '<>', 'DIRECT COMMON')
-            ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+           
+            ->where(function ($query) {
+                $query
+                    ->where('strategic_measures.type', '=', 'DIRECT')
+                    ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                 
+            })
+            ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
             ->having('total_accomplishment', '<>', 0)
             ->get();
+            // dd($total_number_of_valid_measures);
         $total_number_of_accomplished_measure = 0;
         foreach ($total_number_of_valid_measures as $acc_meas) {
             if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
                 $total_number_of_accomplished_measure++;
             }
         }
+     
         $pgsratingtext = '';
         $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
             ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
@@ -568,6 +579,8 @@ class ProvincialPlanningOfficerController extends Controller
             'rating' => $pgsratingtext,
         ];
 
+
+        
         // //pgs rating
         // $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
         //     ->where('annual_targets.province_ID', $user->province_ID)
@@ -615,6 +628,7 @@ class ProvincialPlanningOfficerController extends Controller
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
                 ->where('monthly_accomplishment', '!=', null)
+                ->where('validated', '=', 'Validated')
                 ->where('annual_targets.opcr_ID', '=', $opcrs_active[0]->opcr_ID)
                 ->where('annual_targets.province_ID', '=', $user->province_ID)
                 ->get(['monthly_targets.*', 'annual_targets.*'])
@@ -624,7 +638,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
 
         foreach ($monthly_targets2 as $monthly_target2) {
-            if (count($monthly_target2) >= 12) {
+       
                 $monthly_target2->total_targets = 0;
                 $monthly_target2->first_sem = 0;
                 $monthly_target2->second_sem = 0;
@@ -678,7 +692,7 @@ class ProvincialPlanningOfficerController extends Controller
                             $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
                         }
                     }
-                }
+                
             }
         }
         // dd($monthly_targets2);
