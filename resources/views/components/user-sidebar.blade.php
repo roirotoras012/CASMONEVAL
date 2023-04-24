@@ -92,12 +92,19 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
+                        <a class="nav-link  {{ Request::is('pd/view-opcr') ? 'active' : '' }}"
+                        href="{{ url('pd/view-opcr') }}">
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-calendar-plus"></i></div>
+                        OPCR
+
+                         </a>
+
+                        {{-- <a class="nav-link  {{ Request::is('pd/savetarget') ? 'active' : '' }}"
                             href="{{ url('pd/savetarget') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-save"></i></div>
                             Save Target
 
-                        </a>
+                        </a> --}}
 
 
                         {{-- <a class="nav-link  {{ Request::is('pd/addtarget') ? 'active' : '' }}"

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    {{ 'Provincial Planning Officer View OPCR' }}
+    {{ 'Provincial Director OPCR' }}
 @endsection
 @section('content')
     <x-user-sidebar>
