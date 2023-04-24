@@ -104,6 +104,21 @@
                             @php
                                 $driver_letter = 65;
                                 $a = 0;
+
+
+                                $valid90[0] = 0;
+                                $valid90[1] = 0;
+                            
+                                $valid90[2] = 0;
+                                $valid90[3] = 0;
+                                $valid90[4] = 0;
+                                $valid90[5] = 0;
+                                $valid90[6] = 0;
+                                $valid90[7] = 0;
+                                $valid90[8] = 0;
+                                $valid90[9] = 0;
+                                $valid90[10] = 0;
+                                $valid90[11] = 0;
                             @endphp
 
                             {{-- {{dd($driversact)}} --}}
@@ -182,7 +197,7 @@
                                                         {{-- loop for the months of the year monthly target area --}}
                                                         @for ($i = 1; $i <= 12; $i++)
                                                             <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-
+                                                            
                                                             @if (isset(
                                                                     $monthly_targets[strtolower($month->format('M'))][
                                                                         $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
@@ -201,7 +216,16 @@
 
 
                                                                     {{-- @else --}}
-
+                                                                @php
+                                                                    if ((($monthly_targets[strtolower($month->format('M'))][
+                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                        ]->first()->monthly_accomplishment/$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target) * 100) > 90) {
+                                                                            $valid90[$i-1]++;
+                                                                        # code...
+                                                                    }
+                                                                    
+                                                                    
+                                                                @endphp
                                                                     <td class="text-center align-middle">
                                                                         @if (
                                                                             $monthly_targets[strtolower($month->format('M'))][
@@ -215,6 +239,7 @@
                                                                             </a>
                                                                             <span>out of
                                                                                 <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                                
                                                                             <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
                                                                                 :division_ID="$userDetails->division_ID" :year="202"
                                                                                 :monthly_target="$monthly_targets[
@@ -267,13 +292,139 @@
                                                     @endif
                                                 @endforeach
                                             </tr>
+
+
+                                            
                                         @endif
                                     @endforeach
                                 @endif
                             @endforeach
+                            <tr>
+            
+                                <td colspan="999">
+                                  <table style="width: 100%;" class="ratings_table table table-bordered ppo-table-opcr">
+                                    <thead class="bg-primary text-white">
+                                        <tr>
+                                            <th class="text-center align-middle" colspan="999">Monthly Ratings</th>
+                                        </tr>
+                                      <tr>
+                                        <th colspan="2" class="text-center align-middle">January</th>
+                                        <th colspan="2" class="text-center align-middle">February</th>
+                                        <th colspan="2" class="text-center align-middle">March</th>
+                                        <th colspan="2" class="text-center align-middle">April</th>
+                                        <th colspan="2" class="text-center align-middle">May</th>
+                                        <th colspan="2" class="text-center align-middle">June</th>
+                                        <th colspan="2" class="text-center align-middle">July</th>
+                                        <th colspan="2" class="text-center align-middle">August</th>
+                                        <th colspan="2" class="text-center align-middle">September</th>
+                                        <th colspan="2" class="text-center align-middle">October</th>
+                                        <th colspan="2" class="text-center align-middle">November</th>
+                                        <th colspan="2" class="text-center align-middle">December</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                    
+                                        @for ($i = 0; $i < 12; $i++)
+                                        <th class="text-left align-middle">No.</th>
+                                        <th class="text-left align-middle">Rate</th>
+                                        @endfor
+                                       
+                                     
+                                       
+                                     
+                                      
+                                      
+                                        
+                                      </tr>
+                                      <tr>
+                                        
+                                        @for ($i = 0; $i < 12; $i++)
+                                        <td class="text-left align-middle">{{ $pgs['total_number_of_valid_measures'] }}</td>
+                                        <td class="text-left align-middle"></td>
+                                        @endfor
+                                       
+                                       
+                                        
+                                      
+                                      </tr>
+                                      
+                                      <tr>
+                                        @for ($i = 0; $i < 12; $i++)
+                                        <td class="text-left align-middle">{{$valid90[$i]}}</td>
+                                        <td class="text-left align-middle"></td> 
+                                        @endfor
+                                 
+                                      
+                                       
+                                       
+                                      
+                                      </tr>
+                                      <tr>
+                                        @for ($i = 0; $i < 12; $i++)
+                    
+                                        @php
+                                            $pgsratingtext = '';
+                                           
+                                        
+                                            if (count($pgsrating2) !== 0 && $valid90[$i] !== 0) {
+                                                if ($pgsrating2[$valid90[$i]]->first()->numeric == 5.0) {
+                                                    $pgsratingtext = 'Outstanding';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 4.5) {
+                                                    $pgsratingtext = 'Very Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 3.25) {
+                                                    $pgsratingtext = 'Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 2.5) {
+                                                    $pgsratingtext = 'Below Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric < 2.5) {
+                                                    $pgsratingtext = 'Poor';
+                                                }
+                                            }
+                                        @endphp
+                                        <td class="text-left align-middle">{{count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null}}</td>
+                                        <td class="text-left align-middle">{{$pgsratingtext}}</td>
+                                        @endfor
+                                    
+                                    
+                                       
+                                      
+                                      
+                                      </tr>
+                                   
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
                         </tbody>
                     </table>
-
+                    @if (isset($pgs))
+                    <div class="p-5">
+                        <table class="table" style="width:50%" id="rating_table">
+                            <thead>
+                                <th>Description</th>
+                                <th>Number</th>
+                                <th>Rating</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>No. of valid measure</th>
+                                    <td>{{ $pgs['total_number_of_valid_measures'] }}</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <th>No. of valid measure atleast 90%</th>
+                                    <td>{{ $pgs['total_number_of_accomplished_measure'] }}</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <th>OPCR rating</th>
+                                    <td>{{ $pgs['numerical_rating'] }}</td>
+                                    <td>{{ $pgs['rating'] }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
 
                 </div>
             @else

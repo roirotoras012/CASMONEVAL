@@ -6,6 +6,7 @@ use Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Notification;
+use App\Models\Pgs;
 use App\Models\StrategicMeasure;
 use App\Models\StrategicObjective;
 use App\Models\AnnualTarget;
@@ -707,6 +708,7 @@ class RegionalPlanningOfficerController extends Controller
         $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->where('monthly_accomplishment', '!=' ,null)
             ->where('annual_targets.opcr_ID', '=' , $opcr_id)
+            ->where('monthly_targets.validated', '=' , 'Validated')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['strategic_measures_ID']);
 
@@ -779,7 +781,79 @@ class RegionalPlanningOfficerController extends Controller
         // var_dump($labels);
         // dd($monthly_targets2);
         // dd($monthly_targets);
-        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file','monthly_targets2'));
+        
+       
+
+            //pgs rating
+
+            $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                ->where('annual_targets.opcr_ID', $opcr_id)
+                ->where(function ($query) {
+                    $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+              
+                ->get()
+                ->groupBy('strategic_measures_ID');
+            // dd($total_number_of_valid_measures);
+            $total_number_of_accomplished_measure = 0;
+            foreach ($total_number_of_valid_measures as $total_number_of_valid_measure) {
+
+                $total_number_of_valid_measure->total_accom = 0;
+                $total_number_of_valid_measure->total_target = 0;
+                foreach ($total_number_of_valid_measure as $acc_meas) {
+                  
+                    $total_number_of_valid_measure->total_accom += $acc_meas->total_accomplishment;
+                    $total_number_of_valid_measure->total_target += $acc_meas->annual_target;
+                    // if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
+                    //     $total_number_of_accomplished_measure++;
+                    // }
+                }
+
+                 if (($total_number_of_valid_measure->total_accom / $total_number_of_valid_measure->total_target) * 100 > 90) {
+                        $total_number_of_accomplished_measure++;
+                    }
+              
+            }
+            //  dd($total_number_of_valid_measures);
+            // dd($total_number_of_accomplished_measure);
+            $pgsratingtext = '';
+            $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+                ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
+                ->select('numeric')
+                ->first();
+
+            
+
+            if ($pgsrating !== null) {
+                if ($pgsrating->numeric == 5.0) {
+                    $pgsratingtext = 'Outstanding';
+                } elseif ($pgsrating->numeric >= 4.5) {
+                    $pgsratingtext = 'Very Satisfactory';
+                } elseif ($pgsrating->numeric >= 3.25) {
+                    $pgsratingtext = 'Satisfactory';
+                } elseif ($pgsrating->numeric >= 2.5) {
+                    $pgsratingtext = 'Below Satisfactory';
+                } elseif ($pgsrating->numeric < 2.5) {
+                    $pgsratingtext = 'Poor';
+                }
+            }
+
+            // PGS array
+            $pgs = [
+                'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
+                'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
+                'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
+                'rating' => $pgsratingtext,
+            ];
+        
+            $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+
+            ->get()
+            ->groupBy('actual_num_of_accomplished_measure');
+            // dd($pgsrating2);
+        
+        return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file','monthly_targets2', 'pgs', 'pgsrating2'));
     }
     public function update_targets(Request $request)
     {

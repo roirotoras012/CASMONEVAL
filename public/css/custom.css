@@ -486,4 +486,5 @@ table.table.table-bordered.border-primary thead {
 .ratings_table td{
 
     padding: 2px !important;
+    width: calc(100% / 24); /* 24 is the number of columns in the table */
 }

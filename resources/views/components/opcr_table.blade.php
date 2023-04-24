@@ -1,4 +1,4 @@
-@props(['monthly_targets2', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active', 'pgs'])
+@props(['pgsrating2','monthly_targets2', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active', 'pgs'])
 
 
 @foreach ($provinces as $province)
@@ -394,7 +394,7 @@
                                     <td class="text-center align-middle">
                                         @php
                                             if ($monthly_targets2[$measure->strategic_measure_ID]->first_sem != 0) {
-                                                $result = $monthly_targets2[$measure->strategic_measure_ID]->first_sem_accom / ($monthly_targets2[$measure->strategic_measure_ID]->first_sem * 100);
+                                                $result = ($monthly_targets2[$measure->strategic_measure_ID]->first_sem_accom / ($monthly_targets2[$measure->strategic_measure_ID]->first_sem) * 100);
                                                 echo number_format($result, 2) . '%';
                                             } else {
                                                 echo 'Denominator cannot be zero';
@@ -408,7 +408,7 @@
                                     <td class="text-center align-middle">
                                         @php
                                             if ($monthly_targets2[$measure->strategic_measure_ID]->second_sem != 0) {
-                                                $result = $monthly_targets2[$measure->strategic_measure_ID]->second_sem_accom / ($monthly_targets2[$measure->strategic_measure_ID]->second_sem * 100);
+                                                $result = ($monthly_targets2[$measure->strategic_measure_ID]->second_sem_accom / ($monthly_targets2[$measure->strategic_measure_ID]->second_sem) * 100);
                                                 echo number_format($result, 2) . '%';
                                             } else {
                                                 echo 'Denominator cannot be zero';
@@ -961,31 +961,28 @@
                   </tr>
                   <tr>
                     @for ($i = 0; $i < 12; $i++)
-
-                    @php
-                        $pgsratingtext = '';
-                        $pgsrating = DB::table('pgs')->where('total_num_of_targeted_measure', $pgs['total_number_of_valid_measures'])
-                            ->where('actual_num_of_accomplished_measure', $valid90[$i])
-                            ->select('numeric')
-                            ->first();
-
-                        if ($pgsrating !== null) {
-                            if ($pgsrating->numeric == 5.0) {
-                                $pgsratingtext = 'Outstanding';
-                            } elseif ($pgsrating->numeric >= 4.5) {
-                                $pgsratingtext = 'Very Satisfactory';
-                            } elseif ($pgsrating->numeric >= 3.25) {
-                                $pgsratingtext = 'Satisfactory';
-                            } elseif ($pgsrating->numeric >= 2.5) {
-                                $pgsratingtext = 'Below Satisfactory';
-                            } elseif ($pgsrating->numeric < 2.5) {
-                                $pgsratingtext = 'Poor';
-                            }
-                        }
-                    @endphp
-                    <td class="text-left align-middle">{{$pgsrating !== null ? $pgsrating->numeric : null}}</td>
-                    <td class="text-left align-middle">{{$pgsratingtext}}</td>
-                    @endfor
+                    
+                                        @php
+                                            $pgsratingtext = '';
+                                           
+                                        
+                                            if (count($pgsrating2) !== 0 && $valid90[$i] !== 0) {
+                                                if ($pgsrating2[$valid90[$i]]->first()->numeric == 5.0) {
+                                                    $pgsratingtext = 'Outstanding';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 4.5) {
+                                                    $pgsratingtext = 'Very Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 3.25) {
+                                                    $pgsratingtext = 'Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 2.5) {
+                                                    $pgsratingtext = 'Below Satisfactory';
+                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric < 2.5) {
+                                                    $pgsratingtext = 'Poor';
+                                                }
+                                            }
+                                        @endphp
+                                        <td class="text-left align-middle">{{count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null}}</td>
+                                        <td class="text-left align-middle">{{$pgsratingtext}}</td>
+                                        @endfor
                 
                 
                    

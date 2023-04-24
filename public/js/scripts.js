@@ -108,6 +108,7 @@ $(document).ready(function () {
     var printButton = document.getElementById("print-button");
     printButton.addEventListener("click", function () {
         var table = document.getElementById("table").outerHTML;
+        var rating = document.getElementById("rating_table");
         var win = window.open("", "_blank");
         var fileName = printButton.dataset.fileName;
         win.document.write("<html><head><title>"+fileName+"</title>");
@@ -125,35 +126,57 @@ $(document).ready(function () {
         win.document.write(`
         
         @media print {
+                
+            @page {
+                size: A4 landscape;
+                margin: 10px;
+              }
          
-            #rpo_scoreCard {
-                width: 100%;
-                page-break-inside: avoid;
-                background-color: #fff;
-                table-layout: fixed;
-                overflow-x: auto;
+            #rpo_scoreCard, #rating_table {
+        
+            width: 100%;
+            max-width: 100%;
+     
+            background-color: #fff;
             }
             td,
             th {
-                background-color: #f7f7f7;
-                word-wrap: break-word;
-                padding: 5px;
-                font-size: 12px;
-                line-height: 1.5;
+            background-color: #f7f7f7;
+            word-wrap: break-word;
+            padding: 3px !important;
+            font-size: 10px;
+            line-height: 1.2;
+            text-align: center;
+            border-collapse: collapse !important;
+            page-break-inside: avoid;
+            }
+            
+            #rating_table td, th {
+            background-color: #f7f7f7;
+            word-wrap: break-word;
+            padding: 3px !important;
+            font-size: 10px;
+            line-height: 1.2;
+            text-align: left !important;    
+            page-break-inside: avoid;
             }
             th {
-                white-space: nowrap;
-                page-break-inside: avoid;
-              
-                width: 100px; /* or set a width that works for your table */
+            white-space: nowrap;
+            page-break-inside: avoid;
+            page-break-after: auto;
             }
-            tr {
-                page-break-inside: avoid;
-             
+            .ratings_table td{
+                text-align: left !important; 
+                width: calc(100% / 24); /* 24 is the number of columns in the table */
+
             }
+            
+        
             .page-break {
-                page-break-after: always;
+            page-break-after: always;
             }
+            
+            
         }
             `);
         win.document.write("</style>");
@@ -170,6 +193,10 @@ $(document).ready(function () {
         win.document.write("<div></div>");
         win.document.write("</div>");
         win.document.write(table);
+        if(rating){
+
+            win.document.write(rating.outerHTML);
+        }
         
           // Create anchor element with file name
         // var anchor = document.createElement("a");
@@ -271,6 +298,7 @@ $(document).ready(function () {
                 }
                 .ratings_table td{
                     text-align: left !important; 
+                    width: calc(100% / 24); /* 24 is the number of columns in the table */
 
                 }
             

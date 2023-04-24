@@ -210,7 +210,10 @@ class ProvincialPlanningOfficerController extends Controller
             $monthly_targets2 = [];
             $pgs = [];
         }
+        $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
 
+        ->get()
+        ->groupBy('actual_num_of_accomplished_measure');
         foreach ($monthly_targets2 as $monthly_target2) {
             $monthly_target2->total_targets = 0;
             $monthly_target2->first_sem = 0;
@@ -269,7 +272,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
 
     public function getNotifications(Request $request)
@@ -559,6 +562,8 @@ class ProvincialPlanningOfficerController extends Controller
                 ->select('numeric')
                 ->first();
 
+
+
             if ($pgsrating !== null) {
                 if ($pgsrating->numeric == 5.0) {
                     $pgsratingtext = 'Outstanding';
@@ -585,6 +590,11 @@ class ProvincialPlanningOfficerController extends Controller
             $pgs = [];
         }
 
+        $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+
+        ->get()
+        ->groupBy('actual_num_of_accomplished_measure');
+        // dd($pgsrating2);
         foreach ($monthly_targets2 as $monthly_target2) {
             $monthly_target2->total_targets = 0;
             $monthly_target2->first_sem = 0;
@@ -643,7 +653,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs'));
+        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
 
     public function savetarget()

@@ -6,6 +6,7 @@ use DB;
 use App\Models\Opcr;
 use App\Models\Notification;
 use App\Models\Driver;
+use App\Models\Pgs;
 use App\Models\Province;
 use App\Models\Evaluation;
 use App\Models\AnnualTarget;
@@ -363,6 +364,69 @@ class DivisionChiefController extends Controller
             $annual_targets = null;
         }
 
+
+        if (count($opcrs_active) > 0) {
+       
+
+            //pgs rating
+
+            $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                ->where('annual_targets.province_ID', $user->province_ID)
+                ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+                ->where('annual_targets.division_ID', $user->division_ID)
+                ->where(function ($query) {
+                    $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')->orWhere('strategic_measures.type', '=', 'DIRECT COMMON')->orWhere('strategic_measures.type', '=', 'MANDATORY')->orWhere('strategic_measures.type', '=', 'INDIRECT');
+                })
+                ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+                ->having('total_accomplishment', '<>', 0)
+                ->get();
+            // dd($total_number_of_valid_measures);
+            $total_number_of_accomplished_measure = 0;
+            foreach ($total_number_of_valid_measures as $acc_meas) {
+                if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
+                    $total_number_of_accomplished_measure++;
+                }
+            }
+            
+            $pgsratingtext = '';
+            $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+                ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
+                ->select('numeric')
+                ->first();
+
+            
+
+            if ($pgsrating !== null) {
+                if ($pgsrating->numeric == 5.0) {
+                    $pgsratingtext = 'Outstanding';
+                } elseif ($pgsrating->numeric >= 4.5) {
+                    $pgsratingtext = 'Very Satisfactory';
+                } elseif ($pgsrating->numeric >= 3.25) {
+                    $pgsratingtext = 'Satisfactory';
+                } elseif ($pgsrating->numeric >= 2.5) {
+                    $pgsratingtext = 'Below Satisfactory';
+                } elseif ($pgsrating->numeric < 2.5) {
+                    $pgsratingtext = 'Poor';
+                }
+            }
+
+            // PGS array
+            $pgs = [
+                'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
+                'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
+                'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
+                'rating' => $pgsratingtext,
+            ];
+        } else {
+            $monthly_targets2 = [];
+            $pgs = [];
+        }
+
+        $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+
+        ->get()
+        ->groupBy('actual_num_of_accomplished_measure');
+        // dd($pgsrating2);
         // dd($measures);
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->get(['monthly_targets.*', 'annual_targets.*'])
@@ -375,7 +439,7 @@ class DivisionChiefController extends Controller
                     ->get();
             }
             
-        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification','opcrs_active'));
+        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification','opcrs_active', 'pgsrating2' , 'pgs'));
     }
 
     public function profile()
