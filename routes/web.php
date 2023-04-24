@@ -92,6 +92,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
 
     Route::get('pd/savedtarget  ', [ProvincialDirectorController::class, 'savetarget']);
     Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
+    Route::get('pd/view-opcr', [ProvincialPlanningOfficerController::class, 'opcr'])->name('opcr');
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer

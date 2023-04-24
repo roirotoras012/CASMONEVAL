@@ -49,7 +49,7 @@
                             <label for="driver" class="form-label">New Driver</label>
                             <input type="text" name="driver" id="driver_input" class="w-100 form-control" required>
                         </div>
-                        <div>
+                        <div style="display: none;">
                             <label for="driver" class="form-label">Select Driver Letter</label>
                             <select name="number_driver" required class="form-select">
                                 <option>Choose Letter</option>
