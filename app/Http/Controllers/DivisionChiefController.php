@@ -364,7 +364,7 @@ class DivisionChiefController extends Controller
             $annual_targets = null;
         }
 
-
+        $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
        
 

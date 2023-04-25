@@ -149,7 +149,7 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
         }
-
+        $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
                 ->where('monthly_accomplishment', '!=', null)
@@ -172,7 +172,8 @@ class ProvincialPlanningOfficerController extends Controller
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
             // dd($total_number_of_valid_measures);
-            $total_number_of_accomplished_measure = 0;
+            // $total_number_of_accomplished_measure = 0;
+            $total_number_of_valid_measures = $total_number_of_valid_measures->merge($annual_targets);
             foreach ($total_number_of_valid_measures as $acc_meas) {
                 if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
                     $total_number_of_accomplished_measure++;
@@ -211,7 +212,6 @@ class ProvincialPlanningOfficerController extends Controller
             $pgs = [];
         }
         $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
-
         ->get()
         ->groupBy('actual_num_of_accomplished_measure');
         foreach ($monthly_targets2 as $monthly_target2) {
@@ -527,6 +527,7 @@ class ProvincialPlanningOfficerController extends Controller
             }
         }
 
+        $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
                 ->where('monthly_accomplishment', '!=', null)
@@ -549,7 +550,8 @@ class ProvincialPlanningOfficerController extends Controller
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
             // dd($total_number_of_valid_measures);
-            $total_number_of_accomplished_measure = 0;
+            // $total_number_of_accomplished_measure = 0;
+            $total_number_of_valid_measures = $total_number_of_valid_measures->merge($annual_targets);
             foreach ($total_number_of_valid_measures as $acc_meas) {
                 if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
                     $total_number_of_accomplished_measure++;
@@ -561,8 +563,6 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
                 ->select('numeric')
                 ->first();
-
-
 
             if ($pgsrating !== null) {
                 if ($pgsrating->numeric == 5.0) {
@@ -589,9 +589,7 @@ class ProvincialPlanningOfficerController extends Controller
             $monthly_targets2 = [];
             $pgs = [];
         }
-
         $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
-
         ->get()
         ->groupBy('actual_num_of_accomplished_measure');
         // dd($pgsrating2);
