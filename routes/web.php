@@ -92,7 +92,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
 
     Route::get('pd/savedtarget  ', [ProvincialDirectorController::class, 'savetarget']);
     Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
-    Route::get('pd/view-opcr', [ProvincialPlanningOfficerController::class, 'opcr'])->name('opcr');
+    Route::get('pd/view-opcr', [ProvincialDirectorController::class, 'opcr'])->name('opcr');
+    Route::post('pd/approved_opcr_pd', [ProvincialDirectorController::class, 'approved_opcr_pd'])->name('approved_opcr_pd');
+
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
@@ -110,6 +112,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('ppo/measures', [ProvincialPlanningOfficerController::class, 'store'])->name('measures.store');
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
+    Route::post('ppo/approved_opcr', [ProvincialPlanningOfficerController::class, 'approved_opcr'])->name('approved_opcr');
+
     // Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
     Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
     Route::post('ppo/monthly_target_validate', [ProvincialPlanningOfficerController::class, 'validateMonthlyTarget'])->name('monthly_target.validate');

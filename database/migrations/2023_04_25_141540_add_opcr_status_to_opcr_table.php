@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('drivers', function (Blueprint $table) {
-            $table->string('number_driver')->nullable();
+        Schema::table('opcr', function (Blueprint $table) {
+            $table->string('opcr_status')->nullable()->after('status');
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('drivers', function (Blueprint $table) {
+        Schema::table('opcr', function (Blueprint $table) {
             //
         });
     }

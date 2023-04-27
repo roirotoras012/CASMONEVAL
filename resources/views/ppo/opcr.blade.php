@@ -42,6 +42,7 @@
                     </div> --}}
 
                     {{-- <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets/> --}}
+                    <div class="d-flex gap-2">
                     <form method="POST" action="{{ route('submit_to_division') }}" class="">
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
@@ -62,8 +63,9 @@
                         {{--             
                     <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button> --}}
 
-
                     </form>
+
+                </div>
                 </div>
                 @if (isset($pgs))
                     <div class="p-5">
