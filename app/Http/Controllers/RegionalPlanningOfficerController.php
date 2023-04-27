@@ -474,6 +474,7 @@ class RegionalPlanningOfficerController extends Controller
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->where('monthly_accomplishment', '!=' ,null)
             ->where('annual_targets.opcr_ID', '=' , $opcr_id)
+            ->where('monthly_targets.validated', '=' , 'Validated')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['annual_target_ID']);
             foreach($monthly_targets as $monthly_target) {
@@ -486,16 +487,11 @@ class RegionalPlanningOfficerController extends Controller
                
                 $annual_accom = 0;
                 $validated = true;
-                if(!(count($monthly_target) >= 12)){
-                    $validated = false;
-                }
-              
+               
             
                 foreach($monthly_target as $target) {
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
-                    if($target->validated != 'Validated'){
-                        $validated = false;
-                    }
+                  
 
                     
 
@@ -706,30 +702,30 @@ class RegionalPlanningOfficerController extends Controller
         }
 
         $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-            ->where('monthly_accomplishment', '!=' ,null)
+            
             ->where('annual_targets.opcr_ID', '=' , $opcr_id)
-            ->where('monthly_targets.validated', '=' , 'Validated')
+           
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['strategic_measures_ID']);
 
             foreach ($monthly_targets2 as $monthly_target2) {
                 // echo count($monthly_target2);
-                if(count($monthly_target2) >= 60){
-                    $monthly_target2->total_targets = 0;
-                    $monthly_target2->first_sem = 0;
-                    $monthly_target2->second_sem = 0;
-                    $monthly_target2->first_qrtr = 0;
-                    $monthly_target2->second_qrtr = 0;
-                    $monthly_target2->third_qrtr = 0;
-                    $monthly_target2->fourth_qrtr= 0;
+                
+                    $monthly_target2->total_targets = null;
+                    $monthly_target2->first_sem = null;
+                    $monthly_target2->second_sem = null;
+                    $monthly_target2->first_qrtr = null;
+                    $monthly_target2->second_qrtr = null;
+                    $monthly_target2->third_qrtr = null;
+                    $monthly_target2->fourth_qrtr= null;
 
-                    $monthly_target2->total_accom = 0;
-                    $monthly_target2->first_sem_accom = 0;
-                    $monthly_target2->second_sem_accom = 0;
-                    $monthly_target2->first_qrtr_accom = 0;
-                    $monthly_target2->second_qrtr_accom = 0;
-                    $monthly_target2->third_qrtr_accom = 0;
-                    $monthly_target2->fourth_qrtr_accom = 0;
+                    $monthly_target2->total_accom = null;
+                    $monthly_target2->first_sem_accom = null;
+                    $monthly_target2->second_sem_accom = null;
+                    $monthly_target2->first_qrtr_accom = null;
+                    $monthly_target2->second_qrtr_accom = null;
+                    $monthly_target2->third_qrtr_accom = null;
+                    $monthly_target2->fourth_qrtr_accom = null;
 
                     $total_accom = null;
                     $first_sem_accom = null;
@@ -741,40 +737,77 @@ class RegionalPlanningOfficerController extends Controller
                     
                     foreach ($monthly_target2 as $target2) {
                         # code...
-                        $monthly_target2->total_targets += $target2->monthly_target;
-                        $monthly_target2->total_accom += $target2->monthly_accomplishment;
-                        if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
-
-                            $monthly_target2->first_sem += $target2->monthly_target;
-                            $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
-                            if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
-                                $monthly_target2->first_qrtr += $target2->monthly_target;
-                                $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
-                            }
-                            if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
-                                $monthly_target2->second_qrtr += $target2->monthly_target;
-                                $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
-                            }
-                        }
-                        if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
-
-                            $monthly_target2->second_sem += $target2->monthly_target;
-                            $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                        if($target2->validated == "Validated"){
                             
-                            if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
-                                $monthly_target2->third_qrtr += $target2->monthly_target;
-                                $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                            $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                            
+                            if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+    
+                
+                                $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                                if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
+                        
+                                    $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                                }
+                                if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+                            
+                                    $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                                }
                             }
-                            if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
-                                $monthly_target2->fourth_qrtr += $target2->monthly_target;
-                                $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
-                            }
+                            if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+    
+                    
+                                $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                                
+                                if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
+                        
+                                    $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                                }
+                                if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+                            
+                                    $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                                }
+                            }   
+                       
                         }
+
+
+
+                         $monthly_target2->total_targets += $target2->monthly_target;
+
+                            
+                            if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+    
+                                $monthly_target2->first_sem += $target2->monthly_target;
+                    
+                                if($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar'){
+                                    $monthly_target2->first_qrtr += $target2->monthly_target;
+                            
+                                }
+                                if($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun'){
+                                    $monthly_target2->second_qrtr += $target2->monthly_target;
+                                
+                                }
+                            }
+                            if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+    
+                                $monthly_target2->second_sem += $target2->monthly_target;
+                        
+                                
+                                if($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep'){
+                                    $monthly_target2->third_qrtr += $target2->monthly_target;
+                            
+                                }
+                                if($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec'){
+                                    $monthly_target2->fourth_qrtr += $target2->monthly_target;
+                                
+                                }
+                            }
 
                     }
                    
 
-                }
+                
                 # code...
             }
         // dd($labels);
@@ -791,7 +824,7 @@ class RegionalPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
                 })
-                ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+                ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
               
                 ->get()
                 ->groupBy('strategic_measures_ID');
@@ -815,7 +848,81 @@ class RegionalPlanningOfficerController extends Controller
                     }
               
             }
-            //  dd($total_number_of_valid_measures);
+
+            $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+                ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+                ->where('annual_targets.opcr_ID', $opcr_id)
+                ->where(function ($query) {
+                    $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
+                
+                ->get()
+                ->groupBy('strategic_measures_ID');
+                
+                      $valid_meas[0]  = 0;
+                      $valid_meas[1]  = 0;
+                      $valid_meas[2]   = 0;
+                      $valid_meas[3]  = 0;
+                      $valid_meas[4]  = 0;
+                      $valid_meas[5]  = 0;
+                      $valid_meas[6]  = 0;
+                      $valid_meas[7]  = 0;
+                      $valid_meas[8]  = 0;
+                      $valid_meas[9]  = 0;
+                      $valid_meas[10]  = 0;
+                      $valid_meas[11]  = 0;
+                foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
+
+                    
+                    foreach ($total_number_of_valid_measure2 as $acc_meas2) {
+
+                        if($acc_meas2->month == 'jan'){
+                            $valid_meas[0]++;              
+                        }
+                        else if($acc_meas2->month == 'feb'){
+                            $valid_meas[1]++;
+                        }
+                        else if($acc_meas2->month == 'mar'){
+                            $valid_meas[2]++;
+                        }
+                        else if($acc_meas2->month == 'apr'){
+                            $valid_meas[3]++;
+                        }
+                        else if($acc_meas2->month == 'may'){
+                            $valid_meas[4]++;
+                        }
+                        else if($acc_meas2->month == 'jun'){
+                            $valid_meas[5]++;
+                        }
+                        else if($acc_meas2->month == 'jul'){
+                            $valid_meas[6]++;
+                        }
+                        else if($acc_meas2->month == 'aug'){
+                            $valid_meas[7]++;
+                        }
+                        else if($acc_meas2->month == 'sep'){
+                            $valid_meas[8]++;
+                        }
+                        else if($acc_meas2->month == 'oct'){
+                            $valid_meas[9]++;
+                        }
+                        else if($acc_meas2->month == 'nov'){
+                            $valid_meas[10]++;
+                        }
+                        else if($acc_meas2->month == 'dec'){
+                            $valid_meas[11]++;
+                        }
+
+
+                        
+                    }
+    
+                     
+                  
+                } 
+            //     dd($total_number_of_valid_measures2);
+            //  dd($valid_meas);
             // dd($total_number_of_accomplished_measure);
             $pgsratingtext = '';
             $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
@@ -845,12 +952,17 @@ class RegionalPlanningOfficerController extends Controller
                 'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
                 'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
                 'rating' => $pgsratingtext,
+                'monthly_valid' => $valid_meas,
             ];
-        
-            $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+            // dd($pgs);
+            for ($i=0; $i < count($valid_meas); $i++) { 
+                # code...
+                $pgsrating2[$i] = Pgs::where('total_num_of_targeted_measure', $valid_meas[$i])
 
-            ->get()
-            ->groupBy('actual_num_of_accomplished_measure');
+                ->get()
+                ->groupBy('actual_num_of_accomplished_measure');
+            }
+        //    dd($pgsrating2);
             // dd($pgsrating2);
         
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file','monthly_targets2', 'pgs', 'pgsrating2'));

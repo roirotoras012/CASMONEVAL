@@ -321,7 +321,7 @@
         </div>
         @endif
 
-        <table class="table table-bordered ppo-table shadow d-none" id="rpo_scoreCard">
+        <table class="table table-bordered ppo-table shadow" id="rpo_scoreCard">
             <thead class="bg-primary text-white">
                 <tr>
                     <th rowspan="2" class="p-3">#</th>
@@ -536,82 +536,137 @@
                             @endif
                         </td>
                         @php
-                            $jan_total = 0;
-                            $feb_total = 0;
-                            $mar_total = 0;
-                            $apr_total = 0;
-                            $may_total = 0;
-                            $jun_total = 0;
-                            $jul_total = 0;
-                            $aug_total = 0;
-                            $sep_total = 0;
-                            $oct_total = 0;
-                            $nov_total = 0;
-                            $dec_total = 0;
+                            $jan_total = null;
+                            $feb_total = null;
+                            $mar_total = null;
+                            $apr_total = null;
+                            $may_total = null;
+                            $jun_total = null;
+                            $jul_total = null;
+                            $aug_total = null;
+                            $sep_total = null;
+                            $oct_total = null;
+                            $nov_total = null;
+                            $dec_total = null;
                             
-                            $jan_target = 0;
-                            $feb_target = 0;
-                            $mar_target = 0;
-                            $apr_target = 0;
-                            $may_target = 0;
-                            $jun_target = 0;
-                            $jul_target = 0;
-                            $aug_target = 0;
-                            $sep_target = 0;
-                            $oct_target = 0;
-                            $nov_target = 0;
-                            $dec_target = 0;
+                            $jan_target = null;
+                            $feb_target = null;
+                            $mar_target = null;
+                            $apr_target = null;
+                            $may_target = null;
+                            $jun_target = null;
+                            $jul_target = null;
+                            $aug_target = null;
+                            $sep_target = null;
+                            $oct_target = null;
+                            $nov_target = null;
+                            $dec_target = null;
                             if (isset($monthly_targets2[$label->strategic_measure_ID])) {
-                                if (count($monthly_targets2[$label->strategic_measure_ID]) >= 60) {
+                                // if (count($monthly_targets2[$label->strategic_measure_ID]) >= 60) {
                                     foreach ($monthly_targets2[$label->strategic_measure_ID] as $measure_target) {
-                                        if ($measure_target->month == 'jan') {
+                                        if($measure_target->validated == 'Validated'){
+                                            if ($measure_target->month == 'jan') {
                                             $jan_total += $measure_target->monthly_accomplishment;
-                                            $jan_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'feb') {
                                             $feb_total += $measure_target->monthly_accomplishment;
-                                            $feb_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'mar') {
                                             $mar_total += $measure_target->monthly_accomplishment;
-                                            $mar_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'apr') {
                                             $apr_total += $measure_target->monthly_accomplishment;
-                                            $apr_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'may') {
                                             $may_total += $measure_target->monthly_accomplishment;
-                                            $may_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'jun') {
                                             $jun_total += $measure_target->monthly_accomplishment;
-                                            $jun_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'jul') {
                                             $jul_total += $measure_target->monthly_accomplishment;
-                                            $jul_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'aug') {
                                             $aug_total += $measure_target->monthly_accomplishment;
-                                            $aug_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'sep') {
                                             $sep_total += $measure_target->monthly_accomplishment;
-                                            $sep_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'oct') {
                                             $oct_total += $measure_target->monthly_accomplishment;
-                                            $oct_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'nov') {
                                             $nov_total += $measure_target->monthly_accomplishment;
-                                            $nov_target += $measure_target->monthly_target;
+                                    
                                         }
                                         if ($measure_target->month == 'dec') {
                                             $dec_total += $measure_target->monthly_accomplishment;
+                                    
+                                        }
+
+                                        }
+
+
+
+                                        if ($measure_target->month == 'jan') {
+                                            
+                                            $jan_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'feb') {
+                                            
+                                            $feb_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'mar') {
+                                            
+                                            $mar_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'apr') {
+                                            
+                                            $apr_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'may') {
+                                            
+                                            $may_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'jun') {
+                                            
+                                            $jun_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'jul') {
+                                            
+                                            $jul_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'aug') {
+                                            
+                                            $aug_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'sep') {
+                                            
+                                            $sep_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'oct') {
+                                            
+                                            $oct_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'nov') {
+                                            
+                                            $nov_target += $measure_target->monthly_target;
+                                        }
+                                        if ($measure_target->month == 'dec') {
+                                            
                                             $dec_target += $measure_target->monthly_target;
                                         }
+                                        
                                     }
                             
                                     // dd($jun_total ."<br>". $jun_target);
@@ -676,17 +731,20 @@
                                         }
                                     }
                                 }
-                            }
+                            // }
                         @endphp
 
                         <td>
                             @if (isset($jan_target) && $jan_target != 0)
                                 {{ $jan_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($jan_total) && $jan_target != 0)
                                 {{ $jan_total }}
+                           
                             @endif
                         </td>
 
@@ -694,11 +752,14 @@
                         <td>
                             @if (isset($feb_target) && $feb_target != 0)
                                 {{ $feb_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($feb_total) && $feb_target != 0)
                                 {{ $feb_total }}
+                        
                             @endif
                         </td>
 
@@ -707,11 +768,14 @@
                         <td>
                             @if (isset($mar_target) && $mar_target != 0)
                                 {{ $mar_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($mar_total) && $mar_target != 0)
                                 {{ $mar_total }}
+                          
                             @endif
                         </td>
 
@@ -720,11 +784,14 @@
                         <td>
                             @if (isset($apr_target) && $apr_target != 0)
                                 {{ $apr_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($apr_total) && $apr_target != 0)
                                 {{ $apr_total }}
+                           
                             @endif
                         </td>
 
@@ -733,11 +800,14 @@
                         <td>
                             @if (isset($may_target) && $may_target != 0)
                                 {{ $may_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($may_total) && $may_target != 0)
                                 {{ $may_total }}
+                         
                             @endif
                         </td>
 
@@ -746,11 +816,14 @@
                         <td>
                             @if (isset($jun_target) && $jun_target != 0)
                                 {{ $jun_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($jun_total) && $jun_target != 0)
                                 {{ $jun_total }}
+                      
                             @endif
                         </td>
 
@@ -759,11 +832,14 @@
                         <td>
                             @if (isset($jul_target) && $jul_target != 0)
                                 {{ $jul_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($jul_total) && $jul_target != 0)
                                 {{ $jul_total }}
+                      
                             @endif
                         </td>
 
@@ -772,11 +848,14 @@
                         <td>
                             @if (isset($aug_target) && $aug_target != 0)
                                 {{ $aug_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($aug_total) && $aug_target != 0)
                                 {{ $aug_total }}
+                          
                             @endif
                         </td>
 
@@ -785,11 +864,14 @@
                         <td>
                             @if (isset($sep_target) && $sep_target != 0)
                                 {{ $sep_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($sep_total) && $sep_target != 0)
                                 {{ $sep_total }}
+                         
                             @endif
                         </td>
 
@@ -798,11 +880,14 @@
                         <td>
                             @if (isset($oct_target) && $oct_target != 0)
                                 {{ $oct_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($oct_total) && $oct_target != 0)
                                 {{ $oct_total }}
+                        
                             @endif
                         </td>
 
@@ -811,11 +896,14 @@
                         <td>
                             @if (isset($nov_target) && $nov_target != 0)
                                 {{ $nov_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($nov_total) && $nov_target != 0)
                                 {{ $nov_total }}
+                         
                             @endif
                         </td>
 
@@ -824,11 +912,14 @@
                         <td>
                             @if (isset($dec_target) && $dec_target != 0)
                                 {{ $dec_target }}
+                            @else
+                                N/A
                             @endif
                         </td>
                         <td>
                             @if (isset($dec_total) && $dec_target != 0)
                                 {{ $dec_total }}
+                       
                             @endif
                         </td>
 
@@ -886,7 +977,7 @@
                                 <tr>
 
                                     @for ($i = 0; $i < 12; $i++)
-                                        <td class="text-left align-middle">{{ $pgs['total_number_of_valid_measures'] }}
+                                        <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i] }}
                                         </td>
                                         <td class="text-left align-middle"></td>
                                     @endfor
@@ -912,22 +1003,22 @@
                                         @php
                                             $pgsratingtext = '';
                                             
-                                            if (count($pgsrating2) !== 0 && $valid90[$i] !== 0) {
-                                                if ($pgsrating2[$valid90[$i]]->first()->numeric == 5.0) {
+                                            if (count($pgsrating2[$i]) !== 0 && $valid90[$i] !== 0) {
+                                                if ($pgsrating2[$i][$valid90[$i]]->first()->numeric == 5.0) {
                                                     $pgsratingtext = 'Outstanding';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 4.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 4.5) {
                                                     $pgsratingtext = 'Very Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 3.25) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 3.25) {
                                                     $pgsratingtext = 'Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 2.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 2.5) {
                                                     $pgsratingtext = 'Below Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric < 2.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric < 2.5) {
                                                     $pgsratingtext = 'Poor';
                                                 }
                                             }
                                         @endphp
                                         <td class="text-left align-middle">
-                                            {{ count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null }}
+                                            {{ $pgs['monthly_valid'][$i] }}
                                         </td>
                                         <td class="text-left align-middle">{{ $pgsratingtext }}</td>
                                     @endfor

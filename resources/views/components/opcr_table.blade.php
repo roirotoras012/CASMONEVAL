@@ -378,8 +378,7 @@
                                     {{ $annual_target }}
                                 </td>
 
-                                @if (isset($monthly_targets2[$measure->strategic_measure_ID]) &&
-                                        count($monthly_targets2[$measure->strategic_measure_ID]) >= 12)
+                                @if (isset($monthly_targets2[$measure->strategic_measure_ID]))
                                     <td class="text-center align-middle">{{ $monthly_targets2[$measure->strategic_measure_ID]->first_qrtr }}</td>
                                     <td class="text-center align-middle">{{ $monthly_targets2[$measure->strategic_measure_ID]->second_qrtr }}</td>
                                     <td class="text-center align-middle">{{ $monthly_targets2[$measure->strategic_measure_ID]->third_qrtr }}</td>
@@ -451,7 +450,7 @@
                                        
                                         if (isset($monthly_targets2[$measure->strategic_measure_ID])) {
                                             foreach ($monthly_targets2[$measure->strategic_measure_ID] as $measure_target) {
-                                                if($measure_target->monthly_target != 0 && $measure_target->monthly_accomplishment != 0) {
+                                                if($measure_target->validated == 'Validated'){
                                                     if ($measure_target->month == 'jan') {
                                                         $jan_total += $measure_target->monthly_accomplishment;
                                                         $jan_target += $measure_target->monthly_target;
@@ -538,6 +537,8 @@
                                                         }
                                                     }
                                                 }
+                                                    
+                                                
                                             }
                                         }
                                     @endphp
@@ -676,7 +677,7 @@
                                        
                                         if (isset($monthly_targets2[$measure->strategic_measure_ID])) {
                                             foreach ($monthly_targets2[$measure->strategic_measure_ID] as $measure_target) {
-                                                if($measure_target->monthly_target != 0 && $measure_target->monthly_accomplishment != 0) {
+                                               
                                                     if ($measure_target->month == 'jan') {
                                                     $jan_total += $measure_target->monthly_accomplishment;
                                                     $jan_target += $measure_target->monthly_target;
@@ -762,7 +763,7 @@
                                                         $valid90[11]++;
                                                     }
                                                 }
-                                                }
+                                                
                                                 
                                             }
                                         }
@@ -942,7 +943,7 @@
                   <tr>
                     
                     @for ($i = 0; $i < 12; $i++)
-                    <td class="text-left align-middle">{{ $pgs['total_number_of_valid_measures'] }}</td>
+                    <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i] }}</td>
                     <td class="text-left align-middle"></td>
                     @endfor
                    
@@ -969,21 +970,21 @@
                                             $pgsratingtext = '';
                                            
                                         
-                                            if (count($pgsrating2) !== 0 && $valid90[$i] !== 0) {
-                                                if ($pgsrating2[$valid90[$i]]->first()->numeric == 5.0) {
+                                            if (count($pgsrating2[$i]) !== 0 && $valid90[$i] !== 0) {
+                                                if ($pgsrating2[$i][$valid90[$i]]->first()->numeric == 5.0) {
                                                     $pgsratingtext = 'Outstanding';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 4.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 4.5) {
                                                     $pgsratingtext = 'Very Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 3.25) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 3.25) {
                                                     $pgsratingtext = 'Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 2.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric >= 2.5) {
                                                     $pgsratingtext = 'Below Satisfactory';
-                                                } elseif ($pgsrating2[$valid90[$i]]->first()->numeric < 2.5) {
+                                                } elseif ($pgsrating2[$i][$valid90[$i]]->first()->numeric < 2.5) {
                                                     $pgsratingtext = 'Poor';
                                                 }
                                             }
                                         @endphp
-                                        <td class="text-left align-middle">{{count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null}}</td>
+                                        <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i] }}</td>
                                         <td class="text-left align-middle">{{$pgsratingtext}}</td>
                                         @endfor
                 
