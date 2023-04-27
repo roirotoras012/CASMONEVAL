@@ -217,11 +217,18 @@
 
                                                                     {{-- @else --}}
                                                                 @php
-                                                                    if ((($monthly_targets[strtolower($month->format('M'))][
-                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                        ]->first()->monthly_accomplishment/$monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target) * 100) > 90) {
-                                                                            $valid90[$i-1]++;
-                                                                        # code...
+                                                                    $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment;
+                                                                    $monthly_target = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target;
+                                                                    
+                                                                    if ($monthly_target != 0) {
+                                                                        $ratio = ($monthly_accomplishment / $monthly_target) * 100;
+                                                                    
+                                                                        if ($ratio > 90) {
+                                                                            $valid90[$i - 1]++;
+                                                                            # code...
+                                                                        }
+                                                                    } else {
+                                                                        // handle the case where monthly_target is zero
                                                                     }
                                                                     
                                                                     

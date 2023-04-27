@@ -8,8 +8,9 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
 
-
+        
         <div class="container-fluid px-4 py-5">
+           
 
             <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Provincial Planning
                 Officer Dashboard</div>
@@ -27,10 +28,12 @@
             @if ($annual_targets)
                 <div class="container">
                     <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h1>
-                    
+                   
                     <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures
                         :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
                         :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 />
+                    <div>
+                
 
                     {{-- <div class="row">
                         <div class="col-6 mx-auto">
@@ -63,6 +66,8 @@
             @endif
 
         </div>
+
+        
 
 
     </x-user-sidebar>

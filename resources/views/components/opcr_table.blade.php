@@ -8,6 +8,7 @@
         @endphp
     @endif
 @endforeach
+
 <div class="d-flex justify-content-between">
     <div>
         
@@ -17,6 +18,7 @@
         <button type="button" class="btn btn-primary my-2"
             data-file-name="{{ $printProvince }}_OPCR-{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
             id="print-scoreCard">Scorecard</button>
+        
         {{-- @if (count($opcrs_active) > 0)
             <button class="btn btn-primary my-2"
                 data-file-name="{{ $printProvince }}_OPCR-{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
@@ -27,6 +29,7 @@
         @endif --}}
 
     </div>
+    
 
     <div class="legend-container">
 
