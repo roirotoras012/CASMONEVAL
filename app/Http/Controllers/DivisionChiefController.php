@@ -78,7 +78,6 @@ class DivisionChiefController extends Controller
         // dd($request);
         // $monthly_target_id = $request->input('monthly_target_ID');
         $validatedData = $request->validate([
-          
             'monthly_target' => 'required',
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
@@ -96,26 +95,24 @@ class DivisionChiefController extends Controller
             return redirect()
                 ->back()
                 ->with('alert', 'Monthly target exceeds the annual target.');
-                
-                
         }
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
-     
+
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];
         $monthlyTarget->annual_target_ID = $validatedData['annual_target_ID'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
-      
+
         $monthlyTarget->save();
-       
 
         return redirect()
             ->route('dc.bukidnunBddIndex')
             ->with('success', 'Annual Target successfully!');
     }
 
-    public function updateTar(Request $request) {
+    public function updateTar(Request $request)
+    {
         $validatedData = $request->validate([
             'monthly_target_ID' => 'required',
             'monthly_target' => 'required',
@@ -123,35 +120,36 @@ class DivisionChiefController extends Controller
             'division_ID' => 'required',
             'month' => 'required',
         ]);
-    
+
         // Get the monthly target for the given monthly_target_ID
         $monthlyTarget = MonthlyTarget::find($validatedData['monthly_target_ID']);
-    
+
         // Get the annual target for the given annual_target_ID
         $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
-    
+
         // Get the sum of monthly targets for the given annual_target_ID
-        $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])->where('monthly_target_ID', '<>', $validatedData['monthly_target_ID'])->sum('monthly_target');
-    
+        $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])
+            ->where('monthly_target_ID', '<>', $validatedData['monthly_target_ID'])
+            ->sum('monthly_target');
+
         // Check if the sum of monthly targets and the new monthly target exceeds the annual target
         if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
             return redirect()
                 ->back()
                 ->with('alert', 'Monthly target exceeds the annual target.');
         }
-    
+
         // Update the monthly target
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
         //   dd($monthlyTarget);
         $monthlyTarget->update();
-    
+
         return redirect()
             ->route('dc.bukidnunBddIndex')
             ->with('success', 'Monthly Target successfully updated!');
     }
-    
 
     public function storeAccom(Request $request)
     {
@@ -366,8 +364,6 @@ class DivisionChiefController extends Controller
 
         $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
-       
-
             //pgs rating
 
             $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
@@ -375,7 +371,12 @@ class DivisionChiefController extends Controller
                 ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
                 ->where('annual_targets.division_ID', $user->division_ID)
                 ->where(function ($query) {
-                    $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')->orWhere('strategic_measures.type', '=', 'DIRECT COMMON')->orWhere('strategic_measures.type', '=', 'MANDATORY')->orWhere('strategic_measures.type', '=', 'INDIRECT');
+                    $query
+                        ->where('strategic_measures.type', '=', 'DIRECT')
+                        ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
+                        ->orWhere('strategic_measures.type', '=', 'DIRECT COMMON')
+                        ->orWhere('strategic_measures.type', '=', 'MANDATORY')
+                        ->orWhere('strategic_measures.type', '=', 'INDIRECT');
                 })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
@@ -387,14 +388,12 @@ class DivisionChiefController extends Controller
                     $total_number_of_accomplished_measure++;
                 }
             }
-            
+
             $pgsratingtext = '';
             $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
                 ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
                 ->select('numeric')
                 ->first();
-
-            
 
             if ($pgsrating !== null) {
                 if ($pgsrating->numeric == 5.0) {
@@ -424,22 +423,87 @@ class DivisionChiefController extends Controller
 
         $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
 
-        ->get()
-        ->groupBy('actual_num_of_accomplished_measure');
+            ->get()
+            ->groupBy('actual_num_of_accomplished_measure');
         // dd($pgsrating2);
         // dd($measures);
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
-            $notification = null;
-            if (count($opcrs_active) > 0) {
-                $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
-                    ->where('division_ID', '=', $user->division_ID)
-                    ->where('province_ID', '=', $user->province_ID)
-                    ->get();
+        $notification = null;
+        if (count($opcrs_active) > 0) {
+            $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+                ->where('division_ID', '=', $user->division_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get();
+        }
+
+        if (count($opcrs_active) != 0) {
+            $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
+            if (substr($opcrs_active[0]->cutoff_status, 0, 1) == '1') {
+                $monthly_targets['jan']->cutoff = true;
+            } else {
+                $monthly_targets['jan']->cutoff = false;
             }
-            
-        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification','opcrs_active', 'pgsrating2' , 'pgs'));
+            if (substr($opcrs_active[0]->cutoff_status, 1, 1) == '1') {
+                $monthly_targets['feb']->cutoff = true;
+            } else {
+                $monthly_targets['feb']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 2, 1) == '1') {
+                $monthly_targets['mar']->cutoff = true;
+            } else {
+                $monthly_targets['mar']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 3, 1) == '1') {
+                $monthly_targets['apr']->cutoff = true;
+            } else {
+                $monthly_targets['apr']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 4, 1) == '1') {
+                $monthly_targets['may']->cutoff = true;
+            } else {
+                $monthly_targets['may']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 5, 1) == '1') {
+                $monthly_targets['jun']->cutoff = true;
+            } else {
+                $monthly_targets['jun']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 6, 1) == '1') {
+                $monthly_targets['jul']->cutoff = true;
+            } else {
+                $monthly_targets['jul']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 7, 1) == '1') {
+                $monthly_targets['aug']->cutoff = true;
+            } else {
+                $monthly_targets['aug']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 8, 1) == '1') {
+                $monthly_targets['sep']->cutoff = true;
+            } else {
+                $monthly_targets['sep']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 9, 1) == '1') {
+                $monthly_targets['oct']->cutoff = true;
+            } else {
+                $monthly_targets['oct']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 10, 1) == '1') {
+                $monthly_targets['nov']->cutoff = true;
+            } else {
+                $monthly_targets['nov']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 11, 1) == '1') {
+                $monthly_targets['dec']->cutoff = true;
+            } else {
+                $monthly_targets['dec']->cutoff = false;
+            }
+            // dd($monthly_targets);
+        }
+
+        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs'));
     }
 
     public function profile()
@@ -457,8 +521,6 @@ class DivisionChiefController extends Controller
 
         return view('dc.coaching', compact('eval'));
     }
-
-    
 
     public function bukidnunBddIndex()
     {
@@ -506,10 +568,73 @@ class DivisionChiefController extends Controller
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
 
+        if (count($opcrs_active) != 0) {
+            $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
+            if (substr($opcrs_active[0]->cutoff_status, 0, 1) == '1') {
+                $monthly_targets['jan']->cutoff = true;
+            } else {
+                $monthly_targets['jan']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 1, 1) == '1') {
+                $monthly_targets['feb']->cutoff = true;
+            } else {
+                $monthly_targets['feb']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 2, 1) == '1') {
+                $monthly_targets['mar']->cutoff = true;
+            } else {
+                $monthly_targets['mar']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 3, 1) == '1') {
+                $monthly_targets['apr']->cutoff = true;
+            } else {
+                $monthly_targets['apr']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 4, 1) == '1') {
+                $monthly_targets['may']->cutoff = true;
+            } else {
+                $monthly_targets['may']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 5, 1) == '1') {
+                $monthly_targets['jun']->cutoff = true;
+            } else {
+                $monthly_targets['jun']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 6, 1) == '1') {
+                $monthly_targets['jul']->cutoff = true;
+            } else {
+                $monthly_targets['jul']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 7, 1) == '1') {
+                $monthly_targets['aug']->cutoff = true;
+            } else {
+                $monthly_targets['aug']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 8, 1) == '1') {
+                $monthly_targets['sep']->cutoff = true;
+            } else {
+                $monthly_targets['sep']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 9, 1) == '1') {
+                $monthly_targets['oct']->cutoff = true;
+            } else {
+                $monthly_targets['oct']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 10, 1) == '1') {
+                $monthly_targets['nov']->cutoff = true;
+            } else {
+                $monthly_targets['nov']->cutoff = false;
+            }
+            if (substr($opcrs_active[0]->cutoff_status, 11, 1) == '1') {
+                $monthly_targets['dec']->cutoff = true;
+            } else {
+                $monthly_targets['dec']->cutoff = false;
+            }
+            // dd($monthly_targets);
+        }
+
         return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
-
-    
 
     public function manage()
     {

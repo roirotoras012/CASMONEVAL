@@ -233,6 +233,7 @@
                                                                     
                                                                     
                                                                 @endphp
+                                                                    @if (!$monthly_targets[strtolower($month->format('M'))]->cutoff)
                                                                     <td class="text-center align-middle">
                                                                         @if (
                                                                             $monthly_targets[strtolower($month->format('M'))][
@@ -265,7 +266,13 @@
                                                                                 <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
                                                                         @endif
                                                                     </td>
+                                                                    @else
+                                                                    <td class="text-center align-middle">{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                        <span>out of
+                                                                            <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span></td>
+                                                                    @endif
                                                                 @else
+                                                                @if (!$monthly_targets[strtolower($month->format('M'))]->cutoff)
                                                                     <td class="text-center align-middle">
                                                                         <a href="#" data-bs-toggle="modal"
                                                                             data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
@@ -276,6 +283,9 @@
                                                                         <span>out of
                                                                             <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
                                                                     </td>
+                                                                    @else
+                                                                    <td class="text-center align-middle">N/A</td>
+                                                                    @endif
 
                                                                     <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
                                                                         :division_ID="$userDetails->division_ID" :year="202"
