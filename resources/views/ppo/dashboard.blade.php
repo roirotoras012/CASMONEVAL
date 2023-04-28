@@ -29,10 +29,9 @@
                 <div class="container">
                     <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h1>
                    
-                    <x-opcr_table :provinces=$provinces :objectivesact=$objectivesact :measures=$measures
-                        :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
-                        :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 />
-                    <div>
+                    <x-opcr_table :opcrs_active=$opcrs_active :provinces=$provinces :objectivesact=$objectivesact
+                    :measures=$measures :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
+                    :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 :pgs=$pgs :pgsrating2=$pgsrating2/>
                 
 
                     {{-- <div class="row">
@@ -60,6 +59,7 @@
                 </form> --}}
 
                 </div>
+                
                 
             @else
                 <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>

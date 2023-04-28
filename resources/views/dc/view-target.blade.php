@@ -214,8 +214,11 @@
                                                                         ?>
                                                                         @for ($i = 1; $i <= 12; $i++)
                                                                             <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-                                                                            @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))
+                                                                            @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]) )
                                                                                 <?php $monthlyTarget = $monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]->first(); ?>
+                                                                                @if (!$monthly_targets[strtolower($month->format('M'))]->cutoff)
+                                                                                    
+                
                                                                                 <td class="text-center align-middle">
                                                                                     <a href="#" data-bs-toggle="modal"
                                                                                         data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
@@ -230,8 +233,12 @@
                                                                                         :monthly_target_ID="$monthlyTarget->monthly_target_ID"
                                                                                         :monthly_target="$monthlyTarget->monthly_target" />
                                                                                 </td>
+                                                                                @else
+                                                                                <td class="text-center align-middle">{{ $monthlyTarget->monthly_target }}</td>
+                                                                                @endif
                                                                                 <?php $totalTarget += $monthlyTarget->monthly_target; ?>
                                                                             @else
+                                                                            @if (!$monthly_targets[strtolower($month->format('M'))]->cutoff)
                                                                                 <td class="text-center align-middle">
                                                                                     <a href="#" data-bs-toggle="modal"
                                                                                         data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
@@ -244,6 +251,9 @@
                                                                                         :year="202"
                                                                                         :annual_target="$annualTarget->annual_target_ID" />
                                                                                 </td>
+                                                                                @else
+                                                                                <td class="text-center align-middle">N/A</td>
+                                                                                @endif
                                                                             @endif
                                                                         @endfor
                                                                         <td class="text-center align-middle">
