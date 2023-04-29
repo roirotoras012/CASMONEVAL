@@ -438,72 +438,87 @@ class DivisionChiefController extends Controller
                 ->get();
         }
 
+        $cutoff = []; 
+
         if (count($opcrs_active) != 0) {
             $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
+
             if (substr($opcrs_active[0]->cutoff_status, 0, 1) == '1') {
-                $monthly_targets['jan']->cutoff = true;
+                $cutoff[0] = true;
             } else {
-                $monthly_targets['jan']->cutoff = false;
+                $cutoff[0] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 1, 1) == '1') {
-                $monthly_targets['feb']->cutoff = true;
+                $cutoff[1] = true;
             } else {
-                $monthly_targets['feb']->cutoff = false;
+                $cutoff[1] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 2, 1) == '1') {
-                $monthly_targets['mar']->cutoff = true;
+                $cutoff[2] = true;
             } else {
-                $monthly_targets['mar']->cutoff = false;
+                $cutoff[2] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 3, 1) == '1') {
-                $monthly_targets['apr']->cutoff = true;
+                $cutoff[3] = true;
             } else {
-                $monthly_targets['apr']->cutoff = false;
+                $cutoff[3] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 4, 1) == '1') {
-                $monthly_targets['may']->cutoff = true;
+                $cutoff[4] = true;
             } else {
-                $monthly_targets['may']->cutoff = false;
+                $cutoff[4] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 5, 1) == '1') {
-                $monthly_targets['jun']->cutoff = true;
+                $cutoff[5] = true;
             } else {
-                $monthly_targets['jun']->cutoff = false;
+                $cutoff[5] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 6, 1) == '1') {
-                $monthly_targets['jul']->cutoff = true;
+                $cutoff[6] = true;
             } else {
-                $monthly_targets['jul']->cutoff = false;
+                $cutoff[6] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 7, 1) == '1') {
-                $monthly_targets['aug']->cutoff = true;
+                $cutoff[7] = true;
             } else {
-                $monthly_targets['aug']->cutoff = false;
+                $cutoff[7] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 8, 1) == '1') {
-                $monthly_targets['sep']->cutoff = true;
+                $cutoff[8] = true;
             } else {
-                $monthly_targets['sep']->cutoff = false;
+                $cutoff[8] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 9, 1) == '1') {
-                $monthly_targets['oct']->cutoff = true;
+                $cutoff[9] = true;
             } else {
-                $monthly_targets['oct']->cutoff = false;
+                $cutoff[9] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 10, 1) == '1') {
-                $monthly_targets['nov']->cutoff = true;
+                $cutoff[10] = true;
             } else {
-                $monthly_targets['nov']->cutoff = false;
+                $cutoff[10] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 11, 1) == '1') {
-                $monthly_targets['dec']->cutoff = true;
+                $cutoff[11] = true;
             } else {
-                $monthly_targets['dec']->cutoff = false;
+                $cutoff[11] = false;
             }
-            // dd($monthly_targets);
+
+            // dd($cutoff);
         }
 
-        return view('dc.accomplishment', compact('measures', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs'));
+        return view('dc.accomplishment', compact('measures', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs'));
     }
 
     public function profile()
@@ -567,73 +582,88 @@ class DivisionChiefController extends Controller
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
+        
+        $cutoff = []; 
 
         if (count($opcrs_active) != 0) {
             $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
+
             if (substr($opcrs_active[0]->cutoff_status, 0, 1) == '1') {
-                $monthly_targets['jan']->cutoff = true;
+                $cutoff[0] = true;
             } else {
-                $monthly_targets['jan']->cutoff = false;
+                $cutoff[0] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 1, 1) == '1') {
-                $monthly_targets['feb']->cutoff = true;
+                $cutoff[1] = true;
             } else {
-                $monthly_targets['feb']->cutoff = false;
+                $cutoff[1] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 2, 1) == '1') {
-                $monthly_targets['mar']->cutoff = true;
+                $cutoff[2] = true;
             } else {
-                $monthly_targets['mar']->cutoff = false;
+                $cutoff[2] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 3, 1) == '1') {
-                $monthly_targets['apr']->cutoff = true;
+                $cutoff[3] = true;
             } else {
-                $monthly_targets['apr']->cutoff = false;
+                $cutoff[3] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 4, 1) == '1') {
-                $monthly_targets['may']->cutoff = true;
+                $cutoff[4] = true;
             } else {
-                $monthly_targets['may']->cutoff = false;
+                $cutoff[4] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 5, 1) == '1') {
-                $monthly_targets['jun']->cutoff = true;
+                $cutoff[5] = true;
             } else {
-                $monthly_targets['jun']->cutoff = false;
+                $cutoff[5] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 6, 1) == '1') {
-                $monthly_targets['jul']->cutoff = true;
+                $cutoff[6] = true;
             } else {
-                $monthly_targets['jul']->cutoff = false;
+                $cutoff[6] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 7, 1) == '1') {
-                $monthly_targets['aug']->cutoff = true;
+                $cutoff[7] = true;
             } else {
-                $monthly_targets['aug']->cutoff = false;
+                $cutoff[7] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 8, 1) == '1') {
-                $monthly_targets['sep']->cutoff = true;
+                $cutoff[8] = true;
             } else {
-                $monthly_targets['sep']->cutoff = false;
+                $cutoff[8] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 9, 1) == '1') {
-                $monthly_targets['oct']->cutoff = true;
+                $cutoff[9] = true;
             } else {
-                $monthly_targets['oct']->cutoff = false;
+                $cutoff[9] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 10, 1) == '1') {
-                $monthly_targets['nov']->cutoff = true;
+                $cutoff[10] = true;
             } else {
-                $monthly_targets['nov']->cutoff = false;
+                $cutoff[10] = false;
             }
+
             if (substr($opcrs_active[0]->cutoff_status, 11, 1) == '1') {
-                $monthly_targets['dec']->cutoff = true;
+                $cutoff[11] = true;
             } else {
-                $monthly_targets['dec']->cutoff = false;
+                $cutoff[11] = false;
             }
-            // dd($monthly_targets);
+
+            // dd($cutoff);
         }
 
-        return view('dc.view-target', compact('provinces', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
+        return view('dc.view-target', compact('provinces', 'cutoff', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
 
     public function manage()
