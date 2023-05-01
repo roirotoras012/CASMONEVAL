@@ -942,7 +942,7 @@
                                     <tr>
 
                                         @for ($i = 0; $i < 12; $i++)
-                                            <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i] }}
+                                            <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i]['val'] }}
                                             </td>
                                             <td class="text-left align-middle"></td>
                                         @endfor
@@ -983,7 +983,11 @@
                                                 }
                                             @endphp
                                             <td class="text-left align-middle">
-                                                {{ $pgs['monthly_valid'][$i] }}
+                                                @if (isset($pgsrating2[$i][$valid90[$i]]))
+                                                {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
+                                                
+                                                @endif
+                                               
                                             </td>
                                             <td class="text-left align-middle">{{ $pgsratingtext }}</td>
                                         @endfor
