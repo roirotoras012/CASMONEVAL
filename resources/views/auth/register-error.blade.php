@@ -16,7 +16,7 @@
                                 </div>
                             @endif
                             <div class='d-block'>
-                                <a href='/register' class="btn btn-primary">Go black</a>
+                                <a href='/register' class="btn btn-primary">Go back</a>
                             </div>
                         </div>
                     </div>

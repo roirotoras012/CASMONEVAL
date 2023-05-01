@@ -638,7 +638,7 @@ class ProvincialDirectorController extends Controller
                 }
             }
         }
-
+        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
@@ -771,11 +771,14 @@ class ProvincialDirectorController extends Controller
                 'rating' => $pgsratingtext,
                 'monthly_valid' => $valid_meas,
             ];
+
+            // dd($pgs);
         } else {
             $monthly_targets2 = [];
             $pgs = [];
         }
-        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        // $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
         for ($i=0; $i < count($valid_meas); $i++) { 
             # code...
             $pgsrating2[$i] = Pgs::where('total_num_of_targeted_measure', $valid_meas[$i])
