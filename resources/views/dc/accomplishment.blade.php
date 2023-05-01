@@ -235,7 +235,7 @@
                                                                         if ($monthly_target != 0) {
                                                                             $ratio = ($monthly_accomplishment / $monthly_target) * 100;
                                                                         
-                                                                            if ($ratio > 90) {
+                                                                            if ($ratio >= 90) {
                                                                                 $valid90[$i - 1]++;
                                                                                 # code...
                                                                             }

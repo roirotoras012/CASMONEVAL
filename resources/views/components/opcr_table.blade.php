@@ -462,84 +462,84 @@
                                                         if ($measure_target->month == 'jan') {
                                                             $jan_total += $measure_target->monthly_accomplishment;
                                                             $jan_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[0]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'feb') {
                                                             $feb_total += $measure_target->monthly_accomplishment;
                                                             $feb_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[1]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'mar') {
                                                             $mar_total += $measure_target->monthly_accomplishment;
                                                             $mar_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[2]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'apr') {
                                                             $apr_total += $measure_target->monthly_accomplishment;
                                                             $apr_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[3]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'may') {
                                                             $may_total += $measure_target->monthly_accomplishment;
                                                             $may_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[4]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'jun') {
                                                             $jun_total += $measure_target->monthly_accomplishment;
                                                             $jun_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[5]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'jul') {
                                                             $jul_total += $measure_target->monthly_accomplishment;
                                                             $jul_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[6]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'aug') {
                                                             $aug_total += $measure_target->monthly_accomplishment;
                                                             $aug_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[7]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'sep') {
                                                             $sep_total += $measure_target->monthly_accomplishment;
                                                             $sep_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[8]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'oct') {
                                                             $oct_total += $measure_target->monthly_accomplishment;
                                                             $oct_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[9]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'nov') {
                                                             $nov_total += $measure_target->monthly_accomplishment;
                                                             $nov_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[10]++;
                                                             }
                                                         }
                                                         if ($measure_target->month == 'dec') {
                                                             $dec_total += $measure_target->monthly_accomplishment;
                                                             $dec_target += $measure_target->monthly_target;
-                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                            if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                                 $valid90[11]++;
                                                             }
                                                         }
@@ -684,84 +684,84 @@
                                                 if ($measure_target->month == 'jan') {
                                                     $jan_total += $measure_target->monthly_accomplishment;
                                                     $jan_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[0]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'feb') {
                                                     $feb_total += $measure_target->monthly_accomplishment;
                                                     $feb_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[1]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'mar') {
                                                     $mar_total += $measure_target->monthly_accomplishment;
                                                     $mar_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[2]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'apr') {
                                                     $apr_total += $measure_target->monthly_accomplishment;
                                                     $apr_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[3]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'may') {
                                                     $may_total += $measure_target->monthly_accomplishment;
                                                     $may_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[4]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'jun') {
                                                     $jun_total += $measure_target->monthly_accomplishment;
                                                     $jun_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[5]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'jul') {
                                                     $jul_total += $measure_target->monthly_accomplishment;
                                                     $jul_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[6]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'aug') {
                                                     $aug_total += $measure_target->monthly_accomplishment;
                                                     $aug_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[7]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'sep') {
                                                     $sep_total += $measure_target->monthly_accomplishment;
                                                     $sep_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[8]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'oct') {
                                                     $oct_total += $measure_target->monthly_accomplishment;
                                                     $oct_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[9]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'nov') {
                                                     $nov_total += $measure_target->monthly_accomplishment;
                                                     $nov_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[10]++;
                                                     }
                                                 }
                                                 if ($measure_target->month == 'dec') {
                                                     $dec_total += $measure_target->monthly_accomplishment;
                                                     $dec_target += $measure_target->monthly_target;
-                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 > 90) {
+                                                    if (($measure_target->monthly_accomplishment / $measure_target->monthly_target) * 100 >= 90) {
                                                         $valid90[11]++;
                                                     }
                                                 }
