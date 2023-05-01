@@ -665,7 +665,7 @@ class ProvincialDirectorController extends Controller
             $total_number_of_accomplished_measure = 0;
             // $total_number_of_valid_measures = $total_number_of_valid_measures->merge($annual_targets);
             foreach ($total_number_of_valid_measures as $acc_meas) {
-                if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
+                if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 >= 90) {
                     $total_number_of_accomplished_measure++;
                 }
             }

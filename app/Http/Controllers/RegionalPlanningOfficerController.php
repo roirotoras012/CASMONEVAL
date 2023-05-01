@@ -746,7 +746,7 @@ class RegionalPlanningOfficerController extends Controller
                 // }
             }
 
-            if (($total_number_of_valid_measure->total_accom / $total_number_of_valid_measure->total_target) * 100 > 90) {
+            if (($total_number_of_valid_measure->total_accom / $total_number_of_valid_measure->total_target) * 100 >= 90) {
                 $total_number_of_accomplished_measure++;
             }
         }

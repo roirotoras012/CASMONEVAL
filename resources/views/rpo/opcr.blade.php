@@ -648,62 +648,62 @@
                                 
                                     // dd($jun_total ."<br>". $jun_target);
                                     if ($jan_target != 0) {
-                                        if (($jan_total / $jan_target) * 100 > 90) {
+                                        if (($jan_total / $jan_target) * 100 >= 90) {
                                             $valid90[0]++;
                                         }
                                     }
                                     if ($feb_target != 0) {
-                                        if (($feb_total / $feb_target) * 100 > 90) {
+                                        if (($feb_total / $feb_target) * 100 >= 90) {
                                             $valid90[1]++;
                                         }
                                     }
                                     if ($mar_target != 0) {
-                                        if (($mar_total / $mar_target) * 100 > 90) {
+                                        if (($mar_total / $mar_target) * 100 >= 90) {
                                             $valid90[2]++;
                                         }
                                     }
                                     if ($apr_target != 0) {
-                                        if (($apr_total / $apr_target) * 100 > 90) {
+                                        if (($apr_total / $apr_target) * 100 >= 90) {
                                             $valid90[3]++;
                                         }
                                     }
                                     if ($may_target != 0) {
-                                        if (($may_total / $may_target) * 100 > 90) {
+                                        if (($may_total / $may_target) * 100 >= 90) {
                                             $valid90[4]++;
                                         }
                                     }
                                     if ($jun_target != 0) {
-                                        if (($jun_total / $jun_target) * 100 > 90) {
+                                        if (($jun_total / $jun_target) * 100 >= 90) {
                                             $valid90[5]++;
                                         }
                                     }
                                     if ($jul_target != 0) {
-                                        if (($jul_total / $jul_target) * 100 > 90) {
+                                        if (($jul_total / $jul_target) * 100 >= 90) {
                                             $valid90[6]++;
                                         }
                                     }
                                     if ($aug_target != 0) {
-                                        if (($aug_total / $aug_target) * 100 > 90) {
+                                        if (($aug_total / $aug_target) * 100 >= 90) {
                                             $valid90[7]++;
                                         }
                                     }
                                     if ($sep_target != 0) {
-                                        if (($sep_total / $sep_target) * 100 > 90) {
+                                        if (($sep_total / $sep_target) * 100 >= 90) {
                                             $valid90[8]++;
                                         }
                                     }
                                     if ($oct_target != 0) {
-                                        if (($oct_total / $oct_target) * 100 > 90) {
+                                        if (($oct_total / $oct_target) * 100 >= 90) {
                                             $valid90[9]++;
                                         }
                                     }
                                     if ($nov_target != 0) {
-                                        if (($nov_total / $nov_target) * 100 > 90) {
+                                        if (($nov_total / $nov_target) * 100 >= 90) {
                                             $valid90[10]++;
                                         }
                                     }
                                     if ($dec_target != 0) {
-                                        if (($dec_total / $dec_target) * 100 > 90) {
+                                        if (($dec_total / $dec_target) * 100 >= 90) {
                                             $valid90[11]++;
                                         }
                                     }
