@@ -754,56 +754,94 @@ class RegionalPlanningOfficerController extends Controller
         $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
             ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
             ->where('annual_targets.opcr_ID', $opcr_id)
+
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
             ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
-
+            
             ->get()
             ->groupBy('strategic_measures_ID');
 
-        $valid_meas[0] = 0;
-        $valid_meas[1] = 0;
-        $valid_meas[2] = 0;
-        $valid_meas[3] = 0;
-        $valid_meas[4] = 0;
-        $valid_meas[5] = 0;
-        $valid_meas[6] = 0;
-        $valid_meas[7] = 0;
-        $valid_meas[8] = 0;
-        $valid_meas[9] = 0;
-        $valid_meas[10] = 0;
-        $valid_meas[11] = 0;
+        $valid_meas[0]['val'] = 0;
+        
+        $valid_meas[1]['val']= 0;
+        $valid_meas[2]['val']= 0;
+        $valid_meas[3]['val']= 0;
+        $valid_meas[4]['val']= 0;
+        $valid_meas[5]['val']= 0;
+        $valid_meas[6]['val']= 0;
+        $valid_meas[7]['val']= 0;
+        $valid_meas[8]['val']= 0;
+        $valid_meas[9]['val']= 0;
+        $valid_meas[10]['val']= 0;
+        $valid_meas[11]['val']= 0;
+        
+      
+        // dd($valid_meas);
         foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
+            $valid_meas[0]['exist'] = false;
+            $valid_meas[1]['exist']= false;
+            $valid_meas[2]['exist']= false;
+            $valid_meas[3]['exist']= false;
+            $valid_meas[4]['exist']= false;
+            $valid_meas[5]['exist']= false;
+            $valid_meas[6]['exist']= false;
+            $valid_meas[7]['exist']= false;
+            $valid_meas[8]['exist']= false;
+            $valid_meas[9]['exist']= false;
+            $valid_meas[10]['exist']= false;
+            $valid_meas[11]['exist']= false;
             foreach ($total_number_of_valid_measure2 as $acc_meas2) {
-                if ($acc_meas2->month == 'jan') {
-                    $valid_meas[0]++;
-                } elseif ($acc_meas2->month == 'feb') {
-                    $valid_meas[1]++;
-                } elseif ($acc_meas2->month == 'mar') {
-                    $valid_meas[2]++;
-                } elseif ($acc_meas2->month == 'apr') {
-                    $valid_meas[3]++;
-                } elseif ($acc_meas2->month == 'may') {
-                    $valid_meas[4]++;
-                } elseif ($acc_meas2->month == 'jun') {
-                    $valid_meas[5]++;
-                } elseif ($acc_meas2->month == 'jul') {
-                    $valid_meas[6]++;
-                } elseif ($acc_meas2->month == 'aug') {
-                    $valid_meas[7]++;
-                } elseif ($acc_meas2->month == 'sep') {
-                    $valid_meas[8]++;
-                } elseif ($acc_meas2->month == 'oct') {
-                    $valid_meas[9]++;
-                } elseif ($acc_meas2->month == 'nov') {
-                    $valid_meas[10]++;
-                } elseif ($acc_meas2->month == 'dec') {
-                    $valid_meas[11]++;
-                }
+
+                
+                
+                    if ($acc_meas2->month == 'jan' && !$valid_meas[0]['exist']) {
+                        $valid_meas[0]['val']++;
+                        $valid_meas[0]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'feb' && !$valid_meas[1]['exist']) {
+                        $valid_meas[1]['val']++;
+                        $valid_meas[1]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'mar' && !$valid_meas[2]['exist']) {
+                        $valid_meas[2]['val']++;
+                        $valid_meas[2]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'apr' && !$valid_meas[3]['exist']) {
+                        $valid_meas[3]['val']++;
+                        $valid_meas[3]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'may' && !$valid_meas[4]['exist']) {
+                        $valid_meas[4]['val']++;
+                        $valid_meas[4]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'jun' && !$valid_meas[5]['exist']) {
+                        $valid_meas[5]['val']++;
+                        $valid_meas[5]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'jul' && !$valid_meas[6]['exist']) {
+                        $valid_meas[6]['val']++;
+                        $valid_meas[6]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'aug' && !$valid_meas[7]['exist']) {
+                        $valid_meas[7]['val']++;
+                        $valid_meas[7]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'sep' && !$valid_meas[8]['exist']) {
+                        $valid_meas[8]['val']++;
+                        $valid_meas[8]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'oct' && !$valid_meas[9]['exist']) {
+                        $valid_meas[9]['val']++;
+                        $valid_meas[9]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'nov' && !$valid_meas[10]['exist']) {
+                        $valid_meas[10]['val']++;
+                        $valid_meas[10]['exist'] = true;
+                    } elseif ($acc_meas2->month == 'dec' && !$valid_meas[11]['exist']) {
+                        $valid_meas[11]['val']++;
+                        $valid_meas[11]['exist'] = true;
+                    }
+    
+
+                
+                
+
+                
             }
         }
-        //     dd($total_number_of_valid_measures2);
+            // dd($total_number_of_valid_measures2);
         //  dd($valid_meas);
         // dd($total_number_of_accomplished_measure);
         $pgsratingtext = '';
@@ -844,7 +882,7 @@ class RegionalPlanningOfficerController extends Controller
         }
         //    dd($pgsrating2);
         // dd($pgsrating2);
-
+        // dd($total_number_of_valid_measures2);
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
     public function update_targets(Request $request)
