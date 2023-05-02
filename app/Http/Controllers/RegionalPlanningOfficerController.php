@@ -124,7 +124,7 @@ class RegionalPlanningOfficerController extends Controller
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
-            ->orderBy('strategic_measures.number_measure', 'ASC')
+            ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
             ->get(['strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
         // dd($labels);
 
@@ -460,7 +460,7 @@ class RegionalPlanningOfficerController extends Controller
             ->where('type', '=', 'DIRECT')
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
-            ->orderBy('strategic_measures.number_measure', 'ASC')
+            ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
             ->get(['strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
 
         if ($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE') {
