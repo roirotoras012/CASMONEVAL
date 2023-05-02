@@ -34,23 +34,29 @@
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
-                <a class="navbar-brand" href="{{ 
-                    auth()->check() ? (
-                        auth()->user()->user_type_ID === 1 ? url('/rd/dashboard') : 
-                        (auth()->user()->user_type_ID === 2 ? url('/rpo/dashboard') : 
-                        (auth()->user()->user_type_ID === 3 ? url('/pd/dashboard') : 
-                        (auth()->user()->user_type_ID === 4 ? url('/ppo/dashboard') : 
-                        (auth()->user()->user_type_ID === 5 ? url('/dc/dashboard') : '#'))))) : url('/') 
-                }}">
+                <a class="navbar-brand"
+                    href="{{ auth()->check()
+                        ? (auth()->user()->user_type_ID === 1
+                            ? url('/rd/dashboard')
+                            : (auth()->user()->user_type_ID === 2
+                                ? url('/rpo/dashboard')
+                                : (auth()->user()->user_type_ID === 3
+                                    ? url('/pd/dashboard')
+                                    : (auth()->user()->user_type_ID === 4
+                                        ? url('/ppo/dashboard')
+                                        : (auth()->user()->user_type_ID === 5
+                                            ? url('/dc/dashboard')
+                                            : '#')))))
+                        : url('/') }}">
                     <b>DTI's M&E System</b>
                 </a>
-                
-                
-                
-                
-                
-                
-                 
+
+
+
+
+
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -184,7 +190,7 @@
                 });
             });
         </script> --}}
-      
+
         <script>
             $(document).ready(function() {
                 function getNotifications() {
@@ -218,14 +224,15 @@
                                     } else if (notification.type == 'FAD') {
                                         url = "{{ url('/dc/coaching') }}";
                                     }
-                                }else if (notification.user_type_ID == 3) { // PD user type ID
+                                } else if (notification.user_type_ID == 3) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
                                 }
-                                
+
                                 // url += '?opcr=' + notification.opcr_ID;
                                 var dateFromNow = moment(notification.created_at).fromNow();
-                    var notificationText = dataYear + " (" + dateFromNow + ")";
-                    var notificationLink = $('<a class="dropdown-item" href="' + url + '">' + notificationText + '</a>');
+                                var notificationText = dataYear + " (" + dateFromNow + ")";
+                                var notificationLink = $('<a class="dropdown-item" href="' + url +
+                                    '">' + notificationText + '</a>');
                                 notificationLink.click(function(e) {
                                     e.preventDefault();
                                     $.ajaxSetup({
