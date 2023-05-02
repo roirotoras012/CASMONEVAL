@@ -78,18 +78,18 @@
                             <tbody>
                                 <tr>
                                     <th>No. of valid measure</th>
-                                    <td>{{ $pgs['total_number_of_valid_measures'] }}</td>
+                                    <td class="text-left align-middle">{{ $pgs['total_number_of_valid_measures'] }}</td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <th>No. of valid measure atleast 90%</th>
-                                    <td>{{ $pgs['total_number_of_accomplished_measure'] }}</td>
+                                    <td class="text-left align-middle">{{ $pgs['total_number_of_accomplished_measure'] }}</td>
                                     <td>&nbsp;</td>
                                 </tr>
                                 <tr>
                                     <th>OPCR rating</th>
-                                    <td>{{ $pgs['numerical_rating'] }}</td>
-                                    <td>{{ $pgs['rating'] }}</td>
+                                    <td class="text-left align-middle">{{ $pgs['numerical_rating'] }}</td>
+                                    <td class="text-center align-middle" style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}</td>
                                 </tr>
                             </tbody>
                         </table>

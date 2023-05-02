@@ -68,7 +68,7 @@
                                 <tr>
                                     <th>OPCR rating</th>
                                     <td>{{ $pgs['numerical_rating'] }}</td>
-                                    <td>{{ $pgs['rating'] }}</td>
+                                    <td class="text-center align-middle" style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}</td>
                                 </tr>
                             </tbody>
                         </table>
