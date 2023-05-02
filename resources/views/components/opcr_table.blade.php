@@ -946,8 +946,11 @@
                         </tr>
 
                         <tr>
+                           
                             @for ($i = 0; $i < 12; $i++)
+                            {{-- {{ dd($valid90) }} --}}
                                 <td class="text-left align-middle">{{ $valid90[$i] }}</td>
+                               
                                 <td class="text-left align-middle"></td>
                             @endfor
 

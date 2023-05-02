@@ -638,7 +638,7 @@ class ProvincialDirectorController extends Controller
                 }
             }
         }
-
+        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
@@ -671,6 +671,7 @@ class ProvincialDirectorController extends Controller
             }
 
             $pgsratingtext = '';
+            $rating_bg_color = '';
             $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
                 ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
                 ->select('numeric')
@@ -679,14 +680,19 @@ class ProvincialDirectorController extends Controller
             if ($pgsrating !== null) {
                 if ($pgsrating->numeric == 5.0) {
                     $pgsratingtext = 'Outstanding';
+                    $rating_bg_color = '#92d050';
                 } elseif ($pgsrating->numeric >= 4.5) {
                     $pgsratingtext = 'Very Satisfactory';
+                    $rating_bg_color = '#ffff00';
                 } elseif ($pgsrating->numeric >= 3.25) {
                     $pgsratingtext = 'Satisfactory';
+                    $rating_bg_color = '#9bc2e6';
                 } elseif ($pgsrating->numeric >= 2.5) {
                     $pgsratingtext = 'Below Satisfactory';
+                    $rating_bg_color = '#ffa7d3';
                 } elseif ($pgsrating->numeric < 2.5) {
                     $pgsratingtext = 'Poor';
+                    $rating_bg_color = '#ff0000';
                 }
             }
             $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
@@ -769,13 +775,17 @@ class ProvincialDirectorController extends Controller
                 'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
                 'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
                 'rating' => $pgsratingtext,
+                'rating_bg_color' => $rating_bg_color,
                 'monthly_valid' => $valid_meas,
             ];
+
+            // dd($pgs);
         } else {
             $monthly_targets2 = [];
             $pgs = [];
         }
-        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        // $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
         for ($i=0; $i < count($valid_meas); $i++) { 
             # code...
             $pgsrating2[$i] = Pgs::where('total_num_of_targeted_measure', $valid_meas[$i])
