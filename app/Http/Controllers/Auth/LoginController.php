@@ -36,27 +36,25 @@ class LoginController extends Controller
     protected $username;
     protected function redirectTo()
     {
-        if (auth()->check()) {
-            $userType = auth()->user()->user_type_ID;
-            $userDetails = auth()->user();
-    
-            switch ($userType) {
-                case 1:
-                    return redirect()->route('rd.index', ['userDetails' => $userDetails]);
-                case 2:
-                    return redirect()->route('rpo.dashboard', ['userDetails' => $userDetails]);
-                case 3:
-                    return redirect()->route('pd.dashboard', ['userDetails' => $userDetails]);
-                case 4:
-                    return redirect()->route('ppo.index', ['userDetails' => $userDetails]);
-                case 5:
-                    return redirect()->route('dc.index', ['userDetails' => $userDetails]);
-                case 6:
-                    return redirect()->route('users.adminView', ['userDetails' => $userDetails]);
-            }
+        $userType = auth()->user()->user_type_ID;
+        $userDetails = auth()->user();
+
+        switch ($userType) {
+            case 1:
+                return route('rd.index', ['userDetails' => $userDetails]);
+            case 2:
+                return route('rpo.index', ['userDetails' => $userDetails]);
+            case 3:
+                return route('pd.index', ['userDetails' => $userDetails]);
+            case 4:
+                return route('ppo.index', ['userDetails' => $userDetails]);
+            case 5:
+                return route('dc.index', ['userDetails' => $userDetails]);
+            case 6:
+                return route('users.adminView', ['userDetails' => $userDetails]);
+            default:
+                return '/';
         }
-        
-        return view('auth.login');
     }
     public function findUsername()
     {

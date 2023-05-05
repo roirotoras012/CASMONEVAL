@@ -24,7 +24,7 @@
                                         : (auth()->user()->user_type_ID === 5
                                             ? url('/dc/dashboard')
                                             : '#')))))
-                        : url('/') }}"><button class="btn btn-primary btn-login">{{ auth()->check() ? 'Dashboard' : 'Login' }}</button></a>
+                        : url('/login') }}"><button class="btn btn-primary btn-login">{{ auth()->check() ? 'Back to Dashboard' : 'Login' }}</button></a>
 
             </div>
         </div>
