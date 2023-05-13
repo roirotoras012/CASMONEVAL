@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Auth;
 
 class RegionalPlanningOfficerController extends Controller
 {
+
+   
     public function index(Request $request)
     {
         $userDetails = $request->input('userDetails');
@@ -1288,9 +1290,20 @@ class RegionalPlanningOfficerController extends Controller
 
     public function remove_objective(Request $request)
     {
-        $objective = StrategicObjective::find($request->objective_ID);
-        $objective->is_active = false;
-        $objective->save();
+        DB::transaction(function () use ($request) {
+            $objective = StrategicObjective::find($request->objective_ID);
+            $objective->is_active = false;
+    
+            $measures = StrategicMeasure::where('strategic_objective_ID', $request->objective_ID)->get();
+    
+            foreach($measures as $measure) {
+                // Delete the measures related to the objective
+                $measure->type = null;
+                $measure->save();
+            }
+    
+            $objective->save();
+        });
         return redirect()
             ->route('rpo.measures')
             ->with('success', 'Strategic Objective successfully removed');
@@ -1332,75 +1345,114 @@ class RegionalPlanningOfficerController extends Controller
                 ->with('success', 'OPCR upload error');
         }
     }
+    private function setAccomZero($opcr_id, $month){
+        $monthly_targets = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+                                        ->where('annual_targets.opcr_id', $opcr_id)
+                                        ->where('monthly_targets.month', $month)
+                                        ->where('monthly_targets.monthly_target', '!=', null)
+                                        ->get();
+                                    
+        foreach ($monthly_targets as $monthly_target) {
+            # code...
+            $monthly_target->monthly_accomplishment = 0;
+            $monthly_target->save();
+        }
 
+    
+
+    }
     public function cutOff(Request $request)
     {
         // dd($request->submit);
-        $month = $request->month;
-        $opcr = Opcr::where('opcr_ID', $request->opcr_id)
-            ->get()
-            ->first();
 
-        $cutoff_status = $opcr->cutoff_status;
-
-        if ($request->submit == 'cutoff') {
-            if ($month == 'jan') {
-                $newStatus = substr_replace($cutoff_status, '1', 0, 1);
-            } elseif ($month == 'feb') {
-                $newStatus = substr_replace($cutoff_status, '1', 1, 1);
-            } elseif ($month == 'mar') {
-                $newStatus = substr_replace($cutoff_status, '1', 2, 1);
-            } elseif ($month == 'apr') {
-                $newStatus = substr_replace($cutoff_status, '1', 3, 1);
-            } elseif ($month == 'may') {
-                $newStatus = substr_replace($cutoff_status, '1', 4, 1);
-            } elseif ($month == 'jun') {
-                $newStatus = substr_replace($cutoff_status, '1', 5, 1);
-            } elseif ($month == 'jul') {
-                $newStatus = substr_replace($cutoff_status, '1', 6, 1);
-            } elseif ($month == 'aug') {
-                $newStatus = substr_replace($cutoff_status, '1', 7, 1);
-            } elseif ($month == 'sep') {
-                $newStatus = substr_replace($cutoff_status, '1', 8, 1);
-            } elseif ($month == 'oct') {
-                $newStatus = substr_replace($cutoff_status, '1', 9, 1);
-            } elseif ($month == 'nov') {
-                $newStatus = substr_replace($cutoff_status, '1', 10, 1);
-            } elseif ($month == 'dec') {
-                $newStatus = substr_replace($cutoff_status, '1', 11, 1);
+        DB::transaction(function () use ($request) {
+            $month = $request->month;
+            $opcr = Opcr::where('opcr_ID', $request->opcr_id)
+                ->get()
+                ->first();
+    
+            $cutoff_status = $opcr->cutoff_status;
+            $obj = new RegionalPlanningOfficerController();
+            if ($request->submit == 'cutoff') {
+                if ($month == 'jan') {
+                    $newStatus = substr_replace($cutoff_status, '1', 0, 1);
+                    $obj->setAccomZero($request->opcr_id, 'jan');
+                } elseif ($month == 'feb') {
+                    $newStatus = substr_replace($cutoff_status, '1', 1, 1);
+                    $obj->setAccomZero($request->opcr_id, 'feb');
+                } elseif ($month == 'mar') {
+                    $newStatus = substr_replace($cutoff_status, '1', 2, 1);
+                    $obj->setAccomZero($request->opcr_id, 'mar');
+                } elseif ($month == 'apr') {
+                    $newStatus = substr_replace($cutoff_status, '1', 3, 1);
+                    $obj->setAccomZero($request->opcr_id, 'apr');
+                } elseif ($month == 'may') {
+                    $newStatus = substr_replace($cutoff_status, '1', 4, 1);
+                    $obj->setAccomZero($request->opcr_id, 'may');
+                } elseif ($month == 'jun') {
+                    $newStatus = substr_replace($cutoff_status, '1', 5, 1);
+                    $obj->setAccomZero($request->opcr_id, 'jun');
+                } elseif ($month == 'jul') {
+                    $newStatus = substr_replace($cutoff_status, '1', 6, 1);
+                    $obj->setAccomZero($request->opcr_id, 'jul');
+                } elseif ($month == 'aug') {
+                    $newStatus = substr_replace($cutoff_status, '1', 7, 1);
+                    $obj->setAccomZero($request->opcr_id, 'aug');
+                } elseif ($month == 'sep') {
+                    $newStatus = substr_replace($cutoff_status, '1', 8, 1);
+                    $obj->setAccomZero($request->opcr_id, 'sep');
+                } elseif ($month == 'oct') {
+                    $newStatus = substr_replace($cutoff_status, '1', 9, 1);
+                    $obj->setAccomZero($request->opcr_id, 'oct');
+                } elseif ($month == 'nov') {
+                    $newStatus = substr_replace($cutoff_status, '1', 10, 1);
+                    $obj->setAccomZero($request->opcr_id, 'nov');
+                } elseif ($month == 'dec') {
+                    $newStatus = substr_replace($cutoff_status, '1', 11, 1);
+                    $obj->setAccomZero($request->opcr_id, 'dec');
+                }
+            } elseif ($request->submit == 'reopen') {
+                if ($month == 'jan') {
+                    $newStatus = substr_replace($cutoff_status, '0', 0, 1);
+                } elseif ($month == 'feb') {
+                    $newStatus = substr_replace($cutoff_status, '0', 1, 1);
+                } elseif ($month == 'mar') {
+                    $newStatus = substr_replace($cutoff_status, '0', 2, 1);
+                } elseif ($month == 'apr') {
+                    $newStatus = substr_replace($cutoff_status, '0', 3, 1);
+                } elseif ($month == 'may') {
+                    $newStatus = substr_replace($cutoff_status, '0', 4, 1);
+                } elseif ($month == 'jun') {
+                    $newStatus = substr_replace($cutoff_status, '0', 5, 1);
+                } elseif ($month == 'jul') {
+                    $newStatus = substr_replace($cutoff_status, '0', 6, 1);
+                } elseif ($month == 'aug') {
+                    $newStatus = substr_replace($cutoff_status, '0', 7, 1);
+                } elseif ($month == 'sep') {
+                    $newStatus = substr_replace($cutoff_status, '0', 8, 1);
+                } elseif ($month == 'oct') {
+                    $newStatus = substr_replace($cutoff_status, '0', 9, 1);
+                } elseif ($month == 'nov') {
+                    $newStatus = substr_replace($cutoff_status, '0', 10, 1);
+                } elseif ($month == 'dec') {
+                    $newStatus = substr_replace($cutoff_status, '0', 11, 1);
+                }
             }
-        } elseif ($request->submit == 'reopen') {
-            if ($month == 'jan') {
-                $newStatus = substr_replace($cutoff_status, '0', 0, 1);
-            } elseif ($month == 'feb') {
-                $newStatus = substr_replace($cutoff_status, '0', 1, 1);
-            } elseif ($month == 'mar') {
-                $newStatus = substr_replace($cutoff_status, '0', 2, 1);
-            } elseif ($month == 'apr') {
-                $newStatus = substr_replace($cutoff_status, '0', 3, 1);
-            } elseif ($month == 'may') {
-                $newStatus = substr_replace($cutoff_status, '0', 4, 1);
-            } elseif ($month == 'jun') {
-                $newStatus = substr_replace($cutoff_status, '0', 5, 1);
-            } elseif ($month == 'jul') {
-                $newStatus = substr_replace($cutoff_status, '0', 6, 1);
-            } elseif ($month == 'aug') {
-                $newStatus = substr_replace($cutoff_status, '0', 7, 1);
-            } elseif ($month == 'sep') {
-                $newStatus = substr_replace($cutoff_status, '0', 8, 1);
-            } elseif ($month == 'oct') {
-                $newStatus = substr_replace($cutoff_status, '0', 9, 1);
-            } elseif ($month == 'nov') {
-                $newStatus = substr_replace($cutoff_status, '0', 10, 1);
-            } elseif ($month == 'dec') {
-                $newStatus = substr_replace($cutoff_status, '0', 11, 1);
-            }
-        }
+            
+            $opcr->cutoff_status = $newStatus;
+            $opcr->save();
 
-        $opcr->cutoff_status = $newStatus;
-        $opcr->save();
+
+
+
+
+            
+        });
+       
+        
         return redirect()
             ->route('rpo.show', $request->opcr_id)
             ->with('success', 'Monthly cutoff successfully');
     }
+   
 }
