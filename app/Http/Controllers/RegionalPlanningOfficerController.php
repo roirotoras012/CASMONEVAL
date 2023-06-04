@@ -1454,5 +1454,16 @@ class RegionalPlanningOfficerController extends Controller
             ->route('rpo.show', $request->opcr_id)
             ->with('success', 'Monthly cutoff successfully');
     }
+
+
+
+    public function remove_opcr(Request $request){
+
+
+        dd($request->opcr_ID);
+        return redirect()
+        ->route('rpo.savetarget')
+        ->with('success', 'OPCR removed');
+    }
    
 }
