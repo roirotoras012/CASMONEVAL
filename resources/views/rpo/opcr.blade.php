@@ -144,10 +144,14 @@
                                             <td>
 
                                                 <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
-                                                <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
+                                                {{-- <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
-
+                                                    name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}"> --}}
+                                                <a href="" data-bs-toggle="modal"
+                                                data-bs-target="#buk">
+                                                    {{ $label->BUK }}
+                                                </a>
+                                                <x-update_annual_tar  />
                                             </td>
 
                                             <td>
