@@ -149,7 +149,7 @@
                                             default => 'other',
                                         };
                                         
-                                        $measures = $driver->targets->where('division.division', $divisionName);
+                                        $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
                                         $measure_count = $measures->count();
                                         $has_province = false;
                                         $annual_count = 0;

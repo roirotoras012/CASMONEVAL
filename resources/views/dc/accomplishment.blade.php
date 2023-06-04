@@ -143,7 +143,9 @@
                                         default => 'other',
                                     };
                                     
-                                    $measures = $driver->targets->where('division.division', $divisionName);
+                                    $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
+                                    
+                                 
                                     $measure_count = $measures->count();
                                     $has_province = false;
                                     $annual_count = 0;
@@ -377,7 +379,7 @@
 
                                                 @for ($i = 0; $i < 12; $i++)
                                                     <td class="text-left align-middle">
-                                                        {{ $pgs['total_number_of_valid_measures'] }}</td>
+                                                        {{ $valid_meas2[$i] }}</td>
                                                     <td class="text-left align-middle"></td>
                                                 @endfor
 
@@ -401,17 +403,21 @@
                                                 @for ($i = 0; $i < 12; $i++)
                                                     @php
                                                         $pgsratingtext = '';
-                                                        
-                                                        if (count($pgsrating2) !== 0 && $valid90[$i] !== 0) {
-                                                            if ($pgsrating2[$valid90[$i]]->first()->numeric == 5.0) {
+                                                        $pgsrating_month = null;
+                                                        $pgsrating_month = \App\Models\Pgs::where('total_num_of_targeted_measure', $valid_meas2[$i])
+
+                                                            ->get()
+                                                            ->groupBy('actual_num_of_accomplished_measure');
+                                                        if (count($pgsrating_month) !== 0 && $valid90[$i] !== 0) {
+                                                            if ($pgsrating_month[$valid90[$i]]->first()->numeric == 5.0) {
                                                                 $pgsratingtext = 'Outstanding';
-                                                            } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 4.5) {
+                                                            } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 4.5) {
                                                                 $pgsratingtext = 'Very Satisfactory';
-                                                            } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 3.25) {
+                                                            } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 3.25) {
                                                                 $pgsratingtext = 'Satisfactory';
-                                                            } elseif ($pgsrating2[$valid90[$i]]->first()->numeric >= 2.5) {
+                                                            } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 2.5) {
                                                                 $pgsratingtext = 'Below Satisfactory';
-                                                            } elseif ($pgsrating2[$valid90[$i]]->first()->numeric < 2.5) {
+                                                            } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric < 2.5) {
                                                                 $pgsratingtext = 'Poor';
                                                             }
                                                         }
