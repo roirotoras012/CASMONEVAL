@@ -84,17 +84,22 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="input-group input-group-sm">
+                                             <div class="input-group input-group-sm">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-icon" id="inputGroup-sizing-sm logo-input"><i
-                                                            class="p-1 fa-solid fa-user"></i>
+                                                    <span class="input-group-icon" id="inputGroup-sizing-sm logo-input">
+                                                        <i class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('extension_name') }}" placeholder="Extension name"
-                                                    id="extension_name" type="text"
-                                                    class="form-control @error('extension_name') is-invalid @enderror"
-                                                    name="extension_name" name="extension_name"
-                                                    autocomplete="extension_name" autofocus>
+                                                <select class="form-control @error('extension_name') is-invalid @enderror" style="height:40px;"
+                                                        id="extension_name" name="extension_name" autocomplete="extension_name" autofocus>
+                                                    <option value="" selected disabled>Extension name</option>
+                                                    <option value="">No extension name</option>
+                                                    <option value="Jr">Jr</option>
+                                                    <option value="Sr">Sr</option>
+                                                    <option value="II">II</option>
+                                                    <option value="III">III</option>
+                                                    <option value="IV">IV</option>
+                                                </select>
                                                 @error('extension_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
