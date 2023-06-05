@@ -1456,6 +1456,18 @@ class RegionalPlanningOfficerController extends Controller
     }
 
 
+
+    public function remove_opcr(Request $request){
+
+
+        dd($request->opcr_ID);
+        return redirect()
+        ->route('rpo.savetarget')
+        ->with('success', 'OPCR removed');
+    }
+   
+
+
     public function updateAnnual(Request $request)
     {
         $validatedData = $request->validate([

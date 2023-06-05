@@ -341,9 +341,7 @@ class DivisionChiefController extends Controller
             ->get();
 
         $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
-            ->whereHas('opcr', function ($query) use ($opcrs_active) {
-                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
-            })
+            
             ->get(['drivers.*', 'divisions.division']);
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division')
@@ -408,7 +406,55 @@ class DivisionChiefController extends Controller
                     $pgsratingtext = 'Poor';
                 }
             }
+            $valid_meas2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+            $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+            ->where('annual_targets.province_ID', $user->province_ID)
+            ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+            ->where('annual_targets.division_ID', $user->division_ID)
+            ->where('monthly_targets.monthly_target', '!=', null || 0)
+           
 
+          
+            ->get();
+            foreach ( $total_number_of_valid_measures2 as $item) {
+                if($item->month == 'jan'){
+                    $valid_meas2[0]++;
+                }
+                if($item->month == 'feb'){
+                    $valid_meas2[1]++;
+                }
+                if($item->month == 'mar'){
+                    $valid_meas2[2]++;
+                }
+                if($item->month == 'apr'){
+                    $valid_meas2[3]++;
+                }
+                if($item->month == 'may'){
+                    $valid_meas2[4]++;
+                }
+                if($item->month == 'jun'){
+                    $valid_meas2[5]++;
+                }
+                if($item->month == 'jul'){
+                    $valid_meas2[6]++;
+                }
+                if($item->month == 'aug'){
+                    $valid_meas2[7]++;
+                }
+                if($item->month == 'sep'){
+                    $valid_meas2[8]++;
+                }
+                if($item->month == 'oct'){
+                    $valid_meas2[9]++;
+                }
+                if($item->month == 'nov'){
+                    $valid_meas2[10]++;
+                }
+                if($item->month == 'dec'){
+                    $valid_meas2[11]++;
+                }
+            }
+            // dd($valid_meas2);
             // PGS array
             $pgs = [
                 'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
@@ -518,7 +564,7 @@ class DivisionChiefController extends Controller
             // dd($cutoff);
         }
 
-        return view('dc.accomplishment', compact('measures', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs'));
+        return view('dc.accomplishment', compact('measures', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs', 'valid_meas2'));
     }
 
     public function profile()
@@ -538,7 +584,7 @@ class DivisionChiefController extends Controller
     }
 
     public function bukidnunBddIndex()
-    {
+    {   
         $user = Auth::user();
 
         $opcrs_active = Opcr::where('is_active', 1)
@@ -551,11 +597,11 @@ class DivisionChiefController extends Controller
             ->get();
 
         $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
-            ->whereHas('opcr', function ($query) use ($opcrs_active) {
-                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
-            })
+            ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
+        ->where('annual_targets.opcr_id', $opcrs_active[0]->opcr_ID)
+        ->distinct()
             ->get(['drivers.*', 'divisions.division']);
-
+        // dd($driversact);
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
             ->get()
             ->groupBy(['strategic_measure_ID']);
@@ -674,8 +720,8 @@ class DivisionChiefController extends Controller
             ->where('is_submitted_division', 1)
             ->get();
         $opcr_id = isset($opcrs_active[0]) ? $opcrs_active[0]->opcr_ID : null;
-        $drivers = Driver::where('opcr_ID', '=', $opcr_id)
-            ->where('division_ID', '=', $user->division_ID)
+        $drivers = Driver::
+            where('division_ID', '=', $user->division_ID)
             ->get();
         $measures = StrategicMeasure::where('strategic_measures.division_ID', $user->division_ID)
             ->where(function ($query) {

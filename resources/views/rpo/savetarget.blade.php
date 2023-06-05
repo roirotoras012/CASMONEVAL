@@ -18,11 +18,19 @@
             </ol>
             <div class="opcr-list-container">
                 @foreach ($opcr as $item)
-                    <div class="opcr-item">
+                    <div class="opcr-item" style="position:relative">
+                        <div style="position:absolute; right: 10px">
+                            <form action="{{ route('rpo.remove_opcr') }}" method="post">
+                                @csrf
+                                <input type="hidden" value="{{$item->opcr_ID}}" name="opcr_ID">
+                                <button type="submit" class="btn btn-primary">remove</button>
+                            </form>
+                          
+                        </div>
                         <ul>
                             <li style="list-style: none !important;">
                                 <a href="{{ url('rpo/opcr/' . $item->opcr_ID) }}">
-                                    <h4>OPCR #: {{ $item->opcr_ID }}</h4>
+                                 
                                 </a>
 
                             </li>

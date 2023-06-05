@@ -72,6 +72,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('remove_measure', [RegionalPlanningOfficerController::class, 'remove_measure'])->name('rpo.remove_measure');
     Route::post('upload_opcr', [RegionalPlanningOfficerController::class, 'upload_opcr'])->name('rpo.upload_opcr');
     Route::post('cutOff', [RegionalPlanningOfficerController::class, 'cutOff'])->name('rpo.cutOff');
+    Route::post('remove_opcr', [RegionalPlanningOfficerController::class, 'remove_opcr'])->name('rpo.remove_opcr');
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
 

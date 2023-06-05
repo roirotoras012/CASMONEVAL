@@ -7,19 +7,7 @@
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
-
-
         <div class="container-fluid px-4 py-5">
-
-            {{-- @if (count($notification) > 0)
-            <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5"> {{ $userDetails->first_name }} -  {{ match ($userDetails->province_ID) {
-                1 => 'Bukidnon BDD Division',
-                2 => 'Lanao Del Norte',
-                3 => 'Misamis Oriental',
-                4 => 'Misamis Occidental',
-                5 => 'Camiguin',
-                default => 'other',
-            } }}  --}}
             @if (!is_null($notification) && count($notification) > 0)
                 <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                     {{ $userDetails->first_name }} -
@@ -149,7 +137,7 @@
                                             default => 'other',
                                         };
                                         
-                                        $measures = $driver->targets->where('division.division', $divisionName);
+                                        $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
                                         $measure_count = $measures->count();
                                         $has_province = false;
                                         $annual_count = 0;
