@@ -74,6 +74,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('cutOff', [RegionalPlanningOfficerController::class, 'cutOff'])->name('rpo.cutOff');
     Route::post('remove_opcr', [RegionalPlanningOfficerController::class, 'remove_opcr'])->name('rpo.remove_opcr');
 
+    Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
+
+
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });

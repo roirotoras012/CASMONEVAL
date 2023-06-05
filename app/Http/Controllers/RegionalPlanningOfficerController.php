@@ -1466,4 +1466,35 @@ class RegionalPlanningOfficerController extends Controller
         ->with('success', 'OPCR removed');
     }
    
+
+
+    public function updateAnnual(Request $request)
+    {
+        $validatedData = $request->validate([
+            'prov_val' => 'required',
+            'prov_target' => 'required',
+        ]);
+    
+        // Find the AnnualTarget based on the prov_target value
+        $annualTarget = AnnualTarget::find($validatedData['prov_target']);
+    
+        // Check if the target exists
+        if (!$annualTarget) {
+            return redirect()->back()->with('error', 'Annual Target not found!');
+        }
+    
+        // Update the annual_target column
+        $annualTarget->annual_target = $validatedData['prov_val'];
+        $annualTarget->save();
+    
+        return redirect()
+        ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
+        ->with('success', 'Annual Target successfully updated!');
+    }
+    
+    
+    
+
+    
+   
 }
