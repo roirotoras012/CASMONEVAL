@@ -147,11 +147,11 @@
                                                 {{-- <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}"> --}}
-                                                <a href="" data-bs-toggle="modal"
-                                                    data-bs-target="#_{{ $label['BUK_target'] }}"
-                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none;font-weight:bold; <?php } ?>">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                                    style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                    onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}')">
                                                     {{ $label->BUK }}
-                                                </a>
+                                                 </a>
 
 
 
@@ -180,12 +180,11 @@
                                                 {{-- <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}"> --}}
-                                                <a href="" data-bs-toggle="modal"
-                                                    data-bs-target="#_{{ $label['CAM_target'] }}"
-                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold;<?php } ?>">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                                    style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                    onclick="setModalParams('{{ $label['CAM_target'] }}', '{{ $label->CAM }}')">
                                                     {{ $label->CAM }}
-
-                                                </a>
+                                                 </a>
 
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['CAM_target']" :prov_val="$label->CAM" />
@@ -209,12 +208,11 @@
                                                 {{-- <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}"> --}}
-                                                <a href="" data-bs-toggle="modal"
-                                                    data-bs-target="#_{{ $label['LDN_target'] }}"
-                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold;<?php } ?>">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                                    style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                    onclick="setModalParams('{{ $label['LDN_target'] }}', '{{ $label->LDN }}')">
                                                     {{ $label->LDN }}
-
-                                                </a>
+                                                 </a>
 
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['LDN_target']" :prov_val="$label->LDN" />
@@ -239,12 +237,11 @@
                                                 {{-- <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}"> --}}
-                                                <a href="" data-bs-toggle="modal"
-                                                    data-bs-target="#_{{ $label['MISOR_target'] }}"
-                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold; <?php } ?>">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                                    style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                    onclick="setModalParams('{{ $label['MISOR_target'] }}', '{{ $label->MISOR }}')">
                                                     {{ $label->MISOR }}
-
-                                                </a>
+                                                 </a>
 
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['MISOR_target']" :prov_val="$label->MISOR" />
@@ -269,15 +266,14 @@
                                                 {{-- <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}"> --}}
-                                                <a href="" data-bs-toggle="modal"
-                                                    data-bs-target="#_{{ $label['MISOC_target'] }}"
-                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold; <?php } ?>">
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                                    style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                    onclick="setModalParams('{{ $label['MISOC_target'] }}', '{{ $label->MISOC }}')">
                                                     {{ $label->MISOC }}
-
-                                                </a>
+                                                 </a>
 
                                             </td>
-                                            <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" />
+                                            {{-- <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" /> --}}
                                             <td>
                                                 @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
                                                     <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
@@ -355,6 +351,7 @@
 
                             </table>
                         </form>
+                        <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" />
                         <x-mark_as_done_modal :opcr_id=$opcr_id />
                         <x-cutoff-modal :opcr_id=$opcr_id />
                     </div>

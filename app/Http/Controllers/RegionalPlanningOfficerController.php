@@ -1194,6 +1194,30 @@ class RegionalPlanningOfficerController extends Controller
                 ->route('rpo.show', $opcr_id)
                 ->with('success', 'OPCR successfully marked as done');
         }
+        else if($request->submit == 'update_target'){
+            // dd($request);
+
+            $validatedData = $request->validate([
+                'new_target' => 'required',
+                'target_id' => 'required',
+            ]);
+        
+            // Find the AnnualTarget based on the prov_target value
+            $annualTarget = AnnualTarget::find($validatedData['target_id']);
+        
+            // Check if the target exists
+            if (!$annualTarget) {
+                return redirect()->back()->with('error', 'Annual Target not found!');
+            }
+        
+            // Update the annual_target column
+            $annualTarget->annual_target = $validatedData['new_target'];
+            $annualTarget->save();
+        
+            return redirect()
+            ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
+            ->with('success', 'Annual Target successfully updated!');
+        }
     }
 
     public function measures()
