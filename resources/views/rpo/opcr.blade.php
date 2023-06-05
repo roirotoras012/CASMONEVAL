@@ -148,12 +148,15 @@
                                                     style="font-weight: bold;"<?php   } ?> type="text"
                                                     name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}"> --}}
                                                 <a href="" data-bs-toggle="modal"
-                                                data-bs-target="#buk">
+                                                    data-bs-target="#_{{ $label['BUK_target'] }}"
+                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none;font-weight:bold; <?php } ?>">
                                                     {{ $label->BUK }}
                                                 </a>
-                                                <x-update_annual_tar  />
-                                            </td>
 
+
+
+                                            </td>
+                                            <x-update_annual_tar :prov_target="$label['BUK_target']" :prov_val="$label->BUK" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
                                                     <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
@@ -174,12 +177,18 @@
                                             </td>
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
-                                                <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
+                                                {{-- <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}">
+                                                    name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}"> --}}
+                                                <a href="" data-bs-toggle="modal"
+                                                    data-bs-target="#_{{ $label['CAM_target'] }}"
+                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold;<?php } ?>">
+                                                    {{ $label->CAM }}
+
+                                                </a>
 
                                             </td>
-
+                                            <x-update_annual_tar :prov_target="$label['CAM_target']" :prov_val="$label->CAM" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
                                                     <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
@@ -197,11 +206,18 @@
                                             </td>
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
-                                                <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
+                                                {{-- <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}">
+                                                    name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}"> --}}
+                                                <a href="" data-bs-toggle="modal"
+                                                    data-bs-target="#_{{ $label['LDN_target'] }}"
+                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold;<?php } ?>">
+                                                    {{ $label->LDN }}
+
+                                                </a>
 
                                             </td>
+                                            <x-update_annual_tar :prov_target="$label['LDN_target']" :prov_val="$label->LDN" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
                                                     <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
@@ -220,11 +236,18 @@
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOR]"
                                                     value="">
-                                                <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
+                                                {{-- <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}">
+                                                    name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}"> --}}
+                                                <a href="" data-bs-toggle="modal"
+                                                    data-bs-target="#_{{ $label['MISOR_target'] }}"
+                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold; <?php } ?>">
+                                                    {{ $label->MISOR }}
+
+                                                </a>
 
                                             </td>
+                                            <x-update_annual_tar :prov_target="$label['MISOR_target']" :prov_val="$label->MISOR" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
                                                     <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
@@ -243,11 +266,18 @@
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOC]"
                                                     value="">
-                                                <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
+                                                {{-- <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
                                                     style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}">
+                                                    name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}"> --}}
+                                                <a href="" data-bs-toggle="modal"
+                                                    data-bs-target="#_{{ $label['MISOC_target'] }}"
+                                                    style="<?php if ($opcr[0]->is_submitted == true) { ?> pointer-events: none; color: gray; text-decoration: none; font-weight:bold; <?php } ?>">
+                                                    {{ $label->MISOC }}
+
+                                                </a>
 
                                             </td>
+                                            <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
                                                     <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
@@ -263,6 +293,7 @@
                                                 @endif
                                                 %
                                             </td>
+
 
                                         </tr>
 
@@ -302,12 +333,14 @@
                                         <button type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
                                             id="print-scoreCard">Scorecard</button>
-                                            <a href="#" data-bs-toggle="modal"
-                                            data-bs-target="#cutoff-{{ $opcr_id }}" id="#cutoff-{{ $opcr_id }}"
-                                            class="text-decoration-none text-black btn btn-primary text-white">Cutoff or Reopen
+                                        <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#cutoff-{{ $opcr_id }}"
+                                            id="#cutoff-{{ $opcr_id }}"
+                                            class="text-decoration-none text-black btn btn-primary text-white">Cutoff or
+                                            Reopen
 
                                         </a>
-                                        
+
                                     </div>
                                     @if ($opcr[0]->is_submitted == true)
                                         <div class="alert alert-success">
@@ -361,7 +394,7 @@
                             <th>3rd Qrtr</th>
                             <th>4th Qrtr</th>
                             <th>2nd Sem</th>
-    
+
                             <th>To Date</th>
                             <th>1st Qrtr</th>
                             <th>2nd Qrtr</th>
@@ -369,8 +402,8 @@
                             <th>3rd Qrtr</th>
                             <th>4th Qrtr</th>
                             <th>2nd Sem</th>
-    
-    
+
+
                             <th>Target</th>
                             <th>Accom</th>
                             <th>Target</th>
@@ -397,7 +430,7 @@
                             <th>Accom</th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
                         @php
                             $current_objective = '';
@@ -443,101 +476,101 @@
                                 <td><input type="hidden" name="data[{{ $ctr }}][total_targets]">
                                     {{ $total }}
                                 </td>
-    
-    
-    
+
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_targets))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->total_targets }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_sem))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_sem }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->third_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->third_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_sem))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_sem }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 {{-- accom --}}
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->total_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_sem_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_sem_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->third_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->third_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_sem_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_sem_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 {{-- accom end --}}
-    
+
                                 <td>
                                     @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_accom) && isset($total))
                                         {{ number_format(($monthly_targets2[$label->strategic_measure_ID]->total_accom / $total) * 100, 2) }}%
@@ -713,7 +746,7 @@
                                     }
                                     // }
                                 @endphp
-    
+
                                 <td>
                                     @if (isset($jan_target) && $jan_target != 0)
                                         {{ $jan_target }}
@@ -726,8 +759,8 @@
                                         {{ $jan_total }}
                                     @endif
                                 </td>
-    
-    
+
+
                                 <td>
                                     @if (isset($feb_target) && $feb_target != 0)
                                         {{ $feb_target }}
@@ -740,9 +773,9 @@
                                         {{ $feb_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($mar_target) && $mar_target != 0)
                                         {{ $mar_target }}
@@ -755,9 +788,9 @@
                                         {{ $mar_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($apr_target) && $apr_target != 0)
                                         {{ $apr_target }}
@@ -770,9 +803,9 @@
                                         {{ $apr_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($may_target) && $may_target != 0)
                                         {{ $may_target }}
@@ -785,9 +818,9 @@
                                         {{ $may_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($jun_target) && $jun_target != 0)
                                         {{ $jun_target }}
@@ -800,9 +833,9 @@
                                         {{ $jun_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($jul_target) && $jul_target != 0)
                                         {{ $jul_target }}
@@ -815,9 +848,9 @@
                                         {{ $jul_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($aug_target) && $aug_target != 0)
                                         {{ $aug_target }}
@@ -830,9 +863,9 @@
                                         {{ $aug_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($sep_target) && $sep_target != 0)
                                         {{ $sep_target }}
@@ -845,9 +878,9 @@
                                         {{ $sep_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($oct_target) && $oct_target != 0)
                                         {{ $oct_target }}
@@ -860,9 +893,9 @@
                                         {{ $oct_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($nov_target) && $nov_target != 0)
                                         {{ $nov_target }}
@@ -875,9 +908,9 @@
                                         {{ $nov_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($dec_target) && $dec_target != 0)
                                         {{ $dec_target }}
@@ -890,22 +923,22 @@
                                         {{ $dec_total }}
                                     @endif
                                 </td>
-    
-    
-    
-    
-    
+
+
+
+
+
                             </tr>
                             @php
                                 $ctr++;
                                 $current_objective = $label->strategic_objective;
                             @endphp
                         @endforeach
-    
-    
-    
+
+
+
                         <tr>
-    
+
                             <td colspan="999">
                                 <table style="width: 100%;" class="ratings_table table table-bordered ppo-table-opcr">
                                     <thead class="bg-primary text-white">
@@ -929,42 +962,42 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-    
+
                                             @for ($i = 0; $i < 12; $i++)
                                                 <th class="text-left align-middle">No.</th>
                                                 <th class="text-left align-middle">Rate</th>
                                             @endfor
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
                                         </tr>
                                         <tr>
-    
+
                                             @for ($i = 0; $i < 12; $i++)
                                                 <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i]['val'] }}
                                                 </td>
                                                 <td class="text-left align-middle"></td>
                                             @endfor
-    
-    
-    
-    
+
+
+
+
                                         </tr>
-    
+
                                         <tr>
                                             @for ($i = 0; $i < 12; $i++)
                                                 <td class="text-left align-middle">{{ $valid90[$i] }}</td>
                                                 <td class="text-left align-middle"></td>
                                             @endfor
-    
-    
-    
-    
-    
+
+
+
+
+
                                         </tr>
                                         <tr>
                                             @for ($i = 0; $i < 12; $i++)
@@ -987,28 +1020,27 @@
                                                 @endphp
                                                 <td class="text-left align-middle">
                                                     @if (isset($pgsrating2[$i][$valid90[$i]]))
-                                                    {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
-                                                    
+                                                        {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
                                                     @endif
-                                                   
+
                                                 </td>
                                                 <td class="text-left align-middle">{{ $pgsratingtext }}</td>
                                             @endfor
-    
-    
-    
-    
-    
+
+
+
+
+
                                         </tr>
-    
+
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
                     </tbody>
-    
+
                 </table>
-    
+
                 @if (isset($pgs))
                     <div class="p-5">
                         <table class="table" style="width:50%" id="rating_table">
@@ -1031,7 +1063,9 @@
                                 <tr>
                                     <th>OPCR rating</th>
                                     <td>{{ $pgs['numerical_rating'] }}</td>
-                                    <td class="text-center align-middle" style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}</td>
+                                    <td class="text-center align-middle"
+                                        style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1039,7 +1073,7 @@
                 @endif
             @endif
 
-            
+
         </div>
 
 

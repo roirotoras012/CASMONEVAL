@@ -73,6 +73,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('upload_opcr', [RegionalPlanningOfficerController::class, 'upload_opcr'])->name('rpo.upload_opcr');
     Route::post('cutOff', [RegionalPlanningOfficerController::class, 'cutOff'])->name('rpo.cutOff');
 
+    Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
+
+
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
 });

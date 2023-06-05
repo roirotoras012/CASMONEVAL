@@ -277,9 +277,16 @@
                                                                                         $measure->strategic_measures_ID
                                                                                     ]->first()->strategic_measure" />
                                                                             @else
-                                                                                {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                                <span>out of
-                                                                                    <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                            <span style="<?php if ($monthly_accomplishment < ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target * 0.9)) { ?> color: red; <?php } ?>">
+                                                                                {{ $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                                <span>out of <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                            </span>
+                                                                            
+                                                                            </span>
+                                                                            
+                                                                            </span>
+                                                                            
+                                                                            
                                                                             @endif
                                                                         </td>
                                                                     @else
