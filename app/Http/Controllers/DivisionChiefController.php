@@ -331,7 +331,9 @@ class DivisionChiefController extends Controller
         return view('dc.view-target');
     }
     public function accomplishment()
-    {
+    {   
+
+        $valid_meas2 = [];
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', 1)
             ->where('is_submitted_division', 1)
@@ -596,17 +598,18 @@ class DivisionChiefController extends Controller
             ->orderBy('province_ID')
             ->get();
 
-        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
+        
+        $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
+            ->get()
+            ->groupBy(['strategic_measure_ID']);
+            $driversact = null;
+        if (count($opcrs_active) != 0) {
+            $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
             ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
         ->where('annual_targets.opcr_id', $opcrs_active[0]->opcr_ID)
         ->distinct()
             ->get(['drivers.*', 'divisions.division']);
         // dd($driversact);
-        $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
-            ->get()
-            ->groupBy(['strategic_measure_ID']);
-
-        if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)

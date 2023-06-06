@@ -10,13 +10,13 @@
             <form method="POST" action="{{ route('rpo.updateAnnual') }}" id="modalForm">
                
                 <div class="modal-body">
-                    <input type="text" id="provTargetInput" name="target_id" >
+                    <input type="hidden" id="provTargetInput" name="target_id" >
                     <input type="hidden" id="provValInput" name="old_target">
                  
 
                     <div class="row">
                         <div>
-                            <input type="text" id="provValInput2" class="form-control @error('prov_val') is-invalid @enderror" name="new_target" required autofocus  />
+                            <input type="text" id="provValInput2" class="form-control @error('prov_val') is-invalid @enderror" name="new_target"   />
                             @error('prov_val')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
