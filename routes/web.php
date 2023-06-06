@@ -58,7 +58,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
     Route::get('rpo/measures', [RegionalPlanningOfficerController::class, 'measures'])->name('rpo.measures');
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcrarget');
-    Route::get('rpo/savedtarget  ', [RegionalPlanningOfficerController::class, 'savetarget']);
+    Route::get('rpo/savedtarget', [RegionalPlanningOfficerController::class, 'savetarget'])->name('rpo.savetarget');
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
     Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile'])->name('profile');

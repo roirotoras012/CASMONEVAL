@@ -435,7 +435,9 @@ class RegionalPlanningOfficerController extends Controller
 
     public function savetarget()
     {
-        $opcr = DB::table('opcr')->get();
+        $opcr = DB::table('opcr')
+        ->where('deleted_at', null)
+        ->get();
 
         return view('rpo.savetarget', compact('opcr'));
     }
@@ -1483,11 +1485,26 @@ class RegionalPlanningOfficerController extends Controller
 
     public function remove_opcr(Request $request){
 
-
-        dd($request->opcr_ID);
-        return redirect()
-        ->route('rpo.savetarget')
-        ->with('success', 'OPCR removed');
+        $opcrID = $request->opcr_ID;
+    
+        // Query the OPCR by opcr_ID
+        $opcr = Opcr::find($opcrID);
+    
+        // Check if OPCR exists
+        if ($opcr && $opcr->is_active !== 1) {
+            // Update the deleted_at column
+            $opcr->deleted_at = now();
+            $opcr->save();
+    
+            return redirect()
+                ->route('rpo.savetarget')
+                ->with('success', 'OPCR removed');
+        } else {
+            // OPCR not found or is_active is 1
+            return redirect()
+                ->route('rpo.savetarget')
+                ->with('error', 'OPCR cannot be removed');
+        }
     }
    
 

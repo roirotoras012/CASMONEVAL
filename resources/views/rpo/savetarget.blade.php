@@ -16,6 +16,17 @@
                 </li>
 
             </ol>
+            
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p class="m-0">{{ $message }}</p>
+            </div>
+            @endif
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger">
+                <p class="m-0">{{ $message }}</p>
+            </div>
+            @endif
             <div class="opcr-list-container">
                 @foreach ($opcr as $item)
                     <div class="opcr-item" style="position:relative">
@@ -23,11 +34,11 @@
                             <form action="{{ route('rpo.remove_opcr') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="{{$item->opcr_ID}}" name="opcr_ID">
-                                <button type="submit" class="btn btn-primary">remove</button>
+                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i class="fas fa-trash-alt"  ></i></button>
                             </form>
                           
                         </div>
-                        <ul>
+                        <ul style="margin-right: 50px">
                             <li style="list-style: none !important;">
                                 <a href="{{ url('rpo/opcr/' . $item->opcr_ID) }}" style="text-decoration: none; color: black">
                                     <li style="list-style: none !important;">
@@ -84,6 +95,15 @@
 
 
         </div>
-
+        <script>
+            function confirmDeletion(event) {
+            event.preventDefault();
+            var result = confirm("Are you sure you want to delete?");
+            if (result) {
+                var form = event.target.closest('form');
+                form.submit();
+            }
+        }
+        </script>
     </x-user-sidebar>
 @endsection
