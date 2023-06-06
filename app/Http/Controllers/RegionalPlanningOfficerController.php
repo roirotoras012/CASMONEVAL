@@ -436,7 +436,7 @@ class RegionalPlanningOfficerController extends Controller
     public function savetarget()
     {
         $opcr = DB::table('opcr')
-        ->where('date_removed', null)
+        ->where('deleted_at', null)
         ->get();
 
         return view('rpo.savetarget', compact('opcr'));
@@ -1493,7 +1493,7 @@ class RegionalPlanningOfficerController extends Controller
         // Check if OPCR exists
         if ($opcr && $opcr->is_active !== 1) {
             // Update the deleted_at column
-            $opcr->date_removed = now();
+            $opcr->deleted_at = now();
             $opcr->save();
     
             return redirect()
