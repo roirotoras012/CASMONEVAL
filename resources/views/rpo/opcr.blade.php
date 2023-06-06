@@ -392,7 +392,7 @@
 
                 </div>
 
-                <table class="table table-bordered ppo-table shadow" id="rpo_scoreCard">
+                <table class="table table-bordered ppo-table shadow d-none" id="rpo_scoreCard" >
                     <thead class="bg-primary text-white">
                         <tr>
                             <th rowspan="2" class="p-3">#</th>
