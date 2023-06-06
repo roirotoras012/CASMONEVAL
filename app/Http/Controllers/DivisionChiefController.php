@@ -390,6 +390,7 @@ class DivisionChiefController extends Controller
             }
 
             $pgsratingtext = '';
+            $rating_bg_color = '';
             $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
                 ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
                 ->select('numeric')
@@ -398,14 +399,19 @@ class DivisionChiefController extends Controller
             if ($pgsrating !== null) {
                 if ($pgsrating->numeric == 5.0) {
                     $pgsratingtext = 'Outstanding';
+                    $rating_bg_color = '#92d050';
                 } elseif ($pgsrating->numeric >= 4.5) {
                     $pgsratingtext = 'Very Satisfactory';
+                    $rating_bg_color = '#ffff00';
                 } elseif ($pgsrating->numeric >= 3.25) {
                     $pgsratingtext = 'Satisfactory';
+                    $rating_bg_color = '#9bc2e6';
                 } elseif ($pgsrating->numeric >= 2.5) {
                     $pgsratingtext = 'Below Satisfactory';
+                    $rating_bg_color = '#ffa7d3';
                 } elseif ($pgsrating->numeric < 2.5) {
                     $pgsratingtext = 'Poor';
+                    $rating_bg_color = '#ff0000';
                 }
             }
             $valid_meas2 = [0,0,0,0,0,0,0,0,0,0,0,0];
@@ -463,6 +469,7 @@ class DivisionChiefController extends Controller
                 'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
                 'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
                 'rating' => $pgsratingtext,
+                'rating_bg_color' => $rating_bg_color,
             ];
         } else {
             $monthly_targets2 = [];
