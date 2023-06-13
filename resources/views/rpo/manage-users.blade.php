@@ -109,7 +109,7 @@
                                             method="post">
                                             @csrf
                                             @method('put')
-                                            <span type="button" class="badge badge-success" data-toggle="modal"
+                                            <span type="button" class="badge {{$user->status === 'disabled' ? 'badge-danger' : 'badge-success'}}" data-toggle="modal" data-toggle="modal"
                                                 data-target="#disablemodal-{{ $user->user_ID }}"">
                                                {{$user->status}}
                                             </span>
