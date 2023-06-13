@@ -88,8 +88,7 @@
                                 <th rowspan="2" class="text-center align-middle bg-primary text-white">#</th>
                                 <th rowspan="2" class="text-center align-middle bg-primary text-white">KPI</th>
                                 <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
-                                <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">Annual
-                                    Target</th>
+                                <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">{{ $opcrs_active[0]->year }}</th>
                                 <th colspan="12" class="text-center align-middle bg-primary text-white">Month
                                     Accomplishment
                                 </th>
