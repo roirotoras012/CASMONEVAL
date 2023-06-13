@@ -82,7 +82,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
                 // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
                 if ($target->validated != 'Validated') {
                     // $validated = false;
@@ -577,7 +577,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
                 // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
                 if ($target->validated != 'Validated') {
                     // $validated = false;
@@ -1202,7 +1202,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
 
                 if ($target->validated != 'Validated') {
                     $validated = false;
@@ -1351,7 +1351,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
                 // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
                 if ($target->validated != 'Validated') {
                     $validated = false;
@@ -1497,7 +1497,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
                 // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
                 if ($target->validated != 'Validated') {
                     $validated = false;

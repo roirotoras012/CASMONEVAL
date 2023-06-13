@@ -910,6 +910,7 @@
                             <th class="text-center align-middle" colspan="999">Monthly Ratings</th>
                         </tr>
                         <tr>
+                            <th colspan="1" class="text-center align-middle" style="min-width: 150px"></th>
                             <th colspan="2" class="text-center align-middle">January</th>
                             <th colspan="2" class="text-center align-middle">February</th>
                             <th colspan="2" class="text-center align-middle">March</th>
@@ -926,7 +927,8 @@
                     </thead>
                     <tbody>
                         <tr>
-
+                            <th class="text-left align-middle">
+                                Description</th>
                             @for ($i = 0; $i < 12; $i++)
                                 <th class="text-left align-middle">No.</th>
                                 <th class="text-left align-middle">Rate</th>
@@ -934,7 +936,7 @@
 
                         </tr>
                         <tr>
-
+                            <th>No. of valid measure</th>
                             @for ($i = 0; $i < 12; $i++)
                                 <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i] }}</td>
                                 <td class="text-left align-middle"></td>
@@ -946,6 +948,7 @@
                         </tr>
 
                         <tr>
+                            <th>No. of valid measure atleast 90%</th>
                             @for ($i = 0; $i < 12; $i++)
                                 <td class="text-left align-middle">{{ $valid90[$i] }}</td>
                                 <td class="text-left align-middle"></td>
@@ -957,6 +960,7 @@
 
                         </tr>
                         <tr>
+                            <th>OPCR rating	</th>
                             @for ($i = 0; $i < 12; $i++)
                                 @php
                                     $pgsratingtext = '';

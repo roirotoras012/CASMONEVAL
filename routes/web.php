@@ -46,7 +46,6 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
     Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
     Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
     Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
-
     Route::get('rd/savetarget  ', [RegionalDirector::class, 'savetarget']);
     Route::get('rd/opcr/{id}  ', [RegionalDirector::class, 'show'])->name('rd.show');
 });
@@ -56,6 +55,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'index'])->name('rpo.index');
 
     Route::get('rpo/users', [RegionalPlanningOfficerController::class, 'users'])->name('rpo.users');
+
     Route::get('rpo/measures', [RegionalPlanningOfficerController::class, 'measures'])->name('rpo.measures');
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcrarget');
     Route::get('rpo/savedtarget', [RegionalPlanningOfficerController::class, 'savetarget'])->name('rpo.savetarget');
@@ -79,6 +79,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
 
     // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
+    Route::put('rpo/{rpo}', [RegionalPlanningOfficerController::class, 'statusupdate'])->name('rpo.statusupdate');
+
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function () {

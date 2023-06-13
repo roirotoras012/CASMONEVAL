@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 
 class LoginController extends Controller
 {
@@ -34,11 +37,28 @@ class LoginController extends Controller
      * @return void
      */
     protected $username;
+    protected function attemptLogin(Request $request)
+    {
+        $credentials = $this->credentials($request);
+
+        // Check if the user exists and their status is not "disabled"
+        $user = $this->guard()->getProvider()->retrieveByCredentials($credentials);
+        if ($user && $this->guard()->attempt($credentials, $request->filled('remember'))) {
+            if ($user->status == 'disabled') {
+                $this->guard()->logout();
+                throw ValidationException::withMessages([
+                    $this->username() => [trans('Account Disabled Please Contact RPO')],
+                ])->redirectTo(route('login'));
+            }
+            return true;
+        }
+
+        return false;
+    }
     protected function redirectTo()
     {
         $userType = auth()->user()->user_type_ID;
         $userDetails = auth()->user();
-
         switch ($userType) {
             case 1:
                 return route('rd.index', ['userDetails' => $userDetails]);
@@ -59,11 +79,8 @@ class LoginController extends Controller
     public function findUsername()
     {
         $login = request()->input('login');
-
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
         request()->merge([$fieldType => $login]);
-
         return $fieldType;
     }
 
@@ -81,4 +98,5 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->username = $this->findUsername();
     }
+   
 }
