@@ -47,7 +47,7 @@ class LoginController extends Controller
             if ($user->status == 'disabled') {
                 $this->guard()->logout();
                 throw ValidationException::withMessages([
-                    $this->username() => [trans('Account Disabled')],
+                    $this->username() => [trans('Account Disabled Please Contact RPO')],
                 ])->redirectTo(route('login'));
             }
             return true;
