@@ -147,6 +147,20 @@ class RegionalPlanningOfficerController extends Controller
             ->route('rpo.users')
             ->with('success', "$full_name  was deleted successfully.");
     }
+
+    public function statusupdate(Request $request,User $user)
+    {
+        //    dd($request);
+            $user = User::find($request->user_ID);
+            $user->status = $request->statusSelect;
+            $user->save();
+            return redirect()
+                ->route('rpo.users')
+                ->with('success', 'User Disabled successfully');
+    }
+
+
+
     public function update(Request $request, User $user)
     {
         // dd($request);
