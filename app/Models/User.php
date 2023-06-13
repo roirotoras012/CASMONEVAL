@@ -30,7 +30,8 @@ class User extends Authenticatable
         'password',
         'user_type_ID',
         'division_ID',
-        'province_ID'
+        'province_ID',
+        'status'
     ];
 
     /**

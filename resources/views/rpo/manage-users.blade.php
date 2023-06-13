@@ -54,6 +54,7 @@
                             <th>User Type ID</th>
                             <th>Division ID</th>
                             <th>Province ID</th>
+                               <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -102,14 +103,28 @@
                                                     ? 'Camiguin'
                                                     : 'N/A')))) }}
                                 </td>
-                                <td>
-                                    <div class="form-container d-flex">
+                                 <td>
+                                <div class="form-container d-flex">
                                         <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')
+                                            <span type="button" class="badge {{$user->status === 'disabled' ? 'badge-danger' : 'badge-success'}}" data-toggle="modal" data-toggle="modal"
+                                                data-target="#disablemodal-{{ $user->user_ID }}"">
+                                               {{$user->status}}
+                                            </span>
+                                            <x-modal-user-disabler :users='$user'/>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-container d-flex">
+                                        <form action="{{ route('rpo.statusupdate', $user->user_ID) }}" class="mr-2"
+                                            method="post">
+                                            @csrf
+                                            @method('put')
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                data-target="#updatemodal-{{ $user->user_ID }}">
+                                                data-target="#updatemodal-{{$user->user_ID }}">
                                                 <i class="fa-solid fa-pen t text-white"></i>
                                             </button>
                                             <x-modal-update :users='$user' />
