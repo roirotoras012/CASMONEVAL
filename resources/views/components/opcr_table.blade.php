@@ -53,14 +53,14 @@
             <th rowspan="2" class="text-center align-middle">Objectives</th>
             <th rowspan="2" class="text-center align-middle">#</th>
             <th rowspan="2" class="text-center align-middle">Measure</th>
-            <th colspan="{{ $provinces->count() }}" class="text-center align-middle bg-warning">Annual Target</th>
+            <th colspan="{{ $provinces->count() }}" class="text-center align-middle bg-warning">{{ $opcrs_active[0]->year }}</th>
 
         </tr>
         <tr>
             @foreach ($provinces as $province)
                 @if ($province->province_ID == $user->province_ID)
                     <th class="text-center align-middle bg-danger">{{ $province->province }}</th>
-                    <th class="text-center align-middle bg-danger">Accomplished</th>
+                    <th class="text-center align-middle bg-danger">C.Accom</th>
                 @endif
             @endforeach
 
