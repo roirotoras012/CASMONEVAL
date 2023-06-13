@@ -69,14 +69,7 @@
                                         <a href="/dc/view-target"><i class="fas fa-sync-alt" style="font-size: 25px;"></i></a>
                                 </div>
                            
-                                <div class="legend-container">
-
-                                    <div class="legend-item">
-                                        <div class="box bg-danger text-white"></div>
-                                        <div class="text-danger">Monthly Cutoff</div>
-                                    </div>
-
-                                </div>
+                             
                             </div>
 
                             
@@ -221,7 +214,7 @@
                                                                             @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))
                                                                                 {{-- @if (isset($monthly_targets_array[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))    --}}
                                                                                 <?php $monthlyTarget = $monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]->first(); ?>
-                                                                                @if (!$cutoff[$i - 1])
+                                                                              
                                                                                     <td class="text-center align-middle">
                                                                                         <a href="#"
                                                                                             data-bs-toggle="modal"
@@ -239,15 +232,10 @@
                                                                                             :monthly_target_ID="$monthlyTarget->monthly_target_ID"
                                                                                             :monthly_target="$monthlyTarget->monthly_target" />
                                                                                     </td>
-                                                                                @else
-                                                                                    <td
-                                                                                        class="text-center align-middle bg-danger text-white">
-                                                                                        {{ $monthlyTarget->monthly_target }}
-                                                                                    </td>
-                                                                                @endif
+                                                                             
                                                                                 <?php $totalTarget += $monthlyTarget->monthly_target; ?>
                                                                             @else
-                                                                                @if (!$cutoff[$i - 1])
+                                                                         
                                                                                     <td class="text-center align-middle">
                                                                                         <a href="#"
                                                                                             data-bs-toggle="modal"
@@ -262,11 +250,7 @@
                                                                                             :year="202"
                                                                                             :annual_target="$annualTarget->annual_target_ID" />
                                                                                     </td>
-                                                                                @else
-                                                                                    <td
-                                                                                        class="text-center align-middle bg-danger text-white">
-                                                                                        N/A</td>
-                                                                                @endif
+                                                                              
                                                                             @endif
                                                                         @endfor
                                                                         <td class="text-center align-middle">
