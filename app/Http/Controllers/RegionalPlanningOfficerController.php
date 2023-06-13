@@ -747,10 +747,11 @@ class RegionalPlanningOfficerController extends Controller
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
-            ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
-
+            ->select('annual_targets.*', 'number_measure','strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
+           
             ->get()
-            ->groupBy('strategic_measures_ID');
+            ->groupBy('number_measure');
+            
         // dd($total_number_of_valid_measures);
         $total_number_of_accomplished_measure = 0;
         foreach ($total_number_of_valid_measures as $total_number_of_valid_measure) {
@@ -776,10 +777,10 @@ class RegionalPlanningOfficerController extends Controller
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
-            ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
+            ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure', 'number_measure')
             
             ->get()
-            ->groupBy('strategic_measures_ID');
+            ->groupBy('number_measure');
 
         $valid_meas[0]['val'] = 0;
         
