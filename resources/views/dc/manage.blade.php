@@ -39,21 +39,38 @@
                     </div>
                 </div>
 
-                {{-- select driver --}}
+                {{-- add driver --}}
                 <div class="p-3">
-                    <h3>Select a driver</h3>
-                    <select name="driver_ID" id="driver_select" required class="form-select">
-                        <option value="">CHOOSE DRIVER</option>
-                        @foreach ($drivers as $driver)
-                        <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
-                        @endforeach
-                    </select>
+                    <div class="d-flex justify-content-between align-items-center p-2">
+                        <h3>Select a KPI Driver</h3>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addKpi">
+                            Add KPI Driver
+                        </button>
+                        
+                    </div>
+
+                    
                     
                 </div>
+
+                {{-- select driver --}}
+                <div class="px-3">
+                    <select name="driver_ID" required class="form-select">
+                        <option value="">CHOOSE DRIVER</option>
+                        @foreach ($drivers->sortByDesc('driver_ID') as $driver)
+                        <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+                
 
                 {{-- measures --}}
                 <div class="p-3">
                     <h3>Strategic measure</h3>
+                    
                     @foreach ($measures as $measure)
 
                         @if (isset($annual_targets[$measure->strategic_measure_ID]))
@@ -94,9 +111,12 @@
 
                 </div>
 
-                {{-- inderect measures --}}
+                {{-- indirect measures --}}
                 <div class="p-3">
-                    <h3>Indirect measure</h3>
+                    <div class="d-flex justify-content-between align-items-center p-2">
+                        <h3>Indirect measure</h3>
+                        <button class="btn btn-primary" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addIndirect">Add Indirect measure</button>
+                    </div>
                     
 
                     
@@ -104,7 +124,10 @@
                 </div>
 
                 <div class="p-3">
-                    <h3>Mandatory measure</h3>
+                    <div class="d-flex justify-content-between align-items-center p-2">
+                        <h3>Mandatory measure</h3>
+                        <button class="btn btn-primary">Add Mandatory measure</button>
+                    </div>
                     
 
                     
@@ -120,179 +143,10 @@
             
         </div>
 {{-- -------------------------------------------------------------------------------------------------------------------- --}}
-        <div class="card mb-4 m-4">
-            {{-- {{dd($notification)}} --}}
-            @if (count($notification) > 0)
-            <form method="POST" action="{{ route('dc.add_driver') }}">
-                @csrf
-                {{-- {{var_dump(Session::all())}} --}}
-                <div class="card-header bg-primary text-white p-3">
-                    <div class="table-title">
-                        <div class="row d-flex align-items-center">
-                            
-                              
-                            <div class="text-left d-flex justify-content-between align-items-center">
-                                <h6 class="m-0">Manage <b>Measures & Drivers</b></h6>
-                               
-                    
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
+        
 
-                
-    
-        
-                
-    
-                
-                <div class="d-flex align-items-top gap-3 p-3">
-                    <div class="d-flex align-items-center flex-column p-2 border">
-                        <div>
-                            <label for="driver" class="form-label">New Driver</label>
-                            <input type="text" name="driver" id="driver_input" class="w-100 form-control" required>
-                        </div>
-                        <div style="display: none;">
-                            <label for="driver" class="form-label">Select Driver Letter</label>
-                            <select name="number_driver" required class="form-select">
-                                <option>Choose Letter</option>
-                                @foreach(range('A', 'Z') as $letter)
-                                    <option value="{{ $letter }}">{{ $letter }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="text-center w-100">
-                            <span>or</span>
-                           <select name="driver_ID" id="driver_select" required class="form-select">
-                            <option value="">CHOOSE DRIVER</option>
-                            @foreach ($drivers as $driver)
-                            <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
-                            @endforeach
-    
-                           </select>
-                          
-                        </div>
-                       
-    
-    
-                    </div>
-
-                    <div class="w-100 border">
-                        <div class="d-flex justify-content-between align-items-center flex-column p-2">
-                            <button type="button" id="addInputField" class="btn btn-primary mb-3">Add Input Field</button>
-                            <div id="inputFieldsContainer" class="w-100 border p-2 my-2">
-                                
-                            </div>
-                            <div class="w-100">
-                                <span>or <b> CHOOSE MEASURE</b></span>
-                                
-                                
-                                @foreach ($measures as $measure)
-                                @if ((isset($annual_targets[$measure->strategic_measure_ID])) || $measure->type == 'INDIRECT' || $measure->type == 'MANDATORY')
-                                
-                                @if (isset($annual_targets[$measure->strategic_measure_ID]))
-                                @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}">
-                                        <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
-                                            {{$measure->strategic_measure}}
-                                                
-                                        </label>
-                                    </div>
-        
-        
-                                    <div class="form-check">
-                                        @if (isset($annual_targets[$measure->strategic_measure_ID]))
-                                        
-                                        
-                                        <input type="text" disabled value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target}}" class="form-control">
-                                    
-                                        
-                                            
-                                       
-                                        @endif
-                                        
-                                    </div>
-                                </div>
-                                @endif
-    
-                               
-                                    
-                                @else
-                               
-                                <div class="d-flex justify-content-between">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
-                                        <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
-                                            {{$measure->strategic_measure}}
-                                                
-                                        </label>
-                                    </div>
-        
-        
-                                    <div class="form-check">
-                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
-                                        
-                                    </div>
-                                </div>
-                               
-                               
-                                @endif
-                               
-                                @else
-                                    
-                                @endif
-                               
-                                
-                                @endforeach
-        
-                               </select>
-                              
-                            </div>
-                           
-        
-        
-                        </div>
-                        {{-- @foreach ($measures as $measure)
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="measures[]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}">
-                            <label class="form-check-label" for="option1">
-                                {{$measure->strategic_measure}}
-                            </label>
-                        </div>
-                        @endforeach --}}
-                        
-                          
-                    
-    
-                    </div>
-    
-    
-    
-    
-                  
-                </div>
-    
-                <div class="text-right pr-3" style="display: flex; justify-content: flex-end;">
-                    <input type="submit" name="" id="" class="btn btn-primary mb-3">
-                </div>
-           
-            </form>
-
-           
-                
-            @else
-            <h1 style="color:red" >NO OPCR SUBMITTED AT THE MOMENT</h1>
-            
-            @endif
-
-           
-        </div>
-
-
-
+<x-add_driver_form />
+<x-add_indirect_measure_form />
 
         </div>
     </x-user-sidebar>

@@ -859,4 +859,32 @@ class DivisionChiefController extends Controller
             ->route('dc.manage')
             ->with('success', 'Transaction Completed');
     }
+
+    public function add_driver_only(Request $request) {
+        // dd($request->driver);
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+            ->get();
+        $driver = new Driver();
+        $driver->driver = $request->driver;
+        $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
+        $driver->division_ID = $user->division_ID;
+        $driver->save();
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+    public function add_indirect_measure(Request $request) {
+        
+        dd($request->strategic_measure);
+        
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+
 }
