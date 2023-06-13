@@ -158,9 +158,10 @@
                                         type="hidden" name="registration_key" />
                                     <input value="{{ request('division-id') }}" id="division_ID"
                                         type="hidden" name="division_ID" />
-                                        <input value="{{ request('province-id') }}" id="province_ID"
+                                    <input value="{{ request('province-id') }}" id="province_ID"
                                             type="hidden" name="province_ID" />
-
+                                    <input value="{{ request('status') }}" id="status"
+                                            type="hidden" name="status" />
                                 </div>
                                 {{-- <div class="row mb-3">
                                         <div class="input-group input-group-sm">

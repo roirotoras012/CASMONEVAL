@@ -38,7 +38,6 @@ class LoginController extends Controller
     {
         $userType = auth()->user()->user_type_ID;
         $userDetails = auth()->user();
-
         switch ($userType) {
             case 1:
                 return route('rd.index', ['userDetails' => $userDetails]);
@@ -59,11 +58,8 @@ class LoginController extends Controller
     public function findUsername()
     {
         $login = request()->input('login');
-
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
         request()->merge([$fieldType => $login]);
-
         return $fieldType;
     }
 
