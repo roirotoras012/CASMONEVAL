@@ -1389,6 +1389,7 @@ class RegionalPlanningOfficerController extends Controller
         $monthly_targets = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
                                         ->where('annual_targets.opcr_id', $opcr_id)
                                         ->where('monthly_targets.month', $month)
+                                        ->where('monthly_targets.monthly_target', null)
                                         ->where('monthly_targets.monthly_target', '!=', null)
                                         ->get();
                                     
