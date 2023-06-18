@@ -15,8 +15,12 @@
                  
 
                     <div class="row">
-                        <div>
+                        <div class="d-flex gap-1 align-items-center">
                             <input type="text" id="provValInput2" class="form-control @error('prov_val') is-invalid @enderror" name="new_target"   />
+                            <label for="target_type" class="d-flex" style="margin-bottom: 0 !important">
+                                <input type="checkbox" id="target_type_update" name="target_type">
+                                %
+                            </label>
                             @error('prov_val')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -35,7 +39,7 @@
 </div>
 <script>
 
-function setModalParams(target, value) {
+function setModalParams(target, value, target_type) {
 
     // Set the values in the modal input fields
     $('#provTargetInput').val(target);
@@ -43,6 +47,16 @@ function setModalParams(target, value) {
     $('#provValInput2').val(value);
    
     
+ 
+    
+    // Set the checked attribute of the checkbox based on the value
+    if (target_type === 'PERCENTAGE') {
+    document.getElementById('target_type_update').checked = true;
+    }
+    else{
+
+        document.getElementById('target_type_update').checked = false;
+    }
 }
 
 // function submitModalForm() {

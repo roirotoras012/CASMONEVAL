@@ -135,13 +135,43 @@
 
                                             </td>
                                             @php
+                                            if($label->target_type == 'PERCENTAGE'){
+                                                $counter = 0;
+                                                if (isset($label->BUK)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->CAM)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->LDN)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->MISOR)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->MISOC)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                $total = ($label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC) / $counter;
+                                            }
+                                            else{
+
                                                 $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
+                                            }
+                                                
                                             @endphp
                                             <td>
-                                                <input type="hidden" name="data[{{ $ctr }}][total_targets]">
-                                                {{ $total }}
+                                                
+                                                {{ $total }}@if ($label->target_type == 'PERCENTAGE')
+                                                %
+                                            @endif
                                             </td>
-                                            <td>
+                                            <td style="width: 80px">
 
                                                 <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
 
@@ -149,13 +179,23 @@
                                                 @if ($label->BUK)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                 style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
-                                                onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}')">
-                                                {{ $label->BUK }}
+                                                onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}','{{ $label->target_type }}')">
+                                                {{ $label->BUK }}@if ($label->target_type == 'PERCENTAGE')
+                                                    %
+                                                @endif
+                                              
                                              </a>
                                                 @else
-                                                <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
-                                                    style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
+                                                        style="font-weight: bold;"<?php   } ?> type="text"
+                                                        name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
+                                                        <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                            <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
+                                                            %
+                                                        </label>
+                                                </div>
+                                                
                                                 @endif
                                                
 
@@ -168,7 +208,10 @@
                                             <x-update_annual_tar :prov_target="$label['BUK_target']" :prov_val="$label->BUK" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
-                                                    <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
+                                                    <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }}
+                                                    @if ($monthly_targets[$label->BUK_target]->first()->type == 'PERCENTAGE')
+                                                        %
+                                                    @endif </b>
                                                 @else
                                                     @if (isset($label->BUK_accom) && $label->BUK_accom_validated)
                                                         <b>{{ $label->BUK_accom }}</b>
@@ -184,19 +227,28 @@
                                                 %
 
                                             </td>
-                                            <td>
+                                            <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
 
                                                 @if ($label->CAM)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                 style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
                                                 onclick="setModalParams('{{ $label['CAM_target'] }}', '{{ $label->CAM }}')">
-                                                {{ $label->CAM }}
+                                                {{ $label->CAM }}@if ($label->target_type == 'PERCENTAGE')
+                                                %
+                                            @endif
                                              </a>
                                                 @else
-                                                <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
-                                                    style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}">
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
+                                                        style="font-weight: bold;"<?php   } ?> type="text"
+                                                        name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}">
+                                                        <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                            <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
+                                                            %
+                                                        </label>
+                                                </div>
+                                               
                                                 @endif
 
                                                 
@@ -206,7 +258,9 @@
                                             <x-update_annual_tar :prov_target="$label['CAM_target']" :prov_val="$label->CAM" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
-                                                    <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
+                                                    <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}@if ($monthly_targets[$label->CAM_target]->first()->type == 'PERCENTAGE')
+                                                        %
+                                                    @endif </b>
                                                 @else
                                                     @if (isset($label->CAM_accom) && $label->CAM_accom_validated)
                                                         <b>{{ $label->CAM_accom }}</b>
@@ -219,19 +273,28 @@
                                                 @endif
                                                 %
                                             </td>
-                                            <td>
+                                            <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
 
                                                 @if ($label->LDN)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                 style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
                                                 onclick="setModalParams('{{ $label['LDN_target'] }}', '{{ $label->LDN }}')">
-                                                {{ $label->LDN }}
+                                                {{ $label->LDN }}@if ($label->target_type == 'PERCENTAGE')
+                                                %
+                                            @endif
                                              </a>
                                                 @else
-                                                <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
-                                                    style="font-weight: bold;"<?php   } ?> type="text"
-                                                    name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}">
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
+                                                        style="font-weight: bold;"<?php   } ?> type="text"
+                                                        name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}">
+                                                        <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                            <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
+                                                            %
+                                                        </label>
+                                                </div>
+                                               
                                                 @endif
                                                 
                                                   
@@ -240,7 +303,9 @@
                                             <x-update_annual_tar :prov_target="$label['LDN_target']" :prov_val="$label->LDN" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
-                                                    <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
+                                                    <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}@if ($monthly_targets[$label->LDN_target]->first()->type == 'PERCENTAGE')
+                                                        %
+                                                    @endif </b>
                                                 @else
                                                     @if (isset($label->LDN_accom) && $label->LDN_accom_validated)
                                                         <b>{{ $label->LDN_accom }}</b>
@@ -253,19 +318,29 @@
                                                 @endif
                                                 %
                                             </td>
-                                            <td>
+                                            <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOR]"
                                                     value="">
                                                     @if ($label->MISOR)
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                     style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
                                                     onclick="setModalParams('{{ $label['MISOR_target'] }}', '{{ $label->MISOR }}')">
-                                                    {{ $label->MISOR }}
+                                                    {{ $label->MISOR }}@if ($label->target_type == 'PERCENTAGE')
+                                                    %
+                                                @endif
                                                  </a>
                                                     @else
-                                                    <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
-                                                        style="font-weight: bold;"<?php   } ?> type="text"
-                                                        name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}">
+                                                    <div class="d-flex gap-1 align-items-center">
+                                                        <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
+                                                            style="font-weight: bold;"<?php   } ?> type="text"
+                                                            name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}">
+                                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
+                                                                %
+                                                            </label>
+                                                    </div>
+                                                   
+                                                        
                                                     @endif
                                                 
                                                     
@@ -274,7 +349,9 @@
                                             <x-update_annual_tar :prov_target="$label['MISOR_target']" :prov_val="$label->MISOR" />
                                             <td>
                                                 @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
-                                                    <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
+                                                    <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}@if ($monthly_targets[$label->MISOR_target]->first()->type == 'PERCENTAGE')
+                                                        %
+                                                    @endif </b>
                                                 @else
                                                     @if (isset($label->MISOR_accom) && $label->MISOR_accom_validated)
                                                         <b>{{ $label->MISOR_accom }}</b>
@@ -287,7 +364,7 @@
                                                 @endif
                                                 %
                                             </td>
-                                            <td>
+                                            <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOC]"
                                                     value="">
 
@@ -295,12 +372,21 @@
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                     style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
                                                     onclick="setModalParams('{{ $label['MISOC_target'] }}', '{{ $label->MISOC }}')">
-                                                    {{ $label->MISOC }}
+                                                    {{ $label->MISOC }}@if ($label->target_type == 'PERCENTAGE')
+                                                    %
+                                                @endif
                                                  </a>
                                                     @else
-                                                    <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
-                                                        style="font-weight: bold;"<?php   } ?> type="text"
-                                                        name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}">
+                                                    <div class="d-flex gap-1 align-items-center">
+                                                        <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
+                                                            style="font-weight: bold;"<?php   } ?> type="text"
+                                                            name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}">
+                                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
+                                                                %
+                                                            </label>
+                                                    </div>
+                                                    
                                                     @endif
                                                
                                                   
@@ -309,7 +395,9 @@
                                             {{-- <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" /> --}}
                                             <td>
                                                 @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
-                                                    <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
+                                                    <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}@if ($monthly_targets[$label->MISOC_target]->first()->type == 'PERCENTAGE')
+                                                        %
+                                                    @endif </b>
                                                 @else
                                                     {{-- @if (isset($label->MISOC_accom) && $label->MISOC_accom_validated)
                                                     <b>{{ $label->MISOC_accom}}</b>
@@ -503,7 +591,7 @@
                                 @php
                                     $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
                                 @endphp
-                                <td><input type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                <td>
                                     {{ $total }}
                                 </td>
 

@@ -189,7 +189,10 @@
                                                         @if ($province->province == $provinceName)
                                                             <td class="text-center align-middle">
                                                                 @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
-                                                                    <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
+                                                                    <p style="margin-bottom: 0">{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
+                                                                        @if ($annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->type == 'PERCENTAGE')
+                                                                            %
+                                                                        @endif
                                                                     </p>
                                                                 @else
                                                                     <p>N/A</p>
@@ -205,7 +208,7 @@
                                                                         <?php
                                                                         $annualTarget = $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first();
                                                                         $totalTarget = 0;
-                                                                        
+                                                                        $monthly_target_count = 0;
                                                                         ?>
                                                                         @for ($i = 1; $i <= 12; $i++)
                                                                             <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
@@ -213,13 +216,16 @@
                                                                             @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))
                                                                                 {{-- @if (isset($monthly_targets_array[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))    --}}
                                                                                 <?php $monthlyTarget = $monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]->first(); ?>
-                                                                              
+                                                                                
                                                                                     <td class="text-center align-middle">
                                                                                         <a href="#"
                                                                                             data-bs-toggle="modal"
                                                                                             data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
                                                                                             id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>">
                                                                                             {{ $monthlyTarget->monthly_target }}
+                                                                                            @if ($monthlyTarget->type == 'PERCENTAGE')
+                                                                                                %
+                                                                                            @endif
                                                                                         </a>
                                                                                         <x-edit_monthly_target_modal
                                                                                             :month="strtolower(
@@ -232,7 +238,9 @@
                                                                                             :monthly_target="$monthlyTarget->monthly_target" />
                                                                                     </td>
                                                                              
-                                                                                <?php $totalTarget += $monthlyTarget->monthly_target; ?>
+                                                                                <?php $totalTarget += $monthlyTarget->monthly_target;
+                                                                                        $monthly_target_count ++;
+                                                                                            ?>
                                                                             @else
                                                                          
                                                                                     <td class="text-center align-middle">
@@ -247,13 +255,21 @@
                                                                                             )"
                                                                                             :division_ID="$userDetails->division_ID"
                                                                                             :year="202"
-                                                                                            :annual_target="$annualTarget->annual_target_ID" />
+                                                                                            :annual_target="$annualTarget->annual_target_ID"
+                                                                                            :target_type="$annualTarget->type" />
                                                                                     </td>
                                                                               
                                                                             @endif
                                                                         @endfor
                                                                         <td class="text-center align-middle">
-                                                                            {{ $totalTarget }}</td>
+
+                                                                            @if ($annualTarget->type == 'PERCENTAGE')
+                                                                            {{ $totalTarget/$monthly_target_count }}%
+                                                                            @else
+                                                                            {{ $totalTarget }}
+                                                                            @endif
+                                                                          
+                                                                              </td>
                                                                     @endif
                                                                 @endif
                                                             @endfor

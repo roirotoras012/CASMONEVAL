@@ -14,7 +14,7 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+    'max_input_vars' => 2000,
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

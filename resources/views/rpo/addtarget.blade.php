@@ -116,12 +116,60 @@
 
                                         </td>
 
-                                        <td><input type="hidden" name="data[{{ $ctr }}][total_targets]"></td>
-                                        <td><input type="text" name="data[{{ $ctr }}][BUK]"></td>
-                                        <td><input type="text" name="data[{{ $ctr }}][CAM]"></td>
-                                        <td><input type="text" name="data[{{ $ctr }}][LDN]"></td>
-                                        <td><input type="text" name="data[{{ $ctr }}][MISOR]"></td>
-                                        <td><input type="text" name="data[{{ $ctr }}][MISOC]"></td>
+                                        <td>
+                                            <input type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                            
+                                        </td>
+                                        <td >
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input type="text" name="data[{{ $ctr }}][BUK]">
+                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
+                                                %
+                                            </label>
+                                            </div>
+                                            
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input type="text" name="data[{{ $ctr }}][CAM]">
+                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
+                                                    %
+                                                </label>
+                                            </div>
+                                           
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input type="text" name="data[{{ $ctr }}][LDN]">
+                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
+                                                %
+                                            </label>
+                                            </div>
+                                            
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input type="text" name="data[{{ $ctr }}][MISOR]">
+                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
+                                                    %
+                                                </label>
+                                            </div>
+                                           
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input type="text" name="data[{{ $ctr }}][MISOC]">
+                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
+                                                    %
+                                                </label>
+                                            </div>
+                                           
+                                        </td>
 
                                     </tr>
 
