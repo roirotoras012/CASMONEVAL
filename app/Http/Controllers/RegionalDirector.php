@@ -261,22 +261,27 @@ class RegionalDirector extends Controller
                     if ($target->province_ID == 1) {
                         $label['BUK'] = $target->annual_target;
                         $label['BUK_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 2) {
                         $label['LDN'] = $target->annual_target;
                         $label['LDN_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 3) {
                         $label['MISOR'] = $target->annual_target;
                         $label['MISOR_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 4) {
                         $label['MISOC'] = $target->annual_target;
                         $label['MISOC_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 5) {
                         $label['CAM'] = $target->annual_target;
                         $label['CAM_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                 } else {
                 }

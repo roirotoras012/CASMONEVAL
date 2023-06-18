@@ -82,6 +82,7 @@ class DivisionChiefController extends Controller
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
             'month' => 'required',
+            'target_type',
         ]);
 
         // Get the annual target for the given annual_target_ID
@@ -91,11 +92,11 @@ class DivisionChiefController extends Controller
         $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])->sum('monthly_target');
 
         // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Monthly target exceeds the annual target.');
-        }
+        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('alert', 'Monthly target exceeds the annual target.');
+        // }
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
 
@@ -103,7 +104,8 @@ class DivisionChiefController extends Controller
         $monthlyTarget->annual_target_ID = $validatedData['annual_target_ID'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
-
+        
+        $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type']: null;
         $monthlyTarget->save();
 
         return redirect()
@@ -133,11 +135,11 @@ class DivisionChiefController extends Controller
             ->sum('monthly_target');
 
         // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Monthly target exceeds the annual target.');
-        }
+        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('alert', 'Monthly target exceeds the annual target.');
+        // }
 
         // Update the monthly target
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];

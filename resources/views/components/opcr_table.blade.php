@@ -113,9 +113,17 @@
                         if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID])) {
                             $annual_target = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target;
                             $annual_target_ID = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID;
+                            $target_type = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type;
                             if (isset($monthly_targets[$annual_target_ID])) {
                                 $accom = $monthly_targets[$annual_target_ID]->annual_accom;
-                                $accomPercentage = $accom / $annual_target;
+                             
+                                if($target_type == 'PERCENTAGE'){
+                                    $accomPercentage = $accom / count($monthly_targets[$annual_target_ID]);
+                                }
+                                else{
+                                    $accomPercentage = $accom / $annual_target;
+                                }
+                                
                                 // Set the background color based on the value of $accomPercentage
                                 if ($accomPercentage >= 0.9) {
                                     $bgColor = 'background-color: #4CAF50;';
@@ -158,12 +166,19 @@
                             </td>
                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                                 <td class="text-center align-middle">
-                                    {{ $annual_target }}
+                                    {{ $annual_target }}@if ($target_type == 'PERCENTAGE')
+                                    %  
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle" style="{{ $bgColor }} color: #fff">
                                     @if (isset($monthly_targets[$annual_target_ID]))
                                         <span <?php if (isset($monthly_targets[$annual_target_ID]->validated) && $monthly_targets[$annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>
-                                            {{ $accom }}
+                                           @if ($target_type == 'PERCENTAGE')
+                                           {{$accomPercentage}}% 
+                                          
+                                            @else
+                                            {{$accom}}
+                                            @endif
                                         </span>
                                     @endif
                                     {{-- @if ($measure->type == 'DIRECT MAIN')
@@ -334,7 +349,7 @@
                                 // Set the background color based on the value of $accomPercentage
                                 if ($accomPercentage >= 0.9) {
                                     $bgColor = 'background-color: #4CAF50;';
-                                } else {
+                                } else {    
                                     $bgColor = 'background-color: #FF0000;';
                                 }
                             } else {
@@ -373,30 +388,47 @@
                             </td>
                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                                 <td class="text-center align-middle">
-                                    {{ $annual_target }}
+                                    {{ $annual_target }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                    %
+                                @endif
                                 </td>
 
                                 @if (isset($monthly_targets2[$measure->strategic_measure_ID]))
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_qrtr }}</td>
+                                       
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_qrtr }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_qrtr }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_qrtr }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->third_qrtr }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->third_qrtr }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->fourth_qrtr }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->fourth_qrtr }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
 
 
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->total_accom }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->total_accom }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
                                         {{ number_format(($monthly_targets2[$measure->strategic_measure_ID]->total_accom / $monthly_targets2[$measure->strategic_measure_ID]->total_targets) * 100, 2) }}%
                                     </td>
 
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_sem }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_sem }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_sem_accom }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->first_sem_accom }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     {{-- <td>{{ number_format(($monthly_targets2[$measure->strategic_measure_ID]->first_sem_accom / $monthly_targets2[$measure->strategic_measure_ID]->first_sem) * 100, 2) }}%
                                     </td> --}}
                                     <td class="text-center align-middle">
@@ -412,9 +444,13 @@
                                     </td>
 
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_sem }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_sem }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
-                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_sem_accom }}</td>
+                                        {{ $monthly_targets2[$measure->strategic_measure_ID]->second_sem_accom }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                        %
+                                    @endif</td>
                                     <td class="text-center align-middle">
                                         @php
                                             if ($monthly_targets2[$measure->strategic_measure_ID]->second_sem != 0) {
@@ -551,7 +587,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($jan_total))
-                                            {{ $jan_total }}
+                                            {{ $jan_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -559,7 +597,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($feb_total))
-                                            {{ $feb_total }}
+                                            {{ $feb_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -568,7 +608,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($mar_total))
-                                            {{ $mar_total }}
+                                            {{ $mar_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -577,7 +619,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($apr_total))
-                                            {{ $apr_total }}
+                                            {{ $apr_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -585,7 +629,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($may_total))
-                                            {{ $may_total }}
+                                            {{ $may_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -594,7 +640,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($jun_total))
-                                            {{ $jun_total }}
+                                            {{ $jun_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -603,7 +651,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($jul_total))
-                                            {{ $jul_total }}
+                                            {{ $jul_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -612,7 +662,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($aug_total))
-                                            {{ $aug_total }}
+                                            {{ $aug_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -621,7 +673,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($sep_total))
-                                            {{ $sep_total }}
+                                            {{ $sep_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -630,7 +684,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($oct_total))
-                                            {{ $oct_total }}
+                                            {{ $oct_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -638,7 +694,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($nov_total))
-                                            {{ $nov_total }}
+                                            {{ $nov_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
 
@@ -647,7 +705,9 @@
 
                                     <td class="text-center align-middle">
                                         @if (isset($dec_total))
-                                            {{ $dec_total }}
+                                            {{ $dec_total }}@if ($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->type == 'PERCENTAGE')
+                                            %
+                                        @endif
                                         @endif
                                     </td>
                                 @else
