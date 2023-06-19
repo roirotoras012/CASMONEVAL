@@ -588,6 +588,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\View\\Components\\ModalDelete' => __DIR__ . '/../..' . '/app/View/Components/ModalDelete.php',
         'App\\View\\Components\\ModalLogout' => __DIR__ . '/../..' . '/app/View/Components/ModalLogout.php',
         'App\\View\\Components\\ModalUpdate' => __DIR__ . '/../..' . '/app/View/Components/ModalUpdate.php',
+        'App\\View\\Components\\ModalUserDisabler' => __DIR__ . '/../..' . '/app/View/Components/ModalUserDisabler.php',
         'App\\View\\Components\\modal-view-user-keys' => __DIR__ . '/../..' . '/app/View/Components/modal-view-user-keys.php',
         'App\\View\\Components\\sidebar' => __DIR__ . '/../..' . '/app/View/Components/sidebar.php',
         'App\\View\\Components\\update_monthly_target_modal' => __DIR__ . '/../..' . '/app/View/Components/update_monthly_target_modal.php',

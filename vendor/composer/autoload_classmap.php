@@ -61,6 +61,7 @@ return array(
     'App\\View\\Components\\ModalDelete' => $baseDir . '/app/View/Components/ModalDelete.php',
     'App\\View\\Components\\ModalLogout' => $baseDir . '/app/View/Components/ModalLogout.php',
     'App\\View\\Components\\ModalUpdate' => $baseDir . '/app/View/Components/ModalUpdate.php',
+    'App\\View\\Components\\ModalUserDisabler' => $baseDir . '/app/View/Components/ModalUserDisabler.php',
     'App\\View\\Components\\modal-view-user-keys' => $baseDir . '/app/View/Components/modal-view-user-keys.php',
     'App\\View\\Components\\sidebar' => $baseDir . '/app/View/Components/sidebar.php',
     'App\\View\\Components\\update_monthly_target_modal' => $baseDir . '/app/View/Components/update_monthly_target_modal.php',
