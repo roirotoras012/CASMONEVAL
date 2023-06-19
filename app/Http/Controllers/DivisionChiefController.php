@@ -859,4 +859,63 @@ class DivisionChiefController extends Controller
             ->route('dc.manage')
             ->with('success', 'Transaction Completed');
     }
+
+    public function add_driver_only(Request $request) {
+        // dd($request->driver);
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+            ->get();
+        $driver = new Driver();
+        $driver->driver = $request->driver;
+        $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
+        $driver->division_ID = $user->division_ID;
+        $driver->save();
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+    public function add_indirect_measure(Request $request) {
+        
+        
+        $user = Auth::user();
+        $request->validate([
+            'strategic_measure' => 'required'
+        ]);
+
+        $strategicMeasure = new StrategicMeasure();
+        $strategicMeasure->strategic_measure = $request->strategic_measure;
+        $strategicMeasure->type = "INDIRECT";
+        $strategicMeasure->division_id = $user->division_ID;
+        $strategicMeasure->strategic_objective_id = 0;
+
+        $strategicMeasure->save();
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+    public function add_mandatory_measure(Request $request) {
+        
+        
+        $user = Auth::user();
+        $request->validate([
+            'strategic_measure' => 'required'
+        ]);
+
+        $strategicMeasure = new StrategicMeasure();
+        $strategicMeasure->strategic_measure = $request->strategic_measure;
+        $strategicMeasure->type = "MANDATORY";
+        $strategicMeasure->division_id = $user->division_ID;
+        $strategicMeasure->strategic_objective_id = 0;
+
+        $strategicMeasure->save();
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+
 }

@@ -115,7 +115,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
     Route::post('ppo/profile/update-email', [ProvincialPlanningOfficerController::class, 'updateEmailHandler'])->name('ppo.updateEmailHandler');
     Route::post('ppo/profile/update-password', [ProvincialPlanningOfficerController::class, 'updatePasswordHandler'])->name('ppo.updatePasswordHandler');
-    Route::post('ppo/drivers', [ProvincialPlanningOfficerController::class, 'store'])->name('drivers.store');
+    // Route::post('ppo/drivers', [ProvincialPlanningOfficerController::class, 'store'])->name('drivers.store');
     Route::post('ppo/measures', [ProvincialPlanningOfficerController::class, 'store'])->name('measures.store');
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
@@ -143,6 +143,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
   Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.reason');
   Route::post('add_driver', [DivisionChiefController::class, 'add_driver'])->name('dc.add_driver');
+  Route::post('add_driver_only', [DivisionChiefController::class, 'add_driver_only'])->name('dc.add_driver_only');
+  Route::post('add_indirect_measure', [DivisionChiefController::class, 'add_indirect_measure'])->name('dc.add_indirect_measure');
+  Route::post('add_mandatory_measure', [DivisionChiefController::class, 'add_mandatory_measure'])->name('dc.add_mandatory_measure');
 
   Route::post('dc/accomplishment', [DivisionChiefController::class, 'sentToPD'])->name('notify_to_pd');
   

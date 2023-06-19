@@ -47,12 +47,6 @@ class RegionalPlanningOfficerController extends Controller
         return view('rpo.manage-users', ['users' => $users, 'userRegistrationKeys' => $userRegistrationKeys]);
     }
 
-    // public function adminView()
-    // {
-    //     $users = User::all();
-    //     $totalUsers = $users->count();
-    //     return view('rpo.dashboard', ['users' => $users , 'totalUsers' => $totalUsers]);
-    // }
     public function updateEmailHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
@@ -82,6 +76,7 @@ class RegionalPlanningOfficerController extends Controller
                 ->with('error', 'Invalid Password');
         }
     }
+
     public function updatePasswordHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
@@ -99,6 +94,7 @@ class RegionalPlanningOfficerController extends Controller
                 ->with('update-pass-error', ' Invalid Password');
         }
     }
+
     public function store(Request $request)
     {
         //
@@ -133,11 +129,6 @@ class RegionalPlanningOfficerController extends Controller
         return view('rpo.addtarget', compact('labels'));
     }
 
-    // public function users_view()
-    // {
-    //     $users = User::all();
-    //     return view('rpo.index', ['users' => $users]);
-    // }
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -163,7 +154,7 @@ class RegionalPlanningOfficerController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // dd($request);
+
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -1385,7 +1376,9 @@ class RegionalPlanningOfficerController extends Controller
                 ->with('success', 'OPCR upload error');
         }
     }
-    private function setAccomZero($opcr_id, $month){
+
+    private function setAccomZero($opcr_id, $month)
+    {
         $monthly_targets = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
                                         ->where('annual_targets.opcr_id', $opcr_id)
                                         ->where('monthly_targets.month', $month)
@@ -1402,6 +1395,7 @@ class RegionalPlanningOfficerController extends Controller
     
 
     }
+
     public function cutOff(Request $request)
     {
         // dd($request->submit);
@@ -1495,8 +1489,6 @@ class RegionalPlanningOfficerController extends Controller
             ->route('rpo.show', $request->opcr_id)
             ->with('success', 'Monthly cutoff successfully');
     }
-
-
 
     public function remove_opcr(Request $request){
 
