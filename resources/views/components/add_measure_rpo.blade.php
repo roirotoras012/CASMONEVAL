@@ -70,7 +70,10 @@
                             <div id="my-div-{{$objective->strategic_objective_ID}}">
                                 <input type="hidden" name="strategic_objective_ID" value="{{$objective->strategic_objective_ID}}">
                                 <textarea placeholder="Input Strategic Measure" class="form-control w-100" name="strategic_measure" required></textarea>
-                             
+                                <label for="sub_measure" class="d-flex" style="margin-bottom: 0 !important">
+                                  <input type="checkbox" id="sub_measure_update" name="sub_measure">
+                                   <span> <b>SUBMEASURE</b></span>
+                              </label>
                                   <div class="dropdown my-1 text-right">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                       Select Division

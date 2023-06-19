@@ -235,8 +235,8 @@
                                                                     @php
                                                                         $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment;
                                                                         $monthly_target = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target;
-                                                                        
-                                                                        if ($monthly_target != 0) {
+                                                                    //    dd($measures_list);
+                                                                        if ($monthly_target != 0 && $measures_list[$measure->strategic_measures_ID]->first()->is_sub != 1) {
                                                                             $ratio = ($monthly_accomplishment / $monthly_target) * 100;
                                                                         
                                                                             if ($ratio >= 90) {

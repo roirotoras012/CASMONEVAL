@@ -380,6 +380,9 @@ class DivisionChiefController extends Controller
                         ->orWhere('strategic_measures.type', '=', 'MANDATORY')
                         ->orWhere('strategic_measures.type', '=', 'INDIRECT');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -418,6 +421,10 @@ class DivisionChiefController extends Controller
             }
             $valid_meas2 = [0,0,0,0,0,0,0,0,0,0,0,0];
             $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+            ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
             ->where('annual_targets.province_ID', $user->province_ID)
             ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
             ->where('annual_targets.division_ID', $user->division_ID)

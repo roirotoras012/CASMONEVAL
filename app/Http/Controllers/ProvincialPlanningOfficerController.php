@@ -169,6 +169,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -206,6 +209,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('annual_targets.province_ID', '=', $user->province_ID)
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
                 ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
                 
@@ -664,6 +670,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -701,6 +710,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('annual_targets.province_ID', '=', $user->province_ID)
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
                 ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
                 
