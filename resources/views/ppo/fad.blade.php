@@ -140,7 +140,7 @@
                                     {{-- loop for the months of the year monthly target area --}}
                                     @for ($i = 1; $i <= 12; $i++)
                                         <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle" style="width: 70px">
                                             @if (isset($accoms))
                                                 <?php $monthly_accomplishment = null;
                                                 $validated = null; ?>
@@ -151,7 +151,9 @@
                                                         <a href="" data-bs-toggle="modal"
                                                             data-bs-target="#_{{ $accom->monthly_target_ID }}"
                                                             class="text-{{ $validated == 'Validated' ? 'success' : ($validated == 'Invalid' ? 'danger' : 'warning') }}">
-                                                            {{ $monthly_accomplishment }}
+                                                            {{ $monthly_accomplishment }}  @if (isset($accom->type))
+                                                            %
+                                                        @endif
                                                         </a>
                                                         <x-validate-modal :monthly_target_ID="$accom->monthly_target_ID" />
                                                     @endif
@@ -164,6 +166,9 @@
                                     <td class="text-center align-middle">
                                         @if (isset($accoms->annual_accom))
                                             {{ $accoms->annual_accom }}
+                                            @if (isset($accoms->type))
+                                                %
+                                            @endif
                                         @else
                                         @endif
                                     </td>
