@@ -879,8 +879,39 @@ class DivisionChiefController extends Controller
 
     public function add_indirect_measure(Request $request) {
         
-        dd($request->strategic_measure);
         
+        $user = Auth::user();
+        $request->validate([
+            'strategic_measure' => 'required'
+        ]);
+
+        $strategicMeasure = new StrategicMeasure();
+        $strategicMeasure->strategic_measure = $request->strategic_measure;
+        $strategicMeasure->type = "INDIRECT";
+        $strategicMeasure->division_id = $user->division_ID;
+        $strategicMeasure->strategic_objective_id = 0;
+
+        $strategicMeasure->save();
+
+        return redirect()->route('dc.manage')
+        ->with('success', 'Transaction Completed');
+    }
+
+    public function add_mandatory_measure(Request $request) {
+        
+        
+        $user = Auth::user();
+        $request->validate([
+            'strategic_measure' => 'required'
+        ]);
+
+        $strategicMeasure = new StrategicMeasure();
+        $strategicMeasure->strategic_measure = $request->strategic_measure;
+        $strategicMeasure->type = "MANDATORY";
+        $strategicMeasure->division_id = $user->division_ID;
+        $strategicMeasure->strategic_objective_id = 0;
+
+        $strategicMeasure->save();
 
         return redirect()->route('dc.manage')
         ->with('success', 'Transaction Completed');

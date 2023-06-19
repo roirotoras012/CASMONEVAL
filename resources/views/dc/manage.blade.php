@@ -71,14 +71,51 @@
                 <div class="p-3">
                     <h3>Strategic measure</h3>
                     
+                    {{-- @foreach ($measures as $measure)
+                    
+                        @if (isset($annual_targets[$measure->strategic_measure_ID]) || $measure->type == 'INDIRECT' || $measure->type == 'MANDATORY')
+                            
+                            @if (isset($annual_targets[$measure->strategic_measure_ID]))
+                                @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
+
+                                    <div class="d-flex justify-content-between">
+                                        
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}">
+                                            <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
+                                                {{$measure->strategic_measure}}
+                                                    
+                                            </label>
+                                        </div>
+            
+            
+                                        <div class="form-check">
+                                            @if (isset($annual_targets[$measure->strategic_measure_ID]))
+                                            
+                                            
+                                            <input type="text" disabled value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target}}" class="form-control">
+                                        
+                                            
+                                                
+                                        
+                                            @endif
+                                            
+                                        </div>
+                                    </div>
+
+                                @endif
+                            @endif
+
+                        @endif
+
+                    @endforeach --}}
+
                     @foreach ($measures as $measure)
-
-                        @if (isset($annual_targets[$measure->strategic_measure_ID]))
-
-                            @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
-
+                        @if ((isset($annual_targets[$measure->strategic_measure_ID])) )
+                        
+                            @if (isset($annual_targets[$measure->strategic_measure_ID]))
+                                @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
                                 <div class="d-flex justify-content-between">
-                                    
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}">
                                         <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
@@ -86,8 +123,8 @@
                                                 
                                         </label>
                                     </div>
-        
-        
+
+
                                     <div class="form-check">
                                         @if (isset($annual_targets[$measure->strategic_measure_ID]))
                                         
@@ -96,17 +133,15 @@
                                     
                                         
                                             
-                                    
+                                        
                                         @endif
                                         
                                     </div>
                                 </div>
-
+                                @endif
                             @endif
-
-
+                            
                         @endif
-
                     @endforeach
 
                 </div>
@@ -117,6 +152,56 @@
                         <h3>Indirect measure</h3>
                         <button class="btn btn-primary" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addIndirect">Add Indirect measure</button>
                     </div>
+
+                    {{-- @foreach ($measures as $measure)
+                        @if ($measure->type == 'INDIRECT')
+                        
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
+                                <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
+                                    {{$measure->strategic_measure}}
+                                        
+                                </label>
+                            </div>
+
+
+                            <div class="form-check">
+                                <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                
+                            </div>
+                        </div>
+
+                        @endif
+                    @endforeach --}}
+
+                    @foreach ($measures as $measure)
+                        @if($measure->type == 'INDIRECT')
+                            @if ((isset($annual_targets[$measure->strategic_measure_ID])) )
+                            
+                                
+                            @else
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
+                                        <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
+                                            {{$measure->strategic_measure}}
+                                                
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-check">
+                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                        
+                                    </div>
+                            </div>
+                            @endif
+
+                        
+                        @endif
+                    @endforeach
+
                     
 
                     
@@ -126,10 +211,37 @@
                 <div class="p-3">
                     <div class="d-flex justify-content-between align-items-center p-2">
                         <h3>Mandatory measure</h3>
-                        <button class="btn btn-primary">Add Mandatory measure</button>
+                        <button class="btn btn-primary" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMandatory">Add Mandatory measure</button>
                     </div>
                     
+                    @foreach ($measures as $measure)
+                        @if ($measure->type == 'MANDATORY')
+                            
+                            @if ((isset($annual_targets[$measure->strategic_measure_ID])) )
+                               
+                               
+                               
+                                    
+                            @else
+                                <div class="d-flex justify-content-between">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
+                                        <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
+                                            {{$measure->strategic_measure}}
+                                                
+                                        </label>
+                                    </div>
 
+
+                                    <div class="form-check">
+                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                        
+                                    </div>
+                                </div>
+                            @endif
+
+                        @endif
+                    @endforeach
                     
 
                 </div>
@@ -147,6 +259,7 @@
 
 <x-add_driver_form />
 <x-add_indirect_measure_form />
+<x-add_mandatory_measure_form />
 
         </div>
     </x-user-sidebar>
@@ -155,19 +268,7 @@
         var driverSelect = document.querySelector('#driver_select');
         var measureInput = document.querySelector('#measure_textare');
         var measureSelect = document.querySelector('#measure_select');
-        // measureInput.addEventListener('input', function(event) {
-            
-        // if (measureInput.value) {
-        //     measureSelect.required = true;
-        // } else {
-        //     measureSelect.required = false;
-        //     // There is no input in the input element
-        // }
-      
-        // });
 
-
-        console.log(driverInput)
         driverInput.addEventListener('input', function(event) {
             console.log(driverInput.value)
         if (driverInput.value) {
