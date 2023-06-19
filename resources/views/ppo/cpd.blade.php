@@ -53,8 +53,8 @@
                             <tr>
                                 <th rowspan="2" class="text-center align-middle">Objectives</th>
                                 <th rowspan="2" class="text-center align-middle">Measure</th>
-                                <th colspan="" class="text-center align-middle">Annual Target</th>
-                                <th colspan="12" class="text-center align-middle bg-success">Accomplished</th>
+                                <th colspan="" class="text-center align-middle">{{ $opcrs_active[0]->year }}</th>
+                                <th colspan="12" class="text-center align-middle bg-success">C.Accom</th>
                                 <th rowspan="2" class="text-center align-middle bg-success">Total</th>
                             </tr>
                             <tr>

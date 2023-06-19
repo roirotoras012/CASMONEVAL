@@ -35,7 +35,7 @@
                                 <th scope="col" class="bg-primary text-white">Division</th>
                                 <th scope="col" class="bg-primary text-white">Month</th>
                                 <th scope="col" class="bg-primary text-white">Target</th>
-                                <th scope="col" class="bg-primary text-white">Accomplishment</th>
+                                <th scope="col" class="bg-primary text-white">C.Accom</th>
                                 <th scope="col" class="bg-primary text-white">Percentage</th>
                                 <th scope="col" class="bg-primary text-white">Reason</th>
                                 <th scope="col" class="bg-primary text-white">Remarks</th>

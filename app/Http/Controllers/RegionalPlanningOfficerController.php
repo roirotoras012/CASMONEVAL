@@ -139,6 +139,19 @@ class RegionalPlanningOfficerController extends Controller
             ->with('success', "$full_name  was deleted successfully.");
     }
 
+    public function statusupdate(Request $request,User $user)
+    {
+        //    dd($request);
+            $user = User::find($request->user_ID);
+            $user->status = $request->statusSelect;
+            $user->save();
+            return redirect()
+                ->route('rpo.users')
+                ->with('success', 'User Disabled successfully');
+    }
+
+
+
     public function update(Request $request, User $user)
     {
 
@@ -1369,6 +1382,7 @@ class RegionalPlanningOfficerController extends Controller
         $monthly_targets = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
                                         ->where('annual_targets.opcr_id', $opcr_id)
                                         ->where('monthly_targets.month', $month)
+                                        ->where('monthly_targets.monthly_target', null)
                                         ->where('monthly_targets.monthly_target', '!=', null)
                                         ->get();
                                     

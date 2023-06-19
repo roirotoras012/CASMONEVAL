@@ -24,6 +24,7 @@ class RegistrationKeyController extends Controller
     }
     public function checkKey(Request $request)
     {
+        // dd($request);
         $user_key = $request['registration_key'];
         $registration_key = RegistrationKey::where('registration_key', $user_key)->first();
         // $division_ID = RegistrationKey::where('registration_key', $user_key)->first();
@@ -47,16 +48,16 @@ class RegistrationKeyController extends Controller
 
         if (!$division_id && !$province_id) {
             return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => "0" , "province-id" => "0"])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => "0" , "province-id" => "0", 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
         }
         if (!$province_id) {
             return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => "0"])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => "0", 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
         }
         return redirect()
-            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id ,"province-id" => $province_id])
+            ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id ,"province-id" => $province_id, 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
     }
 
@@ -68,7 +69,6 @@ class RegistrationKeyController extends Controller
     public function create(Request $request)
     {
         //
-        // dd($request);
         $request->validate([
             'user_type_ID' => 'required|string|max:255',
             'input_userkey' => 'required',
