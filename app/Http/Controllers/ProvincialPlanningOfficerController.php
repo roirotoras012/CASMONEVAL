@@ -169,6 +169,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -206,6 +209,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('annual_targets.province_ID', '=', $user->province_ID)
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
                 ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
                 
@@ -664,6 +670,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -701,6 +710,9 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where('annual_targets.province_ID', '=', $user->province_ID)
                 ->where(function ($query) {
                     $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
                 ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
                 
@@ -882,6 +894,24 @@ class ProvincialPlanningOfficerController extends Controller
                     }
                 }
                 
+            }
+            if($monthly_target2->first()->type == 'PERCENTAGE'){
+
+                $monthly_target2->total_targets = $monthly_target2->total_targets/12;
+            $monthly_target2->first_sem = $monthly_target2->first_sem/6;
+            $monthly_target2->second_sem = $monthly_target2->second_sem/6;
+            $monthly_target2->first_qrtr = $monthly_target2->first_qrtr/3;
+            $monthly_target2->second_qrtr = $monthly_target2->third_qrtr/3;
+            $monthly_target2->third_qrtr = $monthly_target2->third_qrtr/3;
+            $monthly_target2->fourth_qrtr = $monthly_target2->fourth_qrtr/3;
+
+            $monthly_target2->total_accom =  $monthly_target2->total_accom/12;
+            $monthly_target2->first_sem_accom =  $monthly_target2->first_sem_accom/6;
+            $monthly_target2->second_sem_accom =  $monthly_target2->second_sem_accom/6;
+            $monthly_target2->first_qrtr_accom = $monthly_target2->first_qrtr_accom/3;
+            $monthly_target2->second_qrtr_accom = $monthly_target2->second_qrtr_accom/3;
+            $monthly_target2->third_qrtr_accom = $monthly_target2->third_qrtr_accom/3;
+            $monthly_target2->fourth_qrtr_accom = $monthly_target2->fourth_qrtr_accom/3;
             }
         }
         // dd($monthly_targets2);
@@ -1202,6 +1232,7 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
+                
                 $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
 
                 if ($target->validated != 'Validated') {
@@ -1235,7 +1266,15 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
 
-            $monthly_target->annual_accom = $annual_accom;
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
+            
             if ($validated = true) {
                 if (count($monthly_target) < 12) {
                     $monthly_target->validated = false;
@@ -1382,7 +1421,14 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 11;
                 }
             }
-            $monthly_target->annual_accom = $annual_accom;
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
             if ($validated = true) {
                 if (count($monthly_target) < 12) {
                     $monthly_target->validated = false;
@@ -1529,7 +1575,14 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 11;
                 }
             }
-            $monthly_target->annual_accom = $annual_accom;
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
             if ($validated = true) {
                 if (count($monthly_target) < 12) {
                     $monthly_target->validated = false;

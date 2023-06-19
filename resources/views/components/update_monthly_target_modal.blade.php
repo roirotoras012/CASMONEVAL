@@ -1,6 +1,6 @@
 <!-- Modal -->
 {{-- @props(['month', 'annual_target', 'division_ID']) --}}
-@props(['month', 'division_ID', 'annual_target', 'monthly_target_ID'])
+@props(['month', 'division_ID', 'annual_target', 'monthly_target_ID', 'target_type'])
 
 
 
@@ -18,6 +18,7 @@
                         <input type="hidden" name="annual_target_ID" value="{{$annual_target}}">
                         <input type="hidden" name="division_ID" value="{{$division_ID}}">
                         <input type="hidden" name="month" value="{{$month}}">
+                        <input type="hidden" name="target_type" value="{{$target_type}}">
                         {{-- <input type="hidden" name="monthly_target_ID" value="{{$monthly_target_ID}}"> --}}
                         {{-- <input type="hidden" name="year" value="2032"> --}}
 

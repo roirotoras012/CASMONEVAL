@@ -135,7 +135,34 @@
 
                                             </td>
                                             @php
+                                               if($label->target_type == 'PERCENTAGE'){
+                                                $counter = 0;
+                                                if (isset($label->BUK)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->CAM)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->LDN)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->MISOR)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                if (isset($label->MISOC)) {
+                                                    # code...
+                                                    $counter++;
+                                                }
+                                                $total = ($label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC) / $counter;
+                                            }
+                                            else{
+
                                                 $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
+                                            }
                                             @endphp
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][total_targets]">

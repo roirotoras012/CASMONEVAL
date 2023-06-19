@@ -82,6 +82,7 @@ class DivisionChiefController extends Controller
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
             'month' => 'required',
+            'target_type',
         ]);
 
         // Get the annual target for the given annual_target_ID
@@ -91,11 +92,11 @@ class DivisionChiefController extends Controller
         $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])->sum('monthly_target');
 
         // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Monthly target exceeds the annual target.');
-        }
+        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('alert', 'Monthly target exceeds the annual target.');
+        // }
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
 
@@ -103,7 +104,8 @@ class DivisionChiefController extends Controller
         $monthlyTarget->annual_target_ID = $validatedData['annual_target_ID'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
-
+        
+        $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type']: null;
         $monthlyTarget->save();
 
         return redirect()
@@ -133,11 +135,11 @@ class DivisionChiefController extends Controller
             ->sum('monthly_target');
 
         // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Monthly target exceeds the annual target.');
-        }
+        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('alert', 'Monthly target exceeds the annual target.');
+        // }
 
         // Update the monthly target
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];
@@ -378,6 +380,9 @@ class DivisionChiefController extends Controller
                         ->orWhere('strategic_measures.type', '=', 'MANDATORY')
                         ->orWhere('strategic_measures.type', '=', 'INDIRECT');
                 })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
                 ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
                 ->having('total_accomplishment', '<>', 0)
                 ->get();
@@ -416,6 +421,10 @@ class DivisionChiefController extends Controller
             }
             $valid_meas2 = [0,0,0,0,0,0,0,0,0,0,0,0];
             $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+            ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
             ->where('annual_targets.province_ID', $user->province_ID)
             ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
             ->where('annual_targets.division_ID', $user->division_ID)

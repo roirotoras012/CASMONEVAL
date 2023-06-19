@@ -202,6 +202,9 @@
                                                         <td class="text-center align-middle">
                                                             @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
                                                                 <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
+                                                                    @if ($annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->type == 'PERCENTAGE')
+                                                                        %
+                                                                    @endif
                                                                 </p>
                                                             @else
                                                                 <p>N/A</p>
@@ -232,8 +235,8 @@
                                                                     @php
                                                                         $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment;
                                                                         $monthly_target = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target;
-                                                                        
-                                                                        if ($monthly_target != 0) {
+                                                                    //    dd($measures_list);
+                                                                        if ($monthly_target != 0 && $measures_list[$measure->strategic_measures_ID]->first()->is_sub != 1) {
                                                                             $ratio = ($monthly_accomplishment / $monthly_target) * 100;
                                                                         
                                                                             if ($ratio >= 90) {
@@ -258,7 +261,11 @@
                                                                                     {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
                                                                                 </a>
                                                                                 <span>out of
-                                                                                    <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                                    <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                        @if ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->type == 'PERCENTAGE')
+                                                                                            %
+                                                                                        @endif
+                                                                                    </b></span>
 
                                                                                 <x-update_monthly_accom_modal
                                                                                     :month="strtolower(
@@ -280,7 +287,10 @@
                                                                             @else
                                                                             <span style="<?php if ($monthly_accomplishment < ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target * 0.9)) { ?> color: red; <?php } ?>">
                                                                                 {{ $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                                <span>out of <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                                <span>out of <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                    @if ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->type == 'PERCENTAGE')
+                                                                                    %
+                                                                                @endif</b></span>
                                                                             </span>
                                                                             
                                                                             </span>
@@ -294,7 +304,10 @@
                                                                         <td class="text-center align-middle bg-danger text-white">
                                                                             {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
                                                                             <span>out of
-                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                    @if ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->type == 'PERCENTAGE')
+                                                                                    %
+                                                                                @endif</b></span>
                                                                         </td>
                                                                     @endif
                                                                 @else
@@ -307,7 +320,10 @@
                                                                                 N/A
                                                                             </a>
                                                                             <span>out of
-                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}</b></span>
+                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                    @if ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->type == 'PERCENTAGE')
+                                                                                    %
+                                                                                @endif</b></span>
                                                                         </td>
                                                                     @else
                                                                         <td class="text-center align-middle bg-danger text-white">N/A</td>

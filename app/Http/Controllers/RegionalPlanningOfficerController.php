@@ -200,6 +200,8 @@ class RegionalPlanningOfficerController extends Controller
 
     public function add_targets(Request $request)
     {
+
+        // dd($request->data);
         $annual_targets = $request->data;
         $opcr = new Opcr();
         $opcr->year = $request->year;
@@ -214,6 +216,8 @@ class RegionalPlanningOfficerController extends Controller
                     $buk_target = $annual_target['BUK'];
                     $buk_strategic_objective = $annual_target['strategic_objective'];
                     $buk_strategic_measure = $annual_target['strategic_measure'];
+                    // dd($annual_target['buk_target_type']);
+                    $target_type = isset($annual_target['buk_target_type']) ? 'PERCENTAGE' : null;
                     $target = new AnnualTarget();
                     try {
                         if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -230,7 +234,10 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 1;
                                 $target->division_ID = $measure1->division_ID;
+                                $target->type = $target_type;
+                                
                                 $target->opcr_id = $opcr->opcr_ID;
+                             
                                 $target->save();
                             }
                         } else {
@@ -241,7 +248,9 @@ class RegionalPlanningOfficerController extends Controller
 
                             $target->province_ID = 1;
                             $target->division_ID = $annual_target['division_ID'];
+                            $target->type = $target_type;
                             $target->opcr_id = $opcr->opcr_ID;
+                            
                             $target->save();
                         }
                     } catch (Exception $e) {
@@ -251,7 +260,7 @@ class RegionalPlanningOfficerController extends Controller
                     $cam_target = $annual_target['CAM'];
                     $cam_strategic_objective = $annual_target['strategic_objective'];
                     $cam_strategic_measure = $annual_target['strategic_measure'];
-
+                    $target_type = isset($annual_target['cam_target_type']) ? 'PERCENTAGE' : null;
                     $target = new AnnualTarget();
                     try {
                         if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -268,6 +277,7 @@ class RegionalPlanningOfficerController extends Controller
 
                                 $target->province_ID = 5;
                                 $target->division_ID = $measure1->division_ID;
+                                $target->type = $target_type;
                                 $target->opcr_id = $opcr->opcr_ID;
                                 $target->save();
                             }
@@ -276,7 +286,7 @@ class RegionalPlanningOfficerController extends Controller
                             $target->strategic_measures_ID = $cam_strategic_measure;
                             $target->strategic_objectives_ID = $cam_strategic_objective;
                             $target->annual_target = $cam_target;
-
+                            $target->type = $target_type;
                             $target->province_ID = 5;
                             $target->division_ID = $annual_target['division_ID'];
                             $target->opcr_id = $opcr->opcr_ID;
@@ -289,6 +299,7 @@ class RegionalPlanningOfficerController extends Controller
                     $ldn_target = $annual_target['LDN'];
                     $ldn_strategic_objective = $annual_target['strategic_objective'];
                     $ldn_strategic_measure = $annual_target['strategic_measure'];
+                    $target_type = isset($annual_target['ldn_target_type']) ? 'PERCENTAGE' : null;
                     $target = new AnnualTarget();
                     try {
                         if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -302,7 +313,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                 $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                 $target->annual_target = $ldn_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 2;
                                 $target->division_ID = $measure1->division_ID;
                                 $target->opcr_id = $opcr->opcr_ID;
@@ -313,7 +324,7 @@ class RegionalPlanningOfficerController extends Controller
                             $target->strategic_measures_ID = $ldn_strategic_measure;
                             $target->strategic_objectives_ID = $ldn_strategic_objective;
                             $target->annual_target = $ldn_target;
-
+                            $target->type = $target_type;
                             $target->province_ID = 2;
                             $target->division_ID = $annual_target['division_ID'];
                             $target->opcr_id = $opcr->opcr_ID;
@@ -326,6 +337,7 @@ class RegionalPlanningOfficerController extends Controller
                     $misor_target = $annual_target['MISOR'];
                     $misor_strategic_objective = $annual_target['strategic_objective'];
                     $misor_strategic_measure = $annual_target['strategic_measure'];
+                    $target_type = isset($annual_target['misor_target_type']) ? 'PERCENTAGE' : null;
                     $target = new AnnualTarget();
                     try {
                         if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -339,7 +351,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                 $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                 $target->annual_target = $misor_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 3;
                                 $target->division_ID = $measure1->division_ID;
                                 $target->opcr_id = $opcr->opcr_ID;
@@ -350,7 +362,7 @@ class RegionalPlanningOfficerController extends Controller
                             $target->strategic_measures_ID = $misor_strategic_measure;
                             $target->strategic_objectives_ID = $misor_strategic_objective;
                             $target->annual_target = $misor_target;
-
+                            $target->type = $target_type;
                             $target->province_ID = 3;
                             $target->division_ID = $annual_target['division_ID'];
                             $target->opcr_id = $opcr->opcr_ID;
@@ -363,6 +375,7 @@ class RegionalPlanningOfficerController extends Controller
                     $misoc_target = $annual_target['MISOC'];
                     $misoc_strategic_objective = $annual_target['strategic_objective'];
                     $misoc_strategic_measure = $annual_target['strategic_measure'];
+                    $target_type = isset($annual_target['misoc_target_type']) ? 'PERCENTAGE' : null;
                     $target = new AnnualTarget();
                     try {
                         if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -376,7 +389,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                 $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                 $target->annual_target = $misoc_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 4;
                                 $target->division_ID = $measure1->division_ID;
                                 $target->opcr_id = $opcr->opcr_ID;
@@ -387,7 +400,7 @@ class RegionalPlanningOfficerController extends Controller
                             $target->strategic_measures_ID = $misoc_strategic_measure;
                             $target->strategic_objectives_ID = $misoc_strategic_objective;
                             $target->annual_target = $misoc_target;
-
+                            $target->type = $target_type;
                             $target->province_ID = 4;
                             $target->division_ID = $annual_target['division_ID'];
                             $target->opcr_id = $opcr->opcr_ID;
@@ -481,6 +494,7 @@ class RegionalPlanningOfficerController extends Controller
                 ->groupBy(['annual_target_ID']);
             foreach ($monthly_targets as $monthly_target) {
                 // echo "annual target ID: {$annual_target_ID}<br>";
+               
                 if ($monthly_target) {
                 }
 
@@ -491,7 +505,14 @@ class RegionalPlanningOfficerController extends Controller
                     $annual_accom = intval($target->monthly_accomplishment) + intval($annual_accom);
                 }
 
-                $monthly_target->annual_accom = $annual_accom;
+                
+                
+                if($monthly_target->first()->type == 'PERCENTAGE'){
+                    $monthly_target->annual_accom = $annual_accom / count($monthly_target);  
+                }
+                else{
+                    $monthly_target->annual_accom = $annual_accom;
+                }
                 $monthly_target->validated = $validated;
             }
         } else {
@@ -510,22 +531,27 @@ class RegionalPlanningOfficerController extends Controller
                     if ($target->province_ID == 1) {
                         $label['BUK'] = $target->annual_target;
                         $label['BUK_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 2) {
                         $label['LDN'] = $target->annual_target;
                         $label['LDN_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 3) {
                         $label['MISOR'] = $target->annual_target;
                         $label['MISOR_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 4) {
                         $label['MISOC'] = $target->annual_target;
                         $label['MISOC_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                     if ($target->province_ID == 5) {
                         $label['CAM'] = $target->annual_target;
                         $label['CAM_target'] = $target->annual_target_ID;
+                        $label['target_type'] = $target->type;
                     }
                 } else {
                 }
@@ -639,7 +665,7 @@ class RegionalPlanningOfficerController extends Controller
                 }
             }
         }
-
+        
         $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
 
             ->where('annual_targets.opcr_ID', '=', $opcr_id)
@@ -722,8 +748,29 @@ class RegionalPlanningOfficerController extends Controller
                         $monthly_target2->fourth_qrtr += $target2->monthly_target;
                     }
                 }
-            }
 
+
+            }
+            
+            if($monthly_target2->first()->type == 'PERCENTAGE'){
+           
+            $monthly_target2->total_targets = (($monthly_target2->total_targets)/12 )/ 5;
+        $monthly_target2->first_sem = ($monthly_target2->first_sem/6) / 5;
+        $monthly_target2->second_sem = ($monthly_target2->second_sem/6/5);
+        $monthly_target2->first_qrtr = ($monthly_target2->first_qrtr/3)/5;
+        $monthly_target2->second_qrtr = ($monthly_target2->third_qrtr/3)/5;
+        $monthly_target2->third_qrtr = ($monthly_target2->third_qrtr/3)/5;
+        $monthly_target2->fourth_qrtr = ($monthly_target2->fourth_qrtr/3)/5;
+
+        $monthly_target2->total_accom =  ($monthly_target2->total_accom/12)/5;
+        $monthly_target2->first_sem_accom =  ($monthly_target2->first_sem_accom/6)/5;
+        $monthly_target2->second_sem_accom =  ($monthly_target2->second_sem_accom/6)/5;
+        $monthly_target2->first_qrtr_accom = ($monthly_target2->first_qrtr_accom/3)/5;
+        $monthly_target2->second_qrtr_accom = ($monthly_target2->second_qrtr_accom/3)/5;
+        $monthly_target2->third_qrtr_accom = ($monthly_target2->third_qrtr_accom/3)/5;
+        $monthly_target2->fourth_qrtr_accom = ($monthly_target2->fourth_qrtr_accom/3)/5;
+        }
+            // dd($monthly_target2);
             # code...
         }
         // dd($labels);
@@ -735,31 +782,50 @@ class RegionalPlanningOfficerController extends Controller
 
         $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
             ->where('annual_targets.opcr_ID', $opcr_id)
+           
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
-            ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
-
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
+          
+            ->select('strategic_measures.is_sub','annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
+        
             ->get()
             ->groupBy('strategic_measures_ID');
-        // dd($total_number_of_valid_measures);
+            
+    
         $total_number_of_accomplished_measure = 0;
         foreach ($total_number_of_valid_measures as $total_number_of_valid_measure) {
             $total_number_of_valid_measure->total_accom = 0;
             $total_number_of_valid_measure->total_target = 0;
             foreach ($total_number_of_valid_measure as $acc_meas) {
+                
                 $total_number_of_valid_measure->total_accom += $acc_meas->total_accomplishment;
                 $total_number_of_valid_measure->total_target += $acc_meas->annual_target;
                 // if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
                 //     $total_number_of_accomplished_measure++;
                 // }
+              if($acc_meas->type == 'PERCENTAGE'){
+                $total_number_of_valid_measure->target_type = 'PERCENTAGE';
+              }
+              else{
+                $total_number_of_valid_measure->target_type = null;
+              }
+            }
+           
+            if($total_number_of_valid_measure->target_type == 'PERCENTAGE'){
+                
+                $total_number_of_valid_measure->total_target = $total_number_of_valid_measure->total_target / count($total_number_of_valid_measure);
+                $total_number_of_valid_measure->total_accom = ($total_number_of_valid_measure->total_accom / 12)/count($total_number_of_valid_measure);
             }
 
             if (($total_number_of_valid_measure->total_accom / $total_number_of_valid_measure->total_target) * 100 >= 90) {
                 $total_number_of_accomplished_measure++;
             }
         }
-
+        // dd($total_number_of_valid_measures[495]);    
         $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
             ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
             ->where('annual_targets.opcr_ID', $opcr_id)
@@ -767,11 +833,14 @@ class RegionalPlanningOfficerController extends Controller
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
             ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
             
             ->get()
             ->groupBy('strategic_measures_ID');
-
+     
         $valid_meas[0]['val'] = 0;
         
         $valid_meas[1]['val']= 0;
@@ -850,6 +919,7 @@ class RegionalPlanningOfficerController extends Controller
                 
             }
         }
+        
             // dd($total_number_of_valid_measures2);
         //  dd($valid_meas);
         // dd($total_number_of_accomplished_measure);
@@ -906,7 +976,7 @@ class RegionalPlanningOfficerController extends Controller
         $annual_targets = $request->data;
         $opcr_id = $request->opcr_id;
         // var_dump( $annual_targets);
-
+        // dd($annual_targets);
         if ($request->submit == 'update') {
             if ($opcr_id) {
                 var_dump(count($annual_targets));
@@ -915,6 +985,7 @@ class RegionalPlanningOfficerController extends Controller
                         $buk_target = $annual_target['BUK'];
                         $buk_strategic_objective = $annual_target['strategic_objective'];
                         $buk_strategic_measure = $annual_target['strategic_measure'];
+                        $target_type = isset($annual_target['buk_target_type']) ? 'PERCENTAGE' : null;
                         $target = new AnnualTarget();
                         try {
                             if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -928,7 +999,7 @@ class RegionalPlanningOfficerController extends Controller
                                     $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                     $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                     $target->annual_target = $buk_target;
-
+                                    $target->type = $target_type;
                                     $target->province_ID = 1;
                                     $target->division_ID = $measure1->division_ID;
                                     $target->opcr_id = $opcr_id;
@@ -939,7 +1010,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $buk_strategic_measure;
                                 $target->strategic_objectives_ID = $buk_strategic_objective;
                                 $target->annual_target = $buk_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 1;
                                 $target->division_ID = $annual_target['division_ID'];
                                 $target->opcr_id = $opcr_id;
@@ -952,7 +1023,7 @@ class RegionalPlanningOfficerController extends Controller
                         $cam_target = $annual_target['CAM'];
                         $cam_strategic_objective = $annual_target['strategic_objective'];
                         $cam_strategic_measure = $annual_target['strategic_measure'];
-
+                        $target_type = isset($annual_target['cam_target_type']) ? 'PERCENTAGE' : null;
                         $target = new AnnualTarget();
                         try {
                             if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -966,7 +1037,7 @@ class RegionalPlanningOfficerController extends Controller
                                     $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                     $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                     $target->annual_target = $cam_target;
-
+                                    $target->type = $target_type;
                                     $target->province_ID = 5;
                                     $target->division_ID = $measure1->division_ID;
                                     $target->opcr_id = $opcr_id;
@@ -977,7 +1048,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $cam_strategic_measure;
                                 $target->strategic_objectives_ID = $cam_strategic_objective;
                                 $target->annual_target = $cam_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 5;
                                 $target->division_ID = $annual_target['division_ID'];
                                 $target->opcr_id = $opcr_id;
@@ -990,6 +1061,7 @@ class RegionalPlanningOfficerController extends Controller
                         $ldn_target = $annual_target['LDN'];
                         $ldn_strategic_objective = $annual_target['strategic_objective'];
                         $ldn_strategic_measure = $annual_target['strategic_measure'];
+                        $target_type = isset($annual_target['ldn_target_type']) ? 'PERCENTAGE' : null;
                         $target = new AnnualTarget();
                         try {
                             if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -1003,7 +1075,7 @@ class RegionalPlanningOfficerController extends Controller
                                     $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                     $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                     $target->annual_target = $ldn_target;
-
+                                    $target->type = $target_type;
                                     $target->province_ID = 2;
                                     $target->division_ID = $measure1->division_ID;
                                     $target->opcr_id = $opcr_id;
@@ -1014,7 +1086,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $ldn_strategic_measure;
                                 $target->strategic_objectives_ID = $ldn_strategic_objective;
                                 $target->annual_target = $ldn_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 2;
                                 $target->division_ID = $annual_target['division_ID'];
                                 $target->opcr_id = $opcr_id;
@@ -1027,6 +1099,7 @@ class RegionalPlanningOfficerController extends Controller
                         $misor_target = $annual_target['MISOR'];
                         $misor_strategic_objective = $annual_target['strategic_objective'];
                         $misor_strategic_measure = $annual_target['strategic_measure'];
+                        $target_type = isset($annual_target['misor_target_type']) ? 'PERCENTAGE' : null;
                         $target = new AnnualTarget();
                         try {
                             if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -1040,7 +1113,7 @@ class RegionalPlanningOfficerController extends Controller
                                     $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                     $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                     $target->annual_target = $misor_target;
-
+                                    $target->type = $target_type;
                                     $target->province_ID = 3;
                                     $target->division_ID = $measure1->division_ID;
                                     $target->opcr_id = $opcr_id;
@@ -1051,7 +1124,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $misor_strategic_measure;
                                 $target->strategic_objectives_ID = $misor_strategic_objective;
                                 $target->annual_target = $misor_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 3;
                                 $target->division_ID = $annual_target['division_ID'];
                                 $target->opcr_id = $opcr_id;
@@ -1064,6 +1137,7 @@ class RegionalPlanningOfficerController extends Controller
                         $misoc_target = $annual_target['MISOC'];
                         $misoc_strategic_objective = $annual_target['strategic_objective'];
                         $misoc_strategic_measure = $annual_target['strategic_measure'];
+                        $target_type = isset($annual_target['misoc_target_type']) ? 'PERCENTAGE' : null;
                         $target = new AnnualTarget();
                         try {
                             if ($annual_target['type'] == 'DIRECT MAIN') {
@@ -1077,7 +1151,7 @@ class RegionalPlanningOfficerController extends Controller
                                     $target->strategic_measures_ID = $measure1->strategic_measure_ID;
                                     $target->strategic_objectives_ID = $measure1->strategic_objective_ID;
                                     $target->annual_target = $misoc_target;
-
+                                    $target->type = $target_type;
                                     $target->province_ID = 4;
                                     $target->division_ID = $measure1->division_ID;
                                     $target->opcr_id = $opcr_id;
@@ -1088,7 +1162,7 @@ class RegionalPlanningOfficerController extends Controller
                                 $target->strategic_measures_ID = $misoc_strategic_measure;
                                 $target->strategic_objectives_ID = $misoc_strategic_objective;
                                 $target->annual_target = $misoc_target;
-
+                                $target->type = $target_type;
                                 $target->province_ID = 4;
                                 $target->division_ID = $annual_target['division_ID'];
                                 $target->opcr_id = $opcr_id;
@@ -1203,7 +1277,7 @@ class RegionalPlanningOfficerController extends Controller
         }
         else if($request->submit == 'update_target'){
             // dd($request);
-
+        
             $validatedData = $request->validate([
                 'new_target' => 'required',
                 'target_id' => 'required',
@@ -1218,6 +1292,7 @@ class RegionalPlanningOfficerController extends Controller
             }
         
             // Update the annual_target column
+            $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
             $annualTarget->annual_target = $validatedData['new_target'];
             $annualTarget->save();
         
@@ -1272,7 +1347,13 @@ class RegionalPlanningOfficerController extends Controller
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
         $number_measure = $request->get('number_measure');
-
+        if($request->get('sub_measure') == 'on'){
+        $is_sub = 1;
+        }
+        else{
+            $is_sub = null;
+        }
+       
         // dd($request->accountable_division);
         if ($divisions) {
             if (count($divisions) > 1) {
@@ -1289,7 +1370,7 @@ class RegionalPlanningOfficerController extends Controller
                     $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                     $strategic_measure_enity->division_ID = $division;
                     $strategic_measure_enity->number_measure = $number_measure;
-
+                    $strategic_measure_enity->is_sub = $is_sub;
                     if ($request->accountable_division == $division) {
                         $strategic_measure_enity->type = 'DIRECT MAIN';
                     } else {
@@ -1306,7 +1387,7 @@ class RegionalPlanningOfficerController extends Controller
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->type = 'DIRECT';
                 $strategic_measure_enity->number_measure = $number_measure;
-
+                $strategic_measure_enity->is_sub = $is_sub;
                 $strategic_measure_enity->save();
             }
         } else {
@@ -1518,6 +1599,7 @@ class RegionalPlanningOfficerController extends Controller
 
     public function updateAnnual(Request $request)
     {
+
         $validatedData = $request->validate([
             'prov_val' => 'required',
             'prov_target' => 'required',
