@@ -748,8 +748,29 @@ class RegionalPlanningOfficerController extends Controller
                         $monthly_target2->fourth_qrtr += $target2->monthly_target;
                     }
                 }
-            }
 
+
+            }
+            
+            if($monthly_target2->first()->type == 'PERCENTAGE'){
+           
+            $monthly_target2->total_targets = (($monthly_target2->total_targets)/12 )/ 5;
+        $monthly_target2->first_sem = ($monthly_target2->first_sem/6) / 5;
+        $monthly_target2->second_sem = ($monthly_target2->second_sem/6/5);
+        $monthly_target2->first_qrtr = ($monthly_target2->first_qrtr/3)/5;
+        $monthly_target2->second_qrtr = ($monthly_target2->third_qrtr/3)/5;
+        $monthly_target2->third_qrtr = ($monthly_target2->third_qrtr/3)/5;
+        $monthly_target2->fourth_qrtr = ($monthly_target2->fourth_qrtr/3)/5;
+
+        $monthly_target2->total_accom =  ($monthly_target2->total_accom/12)/5;
+        $monthly_target2->first_sem_accom =  ($monthly_target2->first_sem_accom/6)/5;
+        $monthly_target2->second_sem_accom =  ($monthly_target2->second_sem_accom/6)/5;
+        $monthly_target2->first_qrtr_accom = ($monthly_target2->first_qrtr_accom/3)/5;
+        $monthly_target2->second_qrtr_accom = ($monthly_target2->second_qrtr_accom/3)/5;
+        $monthly_target2->third_qrtr_accom = ($monthly_target2->third_qrtr_accom/3)/5;
+        $monthly_target2->fourth_qrtr_accom = ($monthly_target2->fourth_qrtr_accom/3)/5;
+        }
+            // dd($monthly_target2);
             # code...
         }
         // dd($labels);
@@ -761,31 +782,50 @@ class RegionalPlanningOfficerController extends Controller
 
         $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
             ->where('annual_targets.opcr_ID', $opcr_id)
+           
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
-            ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
-
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
+          
+            ->select('strategic_measures.is_sub','annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
+        
             ->get()
             ->groupBy('strategic_measures_ID');
-        // dd($total_number_of_valid_measures);
+            
+    
         $total_number_of_accomplished_measure = 0;
         foreach ($total_number_of_valid_measures as $total_number_of_valid_measure) {
             $total_number_of_valid_measure->total_accom = 0;
             $total_number_of_valid_measure->total_target = 0;
             foreach ($total_number_of_valid_measure as $acc_meas) {
+                
                 $total_number_of_valid_measure->total_accom += $acc_meas->total_accomplishment;
                 $total_number_of_valid_measure->total_target += $acc_meas->annual_target;
                 // if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 > 90) {
                 //     $total_number_of_accomplished_measure++;
                 // }
+              if($acc_meas->type == 'PERCENTAGE'){
+                $total_number_of_valid_measure->target_type = 'PERCENTAGE';
+              }
+              else{
+                $total_number_of_valid_measure->target_type = null;
+              }
+            }
+           
+            if($total_number_of_valid_measure->target_type == 'PERCENTAGE'){
+                
+                $total_number_of_valid_measure->total_target = $total_number_of_valid_measure->total_target / count($total_number_of_valid_measure);
+                $total_number_of_valid_measure->total_accom = ($total_number_of_valid_measure->total_accom / 12)/count($total_number_of_valid_measure);
             }
 
             if (($total_number_of_valid_measure->total_accom / $total_number_of_valid_measure->total_target) * 100 >= 90) {
                 $total_number_of_accomplished_measure++;
             }
         }
-
+        // dd($total_number_of_valid_measures[495]);    
         $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
             ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
             ->where('annual_targets.opcr_ID', $opcr_id)
@@ -793,11 +833,14 @@ class RegionalPlanningOfficerController extends Controller
             ->where(function ($query) {
                 $query->where('strategic_measures.type', '=', 'DIRECT')->orWhere('strategic_measures.type', '=', 'DIRECT MAIN');
             })
+            ->where(function ($query) {
+                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+            })
             ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
             
             ->get()
             ->groupBy('strategic_measures_ID');
-
+     
         $valid_meas[0]['val'] = 0;
         
         $valid_meas[1]['val']= 0;
@@ -876,6 +919,7 @@ class RegionalPlanningOfficerController extends Controller
                 
             }
         }
+        
             // dd($total_number_of_valid_measures2);
         //  dd($valid_meas);
         // dd($total_number_of_accomplished_measure);
@@ -1303,7 +1347,13 @@ class RegionalPlanningOfficerController extends Controller
         $divisions = $request->get('division');
         $strategic_measure = $request->get('strategic_measure');
         $number_measure = $request->get('number_measure');
-
+        if($request->get('sub_measure') == 'on'){
+        $is_sub = 1;
+        }
+        else{
+            $is_sub = null;
+        }
+       
         // dd($request->accountable_division);
         if ($divisions) {
             if (count($divisions) > 1) {
@@ -1320,7 +1370,7 @@ class RegionalPlanningOfficerController extends Controller
                     $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                     $strategic_measure_enity->division_ID = $division;
                     $strategic_measure_enity->number_measure = $number_measure;
-
+                    $strategic_measure_enity->is_sub = $is_sub;
                     if ($request->accountable_division == $division) {
                         $strategic_measure_enity->type = 'DIRECT MAIN';
                     } else {
@@ -1337,7 +1387,7 @@ class RegionalPlanningOfficerController extends Controller
                 $strategic_measure_enity->strategic_objective_ID = $request->strategic_objective_ID;
                 $strategic_measure_enity->type = 'DIRECT';
                 $strategic_measure_enity->number_measure = $number_measure;
-
+                $strategic_measure_enity->is_sub = $is_sub;
                 $strategic_measure_enity->save();
             }
         } else {
