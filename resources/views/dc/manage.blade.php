@@ -42,11 +42,15 @@
                 {{-- add driver --}}
                 <div class="p-3">
                     <div class="d-flex justify-content-between align-items-center p-2">
-                        <h3>Select a KPI Driver</h3>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addKpi">
-                            Add KPI Driver
+                        <div><h3>Select a Operational Driver</h3></div>
+                        <div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addKpi">
+                            <i class="fas fa-plus"></i> Add Operational Driver
                         </button>
-                        
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteKpi">
+                            <i class="fa-solid fa-trash"></i> Delete Operational Driver
+                        </button>
+                    </div>
                     </div>
 
                     
@@ -258,6 +262,7 @@
         
 
 <x-add_driver_form />
+<x-delete_driver_form :drivers="$drivers->sortByDesc('driver_ID')"/>
 <x-add_indirect_measure_form />
 <x-add_mandatory_measure_form />
 

@@ -883,7 +883,24 @@ class DivisionChiefController extends Controller
         $driver->save();
 
         return redirect()->route('dc.manage')
-        ->with('success', 'Transaction Completed');
+        ->with('success', 'Driver successfully Added');
+    }
+
+    public function delete_driver_only(Request $request) {
+        $driverId = $request->input('driver_ID');
+
+        $driver = Driver::find($driverId);
+
+        if ($driver) {
+
+            $driver->delete();
+            
+            return redirect()->back()->with('success', 'Driver deleted successfully');
+            dd($driver);
+        }
+
+        return redirect()->back()->with('error', 'Driver not found');
+        
     }
 
     public function add_indirect_measure(Request $request) {

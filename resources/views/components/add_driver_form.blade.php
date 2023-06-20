@@ -5,7 +5,7 @@
         <form method="POST" action="{{ route('dc.add_driver_only') }}">
             @csrf
         <div class="modal-header">
-          <h5 class="modal-title" id="addKpiLabel">Add KPI Driver</h5>
+          <h5 class="modal-title" id="addKpiLabel">Add Operational Driver</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -13,8 +13,8 @@
         
         <div class="modal-body">
             <div class="form-group">
-                <label for="KPI Driver">KPI Driver</label>
-                <input type="text" class="form-control" id="KPI Driver" aria-describedby="emailHelp" placeholder="KPI Driver" name="driver">
+                <label for="KPI Driver">Operational Driver</label>
+                <input type="text" class="form-control" id="KPI Driver" aria-describedby="emailHelp" placeholder="Operational Driver" name="driver">
               </div>
         </div>
         <div class="modal-footer">
