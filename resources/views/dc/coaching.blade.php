@@ -57,8 +57,12 @@
                                     @if ($eva->remark == null)
                                         <td>No remarks yet</td>
                                     @else
-                                        <td>{{ $eva->remark }}</td>
+                                        <td class="text-center"
+                                            style="background-color: {{ $eva->remark == 'Approve' ? 'green' : ($eva->remark == 'Revise' ? 'red' : 'inherit') }}">
+                                            <a href="/dc/accomplishment" style="color: #fff;">{{ $eva->remark }}</a>
+                                        </td>
                                     @endif
+
                                 </tr>
                             @endforeach
                         </tbody>

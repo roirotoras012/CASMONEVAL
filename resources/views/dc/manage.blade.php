@@ -47,7 +47,7 @@
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addKpi">
                             <i class="fas fa-plus"></i> Add Operational Driver
                         </button>
-                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editDriver">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editDriver">
                             <i class="fas fa-edit"></i> Edit Operational Driver
                         </button>
                     </div>

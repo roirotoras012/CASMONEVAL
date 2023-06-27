@@ -248,12 +248,14 @@
                                                                         }
                                                                         
                                                                     @endphp
+                                                                    {{-- {{dd($remarks)}} --}}
                                                                     @if (!$cutoff[$i - 1])
+                                                                    
                                                                         <td class="text-center align-middle">
                                                                             @if (
                                                                                 $monthly_targets[strtolower($month->format('M'))][
                                                                                     $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                ]->first()->validated == 'Invalid')
+                                                                                ]->first()->validated == 'Invalid' || $remarks == 'Revise')
                                                                                 <a href="#" data-bs-toggle="modal"
                                                                                     data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
                                                                                     id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"

@@ -343,8 +343,7 @@ class DivisionChiefController extends Controller
             ->orderBy('province_ID')
             ->get();
 
-        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
-        ->get(['drivers.*', 'divisions.division']);
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')->get(['drivers.*', 'divisions.division']);
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division')
             ->get();
@@ -498,6 +497,16 @@ class DivisionChiefController extends Controller
                 ->get();
         }
 
+        $evaluations = Evaluation::all();
+
+        $remarks = [];
+
+        foreach ($evaluations as $evaluation) {
+            $remark = $evaluation->remark;
+            $remarks[] = $remark;
+        }
+        // dd($evaluations);
+
         $cutoff = [];
 
         if (count($opcrs_active) != 0) {
@@ -578,7 +587,7 @@ class DivisionChiefController extends Controller
             // dd($cutoff);
         }
 
-        return view('dc.accomplishment', compact('measures', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs', 'valid_meas2'));
+        return view('dc.accomplishment', compact('measures', 'evaluations', 'remarks', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs', 'valid_meas2'));
     }
 
     public function profile()
