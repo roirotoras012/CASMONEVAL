@@ -75,28 +75,21 @@ class DivisionChiefController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
-        // $monthly_target_id = $request->input('monthly_target_ID');
         $validatedData = $request->validate([
-            'monthly_target' => 'required',
+            'monthly_target' => 'required|numeric|min:0',
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
             'month' => 'required',
             'target_type',
         ]);
 
-        // Get the annual target for the given annual_target_ID
-        $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
+        // Ensure no letters are present in the monthly target value
+        if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
+            return redirect()
+                ->back()
+                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+        }
 
-        // Get the sum of monthly targets for the given annual_target_ID
-        $monthlyTargetSum = MonthlyTarget::where('annual_target_ID', $validatedData['annual_target_ID'])->sum('monthly_target');
-
-        // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('alert', 'Monthly target exceeds the annual target.');
-        // }
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
 
@@ -110,18 +103,25 @@ class DivisionChiefController extends Controller
 
         return redirect()
             ->route('dc.bukidnunBddIndex')
-            ->with('success', 'Annual Target successfully!');
+            ->with('success', 'Annual Target successfully added!');
     }
 
     public function updateTar(Request $request)
     {
         $validatedData = $request->validate([
             'monthly_target_ID' => 'required',
-            'monthly_target' => 'required',
+            'monthly_target' => 'required|numeric|min:0',
             'annual_target_ID' => 'required',
             'division_ID' => 'required',
             'month' => 'required',
         ]);
+
+        // Ensure no letters are present in the monthly target value
+        if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
+            return redirect()
+                ->back()
+                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+        }
 
         // Get the monthly target for the given monthly_target_ID
         $monthlyTarget = MonthlyTarget::find($validatedData['monthly_target_ID']);
