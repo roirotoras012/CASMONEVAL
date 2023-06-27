@@ -145,6 +145,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('add_driver', [DivisionChiefController::class, 'add_driver'])->name('dc.add_driver');
   Route::post('add_driver_only', [DivisionChiefController::class, 'add_driver_only'])->name('dc.add_driver_only');
   Route::post('delete_driver_only', [DivisionChiefController::class, 'delete_driver_only'])->name('dc.delete_driver_only');
+  Route::post('edit_driver', [DivisionChiefController::class, 'edit_driver'])->name('dc.edit_driver');
   Route::post('add_indirect_measure', [DivisionChiefController::class, 'add_indirect_measure'])->name('dc.add_indirect_measure');
   Route::post('add_mandatory_measure', [DivisionChiefController::class, 'add_mandatory_measure'])->name('dc.add_mandatory_measure');
 

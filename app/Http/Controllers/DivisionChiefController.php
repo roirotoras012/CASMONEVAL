@@ -104,8 +104,8 @@ class DivisionChiefController extends Controller
         $monthlyTarget->annual_target_ID = $validatedData['annual_target_ID'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
-        
-        $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type']: null;
+
+        $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
 
         return redirect()
@@ -333,8 +333,7 @@ class DivisionChiefController extends Controller
         return view('dc.view-target');
     }
     public function accomplishment()
-    {   
-
+    {
         $valid_meas2 = [];
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', 1)
@@ -345,8 +344,7 @@ class DivisionChiefController extends Controller
             ->get();
 
         $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
-            
-            ->get(['drivers.*', 'divisions.division']);
+        ->get(['drivers.*', 'divisions.division']);
         $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
             ->select('strategic_measures.*', 'divisions.division')
             ->get();
@@ -419,55 +417,53 @@ class DivisionChiefController extends Controller
                     $rating_bg_color = '#ff0000';
                 }
             }
-            $valid_meas2 = [0,0,0,0,0,0,0,0,0,0,0,0];
+            $valid_meas2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
-            ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
-            ->where(function ($query) {
-                $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
-            })
-            ->where('annual_targets.province_ID', $user->province_ID)
-            ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
-            ->where('annual_targets.division_ID', $user->division_ID)
-            ->where('monthly_targets.monthly_target', '!=', null || 0)
-           
+                ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
+                ->where('annual_targets.province_ID', $user->province_ID)
+                ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+                ->where('annual_targets.division_ID', $user->division_ID)
+                ->where('monthly_targets.monthly_target', '!=', null || 0)
 
-          
-            ->get();
-            foreach ( $total_number_of_valid_measures2 as $item) {
-                if($item->month == 'jan'){
+                ->get();
+            foreach ($total_number_of_valid_measures2 as $item) {
+                if ($item->month == 'jan') {
                     $valid_meas2[0]++;
                 }
-                if($item->month == 'feb'){
+                if ($item->month == 'feb') {
                     $valid_meas2[1]++;
                 }
-                if($item->month == 'mar'){
+                if ($item->month == 'mar') {
                     $valid_meas2[2]++;
                 }
-                if($item->month == 'apr'){
+                if ($item->month == 'apr') {
                     $valid_meas2[3]++;
                 }
-                if($item->month == 'may'){
+                if ($item->month == 'may') {
                     $valid_meas2[4]++;
                 }
-                if($item->month == 'jun'){
+                if ($item->month == 'jun') {
                     $valid_meas2[5]++;
                 }
-                if($item->month == 'jul'){
+                if ($item->month == 'jul') {
                     $valid_meas2[6]++;
                 }
-                if($item->month == 'aug'){
+                if ($item->month == 'aug') {
                     $valid_meas2[7]++;
                 }
-                if($item->month == 'sep'){
+                if ($item->month == 'sep') {
                     $valid_meas2[8]++;
                 }
-                if($item->month == 'oct'){
+                if ($item->month == 'oct') {
                     $valid_meas2[9]++;
                 }
-                if($item->month == 'nov'){
+                if ($item->month == 'nov') {
                     $valid_meas2[10]++;
                 }
-                if($item->month == 'dec'){
+                if ($item->month == 'dec') {
                     $valid_meas2[11]++;
                 }
             }
@@ -502,7 +498,7 @@ class DivisionChiefController extends Controller
                 ->get();
         }
 
-        $cutoff = []; 
+        $cutoff = [];
 
         if (count($opcrs_active) != 0) {
             $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
@@ -602,7 +598,7 @@ class DivisionChiefController extends Controller
     }
 
     public function bukidnunBddIndex()
-    {   
+    {
         $user = Auth::user();
 
         $opcrs_active = Opcr::where('is_active', 1)
@@ -614,18 +610,17 @@ class DivisionChiefController extends Controller
             ->orderBy('province_ID')
             ->get();
 
-        
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
             ->get()
             ->groupBy(['strategic_measure_ID']);
-            $driversact = null;
+        $driversact = null;
         if (count($opcrs_active) != 0) {
             $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
-            ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
-        ->where('annual_targets.opcr_id', $opcrs_active[0]->opcr_ID)
-        ->distinct()
-            ->get(['drivers.*', 'divisions.division']);
-        // dd($driversact);
+                ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
+                ->where('annual_targets.opcr_id', $opcrs_active[0]->opcr_ID)
+                ->distinct()
+                ->get(['drivers.*', 'divisions.division']);
+            // dd($driversact);
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)
@@ -647,8 +642,8 @@ class DivisionChiefController extends Controller
         $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
             ->get(['monthly_targets.*', 'annual_targets.*'])
             ->groupBy(['month', 'annual_target_ID']);
-        
-        $cutoff = []; 
+
+        $cutoff = [];
 
         if (count($opcrs_active) != 0) {
             $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
@@ -739,9 +734,7 @@ class DivisionChiefController extends Controller
             ->where('is_submitted_division', 1)
             ->get();
         $opcr_id = isset($opcrs_active[0]) ? $opcrs_active[0]->opcr_ID : null;
-        $drivers = Driver::
-            where('division_ID', '=', $user->division_ID)
-            ->get();
+        $drivers = Driver::where('division_ID', '=', $user->division_ID)->get();
         $measures = StrategicMeasure::where('strategic_measures.division_ID', $user->division_ID)
             ->where(function ($query) {
                 $query
@@ -869,7 +862,8 @@ class DivisionChiefController extends Controller
             ->with('success', 'Transaction Completed');
     }
 
-    public function add_driver_only(Request $request) {
+    public function add_driver_only(Request $request)
+    {
         // dd($request->driver);
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
@@ -882,66 +876,90 @@ class DivisionChiefController extends Controller
         $driver->division_ID = $user->division_ID;
         $driver->save();
 
-        return redirect()->route('dc.manage')
-        ->with('success', 'Driver successfully Added');
+        return redirect()
+            ->route('dc.manage')
+            ->with('success', 'Driver successfully Added');
     }
 
-    public function delete_driver_only(Request $request) {
+    public function delete_driver_only(Request $request)
+    {
         $driverId = $request->input('driver_ID');
 
         $driver = Driver::find($driverId);
 
         if ($driver) {
-
             $driver->delete();
-            
-            return redirect()->back()->with('success', 'Driver deleted successfully');
+
+            return redirect()
+                ->back()
+                ->with('success', 'Driver deleted successfully');
             dd($driver);
         }
 
-        return redirect()->back()->with('error', 'Driver not found');
-        
+        return redirect()
+            ->back()
+            ->with('error', 'Driver not found');
     }
 
-    public function add_indirect_measure(Request $request) {
-        
-        
+    public function edit_driver(Request $request)
+    {
+        $driverId = $request->input('driver_ID');
+
+        $driver = Driver::find($driverId);
+
+        if ($driver) {
+            $driver->driver = $request->input('driver');
+            // dd($driver);
+            $driver->save();
+
+            // Redirect with a success message
+            return redirect()
+                ->back()
+                ->with('success', 'Driver updated successfully');
+        }
+
+        return redirect()
+            ->back()
+            ->with('error', 'Driver not found');
+    }
+
+    public function add_indirect_measure(Request $request)
+    {
         $user = Auth::user();
         $request->validate([
-            'strategic_measure' => 'required'
+            'strategic_measure' => 'required',
         ]);
 
         $strategicMeasure = new StrategicMeasure();
         $strategicMeasure->strategic_measure = $request->strategic_measure;
-        $strategicMeasure->type = "INDIRECT";
+        $strategicMeasure->type = 'INDIRECT';
         $strategicMeasure->division_id = $user->division_ID;
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
 
-        return redirect()->route('dc.manage')
-        ->with('success', 'Transaction Completed');
+        return redirect()
+            ->route('dc.manage')
+            ->with('success', 'Transaction Completed');
     }
 
-    public function add_mandatory_measure(Request $request) {
-        
-        
+    public function add_mandatory_measure(Request $request)
+    {
         $user = Auth::user();
         $request->validate([
-            'strategic_measure' => 'required'
+            'strategic_measure' => 'required',
         ]);
 
         $strategicMeasure = new StrategicMeasure();
         $strategicMeasure->strategic_measure = $request->strategic_measure;
-        $strategicMeasure->type = "MANDATORY";
+        $strategicMeasure->type = 'MANDATORY';
         $strategicMeasure->division_id = $user->division_ID;
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
 
-        return redirect()->route('dc.manage')
-        ->with('success', 'Transaction Completed');
+        return redirect()
+            ->route('dc.manage')
+            ->with('success', 'Transaction Completed');
     }
-
-
 }

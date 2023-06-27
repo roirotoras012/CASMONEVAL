@@ -47,8 +47,8 @@
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addKpi">
                             <i class="fas fa-plus"></i> Add Operational Driver
                         </button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteKpi">
-                            <i class="fa-solid fa-trash"></i> Delete Operational Driver
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editDriver">
+                            <i class="fas fa-edit"></i> Edit Operational Driver
                         </button>
                     </div>
                     </div>
@@ -262,7 +262,7 @@
         
 
 <x-add_driver_form />
-<x-delete_driver_form :drivers="$drivers->sortByDesc('driver_ID')"/>
+<x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID" :selectedDriver="$driver->driver" />
 <x-add_indirect_measure_form />
 <x-add_mandatory_measure_form />
 
