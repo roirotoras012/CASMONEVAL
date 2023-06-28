@@ -486,9 +486,18 @@ class DivisionChiefController extends Controller
             ->groupBy('actual_num_of_accomplished_measure');
         // dd($pgsrating2);
         // dd($measures);
-        $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-            ->get(['monthly_targets.*', 'annual_targets.*'])
+        // $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+        //     ->get(['monthly_targets.*', 'annual_targets.*'])
+        //     ->groupBy(['month', 'annual_target_ID']);
+
+        $monthly_targets = MonthlyTarget::with('evaluations')
+            ->leftjoin('evaluations', 'evaluations.monthly_target_ID', '=', 'monthly_targets.monthly_target_ID')
+            ->join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->get(['monthly_targets.*', 'annual_targets.*', 'evaluations.remark'])
             ->groupBy(['month', 'annual_target_ID']);
+
+        // dd($monthly_targets);
+
         $notification = null;
         if (count($opcrs_active) > 0) {
             $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
