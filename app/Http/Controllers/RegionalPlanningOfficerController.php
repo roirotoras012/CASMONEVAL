@@ -32,13 +32,20 @@ class RegionalPlanningOfficerController extends Controller
         $user_pd = User::where('user_type_ID', '3');
         $user_ppo = User::where('user_type_ID', '4');
         $user_dc = User::where('user_type_ID', '5');
+
+        $user_rd_details = User::where('user_type_ID', 1)->get(['first_name', 'last_name', 'user_ID']);
+        $user_rpo_details =User::where('user_type_ID', 2)->get(['first_name', 'last_name', 'user_ID']);
+        $user_pd_details = User::where('user_type_ID', 3)->get(['first_name', 'last_name', 'user_ID']);
+        $user_ppo_details =User::where('user_type_ID', 4)->get(['first_name', 'last_name', 'user_ID']);
+        $user_dc_details = User::where('user_type_ID', 5)->get(['first_name', 'last_name', 'user_ID']);
+
         $totalUsers = $users->count();
         $totalUsersRD = $user_rd->count();
         $totalUsersRPO = $user_rpo->count();
         $totalUsersPD = $user_pd->count();
         $totalUsersPPO = $user_ppo->count();
         $totalUsersDC = $user_dc->count();
-        return view('rpo.dashboard', ['users' => $users, 'totalUsers' => $totalUsers, 'totalUsersRD' => $totalUsersRD, 'totalUsersRPO' => $totalUsersRPO, 'totalUsersPD' => $totalUsersPD, 'totalUsersPPO' => $totalUsersPPO, 'totalUsersDC' => $totalUsersDC]);
+        return view('rpo.dashboard', ['users' => $users,'user_dc_details'=> $user_dc_details,'user_pd_details'=> $user_pd_details,'user_rpo_details'=> $user_rpo_details,'user_ppo_details'=> $user_ppo_details, 'user_rd_details'=> $user_rd_details, 'totalUsers' => $totalUsers, 'totalUsersRD' => $totalUsersRD, 'totalUsersRPO' => $totalUsersRPO, 'totalUsersPD' => $totalUsersPD, 'totalUsersPPO' => $totalUsersPPO, 'totalUsersDC' => $totalUsersDC]);
     }
     public function users()
     {
