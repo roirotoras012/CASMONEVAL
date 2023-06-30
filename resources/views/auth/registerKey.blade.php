@@ -92,13 +92,13 @@
                                                 </div>
                                                 <select class="form-control @error('extension_name') is-invalid @enderror" style="height:40px;"
                                                         id="extension_name" name="extension_name" autocomplete="extension_name" autofocus>
-                                                    <option value="" selected disabled>Extension name</option>
-                                                    <option value="">No extension name</option>
-                                                    <option value="Jr">Jr</option>
-                                                    <option value="Sr">Sr</option>
-                                                    <option value="II">II</option>
-                                                    <option value="III">III</option>
-                                                    <option value="IV">IV</option>
+                                                        <option value="" disabled {{ old('extension_name') ? '' : 'selected' }}>Extension name</option>
+                                                        <option value="N/A" {{ old('extension_name') == 'N/A' ? 'selected' : '' }}>No extension name</option>
+                                                        <option value="Jr" {{ old('extension_name') == 'Jr' ? 'selected' : '' }}>Jr</option>
+                                                        <option value="Sr" {{ old('extension_name') == 'Sr' ? 'selected' : '' }}>Sr</option>
+                                                        <option value="II" {{ old('extension_name') == 'II' ? 'selected' : '' }}>II</option>
+                                                        <option value="III" {{ old('extension_name') == 'III' ? 'selected' : '' }}>III</option>
+                                                        <option value="IV" {{ old('extension_name') == 'IV' ? 'selected' : '' }}>IV</option>
                                                 </select>
                                                 @error('extension_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -121,7 +121,7 @@
                                                         </span>
                                                     </div>
 
-                                                    <input value="{{ old('date') }}" type="date" name='birthday'
+                                                    <input value="{{ old('birthday') }}" type="date" name='birthday'
                                                         class="form-control @error('birthday') is-invalid @enderror"
                                                         id="entry_date" />
                                                     @error('birthday')
@@ -210,7 +210,7 @@
                                                     class="p-1 fa-solid fa-lock-open"></i></i>
                                             </span>
                                         </div>
-                                        <input placeholder="Confirm Password" id="password-confirm" type="password"
+                                        <input value="{{ old('password_confirm') }}" placeholder="Confirm Password" id="password-confirm" type="password"
                                             class="form-control" name="password_confirmation"
                                             @error('password_confirmation') is-invalid @enderror"
                                             autocomplete="password_confirmation">
