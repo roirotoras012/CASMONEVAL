@@ -27,6 +27,10 @@
                         <div class="card-body bg-primary text-white">Total Number of Users</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <h2>{{$totalUsers}}</h2>
+                            <x-dashboard-modal :user_dashboard_details='$users' :id="6"/>
+                            <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#dashboard-modal-6">
+                                  <i class="fas fa-eye"></i>
+                          </button>
                         </div>
                     </div>
                 </div>

@@ -33,11 +33,12 @@ class RegionalPlanningOfficerController extends Controller
         $user_ppo = User::where('user_type_ID', '4');
         $user_dc = User::where('user_type_ID', '5');
 
-        $user_rd_details = User::where('user_type_ID', 1)->get(['first_name', 'last_name', 'user_ID']);
-        $user_rpo_details =User::where('user_type_ID', 2)->get(['first_name', 'last_name', 'user_ID']);
-        $user_pd_details = User::where('user_type_ID', 3)->get(['first_name', 'last_name', 'user_ID']);
-        $user_ppo_details =User::where('user_type_ID', 4)->get(['first_name', 'last_name', 'user_ID']);
-        $user_dc_details = User::where('user_type_ID', 5)->get(['first_name', 'last_name', 'user_ID']);
+        
+        $user_rd_details = User::where('user_type_ID', 1)->get(['first_name', 'last_name', 'middle_name','birthday','email','username','user_ID']);
+        $user_rpo_details =User::where('user_type_ID', 2)->get(['first_name', 'last_name', 'middle_name','birthday','email','username','user_ID']);
+        $user_pd_details = User::where('user_type_ID', 3)->get(['first_name', 'last_name', 'middle_name','birthday','email','username','user_ID']);
+        $user_ppo_details =User::where('user_type_ID', 4)->get(['first_name', 'last_name', 'middle_name','birthday','email','username','user_ID']);
+        $user_dc_details = User::where('user_type_ID', 5)->get(['first_name', 'last_name', 'middle_name','birthday','email','username','user_ID']);
 
         $totalUsers = $users->count();
         $totalUsersRD = $user_rd->count();
