@@ -113,14 +113,13 @@
                                         <label style="color:#505050f5;text-align:left;">Birthday</label>
                                         <div class="input-group-sm">
                                             <div class="input-group-prepend">
-                                                <div class="input-group date" id="datepicker">
+                                                <div class="input-group date">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-icon"
                                                             id="inputGroup-sizing-sm logo-input"><i
                                                                 class="p-1 fa-solid fa-user"></i>
                                                         </span>
                                                     </div>
-
                                                     <input value="{{ old('birthday') }}" type="date" name='birthday'
                                                         class="form-control @error('birthday') is-invalid @enderror"
                                                         id="entry_date" />

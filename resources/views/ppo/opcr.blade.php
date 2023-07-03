@@ -32,25 +32,10 @@
                         :measures=$measures :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
                         :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 :pgs=$pgs :pgsrating2=$pgsrating2/>
 
-                    {{-- <div class="row">
-                        <div class="col-6 mx-auto">
-                            <x-add_driver_form :opcrs=$opcrs :divisions=$divisions />
-                        </div>
-                        <div class="col-12 d-flex">
-                            <x-group_driver_form :measures=$measures :drivers=$driversact />
-                        </div>
-                    </div> --}}
-
-                    {{-- <x-opcr_table_driver :provinces=$provinces :driversact=$driversact :measures=$measures :annual_targets=$annual_targets/> --}}
                     <div class="d-flex gap-2">
                     <form method="POST" action="{{ route('submit_to_division') }}" class="">
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{$opcrs_active[0]->opcr_ID}}>
-                        {{-- @if (!empty($opcrs_active) && count($opcrs_active) > 0)
-                            <input type="hidden" name="opcr_id" value="{{ $opcrs_active[0]->opcr_ID }}">
-                        @endif --}}
-
-
 
                         @if (count($notification) > 0)
                             <button class="btn btn-primary" disabled
@@ -59,9 +44,6 @@
                             <button class="btn btn-primary" type="submit">{{ __('Submit to Division') }}</button>
                         @endif
 
-
-                        {{--             
-                    <button type="button" class="btn btn-primary my-2" id="print-button">Print Table</button> --}}
 
                     </form>
 

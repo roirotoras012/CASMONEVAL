@@ -10,14 +10,9 @@
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
-
-                {{-- <li class="breadcrumb-item active"><h1>Manage Drivers</h1></li> --}}
-
             </ol>
             @if ($annual_targets)
                 <div class="container">
-
-
 
                     <h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">CPD division level view</h1>
                     <div class="d-flex justify-content-between">

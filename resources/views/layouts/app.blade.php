@@ -186,6 +186,8 @@
       
         <script>
             $(document).ready(function() {
+              
+
                 function getNotifications() {
                     $.ajax({
                         url: "{{ url('/notifications') }}",
