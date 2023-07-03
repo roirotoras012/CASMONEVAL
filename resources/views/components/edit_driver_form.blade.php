@@ -17,17 +17,20 @@
                         <label for="driver_ID">Select Operational Driver</label>
                         <select name="driver_ID" required class="form-select" onchange="updateDriverName(this)">
                             <option value="">CHOOSE DRIVER</option>
-                            @foreach ($drivers->sortByDesc('driver_ID') as $driver)
-                                <option value="{{ $driver->driver_ID }}" {{ $driver->driver_ID == $selectedDriverId ? 'selected' : '' }}>
+                            @foreach ($drivers->sortBy('driver') as $driver)
+                                <option value="{{ $driver->driver_ID }}"
+                                    {{ $driver->driver_ID == $selectedDriverId ? 'selected' : '' }}>
                                     {{ $driver->driver }}
                                 </option>
                             @endforeach
                         </select>
+
                     </div>
 
                     <div class="form-group">
                         <label for="driver">New Driver Name</label>
-                        <input type="text" name="driver" id="newDriverName" value="{{ $selectedDriver }}" required class="form-control">
+                        <input type="text" name="driver" id="newDriverName" value="{{ $selectedDriver }}" required
+                            class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -61,11 +61,11 @@
                 <div class="px-3">
                     <select name="driver_ID" required class="form-select">
                         <option value="">CHOOSE DRIVER</option>
-                        @foreach ($drivers->sortByDesc('driver_ID') as $driver)
-                        <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
+                        @foreach ($drivers->sortBy('driver') as $driver)
+                            <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
                         @endforeach
-
                     </select>
+                    
 
                 </div>
 
@@ -262,7 +262,9 @@
         
 
 <x-add_driver_form />
-<x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID" :selectedDriver="$driver->driver" />
+{{-- <x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID" :selectedDriver="$driver->driver" /> --}}
+<x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID ?? null" :selectedDriver="$driver->driver ?? 'Driver Name'" />
+
 <x-add_indirect_measure_form />
 <x-add_mandatory_measure_form />
 
