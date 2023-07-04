@@ -131,7 +131,8 @@ class RegionalPlanningOfficerController extends Controller
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
             ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
-            ->get(['strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+            ->orderBy('strategic_measures.created_at', 'ASC')
+            ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
         // dd($labels);
 
         return view('rpo.addtarget', compact('labels'));
@@ -469,6 +470,8 @@ class RegionalPlanningOfficerController extends Controller
     }
     public function show($id)
     {
+
+        
         $user = Auth::user();
         $opcr_id = $id;
         $targets = DB::table('annual_targets')
@@ -491,8 +494,11 @@ class RegionalPlanningOfficerController extends Controller
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
             ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
-            ->get(['strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+            ->orderBy('strategic_measures.created_at', 'ASC')
+            ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
 
+       
+        
         if ($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE') {
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
                 ->where('monthly_accomplishment', '!=', null)
@@ -528,18 +534,34 @@ class RegionalPlanningOfficerController extends Controller
         }
         // dd($monthly_targets);
 
+
+        $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+        ->where('strategic_objectives.is_active', '=', true)
+        ->where('type', '=', 'DIRECT')
+        ->orWhere('type', '=', 'DIRECT MAIN')
+        ->orderBy('strategic_objectives.objective_letter', 'ASC')
+        ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
+        ->orderBy('strategic_measures.created_at', 'ASC')
+        ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+ 
         foreach ($labels as $label) {
             $label['BUK'] = null;
             $label['LDN'] = null;
             $label['MISOR'] = null;
             $label['MISOC'] = null;
             $label['CAM'] = null;
+           
+        
+
+           
             foreach ($targets as $target) {
                 if ($label['strategic_measure_ID'] == $target->strategic_measures_ID) {
                     if ($target->province_ID == 1) {
                         $label['BUK'] = $target->annual_target;
                         $label['BUK_target'] = $target->annual_target_ID;
                         $label['target_type'] = $target->type;
+
+                     
                     }
                     if ($target->province_ID == 2) {
                         $label['LDN'] = $target->annual_target;
@@ -672,8 +694,106 @@ class RegionalPlanningOfficerController extends Controller
                     $label['CAM_accom'] = $label['CAM_accom'] / 3;
                 }
             }
+
+           
+            if(isset($label->sum_of)){  
+
+                $measures_exploded = explode(',', $label->sum_of);
+                
+                for ($i=1; $i <= 5; $i++) { 
+                    $sum = 0;
+                    foreach ($measures_exploded as $measure_exploded) {
+                        $target_for_exploded = AnnualTarget::where('opcr_ID', '=', $opcr_id)
+                        ->where('province_ID', $i)
+                        ->where('strategic_measures_ID', $measure_exploded)
+                        ->first();
+
+                        if(isset($target_for_exploded)){
+
+                            $sum += $target_for_exploded->annual_target;
+                        }
+                        // dd($target_for_exploded);
+                    }
+
+                    if($sum > 0){
+                        $target_for_sum1 = AnnualTarget::where('opcr_ID', '=', $opcr_id)
+                                                ->where('province_ID', $i)
+                                                ->where('strategic_measures_ID', $label->strategic_measure_ID)
+                                                ->first();
+                
+
+                            if(!isset($target_for_sum1)){
+
+                                $target = new AnnualTarget();
+                                $target->strategic_measures_ID = $label->strategic_measure_ID;
+                                $target->strategic_objectives_ID = $label->strategic_objective_ID;
+                                $target->annual_target = $sum;
+                
+                                $target->province_ID = 1;
+                                $target->division_ID = $label->division_ID;
+                                
+                                                
+                                $target->opcr_id = $opcr_id;
+                                           
+                                $target->save();
+                               
+                            }
+                            else{
+                               
+                                $target = AnnualTarget::find($target_for_sum1->annual_target_ID);
+                                $target->annual_target = $sum;
+                                $target->save();
+                                // dd($target);
+                            }
+
+                    
+                            if ($i == 1) {
+                                $label['BUK'] = $sum;
+                                $label['BUK_target'] = $target->annual_target_ID;
+                                $label['target_type'] = $target->type;
+
+                             
+                            }
+                            
+                            if ($i == 2) {
+                                $label['LDN'] = $sum;
+                                $label['LDN_target'] = $target->annual_target_ID;
+                                $label['target_type'] = $target->type;
+                              
+                            }
+                            if ($i == 3) {
+                                $label['MISOR'] = $sum;
+                                $label['MISOR_target'] = $target->annual_target_ID;
+                                $label['target_type'] = $target->type;
+                            }
+                            if ($i == 4) {
+                                $label['MISOC'] = $sum; 
+                                $label['MISOC_target'] = $target->annual_target_ID;
+                                $label['target_type'] = $target->type;
+                            }
+                            if ($i == 5) {
+                                $label['CAM'] = $sum;
+                                $label['CAM_target'] = $target->annual_target_ID;
+                                $label['target_type'] = $target->type;
+                            }
+                  
+                             
+                                    
+                               
+                            
+                    }
+                }
+
+              
+                
+
+              
+
+            }
         }
         
+
+
         $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
 
             ->where('annual_targets.opcr_ID', '=', $opcr_id)
@@ -1303,7 +1423,7 @@ class RegionalPlanningOfficerController extends Controller
             $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
             $annualTarget->annual_target = $validatedData['new_target'];
             $annualTarget->save();
-        
+           
             return redirect()
             ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
             ->with('success', 'Annual Target successfully updated!');
@@ -1330,7 +1450,8 @@ class RegionalPlanningOfficerController extends Controller
             ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
             ->where('strategic_measures.opcr_ID', '=', null)
             ->orWhere('strategic_measures.opcr_ID', '=', 0)
-            ->orderBy('strategic_measures.number_measure', 'asc')
+            ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
+            ->orderBy('strategic_measures.created_at', 'ASC')
             ->get(['strategic_measures.*', 'strategic_objectives.*'])
             ->groupBy(['strategic_objective_ID', 'strategic_objectives']);
         // dd($measures);
@@ -1430,13 +1551,40 @@ class RegionalPlanningOfficerController extends Controller
     }
 
     public function remove_measure(Request $request)
-    {
-        $measure = StrategicMeasure::find($request->measure_ID);
-        $measure->type = '';
-        $measure->save();
-        return redirect()
+    {   
+        
+        if($request->submit == 'trigger'){
+            
+
+            if(isset($request->measures)){
+
+                $stringified_measures = implode(", ", $request->measures);
+            
+               
+            }
+            else{
+                $stringified_measures = null;
+
+            }
+            $measure = StrategicMeasure::find($request->measure_ID);
+            
+            $measure->sum_of = $stringified_measures; // Replace "column_name" with the actual column you want to update
+            $measure->save();
+            return redirect()
             ->route('rpo.measures')
-            ->with('success', 'Strategic Measure successfully removed');
+            ->with('success', 'Strategic Measure successfully updated');
+
+        }
+        else{
+            $measure = StrategicMeasure::find($request->measure_ID);
+            $measure->type = '';
+            $measure->save();
+            return redirect()
+                ->route('rpo.measures')
+                ->with('success', 'Strategic Measure successfully removed');
+
+        }
+        
     }
 
     public function upload_opcr(Request $request)
