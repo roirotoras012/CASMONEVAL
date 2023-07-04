@@ -317,6 +317,51 @@
                         }
                     });
                 });
+
+                
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // fetch all the forms we want to apply custom style
+    var inputs = document.getElementsByClassName('form-control')
+
+    // loop over each input and watch blue event
+    var validation = Array.prototype.filter.call(inputs, function(input) {
+        
+      input.addEventListener('blur', function(event) {
+        // reset
+        input.classList.remove('is-invalid')
+        input.classList.remove('is-valid')
+        
+        if (input.checkValidity() === false) {
+            input.classList.add('is-invalid')
+        }
+        else {
+            input.classList.add('is-valid')
+        }
+      }, false);
+    });
+
+     var passwordInput = document.getElementById('password');
+    var passwordConfirmInput = document.getElementById('password-confirm');
+    var passwordConfirmError = document.getElementById('password-confirm-error');
+
+    function validatePasswordConfirmation() {
+      if (passwordInput.value !== passwordConfirmInput.value) {
+          passwordConfirmInput.classList.remove('is-valid');
+        passwordConfirmInput.classList.add('is-invalid');
+        passwordConfirmError.style.display = 'block';
+      } else {
+        passwordConfirmInput.classList.remove('is-invalid');
+        passwordConfirmError.style.display = 'none';
+      }
+    }
+
+    passwordInput.addEventListener('input', validatePasswordConfirmation);
+    passwordConfirmInput.addEventListener('input', validatePasswordConfirmation);
+  }, false);
+})()
+
             });
         </script>
 
