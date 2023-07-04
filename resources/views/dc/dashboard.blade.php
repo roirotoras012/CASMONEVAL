@@ -43,7 +43,7 @@
                     <div class="card mb-4 shadow">
                         <div class="card-body bg-primary text-white">Total Number of Targets</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
-
+                            {{-- {{dd($annual_target_number)}} --}}
                             <h2>{{ $annual_target_number }}</h2>
 
                         </div>
