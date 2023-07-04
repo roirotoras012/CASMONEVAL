@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Hash;
 
 class ProvincialPlanningOfficerController extends Controller
 {
+    public function dashboard(){
+        return view('ppo.dashboard');
+    }
     public function index()
     {
         $user = Auth::user();

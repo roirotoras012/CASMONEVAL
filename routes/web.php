@@ -105,7 +105,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
     // Provincial Planning Officer
-    Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'index'])->name('ppo.index');
+    Route::get('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'dashboard'])->name('ppo.dashboard');
     Route::get('ppo/opcr', [ProvincialPlanningOfficerController::class, 'opcr'])->name('opcr');
     // Route::get('ppo/add-driver', [ProvincialPlanningOfficerController::class, 'savetarget'])->name('add-driver');
     // Route::get('ppo/manage', [ProvincialPlanningOfficerController::class, 'manage'])->name('manage');

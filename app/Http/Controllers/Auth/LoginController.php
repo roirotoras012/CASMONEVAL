@@ -67,7 +67,7 @@ class LoginController extends Controller
             case 3:
                 return route('pd.index', ['userDetails' => $userDetails]);
             case 4:
-                return route('ppo.index', ['userDetails' => $userDetails]);
+                return route('ppo.dashboard', ['userDetails' => $userDetails]);
             case 5:
                 return route('dc.index', ['userDetails' => $userDetails]);
             case 6:

@@ -352,9 +352,6 @@ $(document).ready(function () {
             };
         });
     }
-    $("#datepicker").datepicker({
-        endDate: "-18y",
-    });
 });
 
 // var button = document.getElementById('disableWhenClicked');

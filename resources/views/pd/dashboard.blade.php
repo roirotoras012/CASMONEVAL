@@ -7,6 +7,27 @@
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
+        <div class="container-fluid ">
+
+            <x-dashboard-ppo-pd/>
+        {{-- <div class="container-fluid">
+       
+        </div> --}}
+    </x-user-sidebar>
+@endsection
+
+{{-- 
+
+
+@extends('layouts.app')
+@section('title')
+    {{ 'Provincial Director Dashboard' }}
+@endsection
+@section('content')
+    <x-user-sidebar>
+        <div class="loading-screen">
+            <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
+        </div>
         <div class="container-fluid px-4 py-5">
 
             <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">
@@ -77,4 +98,4 @@
         </div>
 
     </x-user-sidebar>
-@endsection
+@endsection --}}

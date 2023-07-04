@@ -49,6 +49,8 @@
                 </div>
             </div>
         </div>
-
+ <div class="container-fluid">
+            <x-dashboard-ppo-pd/>
+            </div>
     </x-user-sidebar>
 @endsection

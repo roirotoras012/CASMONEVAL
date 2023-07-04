@@ -7,6 +7,7 @@
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
           </div>
+          
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
@@ -111,7 +112,9 @@
                 </div> --}}
             </div>
         </div>
-
+  <div class="container-fluid">
+            <x-dashboard-ppo-pd/>
+            </div>
 
 
 
