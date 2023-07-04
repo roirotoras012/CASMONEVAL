@@ -95,21 +95,55 @@
                                     @if (isset($measures[$objective->strategic_objective_ID]))
                                         @foreach ($measures[$objective->strategic_objective_ID] as $measure)
                                             @foreach ($measure as $item)
+                                            
                                                 <div
                                                     class="table-bordered p-1 d-flex justify-content-between align-items-center">
-                                                    <span>{{ $item->number_measure }}. {{ $item->strategic_measure }}</span>
+                                                    <span>{{ $item->number_measure }}. {{ $item->strategic_measure }} 
+                                                        @if (isset($item->sum_of))
+                                                        <b>{{ '(' }}
+                                                        @foreach (explode(", ", $item->sum_of) as $key => $sum)
+                                                        @php
+                                                        $sum_measure = DB::table('strategic_measures')->where('strategic_measure_ID', $sum)->first();
+                                                        if(isset($sum_measure)){
+                                                            $sum_measure_value = $sum_measure->strategic_measure;
+                                                        }
+                                                        else{
+                                                            $sum_measure_value = null;
 
+                                                        }
+                                                       
+                                                        @endphp
+                                                        {{ $sum_measure_value}}
+                                                        @if($key < count(explode(", ", $item->sum_of)) - 1)
+                                                            +
+                                                        @endif
+                                                        @endforeach
+                                                        {{ ')' }}
+                                                        </b>
+                                                        @endif
+                                                       
+                                                        </span>
+                                                    
                                                     <form method="POST" action="{{ route('rpo.remove_measure') }}">
                                                         @csrf
                                                         <input type="hidden" name="measure_ID"
                                                             value="{{ $item->strategic_measure_ID }}">
+                                                        <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#triggerSumModal_{{ $item->strategic_measure_ID }}"
+                                                        id="#triggerSumModal_{{ $item->strategic_measure_ID }}"
+                                                            style="background: #0d6efd"
+                                                            class="text-decoration-none text-black btn btn-primary text-white">Auto Sum
+                        
+                                                        </a>
+                                                       
                                                         <button type="submit" class="border-0"
                                                             onclick="return confirm('Are you sure you want to remove this measure?')">
                                                             <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                                         </button>
-
+                                                        <x-add_trigger_modal :item=$item :measures=$measure/>
                                                     </form>
                                                 </div>
+                                                
                                             @endforeach
                                         @endforeach
                                     @endif

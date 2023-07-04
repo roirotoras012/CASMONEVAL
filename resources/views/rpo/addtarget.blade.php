@@ -102,6 +102,7 @@
                                             {{ $label->number_measure }}
                                         </td>
                                         <td>{{ $label->strategic_measure }} 
+                                            {{ $label->sum_of }} 
                                             <input type="hidden"
                                             name="data[{{ $ctr }}][strategic_objective]"
                                             value="{{ $label->strategic_objective_ID }}">
@@ -121,6 +122,7 @@
                                             
                                         </td>
                                         <td >
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input type="text" name="data[{{ $ctr }}][BUK]">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
@@ -128,9 +130,12 @@
                                                 %
                                             </label>
                                             </div>
+                                            @endif
+                                            
                                             
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input type="text" name="data[{{ $ctr }}][CAM]">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
@@ -138,9 +143,13 @@
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+
                                            
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input type="text" name="data[{{ $ctr }}][LDN]">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
@@ -148,9 +157,13 @@
                                                 %
                                             </label>
                                             </div>
+                                            @endif
+                                            
+                                          
                                             
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input type="text" name="data[{{ $ctr }}][MISOR]">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
@@ -158,9 +171,13 @@
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+                                            
                                            
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input type="text" name="data[{{ $ctr }}][MISOC]">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
@@ -168,6 +185,9 @@
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+                                           
                                            
                                         </td>
 
