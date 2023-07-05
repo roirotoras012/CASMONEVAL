@@ -135,7 +135,7 @@
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password"
-                                            name="current_password" />
+                                            name="current_password" required />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="toggle-password">
@@ -156,8 +156,8 @@
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="password" required
-                                            name="current_password" />
+                                        <input type="password" class="form-control" id="password"
+                                            name="current_password" required />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button"
                                                 id="toggle-password">

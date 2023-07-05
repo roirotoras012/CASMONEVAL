@@ -160,18 +160,19 @@
                                                         class="p-1 fa-solid fa-at"></i>
                                                 </span>
                                             </div>
-                                            {{-- <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                            <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
                                                 type="email" class="form-control @error('email') is-invalid @enderror"
                                                 name="email" autocomplete="email">
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror --}}
-                                            <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                            @enderror
+                                            {{-- <input value="{{ old('email') }}"" placeholder="Email" id="email"
                                                 type="email" class="form-control" name="email"
                                                 pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
-                                                autocomplete="email">
+                                                autocomplete="email"> --}}
 
                                             <div class="invalid-feedback">Please enter a valid valid email</div>
                                         </div>
