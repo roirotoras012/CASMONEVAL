@@ -23,6 +23,7 @@
                                             </span>
                                         </div>
                                         <input id="login" type="text"  placeholder="Username or Email" 
+                                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
                                             class="form-control{{ $errors->has('username') || $errors->has('email') ? ' is-invalid' : '' }}"
                                             name="login" value="{{ old('username') ?: old('email') }}" required autofocus>
                                         @if ($errors->has('username') || $errors->has('email'))
@@ -42,18 +43,21 @@
                                             </div>
                                             <input placeholder="Password" id="password" type="password"
                                                 class="form-control @error('password') is-invalid @enderror" name="password"
-                                                required autocomplete="current-password">
+                                                required autocomplete="password">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                           
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     id="toggle-password">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
                                             </div>
+                                              <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                         </div>
                                     </div>
                                 </div>

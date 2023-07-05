@@ -117,12 +117,12 @@
                                         </td>
 
                                         <td>
-                                            <input type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                            <input  class="form-control" required type="hidden" name="data[{{ $ctr }}][total_targets]">
                                             
                                         </td>
                                         <td >
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input type="text" name="data[{{ $ctr }}][BUK]">
+                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][BUK]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
                                                 %
@@ -132,7 +132,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input type="text" name="data[{{ $ctr }}][CAM]">
+                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
                                                     %
@@ -142,7 +142,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input type="text" name="data[{{ $ctr }}][LDN]">
+                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
                                                 %
@@ -152,7 +152,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input type="text" name="data[{{ $ctr }}][MISOR]">
+                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
                                                     %
@@ -162,7 +162,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input type="text" name="data[{{ $ctr }}][MISOC]">
+                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
                                                     %
@@ -198,11 +198,12 @@
 
                           <div class="form-group">
                             <label for="year">Year:</label>
-                            <input type="text" name="year" class="form-control" id="usr" required>
+                            <input type="text" name="year" class="form-control" id="usr" required pattern="^(19|20)\d{2}$">
                           </div>
                           <div class="form-group">
                             <label for="description">Description:</label>
-                            <textarea type="password" name="description" class="form-control" id="pwd" required></textarea>
+                            <textarea type="password" name="description" class="form-control" id="pwd" required pattern="^[A-Za-z0-9\s]+$
+"></textarea>
                           </div>
                             </tbody>
 

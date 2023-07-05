@@ -34,7 +34,7 @@
                                                     id="first_name" type="text"
                                                     class="form-control @error('first_name') @enderror 
                                                     value="{{ old('first_name') }}"
-                                                    name="first_name" pattern="[A-Za-z]+" autocomplete="first_name"
+                                                    name="first_name" pattern="[A-Za-z\s]+" autocomplete="first_name"
                                                     autofocus required>
                                                 @error('first_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                                                 </div>
                                                 <input value="{{ old('last_name') }}" placeholder="Lastname" id="last_name"
                                                     type="text" class="form-control @error('last_name') @enderror"
-                                                    name="last_name" autocomplete="last_name" required pattern="[A-Za-z]+"
+                                                    name="last_name" autocomplete="last_name" required pattern="[A-Za-z\s]+"
                                                     autofocus>
                                                 @error('last_name')
                                                     <span class="invalid-feedback" role="alert">
@@ -79,7 +79,7 @@
                                                 <input value="{{ old('middle_name') }}" placeholder="Middlename"
                                                     id="middle_name" type="text"
                                                     class="form-control @error('middle_name') @enderror" name="middle_name"
-                                                    autocomplete="middle_name" required pattern="[A-Za-z]+" autofocus>
+                                                    autocomplete="middle_name" required pattern="[A-Za-z\s]+" autofocus>
                                                 @error('middle_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -160,18 +160,19 @@
                                                         class="p-1 fa-solid fa-at"></i>
                                                 </span>
                                             </div>
-                                            {{-- <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                            <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
                                                 type="email" class="form-control @error('email') is-invalid @enderror"
                                                 name="email" autocomplete="email">
                                             @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror --}}
-                                            <input value="{{ old('email') }}"" placeholder="Email" id="email"
+                                            @enderror
+                                            {{-- <input value="{{ old('email') }}"" placeholder="Email" id="email"
                                                 type="email" class="form-control" name="email"
                                                 pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
-                                                autocomplete="email">
+                                                autocomplete="email"> --}}
 
                                             <div class="invalid-feedback">Please enter a valid valid email</div>
                                         </div>
