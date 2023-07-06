@@ -106,10 +106,21 @@ class DivisionChiefController extends Controller
             $annualTargetValue = $annualTarget->annual_target;
         }
 
-        if ($newTotalMonthlyTargets > $annualTargetValue) {
-            return redirect()
-                ->back()
-                ->with('alert', 'The total monthly targets exceed the annual target.');
+        // Check if it is the month of December
+        if ($validatedData['month'] == 'dec') {
+            // Check if the new total is equal to the annual target
+            if ($newTotalMonthlyTargets != $annualTargetValue) {
+                return redirect()
+                    ->back()
+                    ->with('alert', 'December monthly target must be equal to the annual target.');
+            }
+        } else {
+            // For other months, check if the new total exceeds the annual target
+            if ($newTotalMonthlyTargets > $annualTargetValue) {
+                return redirect()
+                    ->back()
+                    ->with('alert', 'Monthly target exceeds the annual target.');
+            }
         }
 
         // Create the monthly target
@@ -166,10 +177,21 @@ class DivisionChiefController extends Controller
             $annualTargetValue = $annualTarget->annual_target;
         }
 
-        if ($newTotalMonthlyTargets > $annualTargetValue) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Monthly target exceeds the annual target.');
+        // Check if it is the month of December
+        if ($validatedData['month'] == 'dec') {
+            // Check if the new total is equal to the annual target
+            if ($newTotalMonthlyTargets != $annualTargetValue) {
+                return redirect()
+                    ->back()
+                    ->with('alert', 'December monthly target must be equal to the annual target.');
+            }
+        } else {
+            // For other months, check if the new total exceeds the annual target
+            if ($newTotalMonthlyTargets > $annualTargetValue) {
+                return redirect()
+                    ->back()
+                    ->with('alert', 'Monthly target exceeds the annual target.');
+            }
         }
 
         // Update the monthly target
