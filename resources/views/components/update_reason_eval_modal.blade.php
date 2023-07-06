@@ -22,7 +22,7 @@
                     <div class="row">
 
                         <div class="form-floating">
-                            <textarea class="form-control" placeholder="Reason why you did not hit your target" id="reason" style="height: 100px" name="reason"></textarea>
+                            <textarea required class="form-control" placeholder="Reason why you did not hit your target" id="reason" style="height: 100px" name="reason"></textarea>
                             <label for="reason">{{ __('Reason why you did not hit your target') }}</label>
                           </div>
                     </div>

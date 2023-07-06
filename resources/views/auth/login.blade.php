@@ -31,6 +31,7 @@
                                                 <strong>{{ $errors->first('username') ?: $errors->first('email') }}</strong>
                                             </span>
                                         @endif
+                                           <div class="invalid-feedback">Please input your username or email</div>
                                     </div>
                                 </div>
 

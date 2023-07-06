@@ -14,7 +14,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="KPI Driver">Operational Driver</label>
-                <input type="text" class="form-control" id="KPI Driver" aria-describedby="emailHelp" placeholder="Operational Driver" name="driver">
+                <input required type="text" class="form-control" id="KPI Driver" aria-describedby="emailHelp" placeholder="Operational Driver" name="driver">
               </div>
         </div>
         <div class="modal-footer">
