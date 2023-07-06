@@ -9,7 +9,7 @@ use App\Models\Driver;
 use App\Models\Pgs;
 use App\Models\Province;
 use App\Models\Evaluation;
-use App\Models\AnnualTarget;
+use App\Models\AnnualTarget;    
 use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
@@ -616,9 +616,12 @@ class DivisionChiefController extends Controller
 
         
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
+            
             ->get()
+            
             ->groupBy(['strategic_measure_ID']);
             $driversact = null;
+           
         if (count($opcrs_active) != 0) {
             $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
             ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
@@ -627,10 +630,29 @@ class DivisionChiefController extends Controller
             ->get(['drivers.*', 'divisions.division']);
         // dd($driversact);
             $annual_targets = DB::table('annual_targets')
-                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
-                ->where('province_ID', '=', $user->province_ID)
+                ->join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('annual_targets.province_ID', '=', $user->province_ID)
+                ->select('annual_targets.*', 'strategic_measures.sum_of')
                 ->get()
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
+                // dd($annual_targets);
+
+            foreach ($annual_targets as $annual_target) {
+                foreach ($annual_target as $provincesss) {
+                    # code...
+                    
+                    if(isset($provincesss->first()->sum_of)){
+                       
+
+                        $measures_exploded = explode(',', $provincesss->first()->sum_of);
+                       
+
+                    }
+                    
+                }
+                # code...
+            }
         } else {
             $annual_targets = null;
         }
@@ -757,6 +779,9 @@ class DivisionChiefController extends Controller
                     ->orWhere('strategic_measures.opcr_ID', 0)
                     ->orWhere('strategic_measures.opcr_ID', $opcr_id);
             })
+            ->orderBy('strategic_objective_ID', 'ASC')
+            ->orderByRaw('CAST(number_measure AS UNSIGNED) ASC')
+            ->orderBy('created_at', 'ASC')
             ->get(['strategic_measures.*']);
 
         $annual_targets = AnnualTarget::where('opcr_ID', '=', $opcr_id)
