@@ -199,6 +199,7 @@
                           <div class="form-group">
                             <label for="year">Year:</label>
                             <input type="text" name="year" class="form-control" id="usr" required pattern="^(19|20)\d{2}$">
+                              <div class="invalid-feedback">Please enter a valid year</div>
                           </div>
                           <div class="form-group">
                             <label for="description">Description:</label>
