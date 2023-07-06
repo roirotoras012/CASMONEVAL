@@ -90,6 +90,28 @@ class DivisionChiefController extends Controller
                 ->with('alert', 'Invalid input. Monthly target should not contain letters.');
         }
 
+        // Get the annual target
+        $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
+
+        // Calculate the total monthly targets for the corresponding annual target
+        $totalMonthlyTargets = MonthlyTarget::where('annual_target_ID', $annualTarget->annual_target_ID)->sum('monthly_target');
+
+        // Add the new monthly target to the total
+        $newTotalMonthlyTargets = $totalMonthlyTargets + $validatedData['monthly_target'];
+
+        // Check if the new total exceeds the annual target
+        if ($annualTarget->type == 'PERCENTAGE') {
+            $annualTargetValue = $annualTarget->annual_target / 100; // Convert percentage to decimal
+        } else {
+            $annualTargetValue = $annualTarget->annual_target;
+        }
+
+        if ($newTotalMonthlyTargets > $annualTargetValue) {
+            return redirect()
+                ->back()
+                ->with('alert', 'The total monthly targets exceed the annual target.');
+        }
+
         // Create the monthly target
         $monthlyTarget = new MonthlyTarget();
 
@@ -134,18 +156,26 @@ class DivisionChiefController extends Controller
             ->where('monthly_target_ID', '<>', $validatedData['monthly_target_ID'])
             ->sum('monthly_target');
 
-        // Check if the sum of monthly targets and the new monthly target exceeds the annual target
-        // if ($monthlyTargetSum + $validatedData['monthly_target'] > $annualTarget->annual_target) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('alert', 'Monthly target exceeds the annual target.');
-        // }
+        // Calculate the new total monthly targets (excluding the current monthly target being updated)
+        $newTotalMonthlyTargets = $monthlyTargetSum + $validatedData['monthly_target'];
+
+        // Check if the new total exceeds the annual target
+        if ($annualTarget->type == 'PERCENTAGE') {
+            $annualTargetValue = $annualTarget->annual_target / 100; // Convert percentage to decimal
+        } else {
+            $annualTargetValue = $annualTarget->annual_target;
+        }
+
+        if ($newTotalMonthlyTargets > $annualTargetValue) {
+            return redirect()
+                ->back()
+                ->with('alert', 'Monthly target exceeds the annual target.');
+        }
 
         // Update the monthly target
         $monthlyTarget->monthly_target = $validatedData['monthly_target'];
         $monthlyTarget->division_ID = $validatedData['division_ID'];
         $monthlyTarget->month = $validatedData['month'];
-        //   dd($monthlyTarget);
         $monthlyTarget->update();
 
         return redirect()
@@ -155,10 +185,18 @@ class DivisionChiefController extends Controller
 
     public function storeAccom(Request $request)
     {
-        $validatedData = $request->validate([
-            'monthly_accom' => 'required',
-            'monthly_target_ID' => 'required',
-        ]);
+        $validatedData = $request->validate(
+            [
+                'monthly_accom' => 'required|numeric|min:0',
+                'monthly_target_ID' => 'required',
+            ],
+            [
+                'monthly_accom.required' => 'The monthly accomplishment field is required.',
+                'monthly_accom.numeric' => 'The monthly accomplishment must be a numeric value.',
+                'monthly_accom.min' => 'The monthly accomplishment must be a non-negative value.',
+                'monthly_target_ID.required' => 'The monthly target ID field is required.',
+            ],
+        );
 
         $monthly_target_id = $request->input('monthly_target_ID');
         $monthly_target = MonthlyTarget::find($monthly_target_id);
