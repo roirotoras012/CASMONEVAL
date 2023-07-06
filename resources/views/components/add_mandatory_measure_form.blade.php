@@ -14,7 +14,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="Indirect Measure">Mandatory Measure</label>
-                <input type="text" class="form-control" id="Mandatory Measure" placeholder="Mandatory Measure" name="strategic_measure">
+                <input required pattern="^[a-zA-Z]+$" required type="text" class="form-control" id="Mandatory Measure" placeholder="Mandatory Measure" name="strategic_measure">
               </div>
         </div>
         <div class="modal-footer">
