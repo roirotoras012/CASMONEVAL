@@ -28,7 +28,7 @@
                             class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
 
                         <div>
-                            <input required pattern="^[0-9]+$" type="text" id="monthly_target"
+                            <input pattern="^[0-9]+$" type="text" id="monthly_target"
                                 class="form-control @error('monthly_target') is-invalid @enderror" name="monthly_target"
                                 value="{{ old('monthly_target') }}" required autofocus />
                             <div class="form-check">
@@ -37,7 +37,6 @@
                                     %
                                 </label>
                             </div>
-
                             @error('monthly_target')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
