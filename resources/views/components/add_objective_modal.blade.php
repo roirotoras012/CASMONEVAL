@@ -14,8 +14,6 @@
             <div class="modal-body">
                 <form method="POST" action="{{ route('rpo.add_objective') }}" id="add_objective">
                     @csrf
-
-
                     <div class="row">
                         <label for="objective_letter"
                             class="col-form-label text-md-start">{{ __('Objective Letter') }}</label>

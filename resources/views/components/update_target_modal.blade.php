@@ -11,9 +11,6 @@
             </div>
             <div class="modal-body">
                 
-                
-
-
                 <form method="POST" action="{{ route('annual_targets.update') }}">
                     @csrf
                     @method('PUT')
