@@ -14,7 +14,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label for="Indirect Measure">Indirect Measure</label>
-                <input type="text" class="form-control" id="Indirect Measure" placeholder="Indirect Measure" name="strategic_measure">
+                <input required type="text" class="form-control" id="Indirect Measure" placeholder="Indirect Measure" name="strategic_measure">
               </div>
         </div>
         <div class="modal-footer">

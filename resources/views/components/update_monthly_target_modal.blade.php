@@ -22,7 +22,6 @@
                     <input type="hidden" name="target_type" value="{{ $target_type }}">
                     {{-- <input type="hidden" name="monthly_target_ID" value="{{$monthly_target_ID}}"> --}}
                     {{-- <input type="hidden" name="year" value="2032"> --}}
-
                     <div class="row">
                         <label for="monthly_target"
                             class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
