@@ -20,7 +20,7 @@
 
                     <input type="hidden" name="evaluation_ID" value="<?= $evaluation_ID ?>">
                     {{-- <input type="hidden" name="month" value="<?= $division ?>"> --}}
-                    <input name="division" value="<?= $division_ID ?>">
+                    <input type="hidden" name="division" value="<?= $division_ID ?>">
 
                     <div class="row">
                         <div class="form-floating">

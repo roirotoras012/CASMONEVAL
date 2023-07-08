@@ -212,11 +212,11 @@
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/manage') }}";
-                                    if (notification.type == 'BDD') {
+                                    if (notification.type == 'Business Development Division') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'CPD') {
+                                    } else if (notification.type == 'Consumer Protection Division') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'FAD') {
+                                    } else if (notification.type == 'Finance Administrative Division') {
                                         url = "{{ url('/dc/coaching') }}";
                                     }
                                 }else if (notification.user_type_ID == 3) { // PD user type ID
