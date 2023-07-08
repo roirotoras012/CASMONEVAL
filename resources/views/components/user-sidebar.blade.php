@@ -185,12 +185,12 @@
                         </a>
 
 
-                        {{-- <a class="nav-link  {{ Request::is('ppo/assessment') ? 'active' : '' }}"
+                        <a class="nav-link  {{ Request::is('ppo/assessment') ? 'active' : '' }}"
                             href="{{ url('ppo/assessment') }}">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
                             Performance Assessment
 
-                        </a> --}}
+                        </a>
 
 
 

@@ -15,4 +15,9 @@ class MonthlyTarget extends Model
     {
         return $this->belongsTo(AnnualTarget::class);
     }
+
+    public function evaluations()
+    {
+        return $this->hasMany(Evaluation::class, 'monthly_target_ID');
+    }
 }
