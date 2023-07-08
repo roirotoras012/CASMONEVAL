@@ -256,11 +256,11 @@
                                                                         <td class="text-center align-middle">
                                                                             {{-- {{$remarks}} --}}
                                                                             @if (
-                                                                                $monthly_targets[strtolower($month->format('M'))][
+                                                                                ($monthly_targets[strtolower($month->format('M'))][
                                                                                     $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
                                                                                 ]->first()->validated == 'Invalid' || $monthly_targets[strtolower($month->format('M'))][
                                                                                     $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                ]->first()->remark == 'Revise')
+                                                                                ]->first()->remark == 'Revise') && !isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
                                                                                 <a href="#" data-bs-toggle="modal"
                                                                                     data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
                                                                                     id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
