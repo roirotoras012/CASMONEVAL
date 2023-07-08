@@ -18,8 +18,8 @@
                             <a href="#viewUserKeys" data-bs-toggle="modal" data-bs-target="#viewUserKeys"
                                 class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-eye"></i><span
                                     class="p-1 d-inline-block">View User Keys</span></a>
-                                <x-modal-view-user-keys :userRegistrationKeys='$userRegistrationKeys' />
-                          
+                            <x-modal-view-user-keys :userRegistrationKeys='$userRegistrationKeys' />
+
                             <a href="#addEmployeeModal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                 class="btn btn-primary" data-toggle="modal"><i class="fa-solid fa-plus"></i><span
                                     class="p-1 d-inline-block">Add New Employee</span></a>
@@ -54,7 +54,7 @@
                             <th>User Type ID</th>
                             <th>Division ID</th>
                             <th>Province ID</th>
-                               <th>Status</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -103,17 +103,19 @@
                                                     ? 'Camiguin'
                                                     : 'N/A')))) }}
                                 </td>
-                                 <td>
-                                <div class="form-container d-flex">
+                                <td>
+                                    <div class="form-container d-flex">
                                         <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')
-                                            <span type="button" class="badge {{$user->status === 'disabled' ? 'badge-danger' : 'badge-success'}}" data-toggle="modal" data-toggle="modal"
+                                            <span type="button"
+                                                class="badge {{ $user->status === 'disabled' ? 'badge-danger' : 'badge-success' }}"
+                                                data-toggle="modal" data-toggle="modal"
                                                 data-target="#disablemodal-{{ $user->user_ID }}"">
-                                               {{$user->status}}
+                                                {{ $user->status }}
                                             </span>
-                                            <x-modal-user-disabler :users='$user'/>
+                                            <x-modal-user-disabler :users='$user' />
                                         </form>
                                     </div>
                                 </td>
@@ -124,7 +126,7 @@
                                             @csrf
                                             @method('put')
                                             <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                data-target="#updatemodal-{{$user->user_ID }}">
+                                                data-target="#updatemodal-{{ $user->user_ID }}">
                                                 <i class="fa-solid fa-pen t text-white"></i>
                                             </button>
                                             <x-modal-update :users='$user' />
@@ -225,13 +227,15 @@
                                 <div>
                                     <div class="input-group" id='input-userkey-container'>
                                         <input type="text" id='input-userkey' name='input_userkey'
-                                            class="form-control" placeholder="User Key">
+                                            class="form-control" placeholder="User Key" required>
+
                                         <span class="input-group-btn">
                                             <span class="input-group-btn">
                                                 <input type="button" id='btn-generate' class="btn btn-primary h-100"
                                                     value="{{ __('Generate') }}">
                                             </span>
-
+                                            <div class="invalid-feedback">Please Generate User Keys
+                                            </div>
                                     </div>
 
                                     <button type="submit" id='btn-add' class="btn btn-primary mt-2 d-block w-100">

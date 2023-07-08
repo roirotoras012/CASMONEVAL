@@ -111,7 +111,7 @@ $(document).ready(function () {
         var rating = document.getElementById("rating_table");
         var win = window.open("", "_blank");
         var fileName = printButton.dataset.fileName;
-        win.document.write("<html><head><title>"+fileName+"</title>");
+        win.document.write("<html><head><title>" + fileName + "</title>");
         win.document.write(
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
         );
@@ -193,12 +193,11 @@ $(document).ready(function () {
         win.document.write("<div></div>");
         win.document.write("</div>");
         win.document.write(table);
-        if(rating){
-
+        if (rating) {
             win.document.write(rating.outerHTML);
         }
-        
-          // Create anchor element with file name
+
+        // Create anchor element with file name
         // var anchor = document.createElement("a");
         // anchor.setAttribute("href", "#");
         // anchor.setAttribute("download", fileName);
@@ -212,21 +211,11 @@ $(document).ready(function () {
         win.document.write("</body></html>");
         win.document.close();
         setTimeout(() => {
-            
-           
-           
             win.print(fileName);
         }, 1000);
     });
 
-
-
-
-
-
-
     var printScoreCard = document.getElementById("print-scoreCard");
-   
 
     if (printScoreCard) {
         printScoreCard.addEventListener("click", function () {
@@ -241,18 +230,26 @@ $(document).ready(function () {
                 // Calculate the font size adjustment ratio
                 var ratio = window.innerWidth / rpo_scoreCard.offsetWidth;
                 var newFontSize = 10 * ratio;
-    
+
                 // Adjust the font size of the table cells
                 var cells = rpo_scoreCard.querySelectorAll("td, th");
                 for (var i = 0; i < cells.length; i++) {
                     cells[i].style.fontSize = newFontSize + "px";
                 }
             }
-            winScorecard.document.write("<html><head><title>" + fileNameScorecard + "</title>");
-            winScorecard.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />');
-            winScorecard.document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>');
-            winScorecard.document.write('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />');
-    
+            winScorecard.document.write(
+                "<html><head><title>" + fileNameScorecard + "</title>"
+            );
+            winScorecard.document.write(
+                '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
+            );
+            winScorecard.document.write(
+                '<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>'
+            );
+            winScorecard.document.write(
+                '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" />'
+            );
+
             winScorecard.document.write("<style>");
             winScorecard.document.write(`
             
@@ -312,24 +309,25 @@ $(document).ready(function () {
             `);
             winScorecard.document.write("</style>");
             winScorecard.document.write("</head><body>");
-            winScorecard.document.write("<div class='header' style='display:flex;align-items:center;justify-content:space-between; page-break-inside: avoid;'>");
             winScorecard.document.write(
-            "<img style='height:auto;width:70px;' src='/images/dti-logo.png' />"
+                "<div class='header' style='display:flex;align-items:center;justify-content:space-between; page-break-inside: avoid;'>"
             );
             winScorecard.document.write(
-            "<p style='text-align:center;font-size:10px;'>Republic of the Philippines<br>Department of Trade and Industry</p>"
+                "<img style='height:auto;width:70px;' src='/images/dti-logo.png' />"
+            );
+            winScorecard.document.write(
+                "<p style='text-align:center;font-size:10px;'>Republic of the Philippines<br>Department of Trade and Industry</p>"
             );
             winScorecard.document.write("<div></div>");
             winScorecard.document.write("</div>");
-            
+
             winScorecard.document.write("<div id='content'>");
             winScorecard.document.write(rpo_scoreCard.outerHTML);
-            if(rating){
-
+            if (rating) {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
-        
+
             winScorecard.document.write("</body></html>");
             winScorecard.document.close();
             rpo_scoreCard.classList.add("d-none");
@@ -339,22 +337,21 @@ $(document).ready(function () {
                     winScorecard.location.reload();
                 }
             };
-    
+
             var adjustContentSize = function (win) {
                 var content = win.document.getElementById("content");
-                var scale = Math.min(win.innerWidth / contentWidth, win.innerHeight / contentHeight);
-              
+                var scale = Math.min(
+                    win.innerWidth / contentWidth,
+                    win.innerHeight / contentHeight
+                );
             };
-    
+
             winScorecard.onload = function () {
                 adjustContentSize(winScorecard);
                 printWindow(winScorecard);
-               
             };
         });
     }
-    
 });
-
 
 // var button = document.getElementById('disableWhenClicked');

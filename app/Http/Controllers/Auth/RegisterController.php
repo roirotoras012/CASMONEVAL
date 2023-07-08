@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -74,17 +75,22 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string','regex:/^[\pL\s\-]+$/u', 'max:255'],
-            'last_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u','max:255'],
-            'middle_name' => ['required', 'string','regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'first_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'last_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'middle_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
             // 'extension_name' => ['max:255'],
-            'birthday' => ['required'],
+            'birthday' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type_ID' => ['required'],
             'division_ID' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            
-        ]);
+        ])->after(function ($validator) use ($data) {
+            $birthday = Carbon::parse($data['birthday']);
+            $minAge = Carbon::now()->subYears(18);
+            if ($birthday->greaterThan($minAge)) {
+                $validator->errors()->add('birthday', 'You must be at least 18 years old.');
+            }
+        });
     }
 
     /**

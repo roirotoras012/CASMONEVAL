@@ -19,13 +19,13 @@
                                                     class="p-1 fa-solid fa-key"></i>
                                             </span>
                                         </div>
-                                        <input placeholder="Please enter registraion key" id="password"
-                                            type="password"
+                                        <input placeholder="Please enter registraion key" id="password" type="password"
                                             class="form-control @error('registration_key') is-invalid @enderror"
-                                            name="registration_key" autocomplete="registration_key">
+                                            name="registration_key" autocomplete="registration_key" required
+                                            pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert" />
-                                                <strong>{{ $message }}</strong>
+                                            <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
                                         <div class="input-group-append">

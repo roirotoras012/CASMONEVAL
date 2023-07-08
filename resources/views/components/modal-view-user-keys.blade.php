@@ -1,7 +1,7 @@
 @props(['userRegistrationKeys'])
 
 <div class="modal fade" id="viewUserKeys" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-confirm">
+    <div class="modal-dialog modal-confirm modal-lg">
         <div class="modal-content p-0 m-0">
 
             {{-- <ul>

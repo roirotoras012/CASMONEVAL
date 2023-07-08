@@ -194,9 +194,8 @@
                                         </label>
                                     </div>
 
-
                                     <div class="form-check">
-                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                        <input pattern='^[0-9]+$' type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
                                         
                                     </div>
                             </div>
