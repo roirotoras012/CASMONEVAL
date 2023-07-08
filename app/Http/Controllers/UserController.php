@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+use App\Models\User;
+
+class UserController extends Controller
+{
+    // /**
+    //  * Display a listing of the resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function index()
+    // {
+       
+    //     return view("pages.Admin.pages.users");
+    // }
+
+    // /**
+    //  * Show the form for creating a new resource.
+    //  *
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function create()
+    
+    // {
+    //     //
+      
+
+    // }
+
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function store(Request $request)
+    // {
+    //   //
+    // }
+    // public function adminView()
+    // {
+    //     //
+    //     $users = User::all();
+        
+    //     return view('pages.Admin.pages.users', ['users' => $users]);
+    // }
+
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+
+
+    // public function show($id)
+    // {
+    //     //
+      
+        
+    // }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($id)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update(Request $request, User $user)
+    // {
+    //     //
+
+       
+    //     $request->validate([    
+    //         'first_name' => 'required|string|max:255',
+    //         'last_name' => 'required|string|max:255',
+    //         'middle_name' => 'required|string|max:255',
+    //         // 'extension_name' => 'required|string|max:255',
+    //         'birthday' => 'required|date',
+    //         'email' => 'required|string|email|max:255',
+    //         'user_type_ID' => 'required|integer',
+    //         'password' => 'required'
+    //     ]);
+    
+    //     $attributes = [
+    //         'first_name' => $request->first_name,
+    //         'last_name' => $request->last_name,
+    //         'middle_name' => $request->middle_name,
+    //         'extension_name' => $request->extension_name,
+    //         'birthday' => $request->birthday,
+    //         'email' => $request->email,
+    //         'user_type_ID' => $request->user_type_ID,
+    //         'password' => Hash::make($request->password),
+    //     ];
+    
+    //     $user->update($attributes);
+    
+    //     return redirect()->route('users.adminView')->with('success', 'User updated successfully');
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+       
+    //     $user = User::findOrFail($id);
+    //     $user->delete();
+    //     $full_name = $user->first_name . " " . $user->last_name;
+    //     return redirect()->route('users.adminView')->with('success', "$full_name  was deleted successfully.");
+    // }
+}
