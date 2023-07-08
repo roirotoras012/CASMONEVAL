@@ -24,9 +24,27 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
     $(".generate-password-btn").click(function () {
         console.log("button click");
         var generateId = $(this).data("generate-id");
-        var password = Math.random().toString(36).slice(2);
+        var password = generatePasswordWithNumber();
         $(".user-password." + generateId).val(password);
     });
+
+    function generatePasswordWithNumber() {
+        var password = "";
+        var hasNumber = false;
+        var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var numbers = "0123456789";
+        var allCharacters = letters + numbers;
+        while (!hasNumber) {
+            password = "";
+            for (var i = 0; i < 8; i++) {
+                password += allCharacters.charAt(
+                    Math.floor(Math.random() * allCharacters.length)
+                );
+            }
+            hasNumber = /[0-9]/.test(password);
+        }
+        return password;
+    }
     setTimeout(() => {
         console.log($("select[name='user_type_ID']").val());
     }, 3000);
@@ -93,9 +111,11 @@ $(document).ready(function () {
     });
 
     // PASSWORD TOGGLE EYE
-    $("#toggle-password").click(function () {
-        console.log("clicke eye");
-        var passwordField = $("#password");
+    $(".toggle-password").click(function () {
+        console.log("click eye");
+        var passwordField = $(this)
+            .closest(".input-group")
+            .find(".eye-password");
         var passwordFieldType = passwordField.attr("type");
         if (passwordFieldType === "password") {
             passwordField.attr("type", "text");

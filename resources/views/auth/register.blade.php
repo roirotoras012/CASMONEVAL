@@ -20,7 +20,7 @@
                                             </span>
                                         </div>
                                         <input placeholder="Please enter registraion key" id="password" type="password"
-                                            class="form-control @error('registration_key') is-invalid @enderror"
+                                            class="form-control eye-password @error('registration_key') is-invalid @enderror"
                                             name="registration_key" autocomplete="registration_key" required
                                             pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$">
                                         @error('email')
@@ -29,7 +29,7 @@
                                             </span>
                                         @enderror
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button" id="toggle-password">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
