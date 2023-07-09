@@ -175,28 +175,38 @@
 
                                                 <input type="hidden" name="data[{{ $ctr }}][BUK]" value="">
 
+                                            @if (!isset($label->sum_of))
+                                            @if ($label->BUK)
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
+                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                            onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}','{{ $label->target_type }}')">
+                                            {{ $label->BUK }}@if ($label->target_type == 'PERCENTAGE')
+                                                %
+                                            @endif
+                                          
+                                         </a>
+                                            @else
+                                            <div class="d-flex gap-1 align-items-center">
+                                                <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
+                                                    style="font-weight: bold;"<?php   } ?> type="text"
+                                                    name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
+                                                        <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
+                                                        %
+                                                    </label>
+                                            </div>
+                                            
+                                            @endif
+                                           
 
-                                                @if ($label->BUK)
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
-                                                style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
-                                                onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}','{{ $label->target_type }}')">
-                                                {{ $label->BUK }}@if ($label->target_type == 'PERCENTAGE')
-                                                    %
-                                                @endif
-                                              
-                                             </a>
-                                                @else
-                                                <div class="d-flex gap-1 align-items-center">
-                                                    <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
-                                                        style="font-weight: bold;"<?php   } ?> type="text"
-                                                        name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
-                                                        <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                            <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
-                                                            %
-                                                        </label>
-                                                </div>
-                                                
-                                                @endif
+                                            @else
+                                            <input disabled
+                                                style="font-weight: bold;" type="text"
+                                                name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
+
+
+
+                                            @endif
                                                
 
 
@@ -230,6 +240,7 @@
                                             <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][CAM]" value="">
 
+                                            @if (!isset($label->sum_of))
                                                 @if ($label->CAM)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                 style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
@@ -237,7 +248,7 @@
                                                 {{ $label->CAM }}@if ($label->target_type == 'PERCENTAGE')
                                                 %
                                             @endif
-                                             </a>
+                                            </a>
                                                 @else
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
@@ -248,8 +259,16 @@
                                                             %
                                                         </label>
                                                 </div>
-                                               
+                                            
                                                 @endif
+
+                                            @else
+                                            <input disabled
+                                                style="font-weight: bold;" type="text"
+                                                name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}">
+                                            @endif
+
+                                                
 
                                                 
                                                    
@@ -275,7 +294,7 @@
                                             </td>
                                             <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][LDN]" value="">
-
+                                            @if (!isset($label->sum_of))
                                                 @if ($label->LDN)
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                 style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
@@ -283,7 +302,7 @@
                                                 {{ $label->LDN }}@if ($label->target_type == 'PERCENTAGE')
                                                 %
                                             @endif
-                                             </a>
+                                            </a>
                                                 @else
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
@@ -294,8 +313,16 @@
                                                             %
                                                         </label>
                                                 </div>
-                                               
+                                            
                                                 @endif
+
+                                            @else
+                                            <input disabled
+                                                style="font-weight: bold;" type="text"
+                                                name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}">
+                                            @endif
+                                            
+                                               
                                                 
                                                   
 
@@ -321,6 +348,8 @@
                                             <td style="width: 80px">
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOR]"
                                                     value="">
+
+                                                @if (!isset($label->sum_of))
                                                     @if ($label->MISOR)
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                     style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
@@ -328,7 +357,7 @@
                                                     {{ $label->MISOR }}@if ($label->target_type == 'PERCENTAGE')
                                                     %
                                                 @endif
-                                                 </a>
+                                                </a>
                                                     @else
                                                     <div class="d-flex gap-1 align-items-center">
                                                         <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
@@ -339,9 +368,16 @@
                                                                 %
                                                             </label>
                                                     </div>
-                                                   
+                                                
                                                         
                                                     @endif
+
+                                                @else
+                                                <input  disabled
+                                                    style="font-weight: bold;" type="text"
+                                                    name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}">
+                                                @endif
+                                                    
                                                 
                                                     
 
@@ -368,6 +404,7 @@
                                                 <input type="hidden" name="data[{{ $ctr }}][MISOC]"
                                                     value="">
 
+                                                @if (!isset($label->sum_of))
                                                     @if ($label->MISOC)
                                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editAnnualModal"
                                                     style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
@@ -375,7 +412,7 @@
                                                     {{ $label->MISOC }}@if ($label->target_type == 'PERCENTAGE')
                                                     %
                                                 @endif
-                                                 </a>
+                                                </a>
                                                     @else
                                                     <div class="d-flex gap-1 align-items-center">
                                                         <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
@@ -388,6 +425,13 @@
                                                     </div>
                                                     
                                                     @endif
+
+                                                @else
+                                                <input  disabled
+                                                    style="font-weight: bold;" type="text"
+                                                    name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}">
+                                                @endif
+                                                   
                                                
                                                   
 

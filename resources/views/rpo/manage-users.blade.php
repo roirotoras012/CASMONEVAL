@@ -105,7 +105,7 @@
                                 </td>
                                 <td>
                                     <div class="form-container d-flex">
-                                        <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
+                                        <form action="{{ route('rpo.statusupdate', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')
@@ -121,7 +121,7 @@
                                 </td>
                                 <td>
                                     <div class="form-container d-flex">
-                                        <form action="{{ route('rpo.statusupdate', $user->user_ID) }}" class="mr-2"
+                                        <form action="{{ route('rpo.update', $user->user_ID) }}" class="mr-2"
                                             method="post">
                                             @csrf
                                             @method('put')

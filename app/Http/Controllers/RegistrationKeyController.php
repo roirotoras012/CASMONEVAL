@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RegistrationKey;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegistrationKeyController extends Controller
 {
@@ -33,12 +34,14 @@ class RegistrationKeyController extends Controller
         $province_id = $registration_key->province_ID ?? null;
         // dd($division_id);
         if (!$registration_key) {
+            Alert::error('Invalid User Keys');
             return redirect()
                 ->route('registerUser.error')
                 ->with('error', 'Invalid User Keys');
         }
        
         if ($registration_key->Status === 'Taken') {
+            Alert::error('Registration key already used');
             return redirect()
                 ->route('registerUser.error')
                 ->with('error', 'Registration key already used');
@@ -47,15 +50,23 @@ class RegistrationKeyController extends Controller
         $division_id = $registration_key->division_ID;
 
         if (!$division_id && !$province_id) {
+          
+            toast('User Validated Successfully','success');
+
+
             return redirect()
             ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => "0" , "province-id" => "0", 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
         }
         if (!$province_id) {
+            toast('User Validated Successfully','success');
+
             return redirect()
             ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => "0", 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
         }
+        toast('User Validated Successfully','success');
+
         return redirect()
             ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id ,"province-id" => $province_id, 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
@@ -81,9 +92,12 @@ class RegistrationKeyController extends Controller
             'registration_key' => $request['input_userkey'],
         ]);
         // User::create([$request->all()]);
+        Alert::success('User created successfully');
         return redirect()
-            ->route('users.adminView')
-            ->with('success', 'User created successfully.');
+            ->route('users.adminView');
+        // return redirect()
+        //     ->route('users.adminView')
+        //     ->with('success', 'User created successfully.');
     }
 
     /**

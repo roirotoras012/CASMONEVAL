@@ -28,6 +28,8 @@
 
 <body>
     <div id="app">
+        @include('sweetalert::alert')
+
         <span id="notification-text" class="notification-design" role="alert" style="display: none;"></span>
 
 

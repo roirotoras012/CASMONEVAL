@@ -30,12 +30,7 @@
                             <input required pattern="^[0-9]+$" type="text" id="monthly_target"
                                 class="form-control @error('monthly_target') is-invalid @enderror" name="monthly_target"
                                 value="{{ old('monthly_target') }}" required autofocus />
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    %
-                                </label>
-                            </div>
+                         
 
                             @error('monthly_target')
                                 <span class="invalid-feedback" role="alert">
