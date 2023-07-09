@@ -76,10 +76,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
 
-
-    // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
+    Route::put('rpo/status/{rpo}', [RegionalPlanningOfficerController::class, 'statusupdate'])->name('rpo.statusupdate');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
-    Route::put('rpo/{rpo}', [RegionalPlanningOfficerController::class, 'statusupdate'])->name('rpo.statusupdate');
+    // Route::get('rpo/dashboard', [RegionalPlanningOfficerController::class, 'users_view'])->name('users_view');
 
 });
 

@@ -6,7 +6,7 @@
     <x-user-sidebar>
         <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-          </div>
+        </div>
         <div class="container-fluid px-4 py-5">
 
 
@@ -134,9 +134,16 @@
 
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="password"
+                                        <input type="password" class="form-control eye-password"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="current_password" />
-                                        
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
@@ -151,14 +158,17 @@
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="password" required
+                                        <input type="password" class="form-control eye-password"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="current_password" />
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button"
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
                                                 id="toggle-password">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
+                                        <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                         @error('current_password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -168,8 +178,17 @@
                                 <div class="form-group">
                                     <label for="password">New Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control" id="new_password" required
+                                        <input type="password" class="form-control eye-password" id="new_password"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="new_password" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                id="toggle-password">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                         @error('new_password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -178,12 +197,20 @@
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm New Password</label>
                                     <div class="input-group input-group-sm">
-                                        <input id="password-confirm" type="password" class="form-control" required
+                                        <input id="password-confirm" type="password" class="form-control eye-password"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="password_confirmation" autocomplete="password_confirmation" />
                                         @error('password_confirmation')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                id="toggle-password">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary">
