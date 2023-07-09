@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
@@ -58,19 +59,26 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         $userType = auth()->user()->user_type_ID;
+
         $userDetails = auth()->user();
         switch ($userType) {
             case 1:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('rd.index', ['userDetails' => $userDetails]);
             case 2:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('rpo.index', ['userDetails' => $userDetails]);
             case 3:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('pd.index', ['userDetails' => $userDetails]);
             case 4:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('ppo.dashboard', ['userDetails' => $userDetails]);
             case 5:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('dc.index', ['userDetails' => $userDetails]);
             case 6:
+                Alert::success("Welcome $userDetails->first_name $userDetails->last_name");
                 return route('users.adminView', ['userDetails' => $userDetails]);
             default:
                 return '/';
@@ -98,5 +106,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->username = $this->findUsername();
     }
+    
    
 }

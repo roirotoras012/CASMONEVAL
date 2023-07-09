@@ -47,8 +47,8 @@
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addKpi">
                             <i class="fas fa-plus"></i> Add Operational Driver
                         </button>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteKpi">
-                            <i class="fa-solid fa-trash"></i> Delete Operational Driver
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editDriver">
+                            <i class="fas fa-edit"></i> Edit Operational Driver
                         </button>
                     </div>
                     </div>
@@ -61,11 +61,11 @@
                 <div class="px-3">
                     <select name="driver_ID" required class="form-select">
                         <option value="">CHOOSE DRIVER</option>
-                        @foreach ($drivers->sortByDesc('driver_ID') as $driver)
-                        <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
+                        @foreach ($drivers->sortBy('driver') as $driver)
+                            <option value="{{ $driver->driver_ID }}">{{ $driver->driver }}</option>
                         @endforeach
-
                     </select>
+                    
 
                 </div>
 
@@ -121,7 +121,7 @@
                                 @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}">
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}" required>
                                         <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
                                             {{$measure->strategic_measure}}
                                                 
@@ -187,7 +187,7 @@
                             @else
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)" >
                                         <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
                                             {{$measure->strategic_measure}}
                                                 
@@ -237,7 +237,7 @@
 
 
                                     <div class="form-check">
-                                        <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
+                                        <input pattern='^[0-9]+$' type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
                                         
                                     </div>
                                 </div>
@@ -261,7 +261,9 @@
         
 
 <x-add_driver_form />
-<x-delete_driver_form :drivers="$drivers->sortByDesc('driver_ID')"/>
+{{-- <x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID" :selectedDriver="$driver->driver" /> --}}
+<x-edit_driver_form :drivers="$drivers->sortByDesc('driver_ID')" :selectedDriverId="$driver->driver_ID ?? null" :selectedDriver="$driver->driver ?? 'Driver Name'" />
+
 <x-add_indirect_measure_form />
 <x-add_mandatory_measure_form />
 

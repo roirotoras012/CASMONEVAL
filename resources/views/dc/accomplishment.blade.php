@@ -248,12 +248,19 @@
                                                                         }
                                                                         
                                                                     @endphp
+                                                                    {{-- {{dd($monthly_targets[strtolower($month->format('M'))][
+                                                                        $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                    ]->first())}} --}}
                                                                     @if (!$cutoff[$i - 1])
+                                                                    
                                                                         <td class="text-center align-middle">
+                                                                            {{-- {{$remarks}} --}}
                                                                             @if (
-                                                                                $monthly_targets[strtolower($month->format('M'))][
+                                                                                ($monthly_targets[strtolower($month->format('M'))][
                                                                                     $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                ]->first()->validated == 'Invalid')
+                                                                                ]->first()->validated == 'Invalid' || $monthly_targets[strtolower($month->format('M'))][
+                                                                                    $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                                ]->first()->remark == 'Revise') && !isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
                                                                                 <a href="#" data-bs-toggle="modal"
                                                                                     data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
                                                                                     id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
@@ -313,12 +320,19 @@
                                                                 @else
                                                                     @if (!$cutoff[$i - 1])
                                                                         <td class="text-center align-middle">
+
+                                                                            @if (!isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
                                                                             <a href="#" data-bs-toggle="modal"
-                                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                                id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                                class="text-danger">
-                                                                                N/A
+                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                            id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                            class="text-danger">
+                                                                            N/A
                                                                             </a>
+                                                                            
+                                                                            @else
+                                                                            N/A
+                                                                            @endif
+                                                                            
                                                                             <span>out of
                                                                                 <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
                                                                                     @if ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->type == 'PERCENTAGE')

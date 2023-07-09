@@ -22,7 +22,6 @@
                     <input type="hidden" name="target_type" value="{{ $target_type }}">
                     {{-- <input type="hidden" name="monthly_target_ID" value="{{$monthly_target_ID}}"> --}}
                     {{-- <input type="hidden" name="year" value="2032"> --}}
-
                     <div class="row">
                         <label for="monthly_target"
                             class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
@@ -31,12 +30,7 @@
                             <input required pattern="^[0-9]+$" type="text" id="monthly_target"
                                 class="form-control @error('monthly_target') is-invalid @enderror" name="monthly_target"
                                 value="{{ old('monthly_target') }}" required autofocus />
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label" for="flexCheckDefault">
-                                    %
-                                </label>
-                            </div>
+                         
 
                             @error('monthly_target')
                                 <span class="invalid-feedback" role="alert">

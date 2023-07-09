@@ -43,7 +43,7 @@
                                                         class="p-1 fa-solid fa-lock"></i></span>
                                             </div>
                                             <input placeholder="Password" id="password" type="password"
-                                                class="form-control @error('password') is-invalid @enderror" name="password"
+                                                class="form-control eye-password @error('password') is-invalid @enderror" name="password"
                                                 required autocomplete="password">
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -52,8 +52,7 @@
                                             @enderror
                                            
                                             <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary" type="button"
-                                                    id="toggle-password">
+                                                <button class="btn btn-outline-secondary toggle-password" type="button">
                                                     <i class="fa fa-eye"></i>
                                                 </button>
                                             </div>
