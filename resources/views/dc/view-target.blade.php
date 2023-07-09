@@ -216,9 +216,18 @@
                                                                             @if (isset($monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))
                                                                                 {{-- @if (isset($monthly_targets_array[strtolower($month->format('M'))][$annualTarget->annual_target_ID]))    --}}
                                                                                 <?php $monthlyTarget = $monthly_targets[strtolower($month->format('M'))][$annualTarget->annual_target_ID]->first(); ?>
-                                                                                
-                                                                                    <td class="text-center align-middle">
+                                                                                <td class="text-center align-middle">
+                                                                                    @if (isset($measure->sum_of))
+                                                                                    
+                                                                                    {{ $monthlyTarget->monthly_target }}
+                                                                                   
+                                                                                    @else
+                                                                                   
+
+
+                                                                                   
                                                                                         <a href="#"
+                                                                                           
                                                                                             data-bs-toggle="modal"
                                                                                             data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
                                                                                             id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>">
@@ -236,28 +245,38 @@
                                                                                             :annual_target="$annualTarget->annual_target_ID"
                                                                                             :monthly_target_ID="$monthlyTarget->monthly_target_ID"
                                                                                             :monthly_target="$monthlyTarget->monthly_target" />
-                                                                                    </td>
+                                                                                   
+                                                                                    @endif
+                                                                                </td>
                                                                              
                                                                                 <?php $totalTarget += $monthlyTarget->monthly_target;
                                                                                         $monthly_target_count ++;
                                                                                             ?>
                                                                             @else
-                                                                         
-                                                                                    <td class="text-center align-middle">
-                                                                                        <a href="#"
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
-                                                                                            id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
-                                                                                            class="text-danger">N/A</a>
-                                                                                        <x-update_monthly_target_modal
-                                                                                            :month="strtolower(
-                                                                                                $month->format('M'),
-                                                                                            )"
-                                                                                            :division_ID="$userDetails->division_ID"
-                                                                                            :year="202"
-                                                                                            :annual_target="$annualTarget->annual_target_ID"
-                                                                                            :target_type="$annualTarget->type" />
-                                                                                    </td>
+                                                                               
+                                                                            <td class="text-center align-middle">
+                                                                            @if (isset($measure->sum_of))
+                                                                            N/A
+                                                                            @else
+                                                                            
+                                                                                <a href="#"
+
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
+                                                                                    id="#<?= strtolower($month->format('M')) . '_' . $annualTarget->annual_target_ID ?>"
+                                                                                    class="text-danger">N/A</a>
+                                                                                <x-update_monthly_target_modal
+                                                                                    :month="strtolower(
+                                                                                        $month->format('M'),
+                                                                                    )"
+                                                                                    :division_ID="$userDetails->division_ID"
+                                                                                    :year="202"
+                                                                                    :annual_target="$annualTarget->annual_target_ID"
+                                                                                    :target_type="$annualTarget->type" />
+                                                                           
+                                                                            @endif
+                                                                        </td>
+                                                                                 
                                                                               
                                                                             @endif
                                                                         @endfor

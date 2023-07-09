@@ -102,6 +102,8 @@
                                             {{ $label->number_measure }}
                                         </td>
                                         <td>{{ $label->strategic_measure }} 
+                                            {{ $label->sum_of }}
+                                            @if (!isset($label->sum_of)) 
                                             <input type="hidden"
                                             name="data[{{ $ctr }}][strategic_objective]"
                                             value="{{ $label->strategic_objective_ID }}">
@@ -113,61 +115,82 @@
                                                 value="{{ $label->type }}">
                                             <input type="hidden" name="data[{{ $ctr }}][division_ID]"
                                                 value="{{ $label->division_ID }}">
-
+                                            @endif
                                         </td>
 
                                         <td>
-                                            <input  class="form-control" required type="hidden" name="data[{{ $ctr }}][total_targets]">
-                                            
+                                            @if (!isset($label->sum_of)) 
+                                            <input  class="form-control"  type="hidden" name="data[{{ $ctr }}][total_targets]">
+                                            @endif
                                         </td>
                                         <td >
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][BUK]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
                                                 %
                                             </label>
                                             </div>
                                             
+                                            @endif
+                                            
+                                            
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+
                                            
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
                                                 %
                                             </label>
                                             </div>
+                                            @endif
+                                            
+                                          
                                             
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+                                            
                                            
                                         </td>
                                         <td>
+                                            @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control" required type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                     <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
                                                     %
                                                 </label>
                                             </div>
+                                            @endif
+                                            
+                                           
                                            
                                         </td>
 
