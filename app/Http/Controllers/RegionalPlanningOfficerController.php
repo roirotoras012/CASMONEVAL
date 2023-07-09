@@ -18,6 +18,7 @@ use App\Models\Division;
 use App\Models\FileUpload;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RegionalPlanningOfficerController extends Controller
 {
@@ -74,14 +75,20 @@ class RegionalPlanningOfficerController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
+            toast('Email updated successfully.', 'success');
             return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+            ->back();
+            // return redirect()
+            //     ->back()
+            //     ->with('success', 'Email updated successfully.');
         } else {
             // Show an error message
+            toast('Invalid Password','error');
+            // return redirect()
+            // ->back()
+            // ->with('error', 'Invalid Password');
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
         }
     }
 
@@ -93,13 +100,20 @@ class RegionalPlanningOfficerController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
+            toast('Password updated successfully', 'success');
+            // return redirect()
+            // ->back()
+            // ->with('update-pass-success', 'Password updated successfully.');
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            toast('Invalid Password','error');
+
+            // return redirect()
+            // ->back()
+            // ->with('update-pass-error', ' Invalid Password');
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
 
@@ -118,9 +132,13 @@ class RegionalPlanningOfficerController extends Controller
             'registration_key' => $request['input_userkey'],
         ]);
         // User::create([$request->all()]);
+        Alert::success('User created successfully');
+
+        // return redirect()
+        //     ->route('rpo.users')
+        //     ->with('success', 'User created successfully.');
         return redirect()
-            ->route('rpo.users')
-            ->with('success', 'User created successfully.');
+            ->route('rpo.users');
     }
 
     public function opcr_target()
@@ -143,9 +161,14 @@ class RegionalPlanningOfficerController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
         $full_name = $user->first_name . ' ' . $user->last_name;
+
+        Alert::success("$full_name was Deleted Successfully");
         return redirect()
-            ->route('rpo.users')
-            ->with('success', "$full_name  was deleted successfully.");
+        ->route('rpo.users');
+
+        // return redirect()
+        //     ->route('rpo.users')
+        //     ->with('success', "$full_name  was deleted successfully.");
     }
 
     public function statusupdate(Request $request,User $user)
@@ -154,16 +177,20 @@ class RegionalPlanningOfficerController extends Controller
             $user = User::find($request->user_ID);
             $user->status = $request->statusSelect;
             $user->save();
+            Alert::success("User Status Updated Successfully");
             return redirect()
-                ->route('rpo.users')
-                ->with('success', 'User Disabled successfully');
+            ->route('rpo.users');
+            // return redirect()
+            //     ->route('rpo.users')
+            //     ->with('success', 'User Disabled successfully');
     }
 
 
 
     public function update(Request $request, User $user)
     {
-
+      
+        // dd($request);
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -189,6 +216,7 @@ class RegionalPlanningOfficerController extends Controller
             'user_type_ID' => (int) $request->user_type_ID,
             'province_ID' => (int) $request->province_ID ?? null,
             'division_ID' => (int) $request->division_ID ?? null,
+            'status' => "active"
         ];
         //  dd($attributes);
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
@@ -202,9 +230,13 @@ class RegionalPlanningOfficerController extends Controller
         }
         $user = User::find($request->user_ID);
         $user->update($attributes);
+        // Alert::success('User updated successfully');
+
         return redirect()
-            ->route('rpo.users')
-            ->with('success', 'User updated successfully');
+            ->route('rpo.users');
+            // return redirect()
+            // ->route('rpo.users')
+            // ->with('success', 'User updated successfully');
     }
 
     public function add_targets(Request $request)

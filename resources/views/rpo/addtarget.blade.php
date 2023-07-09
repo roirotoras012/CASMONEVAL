@@ -126,7 +126,7 @@
                                         <td >
                                             @if (!isset($label->sum_of))
                                             <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]"  pattern="^[0-9]+$">
+                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
                                                 %

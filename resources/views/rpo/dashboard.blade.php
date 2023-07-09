@@ -18,10 +18,10 @@
                 </li>
 
             </ol>
-            <div class="alert alert-warning d-inline-block px-4" role="alert">
+            {{-- <div class="alert alert-warning d-inline-block px-4" role="alert">
                 Welcome, {{ $userDetails->first_name . " ". $userDetails->last_name}}!
 
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card mb-4 shadow" data-toggle="modal" data-target="#dashboard-modal">

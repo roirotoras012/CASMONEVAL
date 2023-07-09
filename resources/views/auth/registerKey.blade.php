@@ -15,11 +15,11 @@
                                         <img style="height:100px;width: auto;margin-bottom:10px;"
                                             src="{{ url('/images/dti-logo.png') }}" />
                                     </div>
-                                    @if ($message = Session::get('validated'))
+                                    {{-- @if ($message = Session::get('validated'))
                                         <div class="alert alert-success mt-4">
                                             <p class="m-0">{{ $message }}</p>
                                         </div>
-                                    @endif
+                                    @endif --}}
 
 
                                     <div class="row mb-4">
