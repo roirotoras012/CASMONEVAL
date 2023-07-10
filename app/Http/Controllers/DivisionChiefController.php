@@ -115,16 +115,18 @@ class DivisionChiefController extends Controller
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
             if ($newTotalMonthlyTargets != $annualTargetValue) {
+                Alert::success('December monthly target must be equal to the annual target.');
+
                 return redirect()
-                    ->back()
-                    ->with('alert', 'December monthly target must be equal to the annual target.');
+                    ->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
             if ($newTotalMonthlyTargets > $annualTargetValue) {
+                Alert::warning('Monthly target exceeds the annual target.');
+
                 return redirect()
-                    ->back()
-                    ->with('alert', 'Monthly target exceeds the annual target.');
+                    ->back();
             }
         }
 
@@ -138,10 +140,13 @@ class DivisionChiefController extends Controller
 
         $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
+        Alert::success('Annual Target successfully added!');
 
-        return redirect()
-            ->route('dc.bukidnunBddIndex')
-            ->with('success', 'Annual Target successfully added!');
+        // return redirect()
+        //     ->route('dc.bukidnunBddIndex')
+        //     ->with('success', 'Annual Target successfully added!');
+            return redirect()
+            ->route('dc.bukidnunBddIndex');
     }
 
     public function updateTar(Request $request)
@@ -156,9 +161,15 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
+          
+            Alert::warning('Invalid input. Monthly target should not contain letters.');
+
             return redirect()
-                ->back()
-                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+                ->back();
+                
+            // return redirect()
+            // ->back()
+            // ->with('alert', 'Invalid input. Monthly target should not contain letters.');
         }
 
         // Get the monthly target for the given monthly_target_ID

@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Evaluation;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+
 class ProvincialDirectorController extends Controller
 {
     public function index()
@@ -101,14 +103,23 @@ class ProvincialDirectorController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
-            return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+            Alert::success('Email updated successfully.');
+
+            // return redirect()
+            //     ->back()
+            //     ->with('success', 'Email updated successfully.');
+                return redirect()
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             // Show an error message
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
+
+                // return redirect()
+                // ->back()
+                // ->with('error', 'Invalid Password');
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -119,13 +130,15 @@ class ProvincialDirectorController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
+            Alert::success('Password updated successfully.');
+
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
     public function assessment()
@@ -885,9 +898,9 @@ class ProvincialDirectorController extends Controller
         DB::table('opcr')
         ->where('opcr_ID', $opcr_id)
         ->update(['opcr_status' => 'approved']);
+        Alert::success('OPCR Approved!');
 
         return redirect()
-        ->back()
-        ->with('update', 'OPCR Approved!');
+        ->back();
     }
 }
