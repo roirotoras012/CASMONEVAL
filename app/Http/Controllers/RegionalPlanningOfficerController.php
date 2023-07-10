@@ -75,7 +75,9 @@ class RegionalPlanningOfficerController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
-            toast('Email updated successfully.', 'success');
+            Alert::success('Email updated successfully');
+
+          
             return redirect()
             ->back();
             // return redirect()
@@ -83,7 +85,9 @@ class RegionalPlanningOfficerController extends Controller
             //     ->with('success', 'Email updated successfully.');
         } else {
             // Show an error message
-            toast('Invalid Password','error');
+            Alert::error('Invalid Password');
+
+           
             // return redirect()
             // ->back()
             // ->with('error', 'Invalid Password');
@@ -100,15 +104,17 @@ class RegionalPlanningOfficerController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
-            toast('Password updated successfully', 'success');
+            Alert::success('Password updated successfully');
+
+            // toast('Password updated successfully', 'success');
             // return redirect()
             // ->back()
             // ->with('update-pass-success', 'Password updated successfully.');
             return redirect()
                 ->back();
         } else {
-            toast('Invalid Password','error');
-
+            Alert::error('Invalid Password');
+            // toast('Invalid Password','error');
             // return redirect()
             // ->back()
             // ->with('update-pass-error', ' Invalid Password');
@@ -471,10 +477,9 @@ class RegionalPlanningOfficerController extends Controller
                     ->update(['status' => 'COMPLETE']);
             }
         }
-
+        Alert::success('Targets Added Successfully.');
         return redirect()
-            ->route('rpo.show', $opcr->opcr_ID)
-            ->with('success', 'Targets Added Successfully.');
+            ->route('rpo.show', $opcr->opcr_ID);
         // return $request->data;
     }
     public function assessment()
@@ -1612,10 +1617,9 @@ class RegionalPlanningOfficerController extends Controller
                     ->where('opcr_ID', $opcr_id)
                     ->update(['status' => 'COMPLETE']);
             }
-
+            Alert::success('Targets Updated Successfully.');
             return redirect()
-                ->route('rpo.show', $opcr_id)
-                ->with('success', 'Targets Updated Successfully.');
+                ->route('rpo.show', $opcr_id);
         } elseif ($request->submit == 'submit') {
             DB::table('opcr')
                 ->where('opcr_ID', $opcr_id)
@@ -1715,10 +1719,9 @@ class RegionalPlanningOfficerController extends Controller
             $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
             $annualTarget->annual_target = $validatedData['new_target'];
             $annualTarget->save();
-           
+            Alert::success('Annual Target successfully updated!');
             return redirect()
-            ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
-            ->with('success', 'Annual Target successfully updated!');
+            ->route('rpo.show', $annualTarget->opcr_id);
         }
     }
 

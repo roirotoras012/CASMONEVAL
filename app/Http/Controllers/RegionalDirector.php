@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Evaluation;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+
 class RegionalDirector extends Controller
 {
     public function index()
