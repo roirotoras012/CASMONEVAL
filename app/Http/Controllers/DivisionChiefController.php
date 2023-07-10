@@ -413,58 +413,60 @@ class DivisionChiefController extends Controller
             ->get()
             ->groupBy(['strategic_measure_ID']);
 
-        for ($i = 0; $i < 2; $i++) {
-            foreach ($measures_list as $measure_list) {
-                $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-                $annual_target = null;
-                if (isset($measure_list->first()->sum_of)) {
-                    $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
-                        ->where('division_ID', $user->division_ID)
-                        ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                        ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
-                        ->get()
-                        ->first();
+        if (count($opcrs_active) != 0) {
+            for ($i = 0; $i < 2; $i++) {
+                foreach ($measures_list as $measure_list) {
+                    $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                    $annual_target = null;
+                    if (isset($measure_list->first()->sum_of)) {
+                        $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
+                            ->where('division_ID', $user->division_ID)
+                            ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                            ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
+                            ->get()
+                            ->first();
 
-                    $measures_exploded = explode(',', $measure_list->first()->sum_of);
+                        $measures_exploded = explode(',', $measure_list->first()->sum_of);
 
-                    foreach ($months as $monthIndex => $month) {
-                        foreach ($measures_exploded as $exploded_measure) {
-                            $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+                        foreach ($months as $monthIndex => $month) {
+                            foreach ($measures_exploded as $exploded_measure) {
+                                $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                    ->where('annual_targets.strategic_measures_ID', $exploded_measure)
 
+                                    ->where('month', $month)
+                                    ->where('annual_targets.province_ID', $user->province_ID)
+                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                    ->select('monthly_targets.*')
+                                    ->get()
+                                    ->first();
+
+                                if (isset($monthlyTargetforSum)) {
+                                    $sumAccom[$monthIndex] += $monthlyTargetforSum->monthly_accomplishment;
+                                }
+                            }
+
+                            $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                                ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
                                 ->where('month', $month)
-                                ->where('annual_targets.province_ID', $user->province_ID)
                                 ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
                                 ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
                                 ->select('monthly_targets.*')
                                 ->get()
                                 ->first();
 
-                            if (isset($monthlyTargetforSum)) {
-                                $sumAccom[$monthIndex] += $monthlyTargetforSum->monthly_accomplishment;
-                            }
-                        }
+                            if ($sumAccom[$monthIndex] > 0 && isset($annual_target)) {
+                                if (isset($monthly_target_parent)) {
+                                    // dd($sumTarget);
+                                    // dd($monthly_target_parent , $sumTarget[$monthIndex]);
+                                    if ($monthly_target_parent->monthly_accomplishment != $sumAccom[$monthIndex]) {
+                                        $monthly_target_parent->monthly_accomplishment = $sumAccom[$monthIndex];
 
-                        $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                            ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                            ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
-                            ->where('month', $month)
-                            ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                            ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                            ->select('monthly_targets.*')
-                            ->get()
-                            ->first();
-
-                        if ($sumAccom[$monthIndex] > 0 && isset($annual_target)) {
-                            if (isset($monthly_target_parent)) {
-                                // dd($sumTarget);
-                                // dd($monthly_target_parent , $sumTarget[$monthIndex]);
-                                if ($monthly_target_parent->monthly_accomplishment != $sumAccom[$monthIndex]) {
-                                    $monthly_target_parent->monthly_accomplishment = $sumAccom[$monthIndex];
-
-                                    $monthly_target_parent->save();
+                                        $monthly_target_parent->save();
+                                    }
                                 }
                             }
                         }
@@ -755,67 +757,70 @@ class DivisionChiefController extends Controller
 
             ->groupBy(['strategic_measure_ID']);
         $driversact = null;
-        for ($i = 0; $i < 2; $i++) {
-            foreach ($measures_list as $measure_list) {
-                $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-                $annual_target = null;
-                if (isset($measure_list->first()->sum_of)) {
-                    $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
-                        ->where('division_ID', $user->division_ID)
-                        ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                        ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
-                        ->get()
-                        ->first();
 
-                    $measures_exploded = explode(',', $measure_list->first()->sum_of);
+        if (count($opcrs_active) != 0) {
+            for ($i = 0; $i < 2; $i++) {
+                foreach ($measures_list as $measure_list) {
+                    $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                    $annual_target = null;
+                    if (isset($measure_list->first()->sum_of)) {
+                        $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
+                            ->where('division_ID', $user->division_ID)
+                            ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                            ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
+                            ->get()
+                            ->first();
 
-                    foreach ($months as $monthIndex => $month) {
-                        foreach ($measures_exploded as $exploded_measure) {
-                            $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+                        $measures_exploded = explode(',', $measure_list->first()->sum_of);
 
+                        foreach ($months as $monthIndex => $month) {
+                            foreach ($measures_exploded as $exploded_measure) {
+                                $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                    ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+
+                                    ->where('month', $month)
+                                    ->where('annual_targets.province_ID', $user->province_ID)
+                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                    ->select('monthly_targets.*')
+                                    ->get()
+                                    ->first();
+
+                                if (isset($monthlyTargetforSum)) {
+                                    $sumTarget[$monthIndex] += $monthlyTargetforSum->monthly_target;
+                                }
+                            }
+
+                            $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                                ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
                                 ->where('month', $month)
-                                ->where('annual_targets.province_ID', $user->province_ID)
                                 ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
                                 ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
                                 ->select('monthly_targets.*')
                                 ->get()
                                 ->first();
 
-                            if (isset($monthlyTargetforSum)) {
-                                $sumTarget[$monthIndex] += $monthlyTargetforSum->monthly_target;
-                            }
-                        }
+                            if ($sumTarget[$monthIndex] > 0 && isset($annual_target)) {
+                                if (isset($monthly_target_parent)) {
+                                    // dd($sumTarget);
+                                    // dd($monthly_target_parent , $sumTarget[$monthIndex]);
+                                    if ($monthly_target_parent->monthly_target != $sumTarget[$monthIndex]) {
+                                        $monthly_target_parent->monthly_target = $sumTarget[$monthIndex];
 
-                        $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                            ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                            ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
-                            ->where('month', $month)
-                            ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                            ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                            ->select('monthly_targets.*')
-                            ->get()
-                            ->first();
-
-                        if ($sumTarget[$monthIndex] > 0 && isset($annual_target)) {
-                            if (isset($monthly_target_parent)) {
-                                // dd($sumTarget);
-                                // dd($monthly_target_parent , $sumTarget[$monthIndex]);
-                                if ($monthly_target_parent->monthly_target != $sumTarget[$monthIndex]) {
-                                    $monthly_target_parent->monthly_target = $sumTarget[$monthIndex];
-
-                                    $monthly_target_parent->save();
+                                        $monthly_target_parent->save();
+                                    }
+                                } else {
+                                    // dd($monthly_target_parent);
+                                    $new_Mtarget = new MonthlyTarget();
+                                    $new_Mtarget->month = $month;
+                                    $new_Mtarget->monthly_target = $sumTarget[$monthIndex];
+                                    $new_Mtarget->division_ID = $measure_list->first()->division_ID;
+                                    $new_Mtarget->annual_target_ID = $annual_target->annual_target_ID;
+                                    $new_Mtarget->save();
                                 }
-                            } else {
-                                // dd($monthly_target_parent);
-                                $new_Mtarget = new MonthlyTarget();
-                                $new_Mtarget->month = $month;
-                                $new_Mtarget->monthly_target = $sumTarget[$monthIndex];
-                                $new_Mtarget->division_ID = $measure_list->first()->division_ID;
-                                $new_Mtarget->annual_target_ID = $annual_target->annual_target_ID;
-                                $new_Mtarget->save();
                             }
                         }
                     }
