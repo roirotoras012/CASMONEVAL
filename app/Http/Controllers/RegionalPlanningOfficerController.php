@@ -236,7 +236,7 @@ class RegionalPlanningOfficerController extends Controller
         }
         $user = User::find($request->user_ID);
         $user->update($attributes);
-        // Alert::success('User updated successfully');
+        Alert::success('User updated successfully');
 
         return redirect()
             ->route('rpo.users');
@@ -1703,10 +1703,14 @@ class RegionalPlanningOfficerController extends Controller
             DB::table('opcr')
                 ->where('opcr_ID', $opcr_id)
                 ->update(['is_active' => false, 'status' => 'DONE']);
+            Alert::success('OPCR successfully marked as done');
 
+            // return redirect()
+            //     ->route('rpo.show', $opcr_id)
+            //     ->with('success', 'OPCR successfully marked as done');
+                
             return redirect()
-                ->route('rpo.show', $opcr_id)
-                ->with('success', 'OPCR successfully marked as done');
+            ->route('rpo.show', $opcr_id);
         }
         else if($request->submit == 'update_target'){
             // dd($request);
@@ -1721,7 +1725,10 @@ class RegionalPlanningOfficerController extends Controller
         
             // Check if the target exists
             if (!$annualTarget) {
-                return redirect()->back()->with('error', 'Annual Target not found!');
+                Alert::error('Annual Target not found!');
+
+                // return redirect()->back()->with('error', 'Annual Target not found!');
+                return redirect()->back();
             }
         
             // Update the annual_target column
@@ -1770,9 +1777,10 @@ class RegionalPlanningOfficerController extends Controller
         $strategic_objective->objective_letter = $request->objective_letter;
         $strategic_objective->save();
         session()->flash('success', 'Strategic Objective successfully created');
+        Alert::success('Strategic Objective successfully created');
+
         return redirect()
-            ->route('rpo.measures')
-            ->with('success', 'Strategic Objective successfully created');
+            ->route('rpo.measures');
     }
 
     public function add_measure(Request $request)
@@ -1824,13 +1832,19 @@ class RegionalPlanningOfficerController extends Controller
                 $strategic_measure_enity->save();
             }
         } else {
+            Alert::warning('No Division Selected');
+
             return redirect()
-                ->route('rpo.measures')
-                ->with('error', 'No Division Selected');
+                ->route('rpo.measures');
         }
-        return redirect()
-            ->route('rpo.measures')
-            ->with('success', 'Strategic Measure successfully created');
+        Alert::success('Strategic Measure successfully created');
+
+        // return redirect()
+        //     ->route('rpo.measures')
+        //     ->with('success', 'Strategic Measure successfully created');
+         return redirect()
+            ->route('rpo.measures');
+        
     }
 
     public function remove_objective(Request $request)
@@ -1849,9 +1863,13 @@ class RegionalPlanningOfficerController extends Controller
     
             $objective->save();
         });
-        return redirect()
-            ->route('rpo.measures')
-            ->with('success', 'Strategic Objective successfully removed');
+        Alert::success('Strategic Objective successfully removed');
+
+        // return redirect()
+        //     ->route('rpo.measures')
+        //     ->with('success', 'Strategic Objective successfully removed');
+            return redirect()
+            ->route('rpo.measures');
     }
 
     public function remove_measure(Request $request)
@@ -1874,18 +1892,21 @@ class RegionalPlanningOfficerController extends Controller
             
             $measure->sum_of = $stringified_measures; // Replace "column_name" with the actual column you want to update
             $measure->save();
+            Alert::success('Strategic Measure successfully updated');
+
             return redirect()
-            ->route('rpo.measures')
-            ->with('success', 'Strategic Measure successfully updated');
+            ->route('rpo.measures');
 
         }
         else{
             $measure = StrategicMeasure::find($request->measure_ID);
             $measure->type = '';
             $measure->save();
+
+            Alert::success('Strategic Measure successfully removed');
+
             return redirect()
-                ->route('rpo.measures')
-                ->with('success', 'Strategic Measure successfully removed');
+                ->route('rpo.measures');
 
         }
         
@@ -1907,14 +1928,18 @@ class RegionalPlanningOfficerController extends Controller
             DB::table('opcr')
                 ->where('opcr_ID', $request->opcr_id)
                 ->update(['is_active' => false, 'status' => 'DONE']);
+            Alert::success('OPCR successfully marked as done');
 
             return redirect()
-                ->route('rpo.show', $request->opcr_id)
-                ->with('success', 'OPCR successfully marked as done');
+                ->route('rpo.show', $request->opcr_id);
+                // return redirect()
+                // ->route('rpo.show', $request->opcr_id)
+                // ->with('success', 'OPCR successfully marked as done');
         } else {
+            Alert::error('OPCR upload error');
+
             return redirect()
-                ->route('rpo.show', $request->opcr_id)
-                ->with('success', 'OPCR upload error');
+                ->route('rpo.show', $request->opcr_id);
         }
     }
 
@@ -2025,10 +2050,10 @@ class RegionalPlanningOfficerController extends Controller
             
         });
        
-        
+        Alert::alert('Monthly cutoff successfully');
+
         return redirect()
-            ->route('rpo.show', $request->opcr_id)
-            ->with('success', 'Monthly cutoff successfully');
+            ->route('rpo.show', $request->opcr_id);
     }
 
     public function remove_opcr(Request $request){
@@ -2043,15 +2068,17 @@ class RegionalPlanningOfficerController extends Controller
             // Update the deleted_at column
             $opcr->deleted_at = now();
             $opcr->save();
-    
+          
+            Alert::success('OPCR removed');
+
             return redirect()
-                ->route('rpo.savetarget')
-                ->with('success', 'OPCR removed');
+                ->route('rpo.savetarget');
         } else {
             // OPCR not found or is_active is 1
+            Alert::error('OPCR cannot be removed');
+
             return redirect()
-                ->route('rpo.savetarget')
-                ->with('error', 'OPCR cannot be removed');
+                ->route('rpo.savetarget');
         }
     }
    
@@ -2070,16 +2097,20 @@ class RegionalPlanningOfficerController extends Controller
     
         // Check if the target exists
         if (!$annualTarget) {
-            return redirect()->back()->with('error', 'Annual Target not found!');
+            Alert::error('Annual Target not found!');
+            return redirect()->back();
+            // return redirect()->back()->with('error', 'Annual Target not found!');
         }
     
         // Update the annual_target column
         $annualTarget->annual_target = $validatedData['prov_val'];
         $annualTarget->save();
-    
+        Alert::success('Annual Target successfully updated!');
+        // return redirect()
+        // ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
+        // ->with('success', 'Annual Target successfully updated!');
         return redirect()
-        ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
-        ->with('success', 'Annual Target successfully updated!');
+        ->route('rpo.show', $annualTarget->opcr_id);
     }
     
     
