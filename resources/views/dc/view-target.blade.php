@@ -31,16 +31,17 @@
                 </div>
                 <div>
                     <div class="col-md-12">
-                        @if (session()->has('alert'))
-                            <div class="alert alert-danger">
-                                {{ session('alert') }}
-                            </div>
-                        @endif
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p class="m-0">{{ $message }}</p>
+                        </div>
+                    @endif
+
+                    @if ($message = Session::get('error'))
+                    <div class="alert alert-danger">
+                        <p class="m-0">{{ $message }}</p>
+                    </div>
+                    @endif
                         <div>
                             @foreach ($provinces as $province)
                                 @if ($province->province_ID == $user->province_ID)

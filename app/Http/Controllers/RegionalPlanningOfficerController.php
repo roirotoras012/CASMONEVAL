@@ -1621,75 +1621,84 @@ class RegionalPlanningOfficerController extends Controller
             return redirect()
                 ->route('rpo.show', $opcr_id);
         } elseif ($request->submit == 'submit') {
-            DB::table('opcr')
-                ->where('opcr_ID', $opcr_id)
-                ->update(['is_submitted' => true, 'is_active' => true]);
+            $opcrExists = DB::table('opcr')
+                ->where('is_active', true)
+                ->exists();
+            if ($opcrExists) {
+                return redirect()
+                    ->route('rpo.show', $opcr_id)
+                    ->with('error', 'OPCR cannot be submitted. An active OPCR already exists.');
+            } else {
+                DB::table('opcr')
+                    ->where('opcr_ID', $opcr_id)
+                    ->update(['is_submitted' => true, 'is_active' => true]);
 
-            // Send notification to all 5 PPOs
-            $userName = auth()->user()->username;
-            $opcr = Opcr::find($opcr_id);
-            $data = $userName . ' has submitted OPCR #' . $opcr_id;
-            $year = $opcr->year;
-            $description = $opcr->description;
-            $user_ID = Auth::id();
+                // Send notification to all 5 PPOs
+                $userName = auth()->user()->username;
+                $opcr = Opcr::find($opcr_id);
+                $data = $userName . ' has submitted OPCR #' . $opcr_id;
+                $year = $opcr->year;
+                $description = $opcr->description;
+                $user_ID = Auth::id();
 
-            $notificationData = [
-                [
-                    'province_ID' => 1, // PPo Bukidnon
-                    'user_type_ID' => 4, // PPO usertype ID
-                    'user_ID' => $user_ID,
-                    'opcr_ID' => $opcr_id,
-                    'year' => $year,
-                    'type' => $description,
-                    'data' => $data,
-                ],
-                [
-                    'province_ID' => 2, // PPo Lanao
-                    'user_type_ID' => 4, // PPO usertype ID
-                    'user_ID' => $user_ID,
-                    'opcr_ID' => $opcr_id,
-                    'year' => $year,
-                    'type' => $description,
-                    'data' => $data,
-                ],
-                [
-                    'province_ID' => 3, // PPo MisOr
-                    'user_type_ID' => 4, // PPO usertype ID
-                    'user_ID' => $user_ID,
-                    'opcr_ID' => $opcr_id,
-                    'year' => $year,
-                    'type' => $description,
-                    'data' => $data,
-                ],
-                [
-                    'province_ID' => 4, // PPo Misoc
-                    'user_type_ID' => 4, // PPO usertype ID
-                    'user_ID' => $user_ID,
-                    'opcr_ID' => $opcr_id,
-                    'year' => $year,
-                    'type' => $description,
-                    'data' => $data,
-                ],
-                [
-                    'province_ID' => 5, // PPo Camiguin
-                    'user_type_ID' => 4, // PPO usertype ID
-                    'user_ID' => $user_ID,
-                    'opcr_ID' => $opcr_id,
-                    'year' => $year,
-                    'type' => $description,
-                    'data' => $data,
-                ],
-            ];
+                $notificationData = [
+                    [
+                        'province_ID' => 1, // PPo Bukidnon
+                        'user_type_ID' => 4, // PPO usertype ID
+                        'user_ID' => $user_ID,
+                        'opcr_ID' => $opcr_id,
+                        'year' => $year,
+                        'type' => $description,
+                        'data' => $data,
+                    ],
+                    [
+                        'province_ID' => 2, // PPo Lanao
+                        'user_type_ID' => 4, // PPO usertype ID
+                        'user_ID' => $user_ID,
+                        'opcr_ID' => $opcr_id,
+                        'year' => $year,
+                        'type' => $description,
+                        'data' => $data,
+                    ],
+                    [
+                        'province_ID' => 3, // PPo MisOr
+                        'user_type_ID' => 4, // PPO usertype ID
+                        'user_ID' => $user_ID,
+                        'opcr_ID' => $opcr_id,
+                        'year' => $year,
+                        'type' => $description,
+                        'data' => $data,
+                    ],
+                    [
+                        'province_ID' => 4, // PPo Misoc
+                        'user_type_ID' => 4, // PPO usertype ID
+                        'user_ID' => $user_ID,
+                        'opcr_ID' => $opcr_id,
+                        'year' => $year,
+                        'type' => $description,
+                        'data' => $data,
+                    ],
+                    [
+                        'province_ID' => 5, // PPo Camiguin
+                        'user_type_ID' => 4, // PPO usertype ID
+                        'user_ID' => $user_ID,
+                        'opcr_ID' => $opcr_id,
+                        'year' => $year,
+                        'type' => $description,
+                        'data' => $data,
+                    ],
+                ];
 
-            foreach ($notificationData as $notification) {
-                $newNotification = new Notification($notification);
-                // dd($newNotification);
-                $newNotification->save();
+                foreach ($notificationData as $notification) {
+                    $newNotification = new Notification($notification);
+                    // dd($newNotification);
+                    $newNotification->save();
+                }
+
+                return redirect()
+                    ->route('rpo.show', $opcr_id)
+                    ->with('success', 'Targets Submitted Successfully.');
             }
-
-            return redirect()
-                ->route('rpo.show', $opcr_id)
-                ->with('success', 'Targets Submitted Successfully.');
         } elseif ($request->submit == 'done') {
             DB::table('opcr')
                 ->where('opcr_ID', $opcr_id)

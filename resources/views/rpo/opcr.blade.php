@@ -44,6 +44,12 @@
                             </div>
                         @endif
 
+                        @if ($message = Session::get('error'))
+                        <div class="alert alert-danger">
+                            <p class="m-0">{{ $message }}</p>
+                        </div>
+                        @endif
+
 
                         <form action="{{ route('update_targets') }}" method="post" id="opcr_form-{{ $opcr_id }}">
                             <input type="hidden" name="opcr_id" value="{{ $opcr_id }}">
