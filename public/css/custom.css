@@ -11,7 +11,25 @@
 div#app {
     position: relative;
 }
-
+.logo-banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100px;
+}
+.dti-banner {
+    position: relative;
+}
+.dti-header {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url(/images/dti-banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 #notification-text {
     position: absolute;
     top: 7%;
@@ -475,16 +493,14 @@ table.table.table-bordered.border-primary thead {
 #rpo_scoreCard th {
     white-space: nowrap;
     text-align: center;
-    
 }
 
-.ratings_table th, td{
-
+.ratings_table th,
+td {
     padding: 2px !important;
 }
 
-.ratings_table td{
-
+.ratings_table td {
     padding: 2px !important;
     width: calc(100% / 24); /* 24 is the number of columns in the table */
 }
