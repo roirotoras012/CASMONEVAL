@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Evaluation;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+
 class RegionalDirector extends Controller
 {
     public function index()
@@ -53,14 +55,15 @@ class RegionalDirector extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
+            Alert::success('Email updated successfully.');
+
             return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+                ->back();
         } else {
             // Show an error message
+            Alert::error('Invalid Password');
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -71,13 +74,15 @@ class RegionalDirector extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
+            Alert::success('Password updated successfully.');
+
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
     public function add_targets(Request $request)
@@ -161,10 +166,10 @@ class RegionalDirector extends Controller
                 }
             }
         }
+        Alert::success('Targets Added Successfully.');
 
         return redirect()
-            ->route('rd.index')
-            ->with('success', 'Targets Added Successfully.');
+            ->route('rd.index');
         // return $request->data;
     }
 

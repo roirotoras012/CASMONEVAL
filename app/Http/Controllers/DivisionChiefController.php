@@ -16,6 +16,7 @@ use App\Models\StrategicMeasure;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DivisionChiefController extends Controller
 {
@@ -85,9 +86,13 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+            Alert::warning('Invalid input. Monthly target should not contain letters.');
+
+            // return redirect()
+            //     ->back()
+            //     ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+                return redirect()
+                ->back();
         }
 
         // Get the annual target
@@ -110,16 +115,18 @@ class DivisionChiefController extends Controller
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
             if ($newTotalMonthlyTargets != $annualTargetValue) {
+                Alert::success('December monthly target must be equal to the annual target.');
+
                 return redirect()
-                    ->back()
-                    ->with('alert', 'December monthly target must be equal to the annual target.');
+                    ->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
             if ($newTotalMonthlyTargets > $annualTargetValue) {
+                Alert::warning('Monthly target exceeds the annual target.');
+
                 return redirect()
-                    ->back()
-                    ->with('alert', 'Monthly target exceeds the annual target.');
+                    ->back();
             }
         }
 
@@ -133,10 +140,13 @@ class DivisionChiefController extends Controller
 
         $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
+        Alert::success('Annual Target successfully added!');
 
-        return redirect()
-            ->route('dc.bukidnunBddIndex')
-            ->with('success', 'Annual Target successfully added!');
+        // return redirect()
+        //     ->route('dc.bukidnunBddIndex')
+        //     ->with('success', 'Annual Target successfully added!');
+            return redirect()
+            ->route('dc.bukidnunBddIndex');
     }
 
     public function updateTar(Request $request)
@@ -151,9 +161,15 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
+          
+            Alert::warning('Invalid input. Monthly target should not contain letters.');
+
             return redirect()
-                ->back()
-                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+                ->back();
+                
+            // return redirect()
+            // ->back()
+            // ->with('alert', 'Invalid input. Monthly target should not contain letters.');
         }
 
         // Get the monthly target for the given monthly_target_ID
@@ -358,14 +374,15 @@ class DivisionChiefController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
+            Alert::success('Email updated successfully.');
+
             return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+                ->back();
         } else {
             // Show an error message
+            Alert::error('Invalid Password');
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -375,14 +392,19 @@ class DivisionChiefController extends Controller
         $user = Auth::user();
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
+
             $user->save();
+            Alert::success('Password updated successfully.');
+
+          
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
+            
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
     public function jobfam()
@@ -1106,10 +1128,12 @@ class DivisionChiefController extends Controller
         $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
         $driver->division_ID = $user->division_ID;
         $driver->save();
-
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Driver successfully Added');
+        Alert::error('Driver successfully Added');
+         return redirect()
+            ->route('dc.manage');
+        // return redirect()
+        //     ->route('dc.manage')
+        //     ->with('success', 'Driver successfully Added');
     }
 
     public function delete_driver_only(Request $request)
@@ -1120,16 +1144,18 @@ class DivisionChiefController extends Controller
 
         if ($driver) {
             $driver->delete();
+            Alert::success('Driver deleted successfully');
 
+         
             return redirect()
-                ->back()
-                ->with('success', 'Driver deleted successfully');
+                ->back();
             dd($driver);
         }
+        Alert::error('Driver not found');
 
+      
         return redirect()
-            ->back()
-            ->with('error', 'Driver not found');
+            ->back();
     }
 
     public function edit_driver(Request $request)
@@ -1142,16 +1168,18 @@ class DivisionChiefController extends Controller
             $driver->driver = $request->input('driver');
             // dd($driver);
             $driver->save();
+         
+            Alert::success('Driver updated successfully');
 
-            // Redirect with a success message
+          
             return redirect()
-                ->back()
-                ->with('success', 'Driver updated successfully');
+                ->back();
         }
+        Alert::error('Driver not found');
 
+       
         return redirect()
-            ->back()
-            ->with('error', 'Driver not found');
+            ->back();
     }
 
     public function add_indirect_measure(Request $request)
@@ -1169,9 +1197,10 @@ class DivisionChiefController extends Controller
 
         $strategicMeasure->save();
 
+        Alert::success('Transaction Completed');
+
         return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+            ->route('dc.manage');
     }
 
     public function add_mandatory_measure(Request $request)
@@ -1188,9 +1217,12 @@ class DivisionChiefController extends Controller
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
-
+            Alert::success('Transaction Completed');
+            
         return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+            ->route('dc.manage');
+            // return redirect()
+            // ->route('dc.manage')
+            // ->with('success', 'Transaction Completed');
     }
 }

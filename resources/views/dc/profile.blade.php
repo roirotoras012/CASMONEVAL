@@ -13,7 +13,7 @@
             <div class="profile-container w-75 mx-auto">
                 <div class="p-5 bg-white rounded shadow mb-5">
                     <!-- Bordered tabs-->
-                    @if (session()->has('update-pass-success'))
+                    {{-- @if (session()->has('update-pass-success'))
                         <div class="alert alert-success">
                             {{ session('update-pass-success') }}
                         </div>
@@ -32,7 +32,7 @@
                         <div class="alert alert-danger mt-4">
                             <p class="m-0">{{ $message }}</p>
                         </div>
-                    @endif
+                    @endif --}}
                     <ul id="myTab1" role="tablist"
                         class="nav nav-tabs nav-pills with-arrow flex-column flex-sm-row text-center">
                         <li class="nav-item flex-sm-fill">
