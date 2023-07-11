@@ -118,7 +118,10 @@
                                             @endif
 
                                             <td>
+                                                @if (!$label->is_sub)
                                                 {{ $label->number_measure }}
+                                                @endif
+                                               
                                             </td>
                                             <td>{{ $label->strategic_measure }}
 
@@ -306,10 +309,12 @@
                                      
                                         <button style="display: none" type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional"
                                             id="print-button">Scorecard</button>
 
                                         <button type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional"
                                             id="print-scoreCard">Scorecard</button>
                                            
                                         
@@ -440,7 +445,11 @@
                                         {{ $label->objective_letter }}
                                     </td>
                                 @endif
-                                <td>{{ $label->number_measure }}</td>
+                                <td>
+                                    @if (!$label->is_sub)
+                                    {{ $label->number_measure }}
+                                    @endif
+                                </td>
                                 <td>{{ $label->strategic_measure }}</td>
                                 @php
                                     $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;

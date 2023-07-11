@@ -99,10 +99,13 @@
                                         </td>
                                         @endif
                                         <td>
+                                            @if (!$label->is_sub)
                                             {{ $label->number_measure }}
+                                            @endif
+                                           
                                         </td>
                                         <td>{{ $label->strategic_measure }} 
-                                            {{ $label->sum_of }}
+                                            
                                             @if (!isset($label->sum_of)) 
                                             <input type="hidden"
                                             name="data[{{ $ctr }}][strategic_objective]"

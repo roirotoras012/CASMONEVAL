@@ -32,7 +32,7 @@ class RegionalDirector extends Controller
     {
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             // ->where('type', '=', 'DIRECT')
-            ->get(['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID']);
+            ->get('strategic_measures.is_sub',['strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID']);
 
         return view('rd.opcr-target', compact('labels'));
     }
@@ -204,7 +204,7 @@ class RegionalDirector extends Controller
             ->orWhere('type', '=', 'DIRECT MAIN')
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
             ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
-            ->get(['strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+            ->get(['strategic_measures.is_sub','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
 
         if ($opcr[0]->status == 'VALIDATED' || $opcr[0]->status == 'DONE' || $opcr[0]->status == 'COMPLETE') {
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
