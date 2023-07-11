@@ -1128,7 +1128,7 @@ class DivisionChiefController extends Controller
         $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
         $driver->division_ID = $user->division_ID;
         $driver->save();
-        Alert::error('Driver successfully Added');
+        Alert::success('Driver successfully Added');
          return redirect()
             ->route('dc.manage');
         // return redirect()
