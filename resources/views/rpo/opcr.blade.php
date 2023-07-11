@@ -53,7 +53,7 @@
 
                         <form action="{{ route('update_targets') }}" method="post" id="opcr_form-{{ $opcr_id }}">
                             <input type="hidden" name="opcr_id" value="{{ $opcr_id }}">
-                            <table class="table table-bordered ppo-table shadow" id="table">
+                            <table class="table table-bordered ppo-table shadow forms" id="table">
                                 <thead class="bg-primary text-white">
                                     <tr>
                                         <th rowspan="2" class="p-3">#</th>
@@ -1508,8 +1508,11 @@
                             </tbody>
                         </table>
                     </div>
+           
                 @endif
+           
             @endif
+
 
 
         </div>

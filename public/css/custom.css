@@ -2,6 +2,14 @@
 .container {
     max-width: 1400px !important;
 }
+
+.forms .form-control {
+    flex-basis: 70% !important;
+    min-width: 130px;
+
+}
+
+
 /* TEAM CASMONEVAL  */
 
 .province-name {
