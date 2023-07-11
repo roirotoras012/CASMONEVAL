@@ -121,7 +121,7 @@
                                 @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}" required>
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}" >
                                         <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
                                             {{$measure->strategic_measure}}
                                                 
