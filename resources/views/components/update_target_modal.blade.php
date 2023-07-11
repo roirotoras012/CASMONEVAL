@@ -20,9 +20,8 @@
                         <div class="row">
                             <label for="annual_target"
                                 class="col-form-label text-md-start">{{ __('Annual Target') }}</label>
-
                             <div>
-                                <input type="text" id="annual_target"
+                                <input type="text" id="annual_target" pattern="^[0-9]*$"
                                     class="form-control @error('annual_target') is-invalid @enderror"
                                     name="annual_target" value="{{ old('annual_target') }}" required autofocus />
 

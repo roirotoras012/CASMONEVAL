@@ -16,7 +16,7 @@
 
                     <div class="row">
                         <div class="d-flex gap-1 align-items-center">
-                            <input type="text" id="provValInput2" class="form-control @error('prov_val') is-invalid @enderror" name="new_target" required pattern="^[0-9]+$"  />
+                            <input type="text" id="provValInput2" class="form-control @error('prov_val') is-invalid @enderror" name="new_target" required  />
                             <label for="target_type" class="d-flex" style="margin-bottom: 0 !important">
                                 <input type="checkbox" id="target_type_update" name="target_type">
                                 %
