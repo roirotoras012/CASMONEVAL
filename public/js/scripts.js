@@ -246,6 +246,8 @@ $(document).ready(function () {
             var contentHeight = rpo_scoreCard.offsetHeight;
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
+            var type = printScoreCard.dataset.fileType;
+            console.log(type)
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
                 // Calculate the font size adjustment ratio
                 var ratio = window.innerWidth / rpo_scoreCard.offsetWidth;
@@ -347,6 +349,37 @@ $(document).ready(function () {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
+            if(type == 'Provincial' || type == 'Regional'){
+
+                winScorecard.document.write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
+                <div >
+                    <div><p>Prepared by:</p></div>
+                    <div>
+                      <p style="margin-bottom: 0">______________________________</p>
+                      <p>Planning Officer</p>
+                    </div>
+            
+                </div>
+                <div>
+                    <div><p>Reviewed by:</p></div>
+                    <div>
+                        <p style="margin-bottom: 0">_______________________________________________________________</p>
+                        <p>Chief, BDD/Chief, CPD</p>
+                      </div>
+                </div>
+             
+            
+              <div>
+                <div><p>Approved by:</p></div>
+                <div>
+                    <p style="margin-bottom: 0">______________________________</p>
+                    <p>OIC Provincial Director</p>
+                  </div>
+              </div>
+             
+            </div>
+            `);
+            }
 
             winScorecard.document.write("</body></html>");
             winScorecard.document.close();

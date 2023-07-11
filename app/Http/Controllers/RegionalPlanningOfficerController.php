@@ -156,7 +156,7 @@ class RegionalPlanningOfficerController extends Controller
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
             ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
             ->orderBy('strategic_measures.created_at', 'ASC')
-            ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+            ->get(['strategic_measures.is_sub','strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
         // dd($labels);
 
         return view('rpo.addtarget', compact('labels'));
@@ -508,17 +508,25 @@ class RegionalPlanningOfficerController extends Controller
     public function show($id)
     {
 
-        
+      
         $user = Auth::user();
         $opcr_id = $id;
+        $max = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
+        ->where('type', '=', 'DIRECT')
+        ->orWhere('type', '=', 'DIRECT MAIN')
+        ->orWhere('type', '=', 'DIRECT COMMON')
+        ->get();
+
+    
         $targets = DB::table('annual_targets')
             ->where('opcr_id', '=', $opcr_id)
             ->get();
         $opcr = DB::table('opcr')
             ->where('opcr_ID', '=', $opcr_id)
             ->get();
-
+     
         $file = null;
+        
         if ($opcr[0]->status == 'DONE') {
             $file = FileUpload::where('opcr_ID', '=', $opcr_id)
                 ->get()
@@ -532,7 +540,7 @@ class RegionalPlanningOfficerController extends Controller
             ->orderBy('strategic_objectives.objective_letter', 'ASC')
             ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
             ->orderBy('strategic_measures.created_at', 'ASC')
-            ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+            ->get(['strategic_measures.is_sub','strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
 
        
         
@@ -579,7 +587,7 @@ class RegionalPlanningOfficerController extends Controller
         ->orderBy('strategic_objectives.objective_letter', 'ASC')
         ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
         ->orderBy('strategic_measures.created_at', 'ASC')
-        ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+        ->get(['strategic_measures.is_sub','strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
  
         foreach ($labels as $label) {
             $label['BUK'] = null;
@@ -734,7 +742,7 @@ class RegionalPlanningOfficerController extends Controller
             
            
             if(isset($label->sum_of)){  
-
+                
                 $measures_exploded = explode(',', $label->sum_of);
               
                 for ($i=1; $i <= 5; $i++) { 
@@ -751,74 +759,88 @@ class RegionalPlanningOfficerController extends Controller
                         }
                         // dd($target_for_exploded);
                     }
-
-                    if($sum > 0){
-                        $target_for_sum1 = AnnualTarget::where('opcr_ID', '=', $opcr_id)
-                                                ->where('province_ID', $i)
-                                                ->where('strategic_measures_ID', $label->strategic_measure_ID)
-                                                ->first();
                 
-
-                            if(!isset($target_for_sum1)){
-
-                                $target = new AnnualTarget();
-                                $target->strategic_measures_ID = $label->strategic_measure_ID;
-                                $target->strategic_objectives_ID = $label->strategic_objective_ID;
-                                $target->annual_target = $sum;
-                
-                                $target->province_ID = $i;
-                                $target->division_ID = $label->division_ID;
-                                
-                                                
-                                $target->opcr_id = $opcr_id;
-                                           
-                                $target->save();
+                    $measure_multiple = DB::table('strategic_measures')
+                                ->where('strategic_measure', '=', $label->strategic_measure)
                                
-                            }
-                            else{
-                               
-                                $target = AnnualTarget::find($target_for_sum1->annual_target_ID);
-                                $target->annual_target = $sum;
-                                $target->save();
-                                // dd($target);
-                            }
-
-                    
-                            if ($i == 1) {
-                                $label['BUK'] = $sum;
-                                $label['BUK_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-
-                             
-                            }
-                            
-                            if ($i == 2) {
-                                $label['LDN'] = $sum;
-                                $label['LDN_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
+                                ->where(function ($query) {
+                                    $query->where('type', '=', 'DIRECT COMMON')->orWhere('type', '=', 'DIRECT MAIN')->orWhere('type', '=', 'DIRECT');
+                                })
+                                ->get();
                               
-                            }
-                            if ($i == 3) {
-                                $label['MISOR'] = $sum;
-                                $label['MISOR_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                            if ($i == 4) {
-                                $label['MISOC'] = $sum; 
-                                $label['MISOC_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                            if ($i == 5) {
-                                $label['CAM'] = $sum;
-                                $label['CAM_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                  
-                             
+                    foreach ($measure_multiple as $measure_multiple_items) {
+                        if($sum > 0){
+                            $target_for_sum1 = AnnualTarget::where('opcr_ID', '=', $opcr_id)
+                                                    ->where('province_ID', $i)
+                                                    ->where('strategic_measures_ID', $measure_multiple_items->strategic_measure_ID)
+                                                    ->first();
+                          
+    
+                                if(!isset($target_for_sum1)){
+    
+                                    $target = new AnnualTarget();
+                                    $target->strategic_measures_ID = $measure_multiple_items->strategic_measure_ID;
+                                    $target->strategic_objectives_ID = $measure_multiple_items->strategic_objective_ID;
+                                    $target->annual_target = $sum;
+                    
+                                    $target->province_ID = $i;
+                                    $target->division_ID = $measure_multiple_items->division_ID;
                                     
-                               
-                            
-                    }
+                                                    
+                                    $target->opcr_id = $opcr_id;
+                                               
+                                    $target->save();
+                                   
+                                }
+                                else{
+                                   
+                                    $target = AnnualTarget::find($target_for_sum1->annual_target_ID);
+                                    $target->annual_target = $sum;
+                                    $target->save();
+                                    // dd($target);
+                                }
+    
+                        
+                                if ($i == 1) {
+                                    $label['BUK'] = $sum;
+                                    $label['BUK_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+    
+                                 
+                                }
+                                
+                                if ($i == 2) {
+                                    $label['LDN'] = $sum;
+                                    $label['LDN_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                  
+                                }
+                                if ($i == 3) {
+                                    $label['MISOR'] = $sum;
+                                    $label['MISOR_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                                if ($i == 4) {
+                                    $label['MISOC'] = $sum; 
+                                    $label['MISOC_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                                if ($i == 5) {
+                                    $label['CAM'] = $sum;
+                                    $label['CAM_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                      
+                                 
+                                        
+                                   
+                                
+                        }
+                    }           
+
+                
+                
+                 
                 }
 
               
@@ -836,7 +858,7 @@ class RegionalPlanningOfficerController extends Controller
         ->orderBy('strategic_objectives.objective_letter', 'ASC')
         ->orderByRaw('CAST(strategic_measures.number_measure AS UNSIGNED) ASC')
         ->orderBy('strategic_measures.created_at', 'ASC')
-        ->get(['strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
+        ->get(['strategic_measures.is_sub','strategic_measures.sum_of','strategic_objectives.objective_letter', 'strategic_objectives.strategic_objective', 'strategic_measures.strategic_measure', 'strategic_measures.strategic_objective_ID', 'strategic_measures.strategic_measure_ID', 'strategic_measures.strategic_objective_ID', 'strategic_measures.division_ID', 'strategic_measures.type', 'strategic_measures.number_measure']);
  
         foreach ($labels as $label) {
             $label['BUK'] = null;
@@ -991,7 +1013,7 @@ class RegionalPlanningOfficerController extends Controller
             
            
             if(isset($label->sum_of)){  
-
+                
                 $measures_exploded = explode(',', $label->sum_of);
               
                 for ($i=1; $i <= 5; $i++) { 
@@ -1008,78 +1030,88 @@ class RegionalPlanningOfficerController extends Controller
                         }
                         // dd($target_for_exploded);
                     }
-
-                    if($sum > 0){
-                        $target_for_sum1 = AnnualTarget::where('opcr_ID', '=', $opcr_id)
-                                                ->where('province_ID', $i)
-                                                ->where('strategic_measures_ID', $label->strategic_measure_ID)
-                                                ->first();
                 
-
-                            if(!isset($target_for_sum1)){
-
-                                $target = new AnnualTarget();
-                                $target->strategic_measures_ID = $label->strategic_measure_ID;
-                                $target->strategic_objectives_ID = $label->strategic_objective_ID;
-                                $target->annual_target = $sum;
-                
-                                $target->province_ID = $i;
-                                $target->division_ID = $label->division_ID;
-                                
-                                                
-                                $target->opcr_id = $opcr_id;
-                                           
-                                $target->save();
+                    $measure_multiple = DB::table('strategic_measures')
+                                ->where('strategic_measure', '=', $label->strategic_measure)
                                
-                            }
-                            else{
-                               
-                                $target = AnnualTarget::find($target_for_sum1->annual_target_ID);
-                                $target->annual_target = $sum;
-
-                                if($target->annual_target != $sum){
-                                    $target->save();
-                                }
-                               
-                                // dd($target);
-                            }
-
+                                ->where(function ($query) {
+                                    $query->where('type', '=', 'DIRECT COMMON')->orWhere('type', '=', 'DIRECT MAIN')->orWhere('type', '=', 'DIRECT');
+                                })
+                                ->get();
+                 
+                    foreach ($measure_multiple as $measure_multiple_items) {
+                        if($sum > 0){
+                            $target_for_sum1 = AnnualTarget::where('opcr_ID', '=', $opcr_id)
+                                                    ->where('province_ID', $i)
+                                                    ->where('strategic_measures_ID', $measure_multiple_items->strategic_measure_ID)
+                                                    ->first();
+                            // dd( $target_for_sum1);
+    
+                                if(!isset($target_for_sum1)){
+    
+                                    $target = new AnnualTarget();
+                                    $target->strategic_measures_ID = $measure_multiple_items->strategic_measure_ID;
+                                    $target->strategic_objectives_ID = $measure_multiple_items->strategic_objective_ID;
+                                    $target->annual_target = $sum;
                     
-                            if ($i == 1) {
-                                $label['BUK'] = $sum;
-                                $label['BUK_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-
-                             
-                            }
-                            
-                            if ($i == 2) {
-                                $label['LDN'] = $sum;
-                                $label['LDN_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                              
-                            }
-                            if ($i == 3) {
-                                $label['MISOR'] = $sum;
-                                $label['MISOR_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                            if ($i == 4) {
-                                $label['MISOC'] = $sum; 
-                                $label['MISOC_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                            if ($i == 5) {
-                                $label['CAM'] = $sum;
-                                $label['CAM_target'] = $target->annual_target_ID;
-                                $label['target_type'] = $target->type;
-                            }
-                  
-                             
+                                    $target->province_ID = $i;
+                                    $target->division_ID = $measure_multiple_items->division_ID;
                                     
-                               
-                            
-                    }
+                                                    
+                                    $target->opcr_id = $opcr_id;
+                                               
+                                    $target->save();
+                                   
+                                }
+                                else{
+                                   
+                                    $target = AnnualTarget::find($target_for_sum1->annual_target_ID);
+                                    $target->annual_target = $sum;
+                                    $target->save();
+                                    // dd($target);
+                                }
+    
+                        
+                                if ($i == 1) {
+                                    $label['BUK'] = $sum;
+                                    $label['BUK_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+    
+                                 
+                                }
+                                
+                                if ($i == 2) {
+                                    $label['LDN'] = $sum;
+                                    $label['LDN_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                  
+                                }
+                                if ($i == 3) {
+                                    $label['MISOR'] = $sum;
+                                    $label['MISOR_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                                if ($i == 4) {
+                                    $label['MISOC'] = $sum; 
+                                    $label['MISOC_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                                if ($i == 5) {
+                                    $label['CAM'] = $sum;
+                                    $label['CAM_target'] = $target->annual_target_ID;
+                                    $label['target_type'] = $target->type;
+                                }
+                      
+                                 
+                                        
+                                   
+                                
+                        }
+                    }           
+
+                
+                
+                 
                 }
 
               
@@ -1394,6 +1426,22 @@ class RegionalPlanningOfficerController extends Controller
         //    dd($pgsrating2);
         // dd($pgsrating2);
         // dd($total_number_of_valid_measures2);
+        $updated_targets = DB::table('annual_targets')
+        ->where('opcr_id', '=', $opcr_id)
+        ->get();
+        // dd(count($max), count($updated_targets));
+    if (count($max) * 5 > count($updated_targets)) {
+        DB::table('opcr')
+            ->where('opcr_ID', $opcr_id)
+            ->update(['status' => 'INCOMPLETE']);
+    } else {
+        DB::table('opcr')
+            ->where('opcr_ID', $opcr_id)
+            ->update(['status' => 'COMPLETE']);
+            $opcr[0]->status = 'COMPLETE';
+            
+    }
+
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
     public function update_targets(Request $request)
