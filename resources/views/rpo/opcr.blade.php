@@ -194,7 +194,7 @@
                                             @else
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input <?php if ($label->BUK != '' && ($is_edit == false)){ ?> disabled
-                                                    style="font-weight: bold;"<?php   } ?> type="text"
+                                                    style="font-weight: bold;"<?php   } ?> type="text" pattern="^[0-9]*$" class="form-control"
                                                     name="data[{{ $ctr }}][BUK]" value="{{ $label->BUK }}">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                         <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
@@ -258,7 +258,7 @@
                                                 @else
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input <?php if ($label->CAM != '' && ($is_edit == false)){ ?> disabled
-                                                        style="font-weight: bold;"<?php   } ?> type="text"
+                                                        style="font-weight: bold;"<?php   } ?> type="text" pattern="^[0-9]*$" class='form-control'
                                                         name="data[{{ $ctr }}][CAM]" value="{{ $label->CAM }}">
                                                         <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                             <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
@@ -312,7 +312,7 @@
                                                 @else
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input <?php if ($label->LDN != '' && ($is_edit == false)){ ?> disabled
-                                                        style="font-weight: bold;"<?php   } ?> type="text"
+                                                        style="font-weight: bold;"<?php   } ?> type="text" pattern="^[0-9]*$" class='form-control'
                                                         name="data[{{ $ctr }}][LDN]" value="{{ $label->LDN }}">
                                                         <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                             <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
@@ -367,7 +367,7 @@
                                                     @else
                                                     <div class="d-flex gap-1 align-items-center">
                                                         <input <?php if ($label->MISOR != '' && ($is_edit == false)){ ?> disabled
-                                                            style="font-weight: bold;"<?php   } ?> type="text"
+                                                            style="font-weight: bold;"<?php   } ?> type="text" pattern="^[0-9]*$" class="form-control"
                                                             name="data[{{ $ctr }}][MISOR]" value="{{ $label->MISOR }}">
                                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
@@ -422,7 +422,7 @@
                                                     @else
                                                     <div class="d-flex gap-1 align-items-center">
                                                         <input <?php if ($label->MISOC != '' && ($is_edit == false)){ ?> disabled
-                                                            style="font-weight: bold;"<?php   } ?> type="text"
+                                                            style="font-weight: bold;"<?php   } ?> type="text" pattern="^[0-9]*$" class="form-control"
                                                             name="data[{{ $ctr }}][MISOC]" value="{{ $label->MISOC }}">
                                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
                                                                 <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
