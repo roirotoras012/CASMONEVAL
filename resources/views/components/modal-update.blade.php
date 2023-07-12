@@ -158,7 +158,7 @@
                                                     : '')))) }}
                             </option>
 
-                            <option disabled>Update User Role</option>
+                       
                             <option name="1" value="1">
                                 Regional Director</option>
                             <option name="2" value="2">
