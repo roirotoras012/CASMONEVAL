@@ -211,7 +211,7 @@
                                             </span>
                                         </div>
                                         <select name="user_division_ID" class="form-select">
-                                            <option selected disabled>Select Type</option>
+                                        
                                             <option name="1" value="1"
                                                 {{ old('user_division_ID') == '1' ? 'selected' : '' }}>Business Development
                                                 Division</option>
