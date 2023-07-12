@@ -1024,23 +1024,26 @@ class DivisionChiefController extends Controller
         $add_group = $request->add;
         $group = $request->data;
 
-        // // Validate if no measures selected
-        // if (empty($group)) {
-        //     $missingMeasures[] = 'Please select a measure.';
-        // } else {
-        //     foreach ($group as $group_key) {
-        //         if (!isset($group_key['measure_ID'])) {
-        //             $missingMeasures[] = 'Please select a measure for the target.';
-        //         }
-        //     }
-        // }
-    
-        // if (!empty($missingMeasures)) {
-        //     return redirect()
-        //         ->back()
-        //         ->with('error', $missingMeasures)
-        //         ->withInput();
-        // }
+        // Validate if no measures selected
+        $missingMeasures = [];
+    if (empty($group)) {
+        $missingMeasures[] = 'Please select a measure.';
+    } else {
+        $selectedMeasures = array_filter($group, function ($group_key) {
+            return isset($group_key['measure_ID']);
+        });
+
+        if (count($selectedMeasures) === 0) {
+            $missingMeasures[] = 'Please select a measure for the target.';
+        }
+    }
+
+    if (!empty($missingMeasures)) {
+        return redirect()
+            ->back()
+            ->with('error', $missingMeasures[0]) // Return only the first error message
+            ->withInput();
+    }
 
         // dd( $group);
         $driver_use = null;
