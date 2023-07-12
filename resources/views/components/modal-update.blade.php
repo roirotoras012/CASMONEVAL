@@ -7,6 +7,8 @@
                 <div class="icon-box">
                     <i class="fa-solid fa-pen"></i>
                 </div>
+                <input hidden data-user-role='user-numbir' value={{ $users->first_name }}>
+                <h3>{{ $users->user_type_ID }} </h3>
                 <h4 class="modal-title w-100">Update {{ $users->first_name }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
@@ -140,7 +142,9 @@
                         <select name="user_type_ID" value="{{ $users->user_type_ID }}" class="form-select"
                             id="role-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
 
-                            <option selected disabled>
+
+                            <option data-user-role="user-role-type" selected disabled
+                                value="{{ $users->user_type_ID }}">
                                 {{ $users->user_type_ID == 1
                                     ? 'Regional Director'
                                     : ($users->user_type_ID == 2
@@ -204,7 +208,20 @@
                             </span>
                         </div>
                         <select name="province_ID" class="form-select">
-                            <option selected disabled>Select Province</option>
+
+                            <option selected disabled value="{{ $users->province_ID }}">
+                                {{ $users->province_ID == 1
+                                    ? 'Bukidnon'
+                                    : ($users->province_ID == 2
+                                        ? 'Lanao Del Norte'
+                                        : ($users->province_ID == 3
+                                            ? 'Misamis Oriental'
+                                            : ($users->province_ID == 4
+                                                ? 'Misamis Occidental'
+                                                : ($users->province_ID == 5
+                                                    ? 'Camiguin'
+                                                    : '')))) }}
+                            </option>
                             <option name="1" value="1" {{ old('province_ID') == '1' ? 'selected' : '' }}>
                                 Bukidnon</option>
                             <option name="2" value="2" {{ old('province_ID') == '2' ? 'selected' : '' }}>
@@ -228,7 +245,19 @@
                             </span>
                         </div>
                         <select name="division_ID" class="form-select">
-                            <option selected disabled>Select Type</option>
+                            <option selected disabled value="{{ $users->division_ID }}">
+                                {{ $users->division_ID == 1
+                                    ? '  Business Development
+                                Division'
+                                    : ($users->division_ID == 2
+                                        ? 'Consumer Protection
+                                Division'
+                                        : ($users->division_ID == 3
+                                            ? 'Finance
+                                Administrative Division'
+                                            : '')) }}
+                            </option>
+
                             <option name="1" value="1" {{ old('division_ID') == '1' ? 'selected' : '' }}>
                                 Business Development
                                 Division</option>
