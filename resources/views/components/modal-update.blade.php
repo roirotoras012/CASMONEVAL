@@ -143,7 +143,7 @@
                             id="role-update-{{ $users->user_ID }}" data-update-id="{{ $users->user_ID }}">
 
 
-                            <option data-user-role="user-role-type" selected disabled
+                            <option data-user-role="user-role-type"
                                 value="{{ $users->user_type_ID }}">
                                 {{ $users->user_type_ID == 1
                                     ? 'Regional Director'
@@ -207,9 +207,8 @@
                                     class="p-1 fa-solid fa-user"></i>
                             </span>
                         </div>
-                        <select name="province_ID" class="form-select">
-
-                            <option selected disabled value="{{ $users->province_ID }}">
+                        <select name="province_ID" class="form-select" >
+                            <option value="{{ $users->province_ID }}" name={{$users->province_ID}}>
                                 {{ $users->province_ID == 1
                                     ? 'Bukidnon'
                                     : ($users->province_ID == 2
@@ -245,7 +244,7 @@
                             </span>
                         </div>
                         <select name="division_ID" class="form-select">
-                            <option selected disabled value="{{ $users->division_ID }}">
+                            <option value="{{ $users->division_ID }}" name={{$users->division_ID}}>
                                 {{ $users->division_ID == 1
                                     ? '  Business Development
                                 Division'
