@@ -226,23 +226,21 @@ class RegionalPlanningOfficerController extends Controller
         ];
         //  dd($attributes);
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
-
         if (!isset($request->province_ID)) {
             $attributes['province_ID'] = null;
         }
-
         if (!isset($request->division_ID)) {
             $attributes['division_ID'] = null;
         }
+
         $user = User::find($request->user_ID);
+
+        // dd($attributes);
         $user->update($attributes);
         Alert::success('User updated successfully');
 
         return redirect()
             ->route('rpo.users');
-            // return redirect()
-            // ->route('rpo.users')
-            // ->with('success', 'User updated successfully');
     }
 
     public function add_targets(Request $request)

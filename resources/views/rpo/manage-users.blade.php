@@ -227,7 +227,7 @@
                                 <div>
                                     <div class="input-group" id='input-userkey-container'>
                                         <input type="text" id='input-userkey' name='input_userkey'
-                                            class="form-control" placeholder="User Key" required>
+                                            class="form-control" placeholder="User Key" required readonly>
 
                                         <span class="input-group-btn">
                                             <span class="input-group-btn">

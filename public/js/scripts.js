@@ -22,7 +22,6 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
     division_chief.hide().detach();
 
     $(".generate-password-btn").click(function () {
-        console.log("button click");
         var generateId = $(this).data("generate-id");
         var password = generatePasswordWithNumber();
         $(".user-password." + generateId).val(password);
@@ -30,31 +29,37 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
 
     function generatePasswordWithNumber() {
         var password = "";
-        var hasNumber = false;
+        var numbersCount = 0;
         var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var numbers = "0123456789";
         var allCharacters = letters + numbers;
-        while (!hasNumber) {
+
+        while (numbersCount < 2) {
             password = "";
+            numbersCount = 0;
+
             for (var i = 0; i < 8; i++) {
                 password += allCharacters.charAt(
                     Math.floor(Math.random() * allCharacters.length)
                 );
             }
-            hasNumber = /[0-9]/.test(password);
+
+            for (var j = 0; j < password.length; j++) {
+                if (numbers.includes(password[j])) {
+                    numbersCount++;
+                }
+            }
         }
+
         return password;
     }
-    setTimeout(() => {
-        console.log($("select[name='user_type_ID']").val());
-    }, 3000);
+
     $("#role-update-" + $(this).data("update-id")).change(function () {
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
             $(this).val() === "5"
         ) {
-            console.log($(this).val());
             provincePlanningUpdate
                 .appendTo(provincePlanningUpdateParent)
                 .show();
@@ -69,7 +74,36 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
             division_chief.hide().detach();
         }
     });
+
+    if (
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "5"
+    ) {
+        division_chief.appendTo(division_chiefParent).show();
+        provincePlanningUpdate.appendTo(provincePlanningUpdateParent).show();
+    } else {
+        division_chief.hide().detach();
+        provincePlanningUpdate.hide().detach();
+    }
+
+    if (
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "3" ||
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "4" ||
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "5"
+    ) {
+        provincePlanningUpdate.appendTo(provincePlanningUpdateParent).show();
+    } else {
+        provincePlanningUpdate.hide().detach();
+    }
 });
+
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
     var addUser = $("#btn-add");
@@ -84,7 +118,6 @@ $(document).ready(function () {
     addUser.hide().detach();
 
     $("#role").change(function () {
-        // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
@@ -112,7 +145,6 @@ $(document).ready(function () {
 
     // PASSWORD TOGGLE EYE
     $(".toggle-password").click(function () {
-        console.log("click eye");
         var passwordField = $(this)
             .closest(".input-group")
             .find(".eye-password");
@@ -247,7 +279,7 @@ $(document).ready(function () {
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
             var type = printScoreCard.dataset.fileType;
-            console.log(type)
+
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
                 // Calculate the font size adjustment ratio
                 var ratio = window.innerWidth / rpo_scoreCard.offsetWidth;
@@ -349,9 +381,9 @@ $(document).ready(function () {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
-            if(type == 'Provincial' || type == 'Regional'){
-
-                winScorecard.document.write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
+            if (type == "Provincial" || type == "Regional") {
+                winScorecard.document
+                    .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
                 <div >
                     <div><p>Prepared by:</p></div>
                     <div>
