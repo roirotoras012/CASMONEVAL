@@ -176,7 +176,9 @@ class RegionalDirector extends Controller
 
     public function savetarget()
     {
-        $opcr = DB::table('opcr')->get();
+        $opcr = DB::table('opcr')
+        ->where('deleted_at', null)
+        ->get();
 
         return view('rd.savetarget', compact('opcr'));
     }

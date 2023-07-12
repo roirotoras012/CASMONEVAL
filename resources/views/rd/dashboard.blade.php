@@ -21,38 +21,10 @@
             </ol>
             
         </div>
- <div class="container-fluid">
+    <div class="container-fluid">
             <x-dashboard-ppo-pd/>
 
             </div>
-            <div class="row">
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-primary text-white h-100 d-flex flex-column">
-                        <div class="card-body">View OPCR</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>2</h2>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-warning text-white h-100 d-flex flex-column">
-                        <div class="card-body">View Provincial Accomplishment</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>12</h2>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6">
-                    <div class="card bg-success text-white mb-4">
-                        <div class="card-body">Evaluation</div>
-                        <div class="card-footer d-flex align-items-center justify-content-between">
-                            <h2>2</h2>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
     </x-user-sidebar>
 @endsection
