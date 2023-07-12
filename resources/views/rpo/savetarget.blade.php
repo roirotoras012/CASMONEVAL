@@ -34,7 +34,7 @@
                             <form action="{{ route('rpo.remove_opcr') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="{{$item->opcr_ID}}" name="opcr_ID">
-                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i class="fas fa-trash-alt"  ></i></button>
+                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i class="fas fa-archive"></i></button>
                             </form>
                           
                         </div>
@@ -98,7 +98,7 @@
         <script>
             function confirmDeletion(event) {
             event.preventDefault();
-            var result = confirm("Are you sure you want to delete?");
+            var result = confirm("Are you sure you want to archive it?");
             if (result) {
                 var form = event.target.closest('form');
                 form.submit();

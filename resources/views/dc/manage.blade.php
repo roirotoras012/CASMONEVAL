@@ -8,16 +8,20 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
           </div>
         <div class="container-fluid px-4 py-5">
-            @if(Session::has('success'))
-            <div class="alert alert-success">
-                {{ Session::get('success') }}
-            </div>
-            @endif
-            @if(Session::has('error'))
-            <div class="alert alert-danger">
-                {{ Session::get('error') }}
-            </div>
-            @endif
+          @if(Session::has('success'))
+    <div class="alert alert-success">
+        {{ Session::get('success') }}
+    </div>
+@endif
+
+@if(Session::has('error'))
+    <div class="alert alert-danger">
+        @foreach (Session::get('error') as $errorMessage)
+            <p>{{ $errorMessage }}</p>
+        @endforeach
+    </div>
+@endif
+
 
         <div class="card mb-4 m-4">
             @if (count($notification) > 0)
@@ -75,44 +79,7 @@
                 <div class="p-3">
                     <h3>Strategic measure</h3>
                     
-                    {{-- @foreach ($measures as $measure)
-                    
-                        @if (isset($annual_targets[$measure->strategic_measure_ID]) || $measure->type == 'INDIRECT' || $measure->type == 'MANDATORY')
-                            
-                            @if (isset($annual_targets[$measure->strategic_measure_ID]))
-                                @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
-
-                                    <div class="d-flex justify-content-between">
-                                        
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}">
-                                            <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
-                                                {{$measure->strategic_measure}}
-                                                    
-                                            </label>
-                                        </div>
             
-            
-                                        <div class="form-check">
-                                            @if (isset($annual_targets[$measure->strategic_measure_ID]))
-                                            
-                                            
-                                            <input type="text" disabled value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target}}" class="form-control">
-                                        
-                                            
-                                                
-                                        
-                                            @endif
-                                            
-                                        </div>
-                                    </div>
-
-                                @endif
-                            @endif
-
-                        @endif
-
-                    @endforeach --}}
 
                     @foreach ($measures as $measure)
                         @if ((isset($annual_targets[$measure->strategic_measure_ID])) )
@@ -121,7 +88,7 @@
                                 @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
                                 <div class="d-flex justify-content-between">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}" >
+                                        <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][target_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID}}" onclick="setRequired(this)>
                                         <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
                                             {{$measure->strategic_measure}}
                                                 
@@ -157,27 +124,7 @@
                         <button class="btn btn-primary" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addIndirect">Add Indirect measure</button>
                     </div>
 
-                    {{-- @foreach ($measures as $measure)
-                        @if ($measure->type == 'INDIRECT')
-                        
-                        <div class="d-flex justify-content-between">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="data[{{$measure->strategic_measure_ID}}][measure_ID]" id="option{{$measure->strategic_measure_ID}}" value="{{$measure->strategic_measure_ID}}" onclick="setRequired(this)">
-                                <label class="form-check-label" for="option{{$measure->strategic_measure_ID}}">
-                                    {{$measure->strategic_measure}}
-                                        
-                                </label>
-                            </div>
-
-
-                            <div class="form-check">
-                                <input type="text" class="form-control" placeholder="set annual target" name="data[{{$measure->strategic_measure_ID}}][target]" id="target{{$measure->strategic_measure_ID}}">
-                                
-                            </div>
-                        </div>
-
-                        @endif
-                    @endforeach --}}
+                    
 
                     @foreach ($measures as $measure)
                         @if($measure->type == 'INDIRECT')

@@ -91,8 +91,7 @@ class DivisionChiefController extends Controller
             // return redirect()
             //     ->back()
             //     ->with('alert', 'Invalid input. Monthly target should not contain letters.');
-                return redirect()
-                ->back();
+            return redirect()->back();
         }
 
         // Get the annual target
@@ -117,16 +116,14 @@ class DivisionChiefController extends Controller
             if ($newTotalMonthlyTargets != $annualTargetValue) {
                 Alert::success('December monthly target must be equal to the annual target.');
 
-                return redirect()
-                    ->back();
+                return redirect()->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
             if ($newTotalMonthlyTargets > $annualTargetValue) {
                 Alert::warning('Monthly target exceeds the annual target.');
 
-                return redirect()
-                    ->back();
+                return redirect()->back();
             }
         }
 
@@ -145,8 +142,7 @@ class DivisionChiefController extends Controller
         // return redirect()
         //     ->route('dc.bukidnunBddIndex')
         //     ->with('success', 'Annual Target successfully added!');
-            return redirect()
-            ->route('dc.bukidnunBddIndex');
+        return redirect()->route('dc.bukidnunBddIndex');
     }
 
     public function updateTar(Request $request)
@@ -161,12 +157,10 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
-          
             Alert::warning('Invalid input. Monthly target should not contain letters.');
 
-            return redirect()
-                ->back();
-                
+            return redirect()->back();
+
             // return redirect()
             // ->back()
             // ->with('alert', 'Invalid input. Monthly target should not contain letters.');
@@ -376,13 +370,11 @@ class DivisionChiefController extends Controller
             $user->save();
             Alert::success('Email updated successfully.');
 
-            return redirect()
-                ->back();
+            return redirect()->back();
         } else {
             // Show an error message
             Alert::error('Invalid Password');
-            return redirect()
-                ->back();
+            return redirect()->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -396,15 +388,11 @@ class DivisionChiefController extends Controller
             $user->save();
             Alert::success('Password updated successfully.');
 
-          
-            return redirect()
-                ->back();
+            return redirect()->back();
         } else {
             Alert::error('Invalid Password');
 
-            
-            return redirect()
-                ->back();
+            return redirect()->back();
         }
     }
     public function jobfam()
@@ -1021,6 +1009,7 @@ class DivisionChiefController extends Controller
     public function add_driver(Request $request)
     {
         // dd($request->data);
+
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', 1)
@@ -1034,6 +1023,25 @@ class DivisionChiefController extends Controller
         // var_dump($request->data);
         $add_group = $request->add;
         $group = $request->data;
+
+        // // Validate if no measures selected
+        // if (empty($group)) {
+        //     $missingMeasures[] = 'Please select a measure.';
+        // } else {
+        //     foreach ($group as $group_key) {
+        //         if (!isset($group_key['measure_ID'])) {
+        //             $missingMeasures[] = 'Please select a measure for the target.';
+        //         }
+        //     }
+        // }
+    
+        // if (!empty($missingMeasures)) {
+        //     return redirect()
+        //         ->back()
+        //         ->with('error', $missingMeasures)
+        //         ->withInput();
+        // }
+
         // dd( $group);
         $driver_use = null;
         if ($new_driver) {
@@ -1129,8 +1137,7 @@ class DivisionChiefController extends Controller
         $driver->division_ID = $user->division_ID;
         $driver->save();
         Alert::success('Driver successfully Added');
-         return redirect()
-            ->route('dc.manage');
+        return redirect()->route('dc.manage');
         // return redirect()
         //     ->route('dc.manage')
         //     ->with('success', 'Driver successfully Added');
@@ -1146,16 +1153,12 @@ class DivisionChiefController extends Controller
             $driver->delete();
             Alert::success('Driver deleted successfully');
 
-         
-            return redirect()
-                ->back();
+            return redirect()->back();
             dd($driver);
         }
         Alert::error('Driver not found');
 
-      
-        return redirect()
-            ->back();
+        return redirect()->back();
     }
 
     public function edit_driver(Request $request)
@@ -1168,18 +1171,14 @@ class DivisionChiefController extends Controller
             $driver->driver = $request->input('driver');
             // dd($driver);
             $driver->save();
-         
+
             Alert::success('Driver updated successfully');
 
-          
-            return redirect()
-                ->back();
+            return redirect()->back();
         }
         Alert::error('Driver not found');
 
-       
-        return redirect()
-            ->back();
+        return redirect()->back();
     }
 
     public function add_indirect_measure(Request $request)
@@ -1199,8 +1198,7 @@ class DivisionChiefController extends Controller
 
         Alert::success('Transaction Completed');
 
-        return redirect()
-            ->route('dc.manage');
+        return redirect()->route('dc.manage');
     }
 
     public function add_mandatory_measure(Request $request)
@@ -1217,12 +1215,11 @@ class DivisionChiefController extends Controller
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
-            Alert::success('Transaction Completed');
-            
-        return redirect()
-            ->route('dc.manage');
-            // return redirect()
-            // ->route('dc.manage')
-            // ->with('success', 'Transaction Completed');
+        Alert::success('Transaction Completed');
+
+        return redirect()->route('dc.manage');
+        // return redirect()
+        // ->route('dc.manage')
+        // ->with('success', 'Transaction Completed');
     }
 }
