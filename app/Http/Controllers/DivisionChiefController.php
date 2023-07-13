@@ -762,7 +762,7 @@ class DivisionChiefController extends Controller
             ->get();
 
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
-
+    
             ->get()
 
             ->groupBy(['strategic_measure_ID']);
