@@ -138,11 +138,37 @@ $(document).ready(function () {
 
     $("#btn-generate").click(function (e) {
         e.preventDefault();
-        $("#input-userkey").val(Math.random().toString(36).slice(2));
+        let userKeyGenerated = generateUserKey();
+        $("#input-userkey").val(userKeyGenerated);
         // $("#btn-add").show();
         addUser.appendTo(addUserParent).show();
     });
+    function generateUserKey() {
+        var password = "";
+        var numbersCount = 0;
+        var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var numbers = "0123456789";
+        var allCharacters = letters + numbers;
 
+        while (numbersCount < 2) {
+            password = "";
+            numbersCount = 0;
+
+            for (var i = 0; i < 8; i++) {
+                password += allCharacters.charAt(
+                    Math.floor(Math.random() * allCharacters.length)
+                );
+            }
+
+            for (var j = 0; j < password.length; j++) {
+                if (numbers.includes(password[j])) {
+                    numbersCount++;
+                }
+            }
+        }
+
+        return password;
+    }
     // PASSWORD TOGGLE EYE
     $(".toggle-password").click(function () {
         var passwordField = $(this)

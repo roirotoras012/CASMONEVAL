@@ -44,7 +44,7 @@ class RegisterController extends Controller
            case 3:
                return route('pd.index');
            case 4:
-               return route('ppo.index');
+               return route('ppo.dashboard');
            case 5:
                return route('dc.index');
            case 6:
@@ -73,25 +73,35 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'first_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
-            'last_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
-            'middle_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
-            // 'extension_name' => ['max:255'],
-            'birthday' => ['required', 'date'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'user_type_ID' => ['required'],
-            'division_ID' => ['required'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ])->after(function ($validator) use ($data) {
-            $birthday = Carbon::parse($data['birthday']);
-            $minAge = Carbon::now()->subYears(18);
-            if ($birthday->greaterThan($minAge)) {
-                $validator->errors()->add('birthday', 'You must be at least 18 years old.');
-            }
-        });
-    }
+{
+    // dd($data);
+    $validator = Validator::make($data, [
+        'first_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+        'last_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+        'middle_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+        'birthday' => ['required', 'date'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'user_type_ID' => ['required'],
+        'division_ID' => ['required'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ]);
+
+    $validator->after(function ($validator) use ($data) {
+        
+        $existingUser = User::where('email', $data['email'])->first();
+        if ($existingUser) {
+            $validator->errors()->add('email', 'The email has already been taken.');
+        }
+        $birthday = Carbon::parse($data['birthday']);
+        $minAge = Carbon::now()->subYears(18);
+        if ($birthday->greaterThan($minAge)) {
+            $validator->errors()->add('birthday', 'You must be at least 18 years old.');
+        }
+    });
+ 
+    return $validator;
+}
+
 
     /**
      * Create a new user instance after a valid registration.

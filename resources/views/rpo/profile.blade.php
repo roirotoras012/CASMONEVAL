@@ -65,7 +65,7 @@
                                             <input value={{ $userDetails->first_name }} disabled id="first_name"
                                                 type="text" class="form-control" value="20234432" name="first_name"
                                                 autofocus>
-
+        
 
 
                                         </div>
