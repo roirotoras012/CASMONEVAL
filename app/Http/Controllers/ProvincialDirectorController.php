@@ -122,6 +122,34 @@ class ProvincialDirectorController extends Controller
                 // ->with('error', 'Invalid Password');
         }
     }
+    public function updateProfileHandler(Request $request) {
+
+        // dd($request);
+        $userID = auth()->user()->user_ID;
+
+       
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+
+      
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
+    }
     public function updatePasswordHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
