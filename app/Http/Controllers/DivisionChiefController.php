@@ -323,9 +323,11 @@ class DivisionChiefController extends Controller
             //  dd($notification);
             $notification->save();
 
-            return redirect()
-                ->route('dc.accomplishments')
-                ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+            // return redirect()
+            //     ->route('dc.accomplishments')
+            //     ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+            Alert::error('You haven\'t achieved your target. Fill up the evaluation form');
+            return redirect()->route('dc.accomplishments');
         } else {
             $userName = auth()->user()->first_name;
             $provinceID = auth()->user()->province_ID;
@@ -370,9 +372,11 @@ class DivisionChiefController extends Controller
             //  dd($notification);
             $notification->save();
 
-            return redirect()
-                ->route('dc.accomplishments')
-                ->with('success', 'Monthly Target successfully added!');
+            // return redirect()
+            //     ->route('dc.accomplishments')
+            //     ->with('success', 'Monthly Target successfully added!');
+            Alert::success('Monthly Accomplishment successfully added!');
+            return redirect()->route('dc.accomplishments');
         }
     }
 
@@ -1024,7 +1028,6 @@ class DivisionChiefController extends Controller
 
         return view('dc.manage', compact('drivers', 'measures', 'annual_targets', 'user', 'notification'));
     }
-
     public function add_driver(Request $request)
     {
         // dd($request->data);
@@ -1037,34 +1040,30 @@ class DivisionChiefController extends Controller
         $new_driver = $request->driver;
         $new_driver_letter = $request->number_driver;
         $select_driver = $request->driver_ID;
-        // echo $request->driver;
-        // echo $request->driver_ID;
-        // var_dump($request->data);
+
         $add_group = $request->add;
         $group = $request->data;
 
-        // Validate if no measures selected
-        $missingMeasures = [];
-        if (empty($group)) {
-            $missingMeasures[] = 'Please select a measure.';
-        } else {
-            $selectedMeasures = array_filter($group, function ($group_key) {
-                return isset($group_key['measure_ID']);
-            });
+        // Check if at least one measure is selected
+        $hasSelectedMeasure = false;
 
-            if (count($selectedMeasures) === 0) {
-                $missingMeasures[] = 'Please select a measure for the target.';
+        if ($group) {
+            foreach ($group as $group_key) {
+                if (isset($group_key['measure_ID']) || isset($group_key['target_ID'])) {
+                    $hasSelectedMeasure = true;
+                    break;
+                }
             }
         }
 
-        if (!empty($missingMeasures)) {
-            return redirect()
-                ->back()
-                ->with('error', $missingMeasures[0]) // Return only the first error message
-                ->withInput();
+        if (!$hasSelectedMeasure) {
+            // return redirect()
+            //     ->back()
+            //     ->with('error', 'Please select at least one measure or target.');
+            Alert::error('Please select at least one measure or target.');
+            return redirect()->route('dc.manage');
         }
 
-        // dd( $group);
         $driver_use = null;
         if ($new_driver) {
             $driver = new Driver();
@@ -1077,12 +1076,9 @@ class DivisionChiefController extends Controller
         } elseif ($select_driver) {
             $driver_use = $select_driver;
         }
+
         if ($add_group) {
             foreach ($add_group as $add_key) {
-                # code...
-                // echo $add_key['measure']."  ";
-                // echo $add_key['target']."  ";
-                // echo $add_key['type']."  ";
                 if ($add_key['measure'] != null) {
                     $strategic_measure = new StrategicMeasure();
                     $strategic_measure->strategic_measure = $add_key['measure'];
@@ -1090,26 +1086,22 @@ class DivisionChiefController extends Controller
                     $strategic_measure->division_ID = $user->division_ID;
                     $strategic_measure->strategic_objective_ID = 0;
                     $strategic_measure->save();
+
                     if ($strategic_measure->strategic_measure_ID) {
+                        $annual_target = new AnnualTarget();
+                        $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
+                        $annual_target->strategic_objectives_ID = 0;
+                        $annual_target->province_ID = $user->province_ID;
+                        $annual_target->division_ID = $user->division_ID;
+                        $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
+                        $annual_target->driver_ID = $driver_use;
+
                         if (isset($add_key['target'])) {
-                            $annual_target = new AnnualTarget();
-                            $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
-                            $annual_target->strategic_objectives_ID = 0;
-                            $annual_target->province_ID = $user->province_ID;
-                            $annual_target->division_ID = $user->division_ID;
                             $annual_target->annual_target = $add_key['target'];
-                            $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
-                            $annual_target->driver_ID = $driver_use;
                         } else {
-                            $annual_target = new AnnualTarget();
-                            $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
-                            $annual_target->strategic_objectives_ID = 0;
-                            $annual_target->province_ID = $user->province_ID;
-                            $annual_target->division_ID = $user->division_ID;
                             $annual_target->annual_target = 0;
-                            $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
-                            $annual_target->driver_ID = $driver_use;
                         }
+
                         $annual_target->save();
                     }
                 }
@@ -1118,8 +1110,6 @@ class DivisionChiefController extends Controller
 
         if ($group) {
             foreach ($group as $group_key) {
-                # code...
-
                 if (isset($group_key['target_ID'])) {
                     $annual_target = AnnualTarget::find($group_key['target_ID']);
                     $annual_target->driver_ID = $driver_use;
@@ -1139,10 +1129,12 @@ class DivisionChiefController extends Controller
             }
         }
 
-        session()->flash('success', 'Transaction Completed');
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+        // session()->flash('success', 'Transaction Completed');
+        // return redirect()
+        //     ->route('dc.manage')
+        //     ->with('success', 'Transaction Completed');
+        Alert::success('Transaction Completed');
+        return redirect()->route('dc.manage');
     }
 
     public function add_driver_only(Request $request)
