@@ -17,6 +17,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
 
 class DivisionChiefController extends Controller
 {
@@ -144,7 +145,34 @@ class DivisionChiefController extends Controller
         //     ->with('success', 'Annual Target successfully added!');
         return redirect()->route('dc.bukidnunBddIndex');
     }
+    public function updateProfileHandler(Request $request) {
 
+      
+        $userID = auth()->user()->user_ID;
+
+       
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+
+      
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
+    }
     public function updateTar(Request $request)
     {
         $validatedData = $request->validate([

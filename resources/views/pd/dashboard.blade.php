@@ -8,7 +8,19 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div>
         <div class="container-fluid ">
-
+  <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">
+               Provincial Director Dashboard
+           </div>
+            <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
+              {{ match ($userDetails->province_ID) {
+                    1 => 'Bukidnon BDD Division',
+                    2 => 'Lanao Del Norte',
+                    3 => 'Misamis Oriental',
+                    4 => 'Misamis Occidental',
+                    5 => 'Camiguin',
+                    default => 'other',
+                } }}
+           </div>
             <x-dashboard-ppo-pd/>
         {{-- <div class="container-fluid">
        
