@@ -31,10 +31,11 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('first_name') }}" placeholder="Firstname"
+                                                <input placeholder="Firstname"
                                                     id="first_name" type="text"
-                                                    class="form-control @error('first_name') @enderror 
-                                                    value="{{ old('first_name') }}"
+                                                   value="{{ old('first_name') }}"
+                                                    class="form-control @error('first_name') is-invalid @enderror "
+                                                    
                                                     name="first_name" pattern="[A-Za-z\s]+" autocomplete="first_name"
                                                     autofocus required>
                                                 @error('first_name')
@@ -54,8 +55,9 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('last_name') }}" placeholder="Lastname" id="last_name"
-                                                    type="text" class="form-control @error('last_name') @enderror"
+                                                <input placeholder="Lastname" id="last_name"
+                                                     value="{{ old('last_name') }}"
+                                                    type="text" class="form-control @error('last_name') is-invalid @enderror"
                                                     name="last_name" autocomplete="last_name" required pattern="[A-Za-z\s]+"
                                                     autofocus>
                                                 @error('last_name')
@@ -77,7 +79,8 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('middle_name') }}" placeholder="Middlename"
+                                                <input placeholder="Middlename"
+                                                     value="{{ old('middle_name') }}"
                                                     id="middle_name" type="text"
                                                     class="form-control @error('middle_name') @enderror" name="middle_name"
                                                     autocomplete="middle_name" required pattern="[A-Za-z\s]+" autofocus>
@@ -86,7 +89,6 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-
                                                 <div class="invalid-feedback">Please enter a valid middle name</div>
                                             </div>
                                         </div>
@@ -143,7 +145,7 @@
                                                         id="entry_date"
                                                         pattern="(19\d{2}|20[01]\d|202[01])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])"
                                                         max="{{ date('Y-m-d', strtotime('-18 years')) }}" required />
-                                                    <div class="invalid-feedback">Please enter a valid date</div>
+                                                    <div class="invalid-feedback">Enter a valid Birthdate. You must be at least 18 years old.</div>
                                                     {{-- <input value="{{ old('birthday') }}" type="date" name='birthday'
                                                         class="form-control @error('birthday') is-invalid @enderror"
                                                         id="entry_date" />

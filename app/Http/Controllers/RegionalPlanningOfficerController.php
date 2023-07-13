@@ -196,7 +196,7 @@ class RegionalPlanningOfficerController extends Controller
     public function update(Request $request, User $user)
     {
       
-        // dd($request);
+       
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -224,6 +224,7 @@ class RegionalPlanningOfficerController extends Controller
             'division_ID' => (int) $request->division_ID ?? null,
             'status' => "active"
         ];
+    
         //  dd($attributes);
         // DB::table('users')->where('user_ID', $request->user_ID)->update($attributes) ;
         if (!isset($request->province_ID)) {
@@ -235,7 +236,6 @@ class RegionalPlanningOfficerController extends Controller
 
         $user = User::find($request->user_ID);
 
-        // dd($attributes);
         $user->update($attributes);
         Alert::success('User updated successfully');
 

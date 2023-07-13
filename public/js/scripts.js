@@ -140,7 +140,7 @@ $(document).ready(function () {
         e.preventDefault();
         let userKeyGenerated = generateUserKey();
         $("#input-userkey").val(userKeyGenerated);
-        // $("#btn-add").show();
+
         addUser.appendTo(addUserParent).show();
     });
     function generateUserKey() {

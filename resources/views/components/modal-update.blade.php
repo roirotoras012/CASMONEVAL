@@ -8,7 +8,7 @@
                     <i class="fa-solid fa-pen"></i>
                 </div>
                 <input hidden data-user-role='user-numbir' value={{ $users->first_name }}>
-                <h3>{{ $users->user_type_ID }} </h3>
+           
                 <h4 class="modal-title w-100">Update {{ $users->first_name }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
