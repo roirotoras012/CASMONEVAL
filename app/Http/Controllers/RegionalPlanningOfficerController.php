@@ -55,8 +55,35 @@ class RegionalPlanningOfficerController extends Controller
         $userRegistrationKeys = RegistrationKey::all();
         return view('rpo.manage-users', ['users' => $users, 'userRegistrationKeys' => $userRegistrationKeys]);
     }
+    public function updateProfileHandler(Request $request) {
 
-    public function updateEmailHandler(Request $request)
+      
+        $userID = auth()->user()->user_ID;
+
+       
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+
+      
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
+    }
+    public function updateEmailHandler(Request $request , User $user)
     {
         $userType = auth()->user()->user_type_ID;
         $userPass = auth()->user()->password;

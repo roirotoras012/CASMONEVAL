@@ -43,6 +43,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
     Route::get('rd/profile', [RegionalDirector::class, 'profile']);
     Route::post('rd/profile/update-email', [RegionalDirector::class, 'updateEmailHandler'])->name('rd.updateEmailHandler');
     Route::post('rd/profile/update-password', [RegionalDirector::class, 'updatePasswordHandler'])->name('rd.updatePasswordHandler');
+    Route::put('rd/profile/update-profile', [RegionalDirector::class, 'updateProfileHandler'])->name('rd.updateProfileHandler');
+
     Route::get('rd/opcr-target', [RegionalDirector::class, 'opcr_target'])->name('rd.opcr_target');
     Route::get('rd/logout', [RegionalDirector::class, 'logout'])->name('rd.logout');
     Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
@@ -62,6 +64,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
     Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile'])->name('profile');
+    Route::put('rpo/profile/update-profile', [RegionalPlanningOfficerController::class, 'updateProfileHandler'])->name('rpo.updateProfileHandler');
     Route::post('rpo/profile/update-email', [RegionalPlanningOfficerController::class, 'updateEmailHandler'])->name('rpo.updateEmailHandler');
     Route::post('rpo/profile/update-password', [RegionalPlanningOfficerController::class, 'updatePasswordHandler'])->name('rpo.updatePasswordHandler');
     Route::post('add_targets', [RegionalPlanningOfficerController::class, 'add_targets'])->name('add_targets');
@@ -95,7 +98,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/accomplishment', [ProvincialDirectorController::class, 'accomplishment']);
     Route::get('pd/assessment', [ProvincialDirectorController::class, 'assessment'])->name('pd.assessment');
     Route::post('eval/remark', [EvaluationController::class, 'addRemark'])->name('eval.remark');
-
+    Route::put('pd/profile/update-profile', [ProvincialDirectorController::class, 'updateProfileHandler'])->name('pd.updateProfileHandler');
     Route::get('pd/savedtarget  ', [ProvincialDirectorController::class, 'savetarget']);
     Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
     Route::get('pd/view-opcr', [ProvincialDirectorController::class, 'opcr'])->name('opcr');
@@ -113,6 +116,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::get('ppo/fad', [ProvincialPlanningOfficerController::class, 'fad'])->name('fad');
     Route::get('ppo/profile', [ProvincialPlanningOfficerController::class, 'profile']);
     Route::post('ppo/profile/update-email', [ProvincialPlanningOfficerController::class, 'updateEmailHandler'])->name('ppo.updateEmailHandler');
+    Route::put('ppo/profile/update-profile', [ProvincialPlanningOfficerController::class, 'updateProfileHandler'])->name('ppo.updateProfileHandler');
+
     Route::post('ppo/profile/update-password', [ProvincialPlanningOfficerController::class, 'updatePasswordHandler'])->name('ppo.updatePasswordHandler');
     // Route::post('ppo/drivers', [ProvincialPlanningOfficerController::class, 'store'])->name('drivers.store');
     Route::post('ppo/measures', [ProvincialPlanningOfficerController::class, 'store'])->name('measures.store');
@@ -140,6 +145,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('dc/monthly_accomplishment', [DivisionChiefController::class, 'storeAccom'])->name('dc.store-accom');
   Route::get('dc/profile', [DivisionChiefController::class, 'profile']);
   Route::post('dc/profile/update-email', [DivisionChiefController::class, 'updateEmailHandler'])->name('dc.updateEmailHandler');
+  Route::put('dc/profile/update-profile', [DivisionChiefController::class, 'updateProfileHandler'])->name('dc.updateProfileHandler');
   Route::post('dc/profile/update-password', [DivisionChiefController::class, 'updatePasswordHandler'])->name('dc.updatePasswordHandler');
   Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.reason');
   Route::post('add_driver', [DivisionChiefController::class, 'add_driver'])->name('dc.add_driver');

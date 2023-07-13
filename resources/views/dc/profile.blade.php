@@ -54,17 +54,17 @@
                     <div id="myTab1Content" class="tab-content">
                         <div id="home1" role="tabpanel" aria-labelledby="home-tab"
                             class="tab-pane fade px-4 py-5 show active">
-                            <form method="POST" action="{{ route('register') }}">
+                            <form method="POST" action="{{ route('dc.updateProfileHandler') }}">
                                 <div>
                                     @csrf
+                                    @method('put')
                                     <span class="badge badge-primary mb-2">ID Number : {{ $userDetails->user_ID }}</span>
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label>Firstname</label>
-                                            <input value={{ $userDetails->first_name }} disabled id="first_name"
-                                                type="text" class="form-control" value="20234432" name="first_name"
-                                                autofocus>
+                                            <input value={{ $userDetails->first_name }} id="first_name" type="text"
+                                                class="form-control" name="first_name" autofocus pattern="^[a-zA-Z\s]*$" required>
 
 
 
@@ -72,8 +72,8 @@
 
                                         <div class="form-group col-md-6">
                                             <label>Lastname</label>
-                                            <input value={{ $userDetails->last_name }} disabled placeholder="Lastname"
-                                                id="last_name" type="text" class="form-control" name="last_name"
+                                            <input value={{ $userDetails->last_name }} placeholder="Lastname" id="last_name"
+                                                type="text" class="form-control" name="last_name" pattern="^[a-zA-Z\s]*$" required
                                                 autocomplete="last_name" autofocus>
 
 
@@ -83,20 +83,34 @@
                                         <div class="form-group col-md-6">
                                             <label>Middlename</label>
 
-                                            <input value={{ $userDetails->middle_name }} disabled placeholder="Middlename"
-                                                id="middle_name" type="text" class="form-control" name="middle_name"
+                                            <input value={{ $userDetails->middle_name }} placeholder="Middlename"
+                                                id="middle_name" type="text" class="form-control" name="middle_name" pattern="^[a-zA-Z\s]*$" required
                                                 autocomplete="middle_name" autofocus>
 
                                         </div>
                                         <div class="form-group col-md-6">
-
                                             <label>Extension</label>
-
-                                            <input
-                                                value={{ $userDetails->extension_name != null ? $userDetails->extension_name : 'N/A' }}
-                                                disabled placeholder="Extension name" id="extension_name" type="text"
-                                                class="form-control" name="extension_name" name="extension_name"
+                                            <select class="form-control @error('extension_name') is-invalid @enderror"
+                                                style="height:40px;" id="extension_name" name="extension_name" 
                                                 autocomplete="extension_name" autofocus>
+
+                                                <option value={{ $userDetails->extension_name }} selected >
+                                                    {{ $userDetails->extension_name }}</option>
+                                                <option value="N/A" {{ old('extension_name') }}>No
+                                                    extension
+                                                    name</option>
+                                                <option value="Jr" name="Jr"
+                                                    {{ old('extension_name') == 'Jr' ? 'selected' : '' }}>Jr</option>
+                                                <option value="Sr" name="Sr"
+                                                    {{ old('extension_name') == 'Sr' ? 'selected' : '' }}>Sr</option>
+                                                <option value="II" name="II"
+                                                    {{ old('extension_name') == 'II' ? 'selected' : '' }}>II</option>
+                                                <option value="III" name="III"
+                                                    {{ old('extension_name') == 'III' ? 'selected' : '' }}>III</option>
+                                                <option value="IV" name="IV"
+                                                    {{ old('extension_name') == 'IV' ? 'selected' : '' }}>IV</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please enter a valid extension name</div>
 
 
                                         </div>
@@ -105,10 +119,12 @@
                                     <div class="form-group">
                                         <label>Birthdate</label>
 
-                                        <input value={{ $userDetails->birthday }} disabled type="date" name='birthday'
+                                        <input value={{ $userDetails->birthday }} type="date" name='birthday' pattern="(19\d{2}|20[01]\d|202[01])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])"
+                                            max="{{ date('Y-m-d', strtotime('-18 years')) }}"
                                             class="form-control" id="entry_date" />
 
                                     </div>
+                                    <button type="submit" class="btn btn-primary">Update Profile</button>
 
                                 </div>
 
@@ -145,7 +161,7 @@
                                         <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
                                             1 numeric.</div>
                                     </div>
-                                  
+
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Update Email') }}
@@ -154,12 +170,13 @@
                         </div>
                         <div id="contact1" role="tabpanel" aria-labelledby="contact-tab"
                             class="tab-pane fade px-4 py-5">
-                            <form method="POST" action="{{ route('dc.updatePasswordHandler') }}">
+                            <form method="POST" action="{{ route('dc.updatePasswordHandler') }}" oninput='passwordConfirm.setCustomValidity(passwordConfirm.value != newPassword.value ? "Passwords do not match." : "")'>
                                 @csrf
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control eye-password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
+                                        <input type="password" class="form-control eye-password"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="current_password" />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary toggle-password" type="button">
@@ -177,15 +194,16 @@
                                 <div class="form-group">
                                     <label for="password">New Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control eye-password" id="new_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
+                                        <input type="password" class="form-control eye-password" id="newPassword"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="new_password" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary toggle-password" type="button">
-                                                    <i class="fa fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
-                                                1 numeric.</div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                        <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
+                                            1 numeric.</div>
                                         @error('new_password')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -194,15 +212,16 @@
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm New Password</label>
                                     <div class="input-group input-group-sm">
-                                        <input id="password-confirm" type="password" class="form-control eye-password" required  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
+                                        <input id="passwordConfirm" type="password" class="form-control eye-password"
+                                            required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" required
                                             name="password_confirmation" autocomplete="password_confirmation" />
-                                            <div class="input-group-append">
-                                                <button class="btn btn-outline-secondary toggle-password" type="button">
-                                                    <i class="fa fa-eye"></i>
-                                                </button>
-                                            </div>
-                                            <div class="invalid-feedback">At least 6 characters: 1 uppercase, 1 lowercase, and
-                                                1 numeric.</div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                         <div class="invalid-feedback" id="password-confirm-error">Passwords do not match.
+                                        </div>
                                         @error('password_confirmation')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
