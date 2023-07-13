@@ -12,7 +12,21 @@
                 <p class="lead"> Nearly 75 years following its inception, changes in government and agency functions would
                     make possible the establishment of the Ministry of Trade and Industry, and, following the People Power
                     Revolution, the Department as it is presently known.</p>
-                {{-- <a href="{{ route('home') }}"><button class="btn btn-primary btn-login">Login</button></a> --}}
+                <a
+                    href="{{ auth()->check()
+                        ? (auth()->user()->user_type_ID === 1
+                            ? url('/rd/dashboard')
+                            : (auth()->user()->user_type_ID === 2
+                                ? url('/rpo/dashboard')
+                                : (auth()->user()->user_type_ID === 3
+                                    ? url('/pd/dashboard')
+                                    : (auth()->user()->user_type_ID === 4
+                                        ? url('/ppo/dashboard')
+                                        : (auth()->user()->user_type_ID === 5
+                                            ? url('/dc/dashboard')
+                                            : '#')))))
+                        : url('/login') }}"><button
+                        class="btn btn-primary btn-login">{{ auth()->check() ? 'Back to Dashboard' : 'Login' }}</button></a>
             </div>
         </div>
     </div>
