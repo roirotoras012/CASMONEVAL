@@ -183,6 +183,35 @@ $(document).ready(function () {
             $(this).find("i").removeClass("fa-eye-slash").addClass("fa-eye");
         }
     });
+
+    var initialValues = [];
+
+    // Get initial values for each input field
+    $(".form-update").each(function () {
+        var initialValue = $(this).val().trim();
+        initialValues.push(initialValue);
+    });
+
+    $("#profile-btn").prop("disabled", true);
+    $("#profile-email-btn").prop("disabled", true);
+    $("#profile-pass-btn").prop("disabled", true);
+    $(".form-update").on("change", function () {
+        var enableButton = false;
+
+        // Check if any input field has a different value than the initial value
+        $(".form-update").each(function (index) {
+            var currentValue = $(this).val().trim();
+            if (currentValue !== initialValues[index]) {
+                enableButton = true;
+                return false; // Exit the loop if a different value is found
+            }
+        });
+
+        // Enable or disable the button based on the check result
+        $("#profile-btn").prop("disabled", !enableButton);
+        $("#profile-email-btn").prop("disabled", !enableButton);
+        $("#profile-pass-btn").prop("disabled", !enableButton);
+    });
     var printButton = document.getElementById("print-button");
     printButton.addEventListener("click", function () {
         var table = document.getElementById("table").outerHTML;
