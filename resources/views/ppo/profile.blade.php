@@ -64,7 +64,7 @@
                                         <div class="form-group col-md-6">
                                             <label>Firstname</label>
                                             <input pattern="^[a-zA-Z\s]*$" required value={{ $userDetails->first_name }} id="first_name" type="text"
-                                                class="form-control" name="first_name" autofocus>
+                                                class="form-control form-update" name="first_name" autofocus>
 
 
 
@@ -73,7 +73,7 @@
                                         <div class="form-group col-md-6">
                                             <label>Lastname</label>
                                             <input value={{ $userDetails->last_name }} placeholder="Lastname" id="last_name"
-                                                type="text" class="form-control" name="last_name" pattern="^[a-zA-Z\s]*$" required
+                                                type="text" class="form-control form-update" name="last_name" pattern="^[a-zA-Z\s]*$" required
                                                 autocomplete="last_name" autofocus>
 
 
@@ -84,13 +84,13 @@
                                             <label>Middlename</label>
 
                                             <input value={{ $userDetails->middle_name }} placeholder="Middlename" pattern="^[a-zA-Z\s]*$" required
-                                                id="middle_name" type="text" class="form-control" name="middle_name"
+                                                id="middle_name" type="text" class="form-control form-update" name="middle_name"
                                                 autocomplete="middle_name" autofocus>
 
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label>Extension</label>
-                                             <select class="form-control @error('extension_name') is-invalid @enderror"
+                                             <select class="form-control @error('extension_name') is-invalid @enderror form-update"
                                                     style="height:40px;" id="extension_name" name="extension_name"
                                                     autocomplete="extension_name" autofocus>
                                                   
@@ -120,11 +120,11 @@
 
                                         <input pattern="(19\d{2}|20[01]\d|202[01])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])"
                                             max="{{ date('Y-m-d', strtotime('-18 years')) }}" value={{ $userDetails->birthday }} type="date" name='birthday' required
-                                            class="form-control" id="entry_date" />
+                                            class="form-control form-update" id="entry_date" />
 
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                                    <button type="submit" class="btn btn-primary" id="profile-btn">Update Profile</button>
 
                                 </div>
 
@@ -136,7 +136,7 @@
                                 <div class="form-group">
                                     <label>Email</label>
                                     <input value={{ $userDetails->email }} placeholder="Email" id="email"
-                                        type="email" class="form-control @error('email') is-invalid @enderror"
+                                        type="email" class="form-control @error('email') is-invalid @enderror form-update"
                                         name="email" autocomplete="email">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -161,7 +161,7 @@
                                             1 numeric.</div>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" id="profile-email-btn">
                                     {{ __('Update Email') }}
                                 </button>
                             </form>
@@ -174,7 +174,7 @@
                                 <div class="form-group">
                                     <label for="password">Current Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control eye-password" required
+                                        <input type="password" class="form-control eye-password form-update" required
                                             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" name="current_password" />
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary toggle-password" type="button">
@@ -192,7 +192,7 @@
                                 <div class="form-group">
                                     <label for="new_password">New Password:</label>
                                     <div class="input-group">
-                                        <input type="password" class="form-control eye-password" id="newPassword"
+                                        <input type="password" class="form-control eye-password form-update" id="newPassword"
                                             required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
                                             name="new_password" />
                                         @error('new_password')
@@ -210,7 +210,7 @@
                                 <div class="form-group">
                                     <label for="password-confirm">Confirm New Password</label>
                                     <div class="input-group input-group-sm">
-                                        <input id="passwordConfirm" type="password" class="form-control eye-password"
+                                        <input id="passwordConfirm" type="password" class="form-control eye-password form-update"
                                             required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
                                             name="password_confirmation" autocomplete="password_confirmation" />
                                         @error('password_confirmation')
@@ -226,7 +226,7 @@
 
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary" id="profile-pass-btn">
                                     {{ __('Update Password') }}
                                 </button>
                             </form>

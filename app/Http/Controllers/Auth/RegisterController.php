@@ -73,9 +73,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         $validator = Validator::make($data, [
-            'first_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
-            'last_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
-            'middle_name' => ['required', 'string', 'regex:/^[\pL\s\-]+$/u', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['required', 'string','max:255'],
             'birthday' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'user_type_ID' => ['required'],
@@ -84,7 +84,17 @@ class RegisterController extends Controller
         ]);
 
         $validator->after(function ($validator) use ($data) {
-            
+            $existingUser = User::where('first_name', $data['first_name'])
+            ->where('last_name', $data['last_name'])
+            ->first();
+
+        if ($existingUser) {
+            $validator->errors()->add('first_name', 'First name and last name already exists.');
+            $validator->errors()->add('last_name', 'First name and last name already exists.');
+        }
+
+
+
             $existingUserEmail = User::where('email', $data['email'])->first();
             if ($existingUserEmail) {
                 $validator->errors()->add('email', 'The email has already been taken.');
