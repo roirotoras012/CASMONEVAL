@@ -183,34 +183,93 @@ $(document).ready(function () {
             $(this).find("i").removeClass("fa-eye-slash").addClass("fa-eye");
         }
     });
+    $("#home1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-btn");
 
-    var initialValues = [];
+        $button.prop("disabled", true);
 
-    // Get initial values for each input field
-    $(".form-update").each(function () {
-        var initialValue = $(this).val().trim();
-        initialValues.push(initialValue);
-    });
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
 
-    $("#profile-btn").prop("disabled", true);
-    $("#profile-email-btn").prop("disabled", true);
-    $("#profile-pass-btn").prop("disabled", true);
-    $(".form-update").on("change", function () {
-        var enableButton = false;
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
 
-        // Check if any input field has a different value than the initial value
-        $(".form-update").each(function (index) {
-            var currentValue = $(this).val().trim();
-            if (currentValue !== initialValues[index]) {
-                enableButton = true;
-                return false; // Exit the loop if a different value is found
-            }
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
         });
 
-        // Enable or disable the button based on the check result
-        $("#profile-btn").prop("disabled", !enableButton);
-        $("#profile-email-btn").prop("disabled", !enableButton);
-        $("#profile-pass-btn").prop("disabled", !enableButton);
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
+    });
+
+    $("#profile1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-email-btn");
+
+        $button.prop("disabled", true);
+
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
+
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
+
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
+        });
+
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
+    });
+    $("#contact1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-pass-btn");
+
+        $button.prop("disabled", true);
+
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
+
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
+
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
+        });
+
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
     });
     var printButton = document.getElementById("print-button");
     printButton.addEventListener("click", function () {
