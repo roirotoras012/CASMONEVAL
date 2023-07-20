@@ -19,7 +19,7 @@
 
                         <div class="text-center">
                             <input type="hidden" name="opcr_id" value="{{$opcr_id}}">
-                            <input type="file" name="opcr_file" id="" accept=".pdf,.doc,.docx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/*" required>
+                            <input type="file" name="opcr_file" id="" accept=".pdf" required>
                         </div>
 
 
