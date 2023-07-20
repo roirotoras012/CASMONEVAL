@@ -12,7 +12,7 @@
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Saved Targets</h1>
+                    <h1 class="province-name text-dark text-uppercase mb-5 rounded">Saved Targets</h1>
                 </li>
 
             </ol>

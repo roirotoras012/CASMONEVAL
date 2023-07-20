@@ -1465,17 +1465,21 @@ class RegionalPlanningOfficerController extends Controller
         ->where('opcr_id', '=', $opcr_id)
         ->get();
         // dd(count($max), count($updated_targets));
-    if (count($max) * 5 > count($updated_targets)) {
-        DB::table('opcr')
-            ->where('opcr_ID', $opcr_id)
-            ->update(['status' => 'INCOMPLETE']);
-    } else {
-        DB::table('opcr')
-            ->where('opcr_ID', $opcr_id)
-            ->update(['status' => 'COMPLETE']);
-            $opcr[0]->status = 'COMPLETE';
-            
-    }
+       
+        if($opcr[0]->status != 'DONE') {
+            if (count($max) * 5 > count($updated_targets)) {
+                DB::table('opcr')
+                    ->where('opcr_ID', $opcr_id)
+                    ->update(['status' => 'INCOMPLETE']);
+            } else {
+                DB::table('opcr')
+                    ->where('opcr_ID', $opcr_id)
+                    ->update(['status' => 'COMPLETE']);
+                    $opcr[0]->status = 'COMPLETE';
+                    
+            }
+        }
+
 
         return view('rpo.opcr', compact('targets', 'labels', 'opcr_id', 'opcr', 'monthly_targets', 'file', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
