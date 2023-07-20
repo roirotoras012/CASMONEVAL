@@ -1698,9 +1698,11 @@ class RegionalPlanningOfficerController extends Controller
                 ->where('is_active', true)
                 ->exists();
             if ($opcrExists) {
-                return redirect()
-                    ->route('rpo.show', $opcr_id)
-                    ->with('error', 'OPCR cannot be submitted. An active OPCR already exists.');
+                Alert::error('OPCR cannot be submitted. An active OPCR already exists.');
+                return redirect()->back();
+                // return redirect()
+                //     ->route('rpo.show', $opcr_id)
+                //     ->with('error', 'OPCR cannot be submitted. An active OPCR already exists.');
             } else {
                 DB::table('opcr')
                     ->where('opcr_ID', $opcr_id)
