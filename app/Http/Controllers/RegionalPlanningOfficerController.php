@@ -530,6 +530,16 @@ class RegionalPlanningOfficerController extends Controller
 
         return view('rpo.savetarget', compact('opcr'));
     }
+
+    public function archive()
+    {
+        $opcr = DB::table('opcr')
+        ->where('deleted_at', '!=', null)
+        ->get();
+
+        return view('rpo.archive', compact('opcr'));
+    }
+
     public function show($id)
     {
 
@@ -2156,6 +2166,33 @@ class RegionalPlanningOfficerController extends Controller
                 ->route('rpo.savetarget');
         }
     }
+
+    public function recover_opcr(Request $request){
+
+        $opcrID = $request->opcr_ID;
+    
+        // Query the OPCR by opcr_ID
+        $opcr = Opcr::find($opcrID);
+    
+        // Check if OPCR exists
+        if ($opcr && $opcr->is_active !== 1) {
+            // Update the deleted_at column
+            $opcr->deleted_at = null;
+            $opcr->save();
+          
+            Alert::success('OPCR Successfully Recovered!');
+
+            return redirect()
+                ->route('rpo.savetarget');
+        } else {
+            // OPCR not found or is_active is 1
+            Alert::error('OPCR cannot be Recovered!');
+
+            return redirect()
+                ->route('rpo.archive');
+        }
+    }
+   
    
 
 

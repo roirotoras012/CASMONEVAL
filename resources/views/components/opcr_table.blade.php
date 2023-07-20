@@ -96,7 +96,7 @@
                     ];
                     $measures = $objective
                         ->measures()
-                        ->orderBy('number_measure', 'asc')
+                        ->orderByRaw('CAST(number_measure AS UNSIGNED) ASC')
                         ->get();
                 @endphp
 
@@ -325,7 +325,7 @@
                     ];
                     $measures = $objective
                         ->measures()
-                        ->orderBy('number_measure', 'asc')
+                        ->orderByRaw('CAST(number_measure AS UNSIGNED) ASC')
                         ->get();
                     
                 @endphp

@@ -25,6 +25,14 @@
 
             </ol>
 
+            <div>
+                <h4><b>Instructions to mark the OPCR as done:</b></h4>
+                <ol>
+                    <li>Print the Scorecard</li>
+                    <li>Save the OPCR as PDF file</li>
+                    <li>Click the mark as done button and upload the OPCR</li>
+                </ol>
+            </div>
 
             @if ($opcr[0]->status == 'DONE' && isset($file))
                 {{-- {{public_path()}} --}}

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    {{ 'RPO Save Target' }}
+    {{ 'RPO Archived Target' }}
 @endsection
 @section('content')
     <x-user-sidebar>
@@ -12,15 +12,10 @@
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Saved Targets</h1>
+                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Archived Targets</h1>
                 </li>
 
             </ol>
-            <div style="margin-bottom: 1em;">
-                <button class="btn btn-primary">
-                    <a style="text-decoration: none; color:white;" href="{{ url('rpo/archive') }}">View Archived Targets</a> 
-                </button>
-            </div>
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p class="m-0">{{ $message }}</p>
@@ -35,11 +30,10 @@
                 @foreach ($opcr as $item)
                     <div class="opcr-item" style="position:relative">
                         <div style="position:absolute; right: 10px">
-                            <form action="{{ route('rpo.remove_opcr') }}" method="post">
+                            <form action="{{ route('rpo.recover_opcr') }}" method="post">
                                 @csrf
                                 <input type="hidden" value="{{ $item->opcr_ID }}" name="opcr_ID">
-                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i
-                                        class="fas fa-file-archive" style="font-size: 25px;"></i></button>
+                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i class="fas fa-trash-restore-alt" style="font-size: 25px;"></i></button>
                             </form>
 
                         </div>
@@ -104,7 +98,7 @@
         <script>
             function confirmDeletion(event) {
                 event.preventDefault();
-                var result = confirm("Are you sure you want to archive it?");
+                var result = confirm("Are you sure you want to recover it?");
                 if (result) {
                     var form = event.target.closest('form');
                     form.submit();

@@ -61,6 +61,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::get('rpo/measures', [RegionalPlanningOfficerController::class, 'measures'])->name('rpo.measures');
     Route::get('rpo/addtarget', [RegionalPlanningOfficerController::class, 'opcr_target'])->name('rpo.opcrarget');
     Route::get('rpo/savedtarget', [RegionalPlanningOfficerController::class, 'savetarget'])->name('rpo.savetarget');
+    Route::get('rpo/archive', [RegionalPlanningOfficerController::class, 'archive'])->name('rpo.archive');
     Route::get('rpo/opcr/{id}  ', [RegionalPlanningOfficerController::class, 'show'])->name('rpo.show');
     Route::get('rpo/assessment', [RegionalPlanningOfficerController::class, 'assessment']);
     Route::get('rpo/profile', [RegionalPlanningOfficerController::class, 'profile'])->name('profile');
@@ -76,6 +77,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('upload_opcr', [RegionalPlanningOfficerController::class, 'upload_opcr'])->name('rpo.upload_opcr');
     Route::post('cutOff', [RegionalPlanningOfficerController::class, 'cutOff'])->name('rpo.cutOff');
     Route::post('remove_opcr', [RegionalPlanningOfficerController::class, 'remove_opcr'])->name('rpo.remove_opcr');
+    Route::post('recover_opcr', [RegionalPlanningOfficerController::class, 'recover_opcr'])->name('rpo.recover_opcr');
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
 
@@ -103,6 +105,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
     Route::get('pd/view-opcr', [ProvincialDirectorController::class, 'opcr'])->name('opcr');
     Route::post('pd/approved_opcr_pd', [ProvincialDirectorController::class, 'approved_opcr_pd'])->name('approved_opcr_pd');
+    Route::get('pd/bdd', [ProvincialDirectorController::class, 'bdd'])->name('bdd');
+    Route::get('pd/cpd', [ProvincialDirectorController::class, 'cpd'])->name('cpd');
+    Route::get('pd/fad', [ProvincialDirectorController::class, 'fad'])->name('fad');
 
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {
