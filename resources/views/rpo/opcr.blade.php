@@ -25,6 +25,13 @@
 
             </ol>
 
+            
+
+            @if ($opcr[0]->status == 'DONE' && isset($file))
+                {{-- {{public_path()}} --}}
+                <iframe style="border: none;" src="/uploads/{{ $file->file_name }}" width="100%" height="900px"></iframe>
+                
+            @else
             <div>
                 <h4><b>Instructions to mark the OPCR as done:</b></h4>
                 <ol>
@@ -33,11 +40,6 @@
                     <li>Click the mark as done button and upload the OPCR</li>
                 </ol>
             </div>
-
-            @if ($opcr[0]->status == 'DONE' && isset($file))
-                {{-- {{public_path()}} --}}
-                <iframe style="border: none;" src="/uploads/{{ $file->file_name }}" width="100%" height="900px"></iframe>
-            @else
                 <div class="opcr-container">
 
 
