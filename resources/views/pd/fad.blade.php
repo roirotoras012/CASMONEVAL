@@ -30,23 +30,6 @@
                         @endif
                         @endforeach
                         <button class="btn btn-primary my-2" data-file-name="{{$printProvince}}-fad-OPCR{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button>
-                        <div class="legend-container">
-                            <div class="legend-item">
-                                <div class="box bg-warning"></div>
-                                <div class="text-warning">Not Validated</div>
-                            </div>
-
-                            <div class="legend-item">
-                                <div class="box bg-success"></div>
-                                <div class="text-success">Validated</div>
-                            </div>
-
-                            <div class="legend-item">
-                                <div class="box bg-danger"></div>
-                                <div class="text-danger">Invalid</div>
-                            </div>
-
-                        </div>
                     </div>
                     <table class="table table-bordered ppo-table shadow" id="table">
                         <thead class="bg-primary text-white">
