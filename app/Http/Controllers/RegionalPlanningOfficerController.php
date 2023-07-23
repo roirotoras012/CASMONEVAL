@@ -162,6 +162,7 @@ class RegionalPlanningOfficerController extends Controller
 
     public function opcr_target()
     {
+        
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('strategic_objectives.is_active', '=', true)
             ->where('type', '=', 'DIRECT')
@@ -1971,16 +1972,18 @@ class RegionalPlanningOfficerController extends Controller
             $opcr->deleted_at = now();
             $opcr->save();
 
-            Alert::success('OPCR removed');
+            Alert::success('OPCR archived');
 
             return redirect()->route('rpo.savetarget');
         } else {
             // OPCR not found or is_active is 1
-            Alert::error('OPCR cannot be removed');
+            Alert::error('OPCR cannot be archived because it is currently active');
 
             return redirect()->route('rpo.savetarget');
         }
     }
+
+   
 
     public function recover_opcr(Request $request)
     {

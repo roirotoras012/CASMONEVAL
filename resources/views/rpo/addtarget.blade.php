@@ -131,7 +131,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
+                                                <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
                                                 %
                                             </label>
                                             </div>
@@ -145,7 +145,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -159,7 +159,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
+                                                <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
                                                 %
                                             </label>
                                             </div>
@@ -173,7 +173,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -187,7 +187,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -216,7 +216,7 @@
                                         Add OPCR
                                     </button>
                                     <button type="button" class="btn btn-success">
-                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCR</a> 
+                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCRs</a> 
                                     </button>
                                 </div>
 
@@ -248,6 +248,16 @@
     <script>
         
 $(document).ready(function() {
+    $('.dynamic-checkbox').on('click', function () {
+           console.log("wew")
+       // Get the value and data-ctr attribute of the clicked checkbox
+       var checkboxValue = $(this).val();
+       var ctrValue = $(this).data('ctr');
+       var isChecked = $(this).prop('checked');
+        console.log(isChecked)
+       // Set the value for all checkboxes with the same data-ctr attribute
+       $('.dynamic-checkbox[data-ctr="' + ctrValue + '"]').prop('checked', isChecked);
+   });
   
   var target_form = document.getElementById('addTargetForm');
 

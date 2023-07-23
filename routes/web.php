@@ -77,6 +77,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('upload_opcr', [RegionalPlanningOfficerController::class, 'upload_opcr'])->name('rpo.upload_opcr');
     Route::post('cutOff', [RegionalPlanningOfficerController::class, 'cutOff'])->name('rpo.cutOff');
     Route::post('remove_opcr', [RegionalPlanningOfficerController::class, 'remove_opcr'])->name('rpo.remove_opcr');
+
     Route::post('recover_opcr', [RegionalPlanningOfficerController::class, 'recover_opcr'])->name('rpo.recover_opcr');
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
@@ -159,6 +160,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('edit_driver', [DivisionChiefController::class, 'edit_driver'])->name('dc.edit_driver');
   Route::post('add_indirect_measure', [DivisionChiefController::class, 'add_indirect_measure'])->name('dc.add_indirect_measure');
   Route::post('add_mandatory_measure', [DivisionChiefController::class, 'add_mandatory_measure'])->name('dc.add_mandatory_measure');
+  Route::post('undo_driver', [DivisionChiefController::class, 'undo_driver'])->name('dc.undo_driver');
 
   Route::post('dc/accomplishment', [DivisionChiefController::class, 'sentToPD'])->name('notify_to_pd');
   

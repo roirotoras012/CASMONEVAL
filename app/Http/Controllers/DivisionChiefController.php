@@ -986,6 +986,28 @@ class DivisionChiefController extends Controller
 
         return view('dc.view-target', compact('provinces', 'cutoff', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
+    public function undo_driver(Request $request)
+    {   
+        $user = Auth::user();
+        $strategic_measures = StrategicMeasure::join('annual_targets', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+        ->where('annual_targets.driver_ID', $request->driver_id)
+        ->where('annual_targets.opcr_ID', $request->opcr_id)
+        ->where('strategic_measures.division_ID', $request->division_id)
+        ->get();
+       
+       
+        foreach ($strategic_measures as $strategic_measure) {
+            AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
+            ->where('driver_ID', $request->driver_id)
+            ->where('opcr_id', $request->opcr_id)
+            ->where('division_ID', $user->division_ID)
+            ->where('province_ID', $user->province_ID)
+            ->update(['driver_ID' => null]);
+           
+        }
+        Alert::success('Successfully reverted');
+        return redirect()->route('dc.bukidnunBddIndex');
+    }
 
     public function manage()
     {
