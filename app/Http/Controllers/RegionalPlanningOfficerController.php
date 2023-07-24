@@ -1858,8 +1858,13 @@ class RegionalPlanningOfficerController extends Controller
             return redirect()->route('rpo.measures');
         } else {
             $measure = StrategicMeasure::find($request->measure_ID);
-            $measure->type = '';
-            $measure->save();
+            $measures = StrategicMeasure::where('strategic_measure', $measure->strategic_measure)->get();
+
+            foreach ($measures as $measure) {
+                $measure->type = '';
+                $measure->save();
+            }
+         
 
             Alert::success('Strategic Measure successfully removed');
 

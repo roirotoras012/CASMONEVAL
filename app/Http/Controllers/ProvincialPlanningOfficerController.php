@@ -1180,6 +1180,9 @@ class ProvincialPlanningOfficerController extends Controller
 
         if (count($opcrs_active) > 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->where('type', '=', 'DIRECT')
+                ->orWhere('type', '=', 'DIRECT MAIN')
+                ->orWhere('type', '=', 'DIRECT COMMON')
                 ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
                 ->get();
             foreach ($measures as $measure) {
