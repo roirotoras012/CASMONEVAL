@@ -114,8 +114,8 @@ class DivisionChiefController extends Controller
         // Check if it is the month of December
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
-            if ($newTotalMonthlyTargets != $annualTargetValue) {
-                Alert::success('December monthly target must be equal to the annual target.');
+            if ($newTotalMonthlyTargets != $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('December monthly target must be equal to the annual target.');
 
                 return redirect()->back();
             }
@@ -218,17 +218,17 @@ class DivisionChiefController extends Controller
         // Check if it is the month of December
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
-            if ($newTotalMonthlyTargets != $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'December monthly target must be equal to the annual target.');
+            if ($newTotalMonthlyTargets != $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('December monthly target must be equal to the annual target.');
+
+                return redirect()->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
-            if ($newTotalMonthlyTargets > $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'Monthly target exceeds the annual target.');
+            if ($newTotalMonthlyTargets > $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('Monthly target exceeds the annual target.');
+
+                return redirect()->back();
             }
         }
 
