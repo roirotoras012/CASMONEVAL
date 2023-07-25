@@ -291,14 +291,17 @@
                                                                             @endif
                                                                         @endfor
                                                                         <td class="text-center align-middle">
-
-                                                                            @if ($annualTarget->type == 'PERCENTAGE')
-                                                                            {{ $totalTarget/$monthly_target_count }}%
+                                                                            @if ($monthly_target_count > 0)
+                                                                                @if ($annualTarget->type == 'PERCENTAGE')
+                                                                                    {{ $totalTarget / $monthly_target_count }}%
+                                                                                @else
+                                                                                    {{ $totalTarget }}
+                                                                                @endif
                                                                             @else
-                                                                            {{ $totalTarget }}
+                                                                                N/A
                                                                             @endif
-                                                                          
-                                                                              </td>
+                                                                        </td>
+                                                                        
                                                                     @endif
                                                                 @endif
                                                             @endfor

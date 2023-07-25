@@ -27,7 +27,7 @@
                             class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
 
                         <div>
-                            <input required pattern="^[0-9]+$" type="text" id="monthly_target"
+                            <input required pattern="^(0|[1-9]\d*)(\.\d+)?$" type="text" id="monthly_target"
                                 class="form-control @error('monthly_target') is-invalid @enderror" name="monthly_target"
                                 value="{{ old('monthly_target') }}" required autofocus />
                          
