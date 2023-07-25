@@ -121,7 +121,7 @@ class DivisionChiefController extends Controller
             }
         } else {
             // For other months, check if the new total exceeds the annual target
-            if ($newTotalMonthlyTargets > $annualTargetValue) {
+            if ($newTotalMonthlyTargets > $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
                 Alert::warning('Monthly target exceeds the annual target.');
 
                 return redirect()->back();
