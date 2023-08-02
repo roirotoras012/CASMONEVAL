@@ -12,7 +12,7 @@
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                    <h1 class="province-name  text-dark text-uppercase mb-5 rounded">Archived Targets</h1>
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Archived Targets</h2>                </li>
                 </li>
 
             </ol>
@@ -75,7 +75,9 @@
                                             Status: INACTIVE</h5>
                                     @else
                                 @endif
-
+                                <button class="btn btn-primary" style="border-radius: 25px; padding: 8px 30px;">
+                                    <a style="text-decoration: none; color:white;" href="{{ url('rpo/opcr/' . $item->opcr_ID) }}">View OPCR</a> 
+                                </button>
                             </li>
                             </a>
 

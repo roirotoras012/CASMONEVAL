@@ -12,8 +12,7 @@
 
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">
-                    <h1 class="text-uppercase lead bg-primary text-white p-2 rounded">Regional Director Dashboard</h1>
-
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RD <i class="fa-solid fa-angles-right"></i> Dashboard</h2>
 
                 </li>
 

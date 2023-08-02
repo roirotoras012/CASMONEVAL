@@ -19,6 +19,10 @@
                     {{ Session::get('error') }}
                 </div>
             @endif
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Manage Measures & Objectives</h2>                </li>
+            </ol>
             @if (count($opcrs) > 0 && isset($opcrs_active) && count($opcrs_active) > 0)
                 <div class="disable-message">
                     <h1 class="text-success" style="font-size: 50px !important;">

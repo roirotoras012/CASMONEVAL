@@ -19,8 +19,9 @@
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">OPCR #{{ $opcr_id }}
-                    </h1>
+                   
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RD <i class="fa-solid fa-angles-right"></i> OPCR #{{ $opcr_id }}</h2>
+
                 </li>
 
             </ol>

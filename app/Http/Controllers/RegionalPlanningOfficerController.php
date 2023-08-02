@@ -162,7 +162,6 @@ class RegionalPlanningOfficerController extends Controller
 
     public function opcr_target()
     {
-        
         $labels = StrategicMeasure::join('strategic_objectives', 'strategic_measures.strategic_objective_ID', '=', 'strategic_objectives.strategic_objective_ID')
             ->where('strategic_objectives.is_active', '=', true)
             ->where('type', '=', 'DIRECT')
@@ -1864,7 +1863,6 @@ class RegionalPlanningOfficerController extends Controller
                 $measure->type = '';
                 $measure->save();
             }
-         
 
             Alert::success('Strategic Measure successfully removed');
 
@@ -1876,6 +1874,19 @@ class RegionalPlanningOfficerController extends Controller
     {
         // dd($request->opcr_id);
         // dd($request->hasFile('opcr_file'));
+        $file = $request->file('opcr_file');
+        // Validate the file
+        $request->validate(
+            [
+                'opcr_file' => 'required|file|mimes:pdf|max:2048', // Max size is 2MB (2048 KB)
+            ],
+            [
+                'opcr_file.required' => 'Please upload a PDF file.',
+                'opcr_file.file' => 'Invalid file format.',
+                'opcr_file.mimes' => 'Only PDF files are allowed.',
+                'opcr_file.max' => 'The file size should not exceed 2MB.',
+            ],
+        );
         if ($request->hasFile('opcr_file')) {
             $file = $request->file('opcr_file');
             $filename = $file->getClientOriginalName();
@@ -1885,6 +1896,8 @@ class RegionalPlanningOfficerController extends Controller
             $file->file_name = $filename;
             $file->type = 'REGIONAL OPCR';
             $file->save();
+
+            $this->markAllNotificationsAsRead();
             DB::table('opcr')
                 ->where('opcr_ID', $request->opcr_id)
                 ->update(['is_active' => false, 'status' => 'DONE']);
@@ -1899,6 +1912,11 @@ class RegionalPlanningOfficerController extends Controller
 
             return redirect()->route('rpo.show', $request->opcr_id);
         }
+    }
+
+    public function markAllNotificationsAsRead()
+    {
+        Notification::query()->update(['read_at' => now()]);
     }
 
     private function setAccomZero($opcr_id, $month)
@@ -1920,20 +1938,21 @@ class RegionalPlanningOfficerController extends Controller
     public function cutOff(Request $request)
     {
         $action = ''; // Initialize the variable outside the closure
-    
-        DB::transaction(function () use ($request, &$action) { // Pass $action by reference
+
+        DB::transaction(function () use ($request, &$action) {
+            // Pass $action by reference
             $month = strtolower($request->month);
             $monthsArray = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-    
+
             // Check if the provided month is valid
             if (!in_array($month, $monthsArray)) {
                 // Handle invalid month input here (e.g., return an error message)
                 return;
             }
-    
+
             $opcr = Opcr::where('opcr_ID', $request->opcr_id)->first();
             $cutoff_status = $opcr->cutoff_status;
-    
+
             // Determine if we are cutoff or reopen based on the submit value
             if ($request->submit == 'cutoff') {
                 $newStatus = substr_replace($cutoff_status, '1', array_search($month, $monthsArray), 1);
@@ -1945,13 +1964,13 @@ class RegionalPlanningOfficerController extends Controller
                 // Handle invalid action input here (e.g., return an error message)
                 return;
             }
-    
+
             $obj = new RegionalPlanningOfficerController();
             $obj->setAccomZero($request->opcr_id, $month);
-    
+
             $opcr->cutoff_status = $newStatus;
             $opcr->save();
-    
+
             // Display success message based on the action performed
             if ($action == 'cutoff') {
                 Alert::alert("Month of {$request->month} has been CUTOFF successfully!");
@@ -1959,10 +1978,9 @@ class RegionalPlanningOfficerController extends Controller
                 Alert::alert("Month of {$request->month} is successfully REOPENED!");
             }
         });
-    
+
         return redirect()->route('rpo.show', $request->opcr_id);
     }
-    
 
     public function remove_opcr(Request $request)
     {
@@ -1987,8 +2005,6 @@ class RegionalPlanningOfficerController extends Controller
             return redirect()->route('rpo.savetarget');
         }
     }
-
-   
 
     public function recover_opcr(Request $request)
     {
