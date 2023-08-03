@@ -19,7 +19,8 @@
 
 
 
-                    <h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">BDD division level view</h1>
+                    <h2 class="province-name bg-danger text-white text-uppercase mb-5 rounded">BDD division level view</h2>
+
                     <div class="d-flex justify-content-between">
                         @foreach ($provinces as $province)
                         @if ($province->province_ID == $user->province_ID)

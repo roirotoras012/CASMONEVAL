@@ -40,7 +40,7 @@
                                     <td>{{ $eva->month }}</td>
                                     <td>{{ $eva->monthly_target }}</td>
                                     <td>{{ $eva->monthly_accomplishment }}</td>
-                                    <td>{{ ($eva->monthly_accomplishment / $eva->monthly_target) * 100 }} %</td>
+                                    <td>{{ number_format(($eva->monthly_accomplishment / $eva->monthly_target) * 100, 2) }} %</td>
                                     @if ($eva->reason == null)
                                         <td>No reason added yet</td>
                                         <td>No Remarks</td>

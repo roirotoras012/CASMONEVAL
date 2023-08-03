@@ -40,20 +40,14 @@
                                     <td>{{ $eva->month }}</td>
                                     <td>{{ $eva->monthly_target }}</td>
                                     <td>{{ $eva->monthly_accomplishment }}</td>
-                                    <td>{{ ($eva->monthly_accomplishment / $eva->monthly_target) * 100 }} %</td>
+                                    <td>{{ number_format(($eva->monthly_accomplishment / $eva->monthly_target) * 100, 2) }} %</td>
                                     @if ($eva->reason == null)
                                         <td>No reason added yet</td>
                                         <td>No Remarks</td>
                                     @else
                                         <td>{{ $eva->reason }}</td>
                                         @if ($eva->remark == null)
-                                            <td>
-                                                <a href="#" data-bs-toggle="modal"
-                                                    data-bs-target="#reason<?= $eva->evaluation_ID ?>">
-                                                    Add Remarks
-                                                </a>
-                                                <x-update_remark_eval_modal :evaluation_ID="$eva->evaluation_ID" :division_ID="$eva->division" />
-                                            </td>
+                                            <td>No remarks yet</td>
                                         @else
                                             <td>{{ $eva->remark }}</td>
                                         @endif
