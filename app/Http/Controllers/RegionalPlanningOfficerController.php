@@ -1995,7 +1995,7 @@ class RegionalPlanningOfficerController extends Controller
             $opcr->deleted_at = now();
             $opcr->save();
 
-            Alert::success('OPCR archived');
+            Alert::success('OPCR Successfully Archived!');
 
             return redirect()->route('rpo.savetarget');
         } else {
