@@ -9,6 +9,10 @@
 
 }
 
+div > * {
+    cursor: pointer;
+}
+
 h1 {
     font-size: 45px !important;
     font-weight: bold;

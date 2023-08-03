@@ -73,7 +73,7 @@
                                         @csrf
                                         <input type="hidden" value="{{ $item->opcr_ID }}" name="opcr_ID">
                                         <button type="submit" class="btn btn-danger" onclick="confirmDeletion(event)"><i
-                                                class="fas fa-file-archive text-white"></i></button>
+                                                class="fas fa-archive text-white"></i></button>
                                         <a class="btn btn-warning" href="{{ url('rpo/opcr/' . $item->opcr_ID) }}"><i
                                                 class="fa-solid fa-eye text-white"></i></a>
                                     </form>
