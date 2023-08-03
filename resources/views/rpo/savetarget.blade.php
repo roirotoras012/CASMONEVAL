@@ -15,7 +15,7 @@
             </ol>
             <div style="margin-bottom: 1em;">
                 <button class="btn btn-secondary">
-                    <a style="text-decoration: none; color:white;" href="{{ url('rpo/archive') }}">View Archived Targets</a> 
+                    <a style="text-decoration: none; color:white;" href="{{ url('rpo/archive') }}"><i class="fa-solid fa-eye"></i> Archived Targets</a> 
                 </button>
             </div>
             @if ($message = Session::get('success'))
@@ -29,76 +29,57 @@
                 </div>
             @endif
             <div class="opcr-list-container">
-                @foreach ($opcr as $item)
-                    <div class="opcr-item" style="position:relative">
-                        <div style="position:absolute; right: 10px">
-                            <form action="{{ route('rpo.remove_opcr') }}" method="post">
-                                @csrf
-                                <input type="hidden" value="{{ $item->opcr_ID }}" name="opcr_ID">
-                                <button type="submit" class="btn" onclick="confirmDeletion(event)"><i
-                                        class="fas fa-file-archive" style="font-size: 25px;"></i></button>
-                            </form>
-                           
-
-                        </div>
-                        <ul style="margin-right: 50px">
-                            <li style="list-style: none !important;">
-                                <a href="{{ url('rpo/opcr/' . $item->opcr_ID) }}"
-                                    style="text-decoration: none; color: black">
-                            <li style="list-style: none !important;">
-                                <h4>Description: {{ $item->description }}</h4>
-                            </li>
-                            <li style="list-style: none !important;">
-                                <h4>Year: {{ $item->year }}</h4>
-                            </li>
-                            <li style="list-style: none !important;">
-                                @if ($item->status == 'COMPLETE')
-                                    <h5
-                                        style="color: #fff; background: green; padding: 10px 20px; border-radius: 20px; width: 280px;">
-                                        Target Status: {{ $item->status }}</h5>
-                                @elseif ($item->status == 'INCOMPLETE')
-                                    <h5
-                                        style="color: #fff; background: red; padding: 10px 20px; border-radius: 20px; width: 280px;">
-                                        Target Status: {{ $item->status }}</h5>
-                                @elseif ($item->status == 'DONE')
-                                    <h5
-                                        style="color: #fff; background: green; padding: 10px 20px; border-radius: 20px; width: 230px;">
-                                        OPCR Status: {{ $item->status }}</h5>
-                                @else
-                                    <h4>Status: </h4>
-                                @endif
-
-
-                                @if ($item->is_active == true && $item->status != 'DONE')
-                                    <h5
-                                        style="color: #fff; background: green; padding: 10px 20px; border-radius: 20px; width: 280px;">
-                                        Submit Status: ACTIVE
-                                    @elseif ($item->is_active == false && $item->status != 'DONE')
-                                        <h5
-                                            style="color: #fff; background: red; padding: 10px 20px; border-radius: 20px; width: 280px;">
-                                            Submit Status: INACTIVE</h5>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Year</th>
+                            <th>OPCR Status</th>
+                            <th>Submit Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($opcr as $item)
+                            <tr>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->year }}</td>
+                                <td>
+                                    @if ($item->status == 'COMPLETE')
+                                        <span class="status-complete">{{ $item->status }}</span>
+                                    @elseif ($item->status == 'INCOMPLETE')
+                                        <span class="status-incomplete">{{ $item->status }}</span>
+                                    @elseif ($item->status == 'DONE')
+                                        <span class="status-done">{{ $item->status }}</span>
                                     @else
-                                @endif
-                               
-                            </li>
-                            <button class="btn btn-primary" style="border-radius: 25px; padding: 5px 25px;">
-                                <a style="text-decoration: none; color:white;" href="{{ url('rpo/opcr/' . $item->opcr_ID) }}"><i class="fa-solid fa-eye"></i><span
-                                    class="p-1 d-inline-block">View OPCR</span></a> 
-                            </button>
-                            </a>
+                                        <span>Status:</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->is_active == true && $item->status != 'DONE')
+                                        <span class="submit-status-active">ACTIVE</span>
+                                    @elseif ($item->is_active == false && $item->status != 'DONE')
+                                        <span class="submit-status-inactive">INACTIVE</span>
 
-                            </li>
-
-
-
-                        </ul>
-
-
-                    </div>
-                @endforeach
-
-
-
+                                        
+                                    @elseif ($item->status == 'DONE')
+                                        <span class="submit-status-active">DONE</span>
+                                    @else
+                                    @endif
+                                </td>
+                                <td class="row d-flex align-items-center">
+                                    <form action="{{ route('rpo.remove_opcr') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" value="{{ $item->opcr_ID }}" name="opcr_ID">
+                                        <button type="submit" class="btn btn-danger" onclick="confirmDeletion(event)"><i class="fas fa-file-archive text-white" ></i></button>
+                                        <a  class="btn btn-success" href="{{ url('rpo/opcr/' . $item->opcr_ID) }}"><i class="fa-solid fa-eye text-white" ></i></a>
+                                    </form>
+                            
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
 
 
