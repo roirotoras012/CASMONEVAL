@@ -9,6 +9,10 @@
 
 }
 
+div > * {
+    cursor: pointer;
+}
+
 h1 {
     font-size: 45px !important;
     font-weight: bold;
@@ -516,4 +520,84 @@ td {
 .ratings_table td {
     padding: 2px !important;
     width: calc(100% / 24); /* 24 is the number of columns in the table */
+}
+
+
+
+
+
+
+/* OPCR TABLE */
+
+.opcr-list-container {
+    margin: 20px;
+}
+
+
+.opcr-list-container table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+
+
+.opcr-list-container th, .opcr-list-container td {
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px !important;
+}
+
+.opcr-list-container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.opcr-list-container tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.status-complete {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.status-incomplete {
+    background-color: #c82333;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.status-done {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.submit-status-active {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.submit-status-inactive {
+    background-color: #c82333;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
 }

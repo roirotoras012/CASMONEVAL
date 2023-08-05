@@ -12,7 +12,7 @@
       </div>
         <div class="container-fluid px-4 py-5">
                 
-            <div class="card mb-4 m-4">
+            {{-- <div class="card mb-4 m-4">
                 <div class="card-header">
                     <div class="table-title">
                         <div class="row d-flex align-items-center">
@@ -25,12 +25,13 @@
                         </div>
                     </div>
                 </div>
-    
-                
-    
-           
-           
-            </div>
+
+            </div> --}}
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Add Targets</h2>
+                </li>
+            </ol>
             <div class="opcr-container">
                 
 
@@ -215,9 +216,9 @@
                                     <button type="submit" class="btn btn-primary" value="ADD">
                                         Add OPCR
                                     </button>
-                                    <button type="button" class="btn btn-success">
+                                    {{-- <button type="button" class="btn btn-success">
                                         <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCRs</a> 
-                                    </button>
+                                    </button> --}}
                                 </div>
 
 

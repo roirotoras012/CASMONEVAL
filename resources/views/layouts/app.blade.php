@@ -68,12 +68,12 @@
                     <ul class="navbar-nav ms-auto" style="align-items: center;">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            {{-- @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('login') ? 'active' : '' }}"
                                         href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
-                            @endif
+                            @endif --}}
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
