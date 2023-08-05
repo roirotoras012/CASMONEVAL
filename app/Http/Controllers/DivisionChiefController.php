@@ -9,13 +9,15 @@ use App\Models\Driver;
 use App\Models\Pgs;
 use App\Models\Province;
 use App\Models\Evaluation;
-use App\Models\AnnualTarget;    
+use App\Models\AnnualTarget;
 use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\User;
 
 class DivisionChiefController extends Controller
 {
@@ -85,9 +87,12 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+            Alert::warning('Invalid input. Monthly target should not contain letters.');
+
+            // return redirect()
+            //     ->back()
+            //     ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+            return redirect()->back();
         }
 
         // Get the annual target
@@ -109,17 +114,17 @@ class DivisionChiefController extends Controller
         // Check if it is the month of December
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
-            if ($newTotalMonthlyTargets != $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'December monthly target must be equal to the annual target.');
+            if ($newTotalMonthlyTargets != $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('December monthly target must be equal to the annual target.');
+
+                return redirect()->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
-            if ($newTotalMonthlyTargets > $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'Monthly target exceeds the annual target.');
+            if ($newTotalMonthlyTargets > $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('Monthly target exceeds the annual target.');
+
+                return redirect()->back();
             }
         }
 
@@ -133,12 +138,41 @@ class DivisionChiefController extends Controller
 
         $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
+        Alert::success('Annual Target successfully added!');
 
-        return redirect()
-            ->route('dc.bukidnunBddIndex')
-            ->with('success', 'Annual Target successfully added!');
+        // return redirect()
+        //     ->route('dc.bukidnunBddIndex')
+        //     ->with('success', 'Annual Target successfully added!');
+        return redirect()->route('dc.bukidnunBddIndex');
     }
+    public function updateProfileHandler(Request $request) {
 
+      
+        $userID = auth()->user()->user_ID;
+
+       
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+
+      
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
+    }
     public function updateTar(Request $request)
     {
         $validatedData = $request->validate([
@@ -151,9 +185,13 @@ class DivisionChiefController extends Controller
 
         // Ensure no letters are present in the monthly target value
         if (preg_match('/[a-zA-Z]/', $validatedData['monthly_target'])) {
-            return redirect()
-                ->back()
-                ->with('alert', 'Invalid input. Monthly target should not contain letters.');
+            Alert::warning('Invalid input. Monthly target should not contain letters.');
+
+            return redirect()->back();
+
+            // return redirect()
+            // ->back()
+            // ->with('alert', 'Invalid input. Monthly target should not contain letters.');
         }
 
         // Get the monthly target for the given monthly_target_ID
@@ -180,17 +218,17 @@ class DivisionChiefController extends Controller
         // Check if it is the month of December
         if ($validatedData['month'] == 'dec') {
             // Check if the new total is equal to the annual target
-            if ($newTotalMonthlyTargets != $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'December monthly target must be equal to the annual target.');
+            if ($newTotalMonthlyTargets != $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('December monthly target must be equal to the annual target.');
+
+                return redirect()->back();
             }
         } else {
             // For other months, check if the new total exceeds the annual target
-            if ($newTotalMonthlyTargets > $annualTargetValue) {
-                return redirect()
-                    ->back()
-                    ->with('alert', 'Monthly target exceeds the annual target.');
+            if ($newTotalMonthlyTargets > $annualTargetValue && $annualTarget->type != 'PERCENTAGE') {
+                Alert::warning('Monthly target exceeds the annual target.');
+
+                return redirect()->back();
             }
         }
 
@@ -285,9 +323,11 @@ class DivisionChiefController extends Controller
             //  dd($notification);
             $notification->save();
 
-            return redirect()
-                ->route('dc.accomplishments')
-                ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+            // return redirect()
+            //     ->route('dc.accomplishments')
+            //     ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
+            Alert::error('You haven\'t achieved your target. Fill up the evaluation form');
+            return redirect()->route('dc.accomplishments');
         } else {
             $userName = auth()->user()->first_name;
             $provinceID = auth()->user()->province_ID;
@@ -332,9 +372,11 @@ class DivisionChiefController extends Controller
             //  dd($notification);
             $notification->save();
 
-            return redirect()
-                ->route('dc.accomplishments')
-                ->with('success', 'Monthly Target successfully added!');
+            // return redirect()
+            //     ->route('dc.accomplishments')
+            //     ->with('success', 'Monthly Target successfully added!');
+            Alert::success('Monthly Accomplishment successfully added!');
+            return redirect()->route('dc.accomplishments');
         }
     }
 
@@ -358,14 +400,13 @@ class DivisionChiefController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
-            return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+            Alert::success('Email updated successfully.');
+
+            return redirect()->back();
         } else {
             // Show an error message
-            return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+            Alert::error('Invalid Password');
+            return redirect()->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -375,14 +416,15 @@ class DivisionChiefController extends Controller
         $user = Auth::user();
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
+
             $user->save();
-            return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+            Alert::success('Password updated successfully.');
+
+            return redirect()->back();
         } else {
-            return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+            Alert::error('Invalid Password');
+
+            return redirect()->back();
         }
     }
     public function jobfam()
@@ -413,88 +455,63 @@ class DivisionChiefController extends Controller
             ->get()
             ->groupBy(['strategic_measure_ID']);
 
-
-            for ($i=0; $i < 2; $i++) { 
+        if (count($opcrs_active) != 0) {
+            for ($i = 0; $i < 2; $i++) {
                 foreach ($measures_list as $measure_list) {
-                    $sumTarget = [0,0,0,0,0,0,0,0,0,0,0,0];
-                    $sumAccom = [0,0,0,0,0,0,0,0,0,0,0,0];
-                    $months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+                    $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
                     $annual_target = null;
-                    if(isset($measure_list->first()->sum_of)){
-        
+                    if (isset($measure_list->first()->sum_of)) {
                         $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
-                                                    ->where('division_ID', $user->division_ID)
-                                                    ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                                                    ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                    ->get()
-                                                    ->first();
-        
-                      
-                                                    
-                        $measures_exploded = explode(',', $measure_list->first()->sum_of);
-                        
-        
-                        foreach ($months as $monthIndex => $month) {
-                            foreach ($measures_exploded as $exploded_measure) {
-                                $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                                                    ->where('annual_targets.strategic_measures_ID', $exploded_measure)
-                                                                    
-                                                                    ->where('month', $month)
-                                                                    ->where('annual_targets.province_ID', $user->province_ID)
-                                                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                                                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                                    ->select('monthly_targets.*')
-                                                                    ->get()
-                                                                    ->first();
-        
-                                if(isset($monthlyTargetforSum)){
-                              
-                                    $sumAccom[$monthIndex] += $monthlyTargetforSum->monthly_accomplishment;
-                                   
-        
-                                
-        
+                            ->where('division_ID', $user->division_ID)
+                            ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                            ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
+                            ->first(); // Use first() instead of get()->first()
+
+                        if (isset($annual_target)) {
+                            // Check if $annual_target is not null
+                            $measures_exploded = explode(',', $measure_list->first()->sum_of);
+
+                            foreach ($months as $monthIndex => $month) {
+                                foreach ($measures_exploded as $exploded_measure) {
+                                    $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                        ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+                                        ->where('month', $month)
+                                        ->where('annual_targets.province_ID', $user->province_ID)
+                                        ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                        ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                        ->select('monthly_targets.*')
+                                        ->first(); // Use first() instead of get()->first()
+
+                                    if (isset($monthlyTargetforSum)) {
+                                        $sumAccom[$monthIndex] += $monthlyTargetforSum->monthly_accomplishment;
+                                    }
                                 }
-                        
-                        
-                        
-                        
-                            }   
-                            
-                            $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                                                    ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                                                                    ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
-                                                                    ->where('month', $month)
-                                                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                                                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                                    ->select('monthly_targets.*')
-                                                                    ->get()
-                                                                    ->first();
-        
-                          
-        
-                            if($sumAccom[$monthIndex] > 0 && isset($annual_target)){
-                                if(isset($monthly_target_parent)){
-                                    // dd($sumTarget);
-                                    // dd($monthly_target_parent , $sumTarget[$monthIndex]);
-                                    if($monthly_target_parent->monthly_accomplishment != $sumAccom[$monthIndex]){
+
+                                $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                    ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                                    ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
+                                    ->where('month', $month)
+                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                    ->select('monthly_targets.*')
+                                    ->first(); // Use first() instead of get()->first()
+
+                                if ($sumAccom[$monthIndex] > 0 && isset($monthly_target_parent)) {
+                                    // Check if $monthly_target_parent is not null
+                                    if ($monthly_target_parent->monthly_accomplishment != $sumAccom[$monthIndex]) {
                                         $monthly_target_parent->monthly_accomplishment = $sumAccom[$monthIndex];
-                                   
                                         $monthly_target_parent->save();
                                     }
-                                    
-                                    
                                 }
-                               
                             }
-                           
                         }
-                       
-        
-        
                     }
                 }
             }
+        }
+
         if (count($opcrs_active) != 0) {
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
@@ -773,103 +790,77 @@ class DivisionChiefController extends Controller
             ->get();
 
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
-            
+    
             ->get()
-            
+
             ->groupBy(['strategic_measure_ID']);
-            $driversact = null;
-            for ($i=0; $i < 2; $i++) { 
+        $driversact = null;
+
+        if (count($opcrs_active) != 0) {
+            for ($i = 0; $i < 2; $i++) {
                 foreach ($measures_list as $measure_list) {
-                    $sumTarget = [0,0,0,0,0,0,0,0,0,0,0,0];
-                    $sumAccom = [0,0,0,0,0,0,0,0,0,0,0,0];
-                    $months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+                    $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
                     $annual_target = null;
-                    if(isset($measure_list->first()->sum_of)){
-        
+                    if (isset($measure_list->first()->sum_of)) {
                         $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
-                                                    ->where('division_ID', $user->division_ID)
-                                                    ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                                                    ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                    ->get()
-                                                    ->first();
-        
-                      
-                                                    
-                        $measures_exploded = explode(',', $measure_list->first()->sum_of);
-                        
-        
-                        foreach ($months as $monthIndex => $month) {
-                            foreach ($measures_exploded as $exploded_measure) {
-                                $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                                                    ->where('annual_targets.strategic_measures_ID', $exploded_measure)
-                                                                    
-                                                                    ->where('month', $month)
-                                                                    ->where('annual_targets.province_ID', $user->province_ID)
-                                                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                                                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                                    ->select('monthly_targets.*')
-                                                                    ->get()
-                                                                    ->first();
-        
-                                if(isset($monthlyTargetforSum)){
-                              
-                                    $sumTarget[$monthIndex] += $monthlyTargetforSum->monthly_target;
-                                   
-        
-                                
-        
-                                }
-                        
-                        
-                        
-                        
-                            }   
-                            
-                            $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
-                                                                    ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
-                                                                    ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
-                                                                    ->where('month', $month)
-                                                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
-                                                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
-                                                                    ->select('monthly_targets.*')
-                                                                    ->get()
-                                                                    ->first();
-        
-                          
-        
-                            if($sumTarget[$monthIndex] > 0 && isset($annual_target)){
-                                if(isset($monthly_target_parent)){
-                                    // dd($sumTarget);
-                                    // dd($monthly_target_parent , $sumTarget[$monthIndex]);
-                                    if($monthly_target_parent->monthly_target != $sumTarget[$monthIndex]){
-                                        $monthly_target_parent->monthly_target = $sumTarget[$monthIndex];
-                                   
-                                        $monthly_target_parent->save();
+                            ->where('division_ID', $user->division_ID)
+                            ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                            ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
+                            ->first(); // Use first() instead of get()->first()
+
+                        if (isset($annual_target)) {
+                            // Check if $annual_target is not null
+                            $measures_exploded = explode(',', $measure_list->first()->sum_of);
+
+                            foreach ($months as $monthIndex => $month) {
+                                foreach ($measures_exploded as $exploded_measure) {
+                                    $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                        ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+                                        ->where('month', $month)
+                                        ->where('annual_targets.province_ID', $user->province_ID)
+                                        ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                        ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                        ->select('monthly_targets.*')
+                                        ->first(); // Use first() instead of get()->first()
+
+                                    if (isset($monthlyTargetforSum)) {
+                                        $sumTarget[$monthIndex] += $monthlyTargetforSum->monthly_target;
                                     }
-                                    
-                                    
                                 }
-                                else{
-                                    // dd($monthly_target_parent);
-                                    $new_Mtarget = new MonthlyTarget();  
-                                    $new_Mtarget->month = $month;
-                                    $new_Mtarget->monthly_target = $sumTarget[$monthIndex];
-                                    $new_Mtarget->division_ID =  $measure_list->first()->division_ID;
-                                    $new_Mtarget->annual_target_ID = $annual_target->annual_target_ID;
-                                    $new_Mtarget->save();
-                                    
-            
+
+                                $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                    ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                                    ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
+                                    ->where('month', $month)
+                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                    ->select('monthly_targets.*')
+                                    ->first(); // Use first() instead of get()->first()
+
+                                if ($sumTarget[$monthIndex] > 0) {
+                                    if (isset($monthly_target_parent)) {
+                                        if ($monthly_target_parent->monthly_target != $sumTarget[$monthIndex]) {
+                                            $monthly_target_parent->monthly_target = $sumTarget[$monthIndex];
+                                            $monthly_target_parent->save();
+                                        }
+                                    } else {
+                                        $new_Mtarget = new MonthlyTarget();
+                                        $new_Mtarget->month = $month;
+                                        $new_Mtarget->monthly_target = $sumTarget[$monthIndex];
+                                        $new_Mtarget->division_ID = $measure_list->first()->division_ID;
+                                        $new_Mtarget->annual_target_ID = $annual_target->annual_target_ID;
+                                        $new_Mtarget->save();
+                                    }
                                 }
                             }
-                           
                         }
-                       
-        
-        
                     }
                 }
             }
-        
+        }
+
         if (count($opcrs_active) != 0) {
             $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
                 ->join('annual_targets', 'annual_targets.driver_ID', '=', 'drivers.driver_ID')
@@ -884,20 +875,15 @@ class DivisionChiefController extends Controller
                 ->select('annual_targets.*', 'strategic_measures.sum_of')
                 ->get()
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
-                // dd($annual_targets);
+            // dd($annual_targets);
 
             foreach ($annual_targets as $annual_target) {
                 foreach ($annual_target as $provincesss) {
                     # code...
-                    
-                    if(isset($provincesss->first()->sum_of)){
-                       
 
+                    if (isset($provincesss->first()->sum_of)) {
                         $measures_exploded = explode(',', $provincesss->first()->sum_of);
-                       
-
                     }
-                    
                 }
                 # code...
             }
@@ -1000,6 +986,28 @@ class DivisionChiefController extends Controller
 
         return view('dc.view-target', compact('provinces', 'cutoff', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
+    public function undo_driver(Request $request)
+    {   
+        $user = Auth::user();
+        $strategic_measures = StrategicMeasure::join('annual_targets', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+        ->where('annual_targets.driver_ID', $request->driver_id)
+        ->where('annual_targets.opcr_ID', $request->opcr_id)
+        ->where('strategic_measures.division_ID', $request->division_id)
+        ->get();
+       
+       
+        foreach ($strategic_measures as $strategic_measure) {
+            AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
+            ->where('driver_ID', $request->driver_id)
+            ->where('opcr_id', $request->opcr_id)
+            ->where('division_ID', $user->division_ID)
+            ->where('province_ID', $user->province_ID)
+            ->update(['driver_ID' => null]);
+           
+        }
+        Alert::success('Successfully reverted');
+        return redirect()->route('dc.bukidnunBddIndex');
+    }
 
     public function manage()
     {
@@ -1042,10 +1050,10 @@ class DivisionChiefController extends Controller
 
         return view('dc.manage', compact('drivers', 'measures', 'annual_targets', 'user', 'notification'));
     }
-
     public function add_driver(Request $request)
     {
         // dd($request->data);
+
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', 1)
@@ -1054,12 +1062,30 @@ class DivisionChiefController extends Controller
         $new_driver = $request->driver;
         $new_driver_letter = $request->number_driver;
         $select_driver = $request->driver_ID;
-        // echo $request->driver;
-        // echo $request->driver_ID;
-        // var_dump($request->data);
+
         $add_group = $request->add;
         $group = $request->data;
-        // dd( $group);
+
+        // Check if at least one measure is selected
+        $hasSelectedMeasure = false;
+
+        if ($group) {
+            foreach ($group as $group_key) {
+                if (isset($group_key['measure_ID']) || isset($group_key['target_ID'])) {
+                    $hasSelectedMeasure = true;
+                    break;
+                }
+            }
+        }
+
+        if (!$hasSelectedMeasure) {
+            // return redirect()
+            //     ->back()
+            //     ->with('error', 'Please select at least one measure or target.');
+            Alert::error('Please select at least one measure or target.');
+            return redirect()->route('dc.manage');
+        }
+
         $driver_use = null;
         if ($new_driver) {
             $driver = new Driver();
@@ -1072,12 +1098,9 @@ class DivisionChiefController extends Controller
         } elseif ($select_driver) {
             $driver_use = $select_driver;
         }
+
         if ($add_group) {
             foreach ($add_group as $add_key) {
-                # code...
-                // echo $add_key['measure']."  ";
-                // echo $add_key['target']."  ";
-                // echo $add_key['type']."  ";
                 if ($add_key['measure'] != null) {
                     $strategic_measure = new StrategicMeasure();
                     $strategic_measure->strategic_measure = $add_key['measure'];
@@ -1085,26 +1108,22 @@ class DivisionChiefController extends Controller
                     $strategic_measure->division_ID = $user->division_ID;
                     $strategic_measure->strategic_objective_ID = 0;
                     $strategic_measure->save();
+
                     if ($strategic_measure->strategic_measure_ID) {
+                        $annual_target = new AnnualTarget();
+                        $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
+                        $annual_target->strategic_objectives_ID = 0;
+                        $annual_target->province_ID = $user->province_ID;
+                        $annual_target->division_ID = $user->division_ID;
+                        $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
+                        $annual_target->driver_ID = $driver_use;
+
                         if (isset($add_key['target'])) {
-                            $annual_target = new AnnualTarget();
-                            $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
-                            $annual_target->strategic_objectives_ID = 0;
-                            $annual_target->province_ID = $user->province_ID;
-                            $annual_target->division_ID = $user->division_ID;
                             $annual_target->annual_target = $add_key['target'];
-                            $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
-                            $annual_target->driver_ID = $driver_use;
                         } else {
-                            $annual_target = new AnnualTarget();
-                            $annual_target->strategic_measures_ID = $strategic_measure->strategic_measure_ID;
-                            $annual_target->strategic_objectives_ID = 0;
-                            $annual_target->province_ID = $user->province_ID;
-                            $annual_target->division_ID = $user->division_ID;
                             $annual_target->annual_target = 0;
-                            $annual_target->opcr_ID = $opcrs_active[0]->opcr_ID;
-                            $annual_target->driver_ID = $driver_use;
                         }
+
                         $annual_target->save();
                     }
                 }
@@ -1113,8 +1132,6 @@ class DivisionChiefController extends Controller
 
         if ($group) {
             foreach ($group as $group_key) {
-                # code...
-
                 if (isset($group_key['target_ID'])) {
                     $annual_target = AnnualTarget::find($group_key['target_ID']);
                     $annual_target->driver_ID = $driver_use;
@@ -1134,10 +1151,12 @@ class DivisionChiefController extends Controller
             }
         }
 
-        session()->flash('success', 'Transaction Completed');
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+        // session()->flash('success', 'Transaction Completed');
+        // return redirect()
+        //     ->route('dc.manage')
+        //     ->with('success', 'Transaction Completed');
+        Alert::success('Transaction Completed');
+        return redirect()->route('dc.manage');
     }
 
     public function add_driver_only(Request $request)
@@ -1153,10 +1172,11 @@ class DivisionChiefController extends Controller
         $driver->opcr_ID = $opcrs_active[0]->opcr_ID;
         $driver->division_ID = $user->division_ID;
         $driver->save();
-
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Driver successfully Added');
+        Alert::success('Driver successfully Added');
+        return redirect()->route('dc.manage');
+        // return redirect()
+        //     ->route('dc.manage')
+        //     ->with('success', 'Driver successfully Added');
     }
 
     public function delete_driver_only(Request $request)
@@ -1167,16 +1187,14 @@ class DivisionChiefController extends Controller
 
         if ($driver) {
             $driver->delete();
+            Alert::success('Driver deleted successfully');
 
-            return redirect()
-                ->back()
-                ->with('success', 'Driver deleted successfully');
+            return redirect()->back();
             dd($driver);
         }
+        Alert::error('Driver not found');
 
-        return redirect()
-            ->back()
-            ->with('error', 'Driver not found');
+        return redirect()->back();
     }
 
     public function edit_driver(Request $request)
@@ -1190,15 +1208,13 @@ class DivisionChiefController extends Controller
             // dd($driver);
             $driver->save();
 
-            // Redirect with a success message
-            return redirect()
-                ->back()
-                ->with('success', 'Driver updated successfully');
-        }
+            Alert::success('Driver updated successfully');
 
-        return redirect()
-            ->back()
-            ->with('error', 'Driver not found');
+            return redirect()->back();
+        }
+        Alert::error('Driver not found');
+
+        return redirect()->back();
     }
 
     public function add_indirect_measure(Request $request)
@@ -1216,9 +1232,9 @@ class DivisionChiefController extends Controller
 
         $strategicMeasure->save();
 
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+        Alert::success('Transaction Completed');
+
+        return redirect()->route('dc.manage');
     }
 
     public function add_mandatory_measure(Request $request)
@@ -1235,9 +1251,11 @@ class DivisionChiefController extends Controller
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
+        Alert::success('Transaction Completed');
 
-        return redirect()
-            ->route('dc.manage')
-            ->with('success', 'Transaction Completed');
+        return redirect()->route('dc.manage');
+        // return redirect()
+        // ->route('dc.manage')
+        // ->with('success', 'Transaction Completed');
     }
 }

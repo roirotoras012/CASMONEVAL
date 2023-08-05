@@ -17,6 +17,7 @@
             id="print-button">Print Table</button>
         <button type="button" class="btn btn-primary my-2"
             data-file-name="{{ $printProvince }}_OPCR-{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
+            data-file-type="Provincial"
             id="print-scoreCard">Scorecard</button>
 
         {{-- @if (count($opcrs_active) > 0)
@@ -95,7 +96,7 @@
                     ];
                     $measures = $objective
                         ->measures()
-                        ->orderBy('number_measure', 'asc')
+                        ->orderByRaw('CAST(number_measure AS UNSIGNED) ASC')
                         ->get();
                 @endphp
 
@@ -324,7 +325,7 @@
                     ];
                     $measures = $objective
                         ->measures()
-                        ->orderBy('number_measure', 'asc')
+                        ->orderByRaw('CAST(number_measure AS UNSIGNED) ASC')
                         ->get();
                     
                 @endphp

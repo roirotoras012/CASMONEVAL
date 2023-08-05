@@ -8,7 +8,8 @@
                     <div class="card">
 
                         <div class="card-body p-5">
-                            <form method="POST" action="{{ route('register') }}" oninput='password-confirm.setCustomValidity(password-confirm.value != password.value ? "Passwords do not match." : "")'>
+                            <form method="POST" action="{{ route('register') }}"
+                                oninput='password-confirm.setCustomValidity(password-confirm.value != password.value ? "Passwords do not match." : "")'>
                                 <div class="text-center">
                                     @csrf
                                     <div class="m-4">
@@ -30,18 +31,18 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('first_name') }}" placeholder="Firstname"
+                                                <input placeholder="Firstname"
                                                     id="first_name" type="text"
-                                                    class="form-control @error('first_name') @enderror 
-                                                    value="{{ old('first_name') }}"
-                                              
+                                                   value="{{ old('first_name') }}"
+                                                    class="form-control @error('first_name') is-invalid @enderror "
+                                                    
                                                     name="first_name" pattern="[A-Za-z\s]+" autocomplete="first_name"
                                                     autofocus required>
-                                                {{-- @error('first_name')
+                                                @error('first_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
-                                                @enderror --}}
+                                                @enderror
 
                                                 <div class="invalid-feedback">Please enter a valid first name</div>
 
@@ -54,15 +55,16 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('last_name') }}" placeholder="Lastname" id="last_name"
-                                                    type="text" class="form-control @error('last_name') @enderror"
+                                                <input placeholder="Lastname" id="last_name"
+                                                     value="{{ old('last_name') }}"
+                                                    type="text" class="form-control @error('last_name') is-invalid @enderror"
                                                     name="last_name" autocomplete="last_name" required pattern="[A-Za-z\s]+"
                                                     autofocus>
-                                                {{-- @error('last_name')
+                                                @error('last_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
-                                                @enderror --}}
+                                                @enderror
 
                                                 <div class="invalid-feedback">Please enter a valid last name</div>
                                             </div>
@@ -77,16 +79,16 @@
                                                             class="p-1 fa-solid fa-user"></i>
                                                     </span>
                                                 </div>
-                                                <input value="{{ old('middle_name') }}" placeholder="Middlename"
+                                                <input placeholder="Middlename"
+                                                     value="{{ old('middle_name') }}"
                                                     id="middle_name" type="text"
                                                     class="form-control @error('middle_name') @enderror" name="middle_name"
                                                     autocomplete="middle_name" required pattern="[A-Za-z\s]+" autofocus>
-                                                {{-- @error('middle_name')
+                                                @error('middle_name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
-                                                @enderror --}}
-
+                                                @enderror
                                                 <div class="invalid-feedback">Please enter a valid middle name</div>
                                             </div>
                                         </div>
@@ -103,8 +105,8 @@
                                                     {{-- <option value="" disabled
                                                         {{ old('extension_name') ? '' : 'selected' }}>Extension name
                                                     </option> --}}
-                                                    <option value="N/A"
-                                                        {{ old('extension_name') ? '' : 'selected' }}>No extension
+                                                    <option value="N/A" {{ old('extension_name') ? '' : 'selected' }}>No
+                                                        extension
                                                         name</option>
                                                     <option value="Jr"
                                                         {{ old('extension_name') == 'Jr' ? 'selected' : '' }}>Jr</option>
@@ -122,7 +124,7 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror --}}
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -143,7 +145,7 @@
                                                         id="entry_date"
                                                         pattern="(19\d{2}|20[01]\d|202[01])-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])"
                                                         max="{{ date('Y-m-d', strtotime('-18 years')) }}" required />
-                                                        <div class="invalid-feedback">Please enter a valid date</div>
+                                                    <div class="invalid-feedback">Enter a valid Birthdate. You must be at least 18 years old.</div>
                                                     {{-- <input value="{{ old('birthday') }}" type="date" name='birthday'
                                                         class="form-control @error('birthday') is-invalid @enderror"
                                                         id="entry_date" />
@@ -163,15 +165,15 @@
                                                         class="p-1 fa-solid fa-at"></i>
                                                 </span>
                                             </div>
-                                            <input value="{{ old('email') }}"" placeholder="Email" id="email"
-                                              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
+                                            <input value="{{ old('email') }}" placeholder="Email" id="email"
+                                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
                                                 type="email" class="form-control @error('email') is-invalid @enderror"
                                                 name="email" autocomplete="email">
-                                            {{-- @error('email')
+                                            @error('email')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
-                                            @enderror --}}
+                                            @enderror
                                             {{-- <input value="{{ old('email') }}"" placeholder="Email" id="email"
                                                 type="email" class="form-control" name="email"
                                                 pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
@@ -215,8 +217,9 @@
                                             </span>
                                         </div>
                                         <input value="{{ old('password_confirm') }}" placeholder="Confirm Password"
-                                            id="password-confirm" type="password" class="form-control" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
-                                            name="password_confirmation" required autocomplete="password_confirmation">
+                                            id="password-confirm" type="password" class="form-control"
+                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" name="password_confirmation"
+                                            required autocomplete="password_confirmation">
                                         <div class="invalid-feedback" id="password-confirm-error">Passwords do not match.
                                         </div>
                                     </div>

@@ -19,6 +19,7 @@ use App\Models\StrategicObjective;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProvincialPlanningOfficerController extends Controller
 {
@@ -480,6 +481,7 @@ class ProvincialPlanningOfficerController extends Controller
     {
         return view('ppo.profile');
     }
+  
     public function updateEmailHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
@@ -499,14 +501,19 @@ class ProvincialPlanningOfficerController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
+            Alert::success('Email updated successfully.');
+
+          
+
             return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
+          
             // Show an error message
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -517,13 +524,16 @@ class ProvincialPlanningOfficerController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
+            Alert::success('Password updated successfully.');
+
+          
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
     public function opcr()
@@ -1039,6 +1049,28 @@ class ProvincialPlanningOfficerController extends Controller
         // return view('ppo.accomplishment');
     }
 
+    public function updateProfileHandler(Request $request) {
+        $userID = auth()->user()->user_ID;
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
+    }
     public function measure_update(Request $request)
     {
         $validatedData = $request->validate([
@@ -1053,11 +1085,11 @@ class ProvincialPlanningOfficerController extends Controller
             $measure->driver_ID = $request->input('driver_ID');
             $measure->save();
         }
+        Alert::success('Driver has been updated successfully!');
 
         // Redirect to the measure index page
         return redirect()
-            ->route('manage')
-            ->with('success', 'driver has been updated successfully!');
+            ->route('manage');
     }
 
     public function store(Request $request)
@@ -1073,10 +1105,10 @@ class ProvincialPlanningOfficerController extends Controller
         $driver->opcr_ID = $validatedData['opcr_ID'];
         $driver->division_ID = $validatedData['division_ID'];
         $driver->save();
-        // Redirect to the objectives index page
+        Alert::success('Driver created successfully!');
+
         return redirect()
-            ->route('add-driver')
-            ->with('success', 'driver created successfully!');
+            ->route('add-driver');
     }
 
     public function submit_to_division(Request $request)
@@ -1132,10 +1164,10 @@ class ProvincialPlanningOfficerController extends Controller
             // dd($notification);
             $notification->save();
         }
+        Alert::success('OPCR has been submitted to Division successfully!');
 
         return redirect()
-            ->route('opcr')
-            ->with('success', 'OPCR has been submitted to Division successfully!');
+            ->route('opcr');
     }
 
     public function bdd()
@@ -1148,6 +1180,9 @@ class ProvincialPlanningOfficerController extends Controller
 
         if (count($opcrs_active) > 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->where('type', '=', 'DIRECT')
+                ->orWhere('type', '=', 'DIRECT MAIN')
+                ->orWhere('type', '=', 'DIRECT COMMON')
                 ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
                 ->get();
             foreach ($measures as $measure) {
@@ -1607,10 +1642,9 @@ class ProvincialPlanningOfficerController extends Controller
         $monthly_target = MonthlyTarget::find($request->input('monthly_target_ID'));
         $monthly_target->validated = $request->input('validated');
         $monthly_target->save();
-
+        Alert::success('Validation updated successfully.');
         return redirect()
-            ->back()
-            ->with('update', 'Validation updated successfully.');
+            ->back();
     }
 
 
@@ -1619,10 +1653,9 @@ class ProvincialPlanningOfficerController extends Controller
         DB::table('opcr')
         ->where('opcr_ID', $opcr_id)
         ->update(['opcr_status' => 'approved']);
-
+        Alert::success('OPCR Approved!');
         return redirect()
-        ->back()
-        ->with('update', 'OPCR Approved!');
+        ->back();
     }
 
 

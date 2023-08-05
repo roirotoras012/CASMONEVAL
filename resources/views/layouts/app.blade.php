@@ -68,12 +68,12 @@
                     <ul class="navbar-nav ms-auto" style="align-items: center;">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            {{-- @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('login') ? 'active' : '' }}"
                                         href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
-                            @endif
+                            @endif --}}
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
@@ -214,11 +214,11 @@
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/manage') }}";
-                                    if (notification.type == 'Business Development Division') {
+                                    if (notification.type == 'BDD') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'Consumer Protection Division') {
+                                    } else if (notification.type == 'CPD') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'Finance Administrative Division') {
+                                    } else if (notification.type == 'FAD') {
                                         url = "{{ url('/dc/coaching') }}";
                                     }
                                 }else if (notification.user_type_ID == 3) { // PD user type ID

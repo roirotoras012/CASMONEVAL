@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Evaluation;
 use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+
 class ProvincialDirectorController extends Controller
 {
     public function index()
@@ -101,15 +103,52 @@ class ProvincialDirectorController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
-            return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+            Alert::success('Email updated successfully.');
+
+            // return redirect()
+            //     ->back()
+            //     ->with('success', 'Email updated successfully.');
+                return redirect()
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             // Show an error message
             return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+                ->back();
+
+                // return redirect()
+                // ->back()
+                // ->with('error', 'Invalid Password');
         }
+    }
+    public function updateProfileHandler(Request $request) {
+
+        // dd($request);
+        $userID = auth()->user()->user_ID;
+
+       
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+
+      
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+
     }
     public function updatePasswordHandler(Request $request)
     {
@@ -119,13 +158,15 @@ class ProvincialDirectorController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
+            Alert::success('Password updated successfully.');
+
             return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+                ->back();
         } else {
+            Alert::error('Invalid Password');
+
             return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+                ->back();
         }
     }
     public function assessment()
@@ -885,9 +926,477 @@ class ProvincialDirectorController extends Controller
         DB::table('opcr')
         ->where('opcr_ID', $opcr_id)
         ->update(['opcr_status' => 'approved']);
+        Alert::success('OPCR Approved!');
 
         return redirect()
-        ->back()
-        ->with('update', 'OPCR Approved!');
+        ->back();
+    }
+
+
+
+
+
+    public function bdd()
+    {
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', '=', 1)
+            ->get();
+        $objectivesact = StrategicObjective::where('is_active', 1)->get();
+
+        if (count($opcrs_active) > 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
+
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
+                } else {
+                    $measure['show'] = true;
+                }
+            }
+            //   dd($measure);
+        } else {
+            $measures = null;
+        }
+
+        $provinces = Province::select('province_ID', 'province')
+            ->orderBy('province_ID')
+            ->get();
+
+        // $annual_targets = AnnualTarget::all()
+        //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
+        //     ->groupBy(['strategic_measures_ID', 'province_ID']);
+        $objectives = [];
+        if (count($opcrs_active) != 0) {
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+            // dd($annual_targets);
+
+            $annual_targets2 = DB::table('annual_targets')
+                ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+                ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('annual_targets.province_ID', '=', $user->province_ID)
+                ->where('divisions.code', '=', 'BDD')
+                ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+                ->get('annual_targets.*', 'divisions.code', 'divisions.division_ID')
+                ->groupBy(['strategic_objectives_ID']);
+
+            // dd($annual_targets2);
+
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+                if ($objective) {
+                    $objectives[] = $objective;
+                }
+            }
+            // dd("asd");
+            // dd($objectives);
+        } else {
+            $annual_targets = null;
+        }
+
+        // dd($annual_targets);
+
+        // $divisions = Division::all();
+        // $opcrs = Opcr::all();
+        // dd( $opcrs_active);
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
+            ->whereHas('opcr', function ($query) use ($opcrs_active) {
+                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
+            })
+            ->get(['drivers.*', 'divisions.division', 'divisions.code']);
+
+        // dd($driversact);
+        // dd("weqwe");
+        $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=', null)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+        // dd($monthly_targets);
+        foreach ($monthly_targets as $monthly_target) {
+            // echo "annual target ID: {$annual_target_ID}<br>";
+            $annual_accom = 0;
+            $validated = true;
+            foreach ($monthly_target as $target) {
+                
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
+
+                if ($target->validated != 'Validated') {
+                    $validated = false;
+                }
+
+                if ($target->month == 'jan') {
+                    $target->month_code = 0;
+                } elseif ($target->month == 'feb') {
+                    $target->month_code = 1;
+                } elseif ($target->month == 'mar') {
+                    $target->month_code = 2;
+                } elseif ($target->month == 'apr') {
+                    $target->month_code = 3;
+                } elseif ($target->month == 'may') {
+                    $target->month_code = 4;
+                } elseif ($target->month == 'jun') {
+                    $target->month_code = 5;
+                } elseif ($target->month == 'jul') {
+                    $target->month_code = 6;
+                } elseif ($target->month == 'aug') {
+                    $target->month_code = 7;
+                } elseif ($target->month == 'sept') {
+                    $target->month_code = 8;
+                } elseif ($target->month == 'oct') {
+                    $target->month_code = 9;
+                } elseif ($target->month == 'nov') {
+                    $target->month_code = 10;
+                } elseif ($target->month == 'dec') {
+                    $target->month_code = 11;
+                }
+            }
+
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
+            
+            if ($validated = true) {
+                if (count($monthly_target) < 12) {
+                    $monthly_target->validated = false;
+                }
+            } else {
+                $monthly_target->validated = false;
+            }
+
+            //    dd($monthly_targets);
+            // echo $monthly_target->annual_accom;
+        }
+        return view('pd.bdd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'objectivesact', 'objectives'));
+        // return view('ppo.savetarget');
+        // return view('ppo.accomplishment');
+    }
+    public function cpd()
+    {
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', '=', 1)
+            ->get();
+
+        // $objectivesact = StrategicObjective::all();
+
+        // $objectives = StrategicObjective::all();
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
+
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
+                } else {
+                    $measure['show'] = true;
+                }
+            }
+        } else {
+            $measures = null;
+        }
+
+        // dd($measures);
+        $provinces = Province::select('province_ID', 'province')
+            ->orderBy('province_ID')
+            ->get();
+
+        // $annual_targets = AnnualTarget::all()
+        //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
+        //     ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+        $annual_targets2 = null;
+        $objectives = [];
+
+        if (count($opcrs_active) != 0) {
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+            $annual_targets2 = DB::table('annual_targets')
+                ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+                ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('annual_targets.province_ID', '=', $user->province_ID)
+                ->where('divisions.code', '=', 'CPD')
+                ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+                ->get('annual_targets.*', 'divisions.code', 'divisions.division_ID')
+                ->groupBy(['strategic_objectives_ID']);
+            // dd($annual_targets2);
+
+            // dd($annual_targets2);
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+                if ($objective) {
+                    $objectives[] = $objective;
+                }
+            }
+            // dd($objectives);
+        } else {
+            $annual_targets = null;
+        }
+
+        // dd($annual_targets);
+
+        // $divisions = Division::all();
+        // $opcrs = Opcr::all();
+        // dd( $opcrs_active);
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
+            ->whereHas('opcr', function ($query) use ($opcrs_active) {
+                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
+            })
+            ->get(['drivers.*', 'divisions.division', 'divisions.code']);
+
+        // dd($driversact);
+        // dd("weqwe");
+        $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=', null)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+
+        foreach ($monthly_targets as $monthly_target) {
+            // echo "annual target ID: {$annual_target_ID}<br>";
+            $annual_accom = 0;
+            $validated = true;
+            foreach ($monthly_target as $target) {
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
+                // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
+                if ($target->validated != 'Validated') {
+                    $validated = false;
+                }
+                if ($target->month == 'jan') {
+                    $target->month_code = 0;
+                } elseif ($target->month == 'feb') {
+                    $target->month_code = 1;
+                } elseif ($target->month == 'mar') {
+                    $target->month_code = 2;
+                } elseif ($target->month == 'apr') {
+                    $target->month_code = 3;
+                } elseif ($target->month == 'may') {
+                    $target->month_code = 4;
+                } elseif ($target->month == 'jun') {
+                    $target->month_code = 5;
+                } elseif ($target->month == 'jul') {
+                    $target->month_code = 6;
+                } elseif ($target->month == 'aug') {
+                    $target->month_code = 7;
+                } elseif ($target->month == 'sep') {
+                    $target->month_code = 8;
+                } elseif ($target->month == 'oct') {
+                    $target->month_code = 9;
+                } elseif ($target->month == 'nov') {
+                    $target->month_code = 10;
+                } elseif ($target->month == 'dec') {
+                    $target->month_code = 11;
+                }
+            }
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
+            if ($validated = true) {
+                if (count($monthly_target) < 12) {
+                    $monthly_target->validated = false;
+                }
+            } else {
+                $monthly_target->validated = false;
+            }
+
+            // echo $monthly_target->annual_accom;
+        }
+
+        // dd($monthly_targets);
+        return view('pd.cpd', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'annual_targets2', 'objectives'));
+        // return view('ppo.savetarget');
+        // return view('ppo.accomplishment');
+    }
+    public function fad()
+    {
+        $user = Auth::user();
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', '=', 1)
+            ->get();
+
+        // $objectivesact = StrategicObjective::all();
+
+        // $objectives = StrategicObjective::all();
+        if (count($opcrs_active) != 0) {
+            $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
+                ->get();
+            foreach ($measures as $measure) {
+                if ($measure->driver_ID != null) {
+                    $driver_data = DB::table('drivers')
+                        ->where('drivers.driver_ID', '=', $measure->driver_ID)
+                        ->get();
+
+                    // if ($driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                    if (count($driver_data) > 0 && $driver_data[0]->opcr_ID == $opcrs_active[0]->opcr_ID) {
+                        $measure['show'] = false;
+                    } else {
+                        $measure['show'] = true;
+                    }
+                } else {
+                    $measure['show'] = true;
+                }
+            }
+        } else {
+            $measures = null;
+        }
+
+        // dd($measures);
+        $provinces = Province::select('province_ID', 'province')
+            ->orderBy('province_ID')
+            ->get();
+
+        // $annual_targets = AnnualTarget::all()
+        //     ->where(['opcr_id', '=', $opcrs_active[0]->opcr_ID])
+        //     ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+        $annual_targets2 = null;
+        $objectives = [];
+
+        if (count($opcrs_active) != 0) {
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+
+            $annual_targets2 = DB::table('annual_targets')
+                ->join('divisions', 'annual_targets.division_ID', '=', 'divisions.division_ID')
+                ->where('annual_targets.opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('annual_targets.province_ID', '=', $user->province_ID)
+                ->where('divisions.code', '=', 'FAD')
+                ->where('annual_targets.strategic_objectives_ID', '!=', 0)
+                ->get('annual_targets.*', 'divisions.code', 'divisions.division_ID')
+                ->groupBy(['strategic_objectives_ID']);
+
+            // dd($annual_targets2);
+            foreach ($annual_targets2 as $key => $value) {
+                // echo $key;
+                $objective = StrategicObjective::where('strategic_objective_ID', $key)->first();
+                if ($objective) {
+                    $objectives[] = $objective;
+                }
+            }
+        } else {
+            $annual_targets = null;
+        }
+
+        // dd($annual_targets);
+
+        // $divisions = Division::all();
+        // $opcrs = Opcr::all();
+        // dd( $opcrs_active);
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')
+            ->whereHas('opcr', function ($query) use ($opcrs_active) {
+                $query->whereIn('opcr_ID', $opcrs_active->pluck('opcr_ID'));
+            })
+            ->get(['drivers.*', 'divisions.division', 'divisions.code']);
+
+        // dd($driversact);
+        // dd("weqwe");
+        $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->where('monthly_accomplishment', '!=', null)
+            ->where('annual_targets.province_ID', '=', $user->province_ID)
+            ->get(['monthly_targets.*', 'annual_targets.*'])
+            ->groupBy(['annual_target_ID']);
+
+        foreach ($monthly_targets as $monthly_target) {
+            // echo "annual target ID: {$annual_target_ID}<br>";
+            $annual_accom = 0;
+            $validated = true;
+            foreach ($monthly_target as $target) {
+                $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
+                // echo "{$monthly_target->id} - {$monthly_target->monthly_target}<br>";
+                if ($target->validated != 'Validated') {
+                    $validated = false;
+                }
+
+                if ($target->month == 'jan') {
+                    $target->month_code = 0;
+                } elseif ($target->month == 'feb') {
+                    $target->month_code = 1;
+                } elseif ($target->month == 'mar') {
+                    $target->month_code = 2;
+                } elseif ($target->month == 'apr') {
+                    $target->month_code = 3;
+                } elseif ($target->month == 'may') {
+                    $target->month_code = 4;
+                } elseif ($target->month == 'jun') {
+                    $target->month_code = 5;
+                } elseif ($target->month == 'jul') {
+                    $target->month_code = 6;
+                } elseif ($target->month == 'aug') {
+                    $target->month_code = 7;
+                } elseif ($target->month == 'sept') {
+                    $target->month_code = 8;
+                } elseif ($target->month == 'oct') {
+                    $target->month_code = 9;
+                } elseif ($target->month == 'nov') {
+                    $target->month_code = 10;
+                } elseif ($target->month == 'dec') {
+                    $target->month_code = 11;
+                }
+            }
+            if($monthly_target->first()->type == 'PERCENTAGE'){
+                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+                $monthly_target->type = 'PERCENTAGE';
+
+            }
+            else{
+                $monthly_target->annual_accom = $annual_accom;
+            }
+            if ($validated = true) {
+                if (count($monthly_target) < 12) {
+                    $monthly_target->validated = false;
+                }
+            } else {
+                $monthly_target->validated = false;
+            }
+
+            // echo $monthly_target->annual_accom;
+        }
+
+        return view('pd.fad', compact('measures', 'provinces', 'annual_targets', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'annual_targets2', 'objectives'));
+        // return view('ppo.savetarget');
+        // return view('ppo.accomplishment');
     }
 }

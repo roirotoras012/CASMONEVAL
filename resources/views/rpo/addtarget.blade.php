@@ -12,7 +12,7 @@
       </div>
         <div class="container-fluid px-4 py-5">
                 
-            <div class="card mb-4 m-4">
+            {{-- <div class="card mb-4 m-4">
                 <div class="card-header">
                     <div class="table-title">
                         <div class="row d-flex align-items-center">
@@ -25,12 +25,13 @@
                         </div>
                     </div>
                 </div>
-    
-                
-    
-           
-           
-            </div>
+
+            </div> --}}
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Add Targets</h2>
+                </li>
+            </ol>
             <div class="opcr-container">
                 
 
@@ -48,7 +49,7 @@
 
                     <form action="{{ route('add_targets') }}" method="post" id="addTargetForm">
                         
-                        <table class="table table-bordered ppo-table shadow">
+                        <table class="table table-bordered ppo-table shadow forms">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th class="p-3">#</th>
@@ -99,10 +100,13 @@
                                         </td>
                                         @endif
                                         <td>
+                                            @if (!$label->is_sub)
                                             {{ $label->number_measure }}
+                                            @endif
+                                           
                                         </td>
                                         <td>{{ $label->strategic_measure }} 
-                                            {{ $label->sum_of }}
+                                            
                                             @if (!isset($label->sum_of)) 
                                             <input type="hidden"
                                             name="data[{{ $ctr }}][strategic_objective]"
@@ -128,7 +132,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
+                                                <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
                                                 %
                                             </label>
                                             </div>
@@ -142,7 +146,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -156,7 +160,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
                                             <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
+                                                <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
                                                 %
                                             </label>
                                             </div>
@@ -170,7 +174,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -184,7 +188,7 @@
                                             <div class="d-flex gap-1 align-items-center">
                                                 <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
                                                 <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
+                                                    <input class="dynamic-checkbox" data-ctr="{{ $ctr }}" type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
                                                     %
                                                 </label>
                                             </div>
@@ -212,9 +216,9 @@
                                     <button type="submit" class="btn btn-primary" value="ADD">
                                         Add OPCR
                                     </button>
-                                    <button type="button" class="btn btn-success">
-                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCR</a> 
-                                    </button>
+                                    {{-- <button type="button" class="btn btn-success">
+                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCRs</a> 
+                                    </button> --}}
                                 </div>
 
 
@@ -245,6 +249,16 @@
     <script>
         
 $(document).ready(function() {
+    $('.dynamic-checkbox').on('click', function () {
+           console.log("wew")
+       // Get the value and data-ctr attribute of the clicked checkbox
+       var checkboxValue = $(this).val();
+       var ctrValue = $(this).data('ctr');
+       var isChecked = $(this).prop('checked');
+        console.log(isChecked)
+       // Set the value for all checkboxes with the same data-ctr attribute
+       $('.dynamic-checkbox[data-ctr="' + ctrValue + '"]').prop('checked', isChecked);
+   });
   
   var target_form = document.getElementById('addTargetForm');
 

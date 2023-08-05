@@ -9,14 +9,10 @@
           </div>
           
         <div class="container-fluid px-4 py-5">
-
             <ol class="breadcrumb mb-4">
-
                 <li class="breadcrumb-item active">
-                    <h1 class="text-uppercase lead bg-primary text-white p-2 rounded">Regional Planning Officer Dashboard</h1>
-
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Dashboard</h2>
                 </li>
-
             </ol>
             {{-- <div class="alert alert-warning d-inline-block px-4" role="alert">
                 Welcome, {{ $userDetails->first_name . " ". $userDetails->last_name}}!

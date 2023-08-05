@@ -2,6 +2,23 @@
 .container {
     max-width: 1400px !important;
 }
+
+.forms .form-control {
+    flex-basis: 70% !important;
+    min-width: 130px;
+
+}
+
+div > * {
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 45px !important;
+    font-weight: bold;
+}
+
+
 /* TEAM CASMONEVAL  */
 
 .province-name {
@@ -11,7 +28,25 @@
 div#app {
     position: relative;
 }
-
+.logo-banner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100px;
+}
+.dti-banner {
+    position: relative;
+}
+.dti-header {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url(/images/dti-banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 #notification-text {
     position: absolute;
     top: 7%;
@@ -475,16 +510,94 @@ table.table.table-bordered.border-primary thead {
 #rpo_scoreCard th {
     white-space: nowrap;
     text-align: center;
-    
 }
 
-.ratings_table th, td{
-
+.ratings_table th,
+td {
     padding: 2px !important;
 }
 
-.ratings_table td{
-
+.ratings_table td {
     padding: 2px !important;
     width: calc(100% / 24); /* 24 is the number of columns in the table */
+}
+
+
+
+
+
+
+/* OPCR TABLE */
+
+.opcr-list-container {
+    margin: 20px;
+}
+
+
+.opcr-list-container table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+
+
+.opcr-list-container th, .opcr-list-container td {
+    /* border: 1px solid #dddddd; */
+    text-align: left;
+    padding: 8px !important;
+}
+
+.opcr-list-container th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.opcr-list-container tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.status-complete {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.status-incomplete {
+    background-color: #c82333;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.status-done {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.submit-status-active {
+    background-color: #28a745;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
+}
+
+.submit-status-inactive {
+    background-color: #c82333;
+    padding: .35em .65em;
+    font-size: .75em;
+    font-weight: 700;
+    color: #fff;
+    border-radius: .375rem;
 }
