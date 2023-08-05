@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid">
             <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Division Chief Dashboard
             </div>

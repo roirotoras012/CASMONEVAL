@@ -34,6 +34,13 @@
                         </div>
                     </div>
 
+                    <div class="row">
+
+                        <div class="form-floating">
+                            <textarea required class="form-control" placeholder="Add a comment" id="comment" style="height: 100px" name="comment"></textarea>
+                            <label for="comment">{{ __('Add a comment') }}</label>
+                        </div>
+                    </div>
 
                     <div class="d-grid col-10 mx-auto my-3">
                         <button class="btn btn-primary" type="submit">{{ __('Add Reason') }}</button>
