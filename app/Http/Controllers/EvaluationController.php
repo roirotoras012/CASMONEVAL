@@ -62,6 +62,7 @@ class EvaluationController extends Controller
 
         if ($request->input('remark') !== null) {
             $evaluation->remark = $request->input('remark');
+            $evaluation->comment = $request->input('comment');
 
             $userName = auth()->user()->first_name;
             $provinceID = auth()->user()->province_ID;
@@ -113,6 +114,7 @@ class EvaluationController extends Controller
             ]);
 
             // dd($notification);
+            // dd($evaluation);
             $notification->save();
 
             $evaluation->save();

@@ -10,9 +10,9 @@
         // var_dump($targets);
     @endphp
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
 
         <div class="container-fluid px-4 py-5">
 
@@ -21,7 +21,8 @@
                 <li class="breadcrumb-item active">
                     {{-- <h1 class="province-name text-dark text-uppercase mb-5 rounded">OPCR #{{ $opcr_id }}
                     </h1> --}}
-                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i>OPCR #{{ $opcr_id }}</h2> 
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i>OPCR
+                        #{{ $opcr_id }}</h2>
 
                 </li>
 
@@ -422,7 +423,8 @@
                                                     <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}
                                                         @if ($monthly_targets[$label->MISOR_target]->first()->type == 'PERCENTAGE')
                                                             %
-                                                        @endif </b>
+                                                        @endif
+                                                    </b>
                                                 @else
                                                     @if (isset($label->MISOR_accom) && $label->MISOR_accom_validated)
                                                         <b>{{ $label->MISOR_accom }}</b>
@@ -482,7 +484,8 @@
                                                     <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}
                                                         @if ($monthly_targets[$label->MISOC_target]->first()->type == 'PERCENTAGE')
                                                             %
-                                                        @endif </b>
+                                                        @endif
+                                                    </b>
                                                 @else
                                                     {{-- @if (isset($label->MISOC_accom) && $label->MISOC_accom_validated)
                                                     <b>{{ $label->MISOC_accom}}</b>

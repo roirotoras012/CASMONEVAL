@@ -10,9 +10,9 @@
         // var_dump($targets);
     @endphp
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
 
         <div class="container-fluid px-4 py-5">
 
