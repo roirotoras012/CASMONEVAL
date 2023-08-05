@@ -195,7 +195,7 @@ class RegionalPlanningOfficerController extends Controller
         $user = User::find($request->user_ID);
         $user->status = $request->statusSelect;
         $user->save();
-        Alert::success('User Status Updated Successfully');
+        Alert::success('User Status Updated Successfully')->persistent('Close');
         return redirect()->route('rpo.users');
         // return redirect()
         //     ->route('rpo.users')
