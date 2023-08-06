@@ -61,6 +61,9 @@
 
                     <tbody>
                         @foreach ($users ?? [] as $user)
+                     
+                        @if ($user->user_type_ID != '2')
+                        
                             <tr>
                                 <td>{{ $user->user_ID }}</td>
                                 <td>{{ $user->username }}</td>
@@ -143,6 +146,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>

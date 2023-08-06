@@ -6,15 +6,19 @@
 				<div class="icon-box">
 					<i class="fa fa-ban" aria-hidden="true"></i>
 
+					
 				</div>						
 				{{-- <h4 class="modal-title w-100">Are you sure?</h4>	 --}}
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
 				<select class="form-select" name='statusSelect' aria-label="Default select example">
-                    <option value='current' name='current' disabled>{{$users->status}}</option>
-                    <option value="active" name="active">Active</option>
-                    <option value="disabled" name="disabled">Disabled</option>
+                    {{-- <option value='current' name='current' disabled>{{$users->status}}</option> --}}
+                    {{-- <option value="active" name="active">Active</option>
+                    <option value="disabled" name="disabled">Disabled</option> --}}
+
+					<option value="active" @if($users->status === 'active') selected @endif>Active</option>
+					<option value="disabled" @if($users->status === 'disabled') selected @endif>Disabled</option>
                 </select>
 			</div>
             <input type='hidden' value={{$users->user_ID}} name="user_ID"/>
