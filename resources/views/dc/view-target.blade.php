@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
             @if (!is_null($notification) && count($notification) > 0)
                 <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
