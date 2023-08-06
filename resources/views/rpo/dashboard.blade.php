@@ -8,7 +8,7 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
           </div> --}}
 
-        <div class="container-fluid px-4 py-5">
+        <div class="container-fluid content-row px-4 py-5">
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">
                     <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i>
@@ -16,16 +16,16 @@
                 </li>
             </ol>
             <div class="row">
-                <div class="col-sm">
-                    <div class="card">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="card h-100">
                         <div class="card-body">
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
 
                 </div>
-                <div class="col-sm">
-                    <div class="card mt-2">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="card h-100">
                         <div class="card-body">
                             <canvas id="myChartBar"></canvas>
                         </div>
