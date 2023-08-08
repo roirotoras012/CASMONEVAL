@@ -1671,10 +1671,11 @@ class RegionalPlanningOfficerController extends Controller
                     // dd($newNotification);
                     $newNotification->save();
                 }
-
-                return redirect()
-                    ->route('rpo.show', $opcr_id)
-                    ->with('success', 'Targets Submitted Successfully.');
+                Alert::success('OPCR Submitted Successfully.')->persistent('Close');
+                return redirect()->back();
+                // return redirect()
+                //     ->route('rpo.show', $opcr_id)
+                //     ->with('success', 'Targets Submitted Successfully.');
             }
         } elseif ($request->submit == 'done') {
             DB::table('opcr')
