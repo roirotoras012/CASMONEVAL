@@ -31,6 +31,14 @@
                         default => 'other',
                     } }}
                 </div>
+                <div class="d-flex justify-content-end align-items-center gap-4">
+                    <span><b>Click if OPCR is already reviewed <i class="fas fa-arrow-right"></i></b></span>
+                    <form action="{{ route('reviewed_by') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="opcr_id" value={{ $opcrs_active[0]->opcr_ID }}>
+                        <button type="submit" class="btn btn-success my-2">Review</button>
+                    </form>
+                </div>
                 <div class="col-md-12">
                     @if ($message = Session::get('success'))
                             <div class="alert alert-success">

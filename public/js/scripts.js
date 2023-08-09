@@ -393,6 +393,11 @@ $(document).ready(function () {
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
             var type = printScoreCard.dataset.fileType;
+            var preparedby  = printScoreCard.dataset.filePreparedby;
+            var reviewedbdd  = printScoreCard.dataset.fileReviewedbdd;
+            var reviewedcpd  = printScoreCard.dataset.fileReviewedcpd;
+            var approvedby  = printScoreCard.dataset.fileApprovedby;
+            // console.log(preparedby);
 
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
                 // Calculate the font size adjustment ratio
@@ -495,36 +500,48 @@ $(document).ready(function () {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
-            if (type == "Provincial" || type == "Regional") {
-                winScorecard.document
+            if (type == "Provincial" ) {
+                    winScorecard.document
                     .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
-                <div >
-                    <div><p>Prepared by:</p></div>
-                    <div>
-                      <p style="margin-bottom: 0">______________________________</p>
-                      <p>Planning Officer</p>
+                    <div >
+                        <div><p>Prepared by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${preparedby}</p>
+                        <p style="margin-bottom: 0">______________________________</p>
+                        <p>Planning Officer</p>
+                        </div>
+                
                     </div>
-            
-                </div>
-                <div>
-                    <div><p>Reviewed by:</p></div>
                     <div>
-                        <p style="margin-bottom: 0">_______________________________________________________________</p>
-                        <p>Chief, BDD/Chief, CPD</p>
-                      </div>
-                </div>
-             
-            
-              <div>
-                <div><p>Approved by:</p></div>
+                        <div><p>Reviewed by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${reviewedbdd}</p>
+                            <p style="margin-bottom: 0">_______________________________________________________________</p>
+                            <p>OIC Chief, BDD</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div><p>Reviewed by:</p></div>
+                        <div>
+                            <p style="margin-bottom: -10px">${reviewedcpd}</p>
+                            <p style="margin-bottom: 0">_______________________________________________________________</p>
+                            <p>Chief, CPD</p>
+                        </div>
+                    </div>
+                
+                
                 <div>
-                    <p style="margin-bottom: 0">______________________________</p>
-                    <p>OIC Provincial Director</p>
-                  </div>
-              </div>
-             
-            </div>
-            `);
+                    <div><p>Approved by:</p></div>
+                    <div>
+                        <p style="margin-bottom: -10px">${approvedby}</p>
+                        <p style="margin-bottom: 0">______________________________</p>
+                        <p>OIC Provincial Director</p>
+                    </div>
+                </div>
+                
+                </div>
+                `);
+                
             }
 
             winScorecard.document.write("</body></html>");

@@ -13,7 +13,9 @@ use App\Models\AnnualTarget;
 use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
+use App\Models\ScoreCard;
 use App\Http\Controllers\Controller;
+use App\Models\Division;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -145,12 +147,10 @@ class DivisionChiefController extends Controller
         //     ->with('success', 'Annual Target successfully added!');
         return redirect()->route('dc.bukidnunBddIndex');
     }
-    public function updateProfileHandler(Request $request) {
-
-      
+    public function updateProfileHandler(Request $request)
+    {
         $userID = auth()->user()->user_ID;
 
-       
         $validatedData = $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
@@ -166,12 +166,10 @@ class DivisionChiefController extends Controller
             'birthday' => $request->birthday,
         ];
 
-      
         $user = User::find($userID);
         $user->update($attributes);
         Alert::success('User profile updated successfully');
         return redirect()->back();
-
     }
     public function updateTar(Request $request)
     {
@@ -790,7 +788,7 @@ class DivisionChiefController extends Controller
             ->get();
 
         $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
-    
+
             ->get()
 
             ->groupBy(['strategic_measure_ID']);
@@ -987,23 +985,21 @@ class DivisionChiefController extends Controller
         return view('dc.view-target', compact('provinces', 'cutoff', 'annual_targets', 'driversact', 'monthly_targets', 'measures_list', 'user', 'notification', 'opcrs_active'));
     }
     public function undo_driver(Request $request)
-    {   
+    {
         $user = Auth::user();
         $strategic_measures = StrategicMeasure::join('annual_targets', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
-        ->where('annual_targets.driver_ID', $request->driver_id)
-        ->where('annual_targets.opcr_ID', $request->opcr_id)
-        ->where('strategic_measures.division_ID', $request->division_id)
-        ->get();
-       
-       
+            ->where('annual_targets.driver_ID', $request->driver_id)
+            ->where('annual_targets.opcr_ID', $request->opcr_id)
+            ->where('strategic_measures.division_ID', $request->division_id)
+            ->get();
+
         foreach ($strategic_measures as $strategic_measure) {
             AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
-            ->where('driver_ID', $request->driver_id)
-            ->where('opcr_id', $request->opcr_id)
-            ->where('division_ID', $user->division_ID)
-            ->where('province_ID', $user->province_ID)
-            ->update(['driver_ID' => null]);
-           
+                ->where('driver_ID', $request->driver_id)
+                ->where('opcr_id', $request->opcr_id)
+                ->where('division_ID', $user->division_ID)
+                ->where('province_ID', $user->province_ID)
+                ->update(['driver_ID' => null]);
         }
         Alert::success('Successfully reverted');
         return redirect()->route('dc.bukidnunBddIndex');
@@ -1257,5 +1253,54 @@ class DivisionChiefController extends Controller
         // return redirect()
         // ->route('dc.manage')
         // ->with('success', 'Transaction Completed');
+    }
+
+    public function reviewed_by(Request $request)
+    {
+        $opcr_id = $request->input('opcr_id');
+        $user = auth()->user();
+        $FName = $user->first_name;
+        $LName = $user->last_name;
+        $divisionID = $user->division_ID;
+        $provinceID = $user->province_ID;
+
+        $division = Division::where('division_ID', $divisionID)->first();
+
+        if ($division && ($division->code == 'BDD' || $division->code == 'CPD')) {
+            $scorecard = ScoreCard::where('opcr_ID', $opcr_id)
+                ->where('province_ID', $provinceID)
+                ->first();
+
+            if ($scorecard) {
+                $updateData = [];
+                if ($division->code == 'BDD') {
+                    $updateData['reviewed_by_bdd'] = "$FName $LName";
+                } elseif ($division->code == 'CPD') {
+                    $updateData['reviewed_by_cpd'] = "$FName $LName";
+                }
+                $updateData['province_ID'] = $provinceID;
+
+                $scorecard->update($updateData);
+                Alert::success('OPCR Successfully Reviewed!');
+            } else {
+                $newScoreCard = new ScoreCard();
+                $newScoreCard->opcr_ID = $opcr_id;
+                $newScoreCard->province_ID = $provinceID;
+
+                if ($division->code == 'BDD') {
+                    $newScoreCard->reviewed_by_bdd = "$FName $LName";
+                } elseif ($division->code == 'CPD') {
+                    $newScoreCard->reviewed_by_cpd = "$FName $LName";
+                }
+
+                $newScoreCard->save();
+                Alert::success('ScoreCard successfully reviewed!');
+            }
+
+            return redirect()->back();
+        } else {
+            Alert::error('Bawal ka! Che!');
+            return redirect()->back();
+        }
     }
 }

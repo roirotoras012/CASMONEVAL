@@ -48,6 +48,7 @@ return array(
     'App\\Models\\Pgs' => $baseDir . '/app/Models/Pgs.php',
     'App\\Models\\Province' => $baseDir . '/app/Models/Province.php',
     'App\\Models\\RegistrationKey' => $baseDir . '/app/Models/RegistrationKey.php',
+    'App\\Models\\ScoreCard' => $baseDir . '/app/Models/ScoreCard.php',
     'App\\Models\\StrategicMeasure' => $baseDir . '/app/Models/StrategicMeasure.php',
     'App\\Models\\StrategicObjective' => $baseDir . '/app/Models/StrategicObjective.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',

@@ -1,4 +1,4 @@
-@props(['pgsrating2', 'monthly_targets2', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active', 'pgs'])
+@props(['pgsrating2', 'monthly_targets2','scorecard', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'user', 'monthly_targets', 'commonMeasures', 'opcrs_active', 'pgs'])
 
 
 @foreach ($provinces as $province)
@@ -10,15 +10,38 @@
 @endforeach
 
 <div class="d-flex justify-content-between">
-    <div>
+    <div> 
+        @php
+            $prepared_by = '';
+            $reviewed_by_bdd = '';
+            $reviewed_by_cpd = '';
+            $approved_by = '';
 
+            if(isset($scorecard)) {
+                if(isset($scorecard->prepared_by)){
+                    $prepared_by = $scorecard->prepared_by;
+                }if(isset($scorecard->reviewed_by_bdd)) {
+                    $reviewed_by_bdd = $scorecard->reviewed_by_bdd;
+                }if(isset($scorecard->reviewed_by_cpd)) {
+                    $reviewed_by_cpd = $scorecard->reviewed_by_cpd;
+                }if(isset($scorecard->approved_by)) {
+                    $approved_by = $scorecard->approved_by;
+                }
+            }
+        @endphp
         <button class="btn btn-primary my-2"
             data-file-name="{{ $printProvince }}_OPCR-{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
             id="print-button">Print Table</button>
         <button type="button" class="btn btn-primary my-2"
             data-file-name="{{ $printProvince }}_OPCR-{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
             data-file-type="Provincial"
+            data-file-preparedby= "{{$prepared_by}}"
+            data-file-reviewedbdd="{{$reviewed_by_bdd}}"
+            data-file-reviewedcpd="{{$reviewed_by_cpd}}"
+            data-file-approvedby="{{$approved_by}}"
             id="print-scoreCard">Scorecard</button>
+       
+     
 
         {{-- @if (count($opcrs_active) > 0)
             <button class="btn btn-primary my-2"
