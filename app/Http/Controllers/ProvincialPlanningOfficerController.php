@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
 use App\Models\StrategicObjective;
+use App\Models\ScoreCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -542,6 +543,8 @@ class ProvincialPlanningOfficerController extends Controller
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', '=', 1)
             ->get();
+        
+        
 
         $objectivesact = StrategicObjective::where('is_active', 1)
             ->orderBy('objective_letter', 'ASC')
@@ -560,6 +563,13 @@ class ProvincialPlanningOfficerController extends Controller
             ->get();
 
         if (count($opcrs_active) != 0) {
+
+            // SCORECARD
+            $scorecard = ScoreCard::where('opcr_ID', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', $user->province_ID)->first();
+
+            // dd($scorecard);
+
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)
@@ -567,6 +577,7 @@ class ProvincialPlanningOfficerController extends Controller
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
         } else {
             $annual_targets = null;
+            $scorecard = null;
         }
 
         // dd($annual_targets);
@@ -929,7 +940,7 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
+        return view('ppo.opcr', compact('objectives', 'scorecard', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
 
     public function savetarget()
@@ -1656,6 +1667,34 @@ class ProvincialPlanningOfficerController extends Controller
         Alert::success('OPCR Approved!');
         return redirect()
         ->back();
+    }
+
+
+    public function prepared_by(Request $request) {
+        $opcr_id = $request->input('opcr_id');
+        $user = auth()->user();
+        $FName = $user->first_name;
+        $LName = $user->last_name;
+        $provinceID = $user->province_ID;
+
+        $scorecard = ScoreCard::where('opcr_ID', $opcr_id)->where('province_ID', $provinceID)->first();
+
+        if ($scorecard) {
+            $scorecard->update([
+                'prepared_by' => "$FName $LName",
+                'province_ID' => $provinceID, // Add this line to update province_ID
+            ]);
+            Alert::success('OPCR Successfully Approved!');
+        } else {
+            $newScoreCard = new ScoreCard();
+            $newScoreCard->opcr_ID = $opcr_id;
+            $newScoreCard->province_ID = $provinceID;
+            $newScoreCard->prepared_by = "$FName $LName";
+            $newScoreCard->save();
+            Alert::success('ScoreCard successfully added!');
+        }
+
+        return redirect()->back();
     }
 
 

@@ -588,6 +588,7 @@ class ComposerStaticInitddb9d17817488e0102a0ee8a25a6843a
         'App\\Models\\Pgs' => __DIR__ . '/../..' . '/app/Models/Pgs.php',
         'App\\Models\\Province' => __DIR__ . '/../..' . '/app/Models/Province.php',
         'App\\Models\\RegistrationKey' => __DIR__ . '/../..' . '/app/Models/RegistrationKey.php',
+        'App\\Models\\ScoreCard' => __DIR__ . '/../..' . '/app/Models/ScoreCard.php',
         'App\\Models\\StrategicMeasure' => __DIR__ . '/../..' . '/app/Models/StrategicMeasure.php',
         'App\\Models\\StrategicObjective' => __DIR__ . '/../..' . '/app/Models/StrategicObjective.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',

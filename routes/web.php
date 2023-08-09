@@ -106,6 +106,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/opcr/{id}  ', [ProvincialDirectorController::class, 'show'])->name('pd.show');
     Route::get('pd/view-opcr', [ProvincialDirectorController::class, 'opcr'])->name('opcr');
     Route::post('pd/approved_opcr_pd', [ProvincialDirectorController::class, 'approved_opcr_pd'])->name('approved_opcr_pd');
+    Route::post('pd/approved_by', [ProvincialDirectorController::class, 'approved_by'])->name('approved_by');
     Route::get('pd/bdd', [ProvincialDirectorController::class, 'bdd'])->name('bdd');
     Route::get('pd/cpd', [ProvincialDirectorController::class, 'cpd'])->name('cpd');
     Route::get('pd/fad', [ProvincialDirectorController::class, 'fad'])->name('fad');
@@ -130,6 +131,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('measure_update', [ProvincialPlanningOfficerController::class, 'measure_update'])->name('measure_update');
     Route::post('ppo/submit_to_division', [ProvincialPlanningOfficerController::class, 'submit_to_division'])->name('submit_to_division');
     Route::post('ppo/approved_opcr', [ProvincialPlanningOfficerController::class, 'approved_opcr'])->name('approved_opcr');
+    Route::post('ppo/prepared_by', [ProvincialPlanningOfficerController::class, 'prepared_by'])->name('prepared_by');
 
     // Route::post('eval/reason', [EvaluationController::class, 'addReason'])->name('eval.store');
     Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
@@ -161,7 +163,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
   Route::post('add_indirect_measure', [DivisionChiefController::class, 'add_indirect_measure'])->name('dc.add_indirect_measure');
   Route::post('add_mandatory_measure', [DivisionChiefController::class, 'add_mandatory_measure'])->name('dc.add_mandatory_measure');
   Route::post('undo_driver', [DivisionChiefController::class, 'undo_driver'])->name('dc.undo_driver');
-
+  Route::post('dc/reviewed_by', [DivisionChiefController::class, 'reviewed_by'])->name('reviewed_by');
   Route::post('dc/accomplishment', [DivisionChiefController::class, 'sentToPD'])->name('notify_to_pd');
   
 });
