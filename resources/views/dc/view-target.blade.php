@@ -9,7 +9,7 @@
         </div> --}}
         <div class="container-fluid px-4 py-5">
             @if (!is_null($notification) && count($notification) > 0)
-                <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
+                {{-- <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                     {{ $userDetails->first_name }} -
                     {{ match ($userDetails->province_ID) {
                         1 => 'Bukidnon BDD Division',
@@ -29,7 +29,7 @@
                         default => 'other',
                     } }}
                 </div>
-                <div>
+                <div> --}}
                     <div class="col-md-12">
                         @if ($message = Session::get('success'))
                         <div class="alert alert-success">

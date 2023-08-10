@@ -139,10 +139,10 @@
                                     <form action="{{ route('rpo.recover_opcr') }}" method="post">
                                         @csrf
                                         <input type="hidden" value="{{ $item->opcr_ID }}" name="opcr_ID">
-                                        <button type="submit" class="btn btn-danger" onclick="confirmDeletion(event)"><i
-                                                class="fas fa-trash-restore-alt"></i></button>
                                         <a class="btn btn-warning" href="{{ url('rpo/opcr/' . $item->opcr_ID) }}"><i
                                                 class="fa-solid fa-eye text-white"></i></a>
+                                        <button type="submit" class="btn btn-danger" onclick="confirmDeletion(event)"><i
+                                                class="fas fa-trash-restore-alt"></i></button>
                                     </form>
 
                                 </td>
