@@ -24,15 +24,17 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProvincialPlanningOfficerController extends Controller
 {
-    public function dashboard(){
-        return view('ppo.dashboard');
-    }
-    public function index()
+    // public function dashboard(){
+    //     return view('ppo.dashboard');
+    // }
+    public function dashboard()
     {
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
             ->where('is_submitted', '=', 1)
             ->get();
+        
+        
 
         $objectivesact = StrategicObjective::where('is_active', 1)
             ->orderBy('objective_letter', 'ASC')
@@ -51,6 +53,13 @@ class ProvincialPlanningOfficerController extends Controller
             ->get();
 
         if (count($opcrs_active) != 0) {
+
+            // SCORECARD
+            $scorecard = ScoreCard::where('opcr_ID', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', $user->province_ID)->first();
+
+            // dd($scorecard);
+
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)
@@ -58,6 +67,7 @@ class ProvincialPlanningOfficerController extends Controller
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
         } else {
             $annual_targets = null;
+            $scorecard = null;
         }
 
         // dd($annual_targets);
@@ -293,6 +303,8 @@ class ProvincialPlanningOfficerController extends Controller
                 'rating' => $pgsratingtext,
                 'monthly_valid' => $valid_meas,
             ];
+
+            // dd($pgs);
         } else {
             $monthly_targets2 = [];
             $pgs = [];
@@ -397,10 +409,28 @@ class ProvincialPlanningOfficerController extends Controller
                 }
                 
             }
-        }
-        // dd($monthly_targets2);
+            if($monthly_target2->first()->type == 'PERCENTAGE'){
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
+                $monthly_target2->total_targets = $monthly_target2->total_targets/12;
+            $monthly_target2->first_sem = $monthly_target2->first_sem/6;
+            $monthly_target2->second_sem = $monthly_target2->second_sem/6;
+            $monthly_target2->first_qrtr = $monthly_target2->first_qrtr/3;
+            $monthly_target2->second_qrtr = $monthly_target2->third_qrtr/3;
+            $monthly_target2->third_qrtr = $monthly_target2->third_qrtr/3;
+            $monthly_target2->fourth_qrtr = $monthly_target2->fourth_qrtr/3;
+
+            $monthly_target2->total_accom =  $monthly_target2->total_accom/12;
+            $monthly_target2->first_sem_accom =  $monthly_target2->first_sem_accom/6;
+            $monthly_target2->second_sem_accom =  $monthly_target2->second_sem_accom/6;
+            $monthly_target2->first_qrtr_accom = $monthly_target2->first_qrtr_accom/3;
+            $monthly_target2->second_qrtr_accom = $monthly_target2->second_qrtr_accom/3;
+            $monthly_target2->third_qrtr_accom = $monthly_target2->third_qrtr_accom/3;
+            $monthly_target2->fourth_qrtr_accom = $monthly_target2->fourth_qrtr_accom/3;
+            }
+        }
+        // dd($provinces);
+
+        return view('ppo.dashboard', compact('objectives', 'scorecard', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     
     }
 

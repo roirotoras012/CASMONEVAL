@@ -4,7 +4,7 @@
 </iframe> --}}
 <div class="dti-banner">
     <!-- Hero 3 - Bootstrap Brain Component -->
-    <img src="{{ asset('images/logo.jpg') }}" class="logo-banner">
+    {{-- <img src="{{ asset('images/logo.jpg') }}" class="logo-banner">
     <section class="bg-light py-5 py-xl-8 bsb-body dti-header">
         <div class="container overflow-hidden">
             <div class="row gy-5 gy-lg-0 align-items-lg-center justify-content-lg-between">
@@ -16,7 +16,6 @@
                         and programs intended to support the Philippine economy’s growth and development.</p>
                     <div class="d-grid gap-2 d-sm-flex">
                         <a target="_blank" href="https://www.dti.gov.ph/" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Learn More</a>
-                        {{-- <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button> --}}
 
                     </div>
                 </div>
@@ -25,11 +24,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
 
 </div>
-<h2 class="text-center p-5">DTI Mission and Vission</h2>
+<h2 class="text-center p-5">Department of Trading Industry Mission and Vision</h2>
 
 <div class="dti-container d-flex">
     <div class="dti-mission col-md-6">

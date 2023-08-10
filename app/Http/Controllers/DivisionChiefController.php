@@ -23,16 +23,500 @@ use App\Models\User;
 
 class DivisionChiefController extends Controller
 {
+
     public function index()
     {
-        $divisionID = auth()->user()->division_ID;
-        $provinceID = auth()->user()->province_ID;
-        $annualTargetNumber = AnnualTarget::where('division_ID', $divisionID)
-            ->where('province_ID', $provinceID)
-            ->count();
-        // $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
-        return view('dc.dashboard', ['division_ID' => $divisionID, 'annual_target_number' => $annualTargetNumber]);
+        $valid_meas2 = [];
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+            ->get();
+        $provinces = Province::select('province_ID', 'province')
+            ->orderBy('province_ID')
+            ->get();
+
+        $driversact = Driver::join('divisions', 'divisions.division_ID', '=', 'drivers.division_ID')->get(['drivers.*', 'divisions.division']);
+        $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+            ->select('strategic_measures.*', 'divisions.division')
+            ->get();
+        $user = Auth::user();
+        $measures_list = StrategicMeasure::where('division_ID', $user->division_ID)
+            ->get()
+            ->groupBy(['strategic_measure_ID']);
+
+        if (count($opcrs_active) != 0) {
+            for ($i = 0; $i < 2; $i++) {
+                foreach ($measures_list as $measure_list) {
+                    $sumTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $sumAccom = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                    $months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+                    $annual_target = null;
+                    if (isset($measure_list->first()->sum_of)) {
+                        $annual_target = AnnualTarget::where('province_ID', $user->province_ID)
+                            ->where('division_ID', $user->division_ID)
+                            ->where('strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                            ->where('opcr_ID', $opcrs_active->first()->opcr_ID)
+                            ->first(); // Use first() instead of get()->first()
+
+                        if (isset($annual_target)) {
+                            // Check if $annual_target is not null
+                            $measures_exploded = explode(',', $measure_list->first()->sum_of);
+
+                            foreach ($months as $monthIndex => $month) {
+                                foreach ($measures_exploded as $exploded_measure) {
+                                    $monthlyTargetforSum = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                        ->where('annual_targets.strategic_measures_ID', $exploded_measure)
+                                        ->where('month', $month)
+                                        ->where('annual_targets.province_ID', $user->province_ID)
+                                        ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                        ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                        ->select('monthly_targets.*')
+                                        ->first(); // Use first() instead of get()->first()
+
+                                    if (isset($monthlyTargetforSum)) {
+                                        $sumAccom[$monthIndex] += $monthlyTargetforSum->monthly_accomplishment;
+                                    }
+                                }
+
+                                $monthly_target_parent = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+                                    ->where('annual_targets.strategic_measures_ID', $measure_list->first()->strategic_measure_ID)
+                                    ->where('annual_targets.annual_target_ID', $annual_target->annual_target_ID)
+                                    ->where('month', $month)
+                                    ->where('monthly_targets.division_ID', $measure_list->first()->division_ID)
+                                    ->where('annual_targets.opcr_ID', $opcrs_active->first()->opcr_ID)
+                                    ->select('monthly_targets.*')
+                                    ->first(); // Use first() instead of get()->first()
+
+                                if ($sumAccom[$monthIndex] > 0 && isset($monthly_target_parent)) {
+                                    // Check if $monthly_target_parent is not null
+                                    if ($monthly_target_parent->monthly_accomplishment != $sumAccom[$monthIndex]) {
+                                        $monthly_target_parent->monthly_accomplishment = $sumAccom[$monthIndex];
+                                        $monthly_target_parent->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (count($opcrs_active) != 0) {
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+        } else {
+            $annual_targets = null;
+        }
+
+        $total_number_of_valid_measures = collect();
+        if (count($opcrs_active) > 0) {
+            //pgs rating
+
+            $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+                ->where('annual_targets.province_ID', $user->province_ID)
+                ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+                ->where('annual_targets.division_ID', $user->division_ID)
+                ->where(function ($query) {
+                    $query
+                        ->where('strategic_measures.type', '=', 'DIRECT')
+                        ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
+                        ->orWhere('strategic_measures.type', '=', 'DIRECT COMMON')
+                        ->orWhere('strategic_measures.type', '=', 'MANDATORY')
+                        ->orWhere('strategic_measures.type', '=', 'INDIRECT');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
+                ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+                ->having('total_accomplishment', '<>', 0)
+                ->get();
+            // dd($total_number_of_valid_measures);
+            $total_number_of_accomplished_measure = 0;
+            foreach ($total_number_of_valid_measures as $acc_meas) {
+                if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 >= 90) {
+                    $total_number_of_accomplished_measure++;
+                }
+            }
+
+            $pgsratingtext = '';
+            $rating_bg_color = '';
+            $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+                ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
+                ->select('numeric')
+                ->first();
+
+            if ($pgsrating !== null) {
+                if ($pgsrating->numeric == 5.0) {
+                    $pgsratingtext = 'Outstanding';
+                    $rating_bg_color = '#92d050';
+                } elseif ($pgsrating->numeric >= 4.5) {
+                    $pgsratingtext = 'Very Satisfactory';
+                    $rating_bg_color = '#ffff00';
+                } elseif ($pgsrating->numeric >= 3.25) {
+                    $pgsratingtext = 'Satisfactory';
+                    $rating_bg_color = '#9bc2e6';
+                } elseif ($pgsrating->numeric >= 2.5) {
+                    $pgsratingtext = 'Below Satisfactory';
+                    $rating_bg_color = '#ffa7d3';
+                } elseif ($pgsrating->numeric < 2.5) {
+                    $pgsratingtext = 'Poor';
+                    $rating_bg_color = '#ff0000';
+                }
+            }
+            $valid_meas2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+                ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+                ->where(function ($query) {
+                    $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+                })
+                ->where('annual_targets.province_ID', $user->province_ID)
+                ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+                ->where('annual_targets.division_ID', $user->division_ID)
+                ->where('monthly_targets.monthly_target', '!=', null || 0)
+
+                ->get();
+            foreach ($total_number_of_valid_measures2 as $item) {
+                if ($item->month == 'jan') {
+                    $valid_meas2[0]++;
+                }
+                if ($item->month == 'feb') {
+                    $valid_meas2[1]++;
+                }
+                if ($item->month == 'mar') {
+                    $valid_meas2[2]++;
+                }
+                if ($item->month == 'apr') {
+                    $valid_meas2[3]++;
+                }
+                if ($item->month == 'may') {
+                    $valid_meas2[4]++;
+                }
+                if ($item->month == 'jun') {
+                    $valid_meas2[5]++;
+                }
+                if ($item->month == 'jul') {
+                    $valid_meas2[6]++;
+                }
+                if ($item->month == 'aug') {
+                    $valid_meas2[7]++;
+                }
+                if ($item->month == 'sep') {
+                    $valid_meas2[8]++;
+                }
+                if ($item->month == 'oct') {
+                    $valid_meas2[9]++;
+                }
+                if ($item->month == 'nov') {
+                    $valid_meas2[10]++;
+                }
+                if ($item->month == 'dec') {
+                    $valid_meas2[11]++;
+                }
+            }
+            // dd($valid_meas2);
+            // PGS array
+            $pgs = [
+                'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
+                'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
+                'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
+                'rating' => $pgsratingtext,
+                'rating_bg_color' => $rating_bg_color,
+            ];
+        } else {
+            $monthly_targets2 = [];
+            $pgs = [];
+        }
+
+        $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+
+            ->get()
+            ->groupBy('actual_num_of_accomplished_measure');
+        // dd($pgsrating2);
+        // dd($measures);
+        // $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+        //     ->get(['monthly_targets.*', 'annual_targets.*'])
+        //     ->groupBy(['month', 'annual_target_ID']);
+
+        $monthly_targets = MonthlyTarget::with('evaluations')
+            ->leftjoin('evaluations', 'evaluations.monthly_target_ID', '=', 'monthly_targets.monthly_target_ID')
+            ->join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
+            ->get(['monthly_targets.*', 'annual_targets.*', 'evaluations.remark'])
+            ->groupBy(['month', 'annual_target_ID']);
+
+        // dd($monthly_targets);
+
+        $notification = null;
+        if (count($opcrs_active) > 0) {
+            $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+                ->where('division_ID', '=', $user->division_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get();
+        }
+
+        $evaluations = Evaluation::all();
+
+        $remarks = [];
+
+        foreach ($evaluations as $evaluation) {
+            $remark = $evaluation->remark;
+            $remarks[] = $remark;
+        }
+        // dd($evaluations);
+
+        $cutoff = [];
+
+        if (count($opcrs_active) != 0) {
+            $newStatus = substr($opcrs_active[0]->cutoff_status, 0, 1);
+
+            if (substr($opcrs_active[0]->cutoff_status, 0, 1) == '1') {
+                $cutoff[0] = true;
+            } else {
+                $cutoff[0] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 1, 1) == '1') {
+                $cutoff[1] = true;
+            } else {
+                $cutoff[1] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 2, 1) == '1') {
+                $cutoff[2] = true;
+            } else {
+                $cutoff[2] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 3, 1) == '1') {
+                $cutoff[3] = true;
+            } else {
+                $cutoff[3] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 4, 1) == '1') {
+                $cutoff[4] = true;
+            } else {
+                $cutoff[4] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 5, 1) == '1') {
+                $cutoff[5] = true;
+            } else {
+                $cutoff[5] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 6, 1) == '1') {
+                $cutoff[6] = true;
+            } else {
+                $cutoff[6] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 7, 1) == '1') {
+                $cutoff[7] = true;
+            } else {
+                $cutoff[7] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 8, 1) == '1') {
+                $cutoff[8] = true;
+            } else {
+                $cutoff[8] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 9, 1) == '1') {
+                $cutoff[9] = true;
+            } else {
+                $cutoff[9] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 10, 1) == '1') {
+                $cutoff[10] = true;
+            } else {
+                $cutoff[10] = false;
+            }
+
+            if (substr($opcrs_active[0]->cutoff_status, 11, 1) == '1') {
+                $cutoff[11] = true;
+            } else {
+                $cutoff[11] = false;
+            }
+
+            // dd($cutoff);
+        }
+
+        return view('dc.dashboard', compact('measures', 'evaluations', 'remarks', 'cutoff', 'provinces', 'annual_targets', 'driversact', 'monthly_targets', 'user', 'measures_list', 'notification', 'opcrs_active', 'pgsrating2', 'pgs', 'valid_meas2'));
     }
+
+    // public function index()
+    // {
+    //     $divisionID = auth()->user()->division_ID;
+    //     $provinceID = auth()->user()->province_ID;
+    //     $annualTargetNumber = AnnualTarget::where('division_ID', $divisionID)
+    //         ->where('province_ID', $provinceID)
+    //         ->count();
+    //     // $annualTarget = AnnualTarget::find($validatedData['annual_target_ID']);
+
+    //     $valid_meas2 = [];
+
+    //     $opcrs_active = Opcr::where('is_active', 1)
+    //         ->where('is_submitted', 1)
+    //         ->where('is_submitted_division', 1)
+    //         ->get();
+       
+    //     if (count($opcrs_active) != 0) {
+    //         $annual_targets = DB::table('annual_targets')
+    //             ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+    //             ->where('province_ID', '=', $provinceID)
+    //             ->get()
+    //             ->groupBy(['strategic_measures_ID', 'province_ID']);
+              
+    //     } else {
+    //         $annual_targets = null;
+    //     }
+        
+
+       
+    //     $total_number_of_valid_measures = collect();
+     
+    //     if (count($opcrs_active) > 0) {
+    //         //pgs rating
+
+    //         $total_number_of_valid_measures = AnnualTarget::join('strategic_measures', 'annual_targets.strategic_measures_ID', '=', 'strategic_measures.strategic_measure_ID')
+    //             ->where('annual_targets.province_ID', $provinceID)
+    //             ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+    //             ->where('annual_targets.division_ID', $divisionID)
+    //             ->where(function ($query) {
+    //                 $query
+    //                     ->where('strategic_measures.type', '=', 'DIRECT')
+    //                     ->orWhere('strategic_measures.type', '=', 'DIRECT MAIN')
+    //                     ->orWhere('strategic_measures.type', '=', 'DIRECT COMMON')
+    //                     ->orWhere('strategic_measures.type', '=', 'MANDATORY')
+    //                     ->orWhere('strategic_measures.type', '=', 'INDIRECT');
+    //             })
+    //             ->where(function ($query) {
+    //                 $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+    //             })
+    //             ->select('annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID) AS total_accomplishment'))
+    //             ->having('total_accomplishment', '<>', 0)
+    //             ->get();
+    //         // dd($total_number_of_valid_measures);
+    //         $total_number_of_accomplished_measure = 0;
+    //         foreach ($total_number_of_valid_measures as $acc_meas) {
+    //             if (($acc_meas->total_accomplishment / $acc_meas->annual_target) * 100 >= 90) {
+    //                 $total_number_of_accomplished_measure++;
+    //             }
+    //         }
+
+    //         $pgsratingtext = '';
+    //         $rating_bg_color = '';
+    //         $pgsrating = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+    //             ->where('actual_num_of_accomplished_measure', $total_number_of_accomplished_measure)
+    //             ->select('numeric')
+    //             ->first();
+
+    //         if ($pgsrating !== null) {
+    //             if ($pgsrating->numeric == 5.0) {
+    //                 $pgsratingtext = 'Outstanding';
+    //                 $rating_bg_color = '#92d050';
+    //             } elseif ($pgsrating->numeric >= 4.5) {
+    //                 $pgsratingtext = 'Very Satisfactory';
+    //                 $rating_bg_color = '#ffff00';
+    //             } elseif ($pgsrating->numeric >= 3.25) {
+    //                 $pgsratingtext = 'Satisfactory';
+    //                 $rating_bg_color = '#9bc2e6';
+    //             } elseif ($pgsrating->numeric >= 2.5) {
+    //                 $pgsratingtext = 'Below Satisfactory';
+    //                 $rating_bg_color = '#ffa7d3';
+    //             } elseif ($pgsrating->numeric < 2.5) {
+    //                 $pgsratingtext = 'Poor';
+    //                 $rating_bg_color = '#ff0000';
+    //             }
+    //         }
+    //         $valid_meas2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    //         $total_number_of_valid_measures2 = MonthlyTarget::join('annual_targets', 'monthly_targets.annual_target_ID', '=', 'annual_targets.annual_target_ID')
+    //             ->join('strategic_measures', 'strategic_measures.strategic_measure_ID', '=', 'annual_targets.strategic_measures_ID')
+    //             ->where(function ($query) {
+    //                 $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
+    //             })
+    //             ->where('annual_targets.province_ID', $provinceID)
+    //             ->where('annual_targets.opcr_ID', $opcrs_active[0]['opcr_ID'])
+    //             ->where('annual_targets.division_ID', $divisionID)
+    //             ->where('monthly_targets.monthly_target', '!=', null || 0)
+
+    //             ->get();
+    //         foreach ($total_number_of_valid_measures2 as $item) {
+    //             if ($item->month == 'jan') {
+    //                 $valid_meas2[0]++;
+    //             }
+    //             if ($item->month == 'feb') {
+    //                 $valid_meas2[1]++;
+    //             }
+    //             if ($item->month == 'mar') {
+    //                 $valid_meas2[2]++;
+    //             }
+    //             if ($item->month == 'apr') {
+    //                 $valid_meas2[3]++;
+    //             }
+    //             if ($item->month == 'may') {
+    //                 $valid_meas2[4]++;
+    //             }
+    //             if ($item->month == 'jun') {
+    //                 $valid_meas2[5]++;
+    //             }
+    //             if ($item->month == 'jul') {
+    //                 $valid_meas2[6]++;
+    //             }
+    //             if ($item->month == 'aug') {
+    //                 $valid_meas2[7]++;
+    //             }
+    //             if ($item->month == 'sep') {
+    //                 $valid_meas2[8]++;
+    //             }
+    //             if ($item->month == 'oct') {
+    //                 $valid_meas2[9]++;
+    //             }
+    //             if ($item->month == 'nov') {
+    //                 $valid_meas2[10]++;
+    //             }
+    //             if ($item->month == 'dec') {
+    //                 $valid_meas2[11]++;
+    //             }
+    //         }
+    //         // dd($valid_meas2);
+    //         // PGS array
+    //         $pgs = [
+    //             'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
+    //             'total_number_of_accomplished_measure' => $total_number_of_accomplished_measure,
+    //             'numerical_rating' => $pgsrating !== null ? $pgsrating->numeric : null,
+    //             'rating' => $pgsratingtext,
+    //             'rating_bg_color' => $rating_bg_color,
+    //         ];
+    //     } else {
+    //         $monthly_targets2 = [];
+    //         $pgs = [];
+    //     }
+
+    //     $pgsrating2 = Pgs::where('total_num_of_targeted_measure', $total_number_of_valid_measures->count())
+
+    //         ->get()
+    //         ->groupBy('actual_num_of_accomplished_measure');
+
+
+
+
+
+    //     return view('dc.dashboard', [
+    //     'division_ID' => $divisionID, 
+    //     'annual_target_number' => $annualTargetNumber, 
+    //     'valid_meas2' => $valid_meas2,
+    //     'pgsrating2' => $pgsrating2,
+    //     'pgs' => $pgs
+    //     ]);
+
+        
+    // }
 
     public function getNotifications(Request $request)
     {
