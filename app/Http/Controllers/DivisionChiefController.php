@@ -1783,7 +1783,7 @@ class DivisionChiefController extends Controller
 
             return redirect()->back();
         } else {
-            Alert::error('Bawal ka! Che!');
+            Alert::error('You are not allowed!');
             return redirect()->back();
         }
     }

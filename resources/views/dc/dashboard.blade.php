@@ -8,7 +8,8 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div> --}}
         <div class="container-fluid">
-            <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Division Chief Dashboard
+      
+            {{-- <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">Division Chief Dashboard
             </div>
             <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                 {{ $userDetails->first_name }} -
@@ -28,7 +29,7 @@
                     3 => 'Finance Administrative Division',
                     default => 'other',
                 } }}
-            </div>
+            </div> --}}
             {{-- <div  class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">
                 Welcome, {{ $userDetails->first_name . ' ' . $userDetails->last_name }} !
 
@@ -43,151 +44,151 @@
         </div>
         <div class="container-fluid">
             @if (!empty($opcrs_active) && count($opcrs_active) > 0)
-            <table class="table table-bordered shadow d-none" id="table">
-                
-                <thead>
-                    <tr>
-                        <th colspan="2" rowspan="2" class="text-center align-middle bg-primary text-white">
-                            Operational Driver</th>
-                        <th rowspan="2" class="text-center align-middle bg-primary text-white">#</th>
-                        <th rowspan="2" class="text-center align-middle bg-primary text-white">KPI</th>
-                        <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
-                        <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">
-                            {{ $opcrs_active[0]->year }}</th>
-                        <th colspan="12" class="text-center align-middle bg-primary text-white">Month
-                            Accomplishment
-                        </th>
-                    </tr>
-                    <tr>
-                        <th class="text-center align-middle bg-danger text-white">
-                            {{ match ($userDetails->province_ID) {
-                                1 => 'Bukidnon ',
-                                2 => 'Lanao Del Norte',
-                                3 => 'Misamis Oriental',
-                                4 => 'Misamis Occidental',
-                                5 => 'Camiguin',
-                                default => 'other',
-                            } }}
-                        </th>
-                        {{-- loop for the months of the year header part --}}
-                        @for ($i = 1; $i <= 12; $i++)
-                            <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
-                            <th class="text-center align-middle">{{ $month->format('M') }}</th>
-                        @endfor
-                        {{-- end of loop for the months of the year header part --}}
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $driver_letter = 65;
-                        $a = 0;
-                        
-                        $valid90[0] = 0;
-                        $valid90[1] = 0;
-                        
-                        $valid90[2] = 0;
-                        $valid90[3] = 0;
-                        $valid90[4] = 0;
-                        $valid90[5] = 0;
-                        $valid90[6] = 0;
-                        $valid90[7] = 0;
-                        $valid90[8] = 0;
-                        $valid90[9] = 0;
-                        $valid90[10] = 0;
-                        $valid90[11] = 0;
-                    @endphp
+                <table class="table table-bordered shadow d-none" id="table">
 
-                    {{-- {{dd($driversact)}} --}}
-                    @foreach ($driversact as $key => $driver)
+                    <thead>
+                        <tr>
+                            <th colspan="2" rowspan="2" class="text-center align-middle bg-primary text-white">
+                                Operational Driver</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">#</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">KPI</th>
+                            <th rowspan="2" class="text-center align-middle bg-primary text-white">Div</th>
+                            <th colspan="1" class="text-center align-middle bg-primary text-white bg-warning">
+                                {{ $opcrs_active[0]->year }}</th>
+                            <th colspan="12" class="text-center align-middle bg-primary text-white">Month
+                                Accomplishment
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-center align-middle bg-danger text-white">
+                                {{ match ($userDetails->province_ID) {
+                                    1 => 'Bukidnon ',
+                                    2 => 'Lanao Del Norte',
+                                    3 => 'Misamis Oriental',
+                                    4 => 'Misamis Occidental',
+                                    5 => 'Camiguin',
+                                    default => 'other',
+                                } }}
+                            </th>
+                            {{-- loop for the months of the year header part --}}
+                            @for ($i = 1; $i <= 12; $i++)
+                                <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
+                                <th class="text-center align-middle">{{ $month->format('M') }}</th>
+                            @endfor
+                            {{-- end of loop for the months of the year header part --}}
+                        </tr>
+                    </thead>
+                    <tbody>
                         @php
-                            $divisionName = match ($userDetails->division_ID) {
-                                1 => 'Business Development Division',
-                                2 => 'Consumer Protection Division',
-                                3 => 'Finance Administrative Division',
-                                default => 'other',
-                            };
+                            $driver_letter = 65;
+                            $a = 0;
                             
-                            $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
+                            $valid90[0] = 0;
+                            $valid90[1] = 0;
                             
-                            $measure_count = $measures->count();
-                            $has_province = false;
-                            $annual_count = 0;
-                            foreach ($measures as $measure_key) {
-                                # code...
-                                if ($measure_key->province_ID == $user->province_ID) {
-                                    $has_province = true;
-                                    $annual_count++;
-                                }
-                            }
+                            $valid90[2] = 0;
+                            $valid90[3] = 0;
+                            $valid90[4] = 0;
+                            $valid90[5] = 0;
+                            $valid90[6] = 0;
+                            $valid90[7] = 0;
+                            $valid90[8] = 0;
+                            $valid90[9] = 0;
+                            $valid90[10] = 0;
+                            $valid90[11] = 0;
                         @endphp
 
-                        @if ($measure_count > 0 && $has_province)
-                            <tr>
-                                <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
-                                    {{ chr($driver_letter) }}</td>
-                                @php
-                                    $driver_letter++;
-                                    $i++;
-                                @endphp
-                                <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
-                                    {{ $driver->driver }}</td>
-                            </tr>
-                            {{-- {{dd($measures)}} --}}
-                            @foreach ($measures as $measure)
-                                @if ($measure->province_ID == $user->province_ID)
+                        {{-- {{dd($driversact)}} --}}
+                        @foreach ($driversact as $key => $driver)
+                            @php
+                                $divisionName = match ($userDetails->division_ID) {
+                                    1 => 'Business Development Division',
+                                    2 => 'Consumer Protection Division',
+                                    3 => 'Finance Administrative Division',
+                                    default => 'other',
+                                };
+                                
+                                $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
+                                
+                                $measure_count = $measures->count();
+                                $has_province = false;
+                                $annual_count = 0;
+                                foreach ($measures as $measure_key) {
+                                    # code...
+                                    if ($measure_key->province_ID == $user->province_ID) {
+                                        $has_province = true;
+                                        $annual_count++;
+                                    }
+                                }
+                            @endphp
+
+                            @if ($measure_count > 0 && $has_province)
+                                <tr>
+                                    <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
+                                        {{ chr($driver_letter) }}</td>
                                     @php
-                                        
-                                        $a++;
+                                        $driver_letter++;
+                                        $i++;
                                     @endphp
-                                    <tr>
-                                        {{-- {{dd($measures)}} --}}
-                                        <td class="text-center align-middle">
-                                            {{ $a }}
-                                        </td>
-                                        <td class="text-center align-middle">
-                                            {{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}
-                                        </td>
-                                        <td class="text-center align-middle">{{ $measure->division->division }}
-                                        </td>
+                                    <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
+                                        {{ $driver->driver }}</td>
+                                </tr>
+                                {{-- {{dd($measures)}} --}}
+                                @foreach ($measures as $measure)
+                                    @if ($measure->province_ID == $user->province_ID)
+                                        @php
+                                            
+                                            $a++;
+                                        @endphp
+                                        <tr>
+                                            {{-- {{dd($measures)}} --}}
+                                            <td class="text-center align-middle">
+                                                {{ $a }}
+                                            </td>
+                                            <td class="text-center align-middle">
+                                                {{ $measures_list[$measure->strategic_measures_ID]->first()->strategic_measure }}
+                                            </td>
+                                            <td class="text-center align-middle">{{ $measure->division->division }}
+                                            </td>
 
-                                        @foreach ($provinces as $province)
-                                            @php
-                                                $provinceName = match ($userDetails->province_ID) {
-                                                    1 => 'Bukidnon',
-                                                    2 => 'Lanao Del Norte',
-                                                    3 => 'Misamis Oriental',
-                                                    4 => 'Misamis Occidental',
-                                                    5 => 'Camiguin',
-                                                    default => 'Other',
-                                                };
-                                            @endphp
+                                            @foreach ($provinces as $province)
+                                                @php
+                                                    $provinceName = match ($userDetails->province_ID) {
+                                                        1 => 'Bukidnon',
+                                                        2 => 'Lanao Del Norte',
+                                                        3 => 'Misamis Oriental',
+                                                        4 => 'Misamis Occidental',
+                                                        5 => 'Camiguin',
+                                                        default => 'Other',
+                                                    };
+                                                @endphp
 
-                                            @if ($province->province == $provinceName)
-                                                <td class="text-center align-middle">
-                                                    @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
-                                                        <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
-                                                            @if ($annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->type == 'PERCENTAGE')
-                                                                %
-                                                            @endif
-                                                        </p>
-                                                    @else
-                                                        <p>N/A</p>
-                                                    @endif
-                                                </td>
-                                                {{-- loop for the months of the year monthly target area --}}
-                                                @for ($i = 1; $i <= 12; $i++)
-                                                    <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
+                                                @if ($province->province == $provinceName)
+                                                    <td class="text-center align-middle">
+                                                        @if (isset($annual_targets[$measure->strategic_measures_ID][$province->province_ID]))
+                                                            <p>{{ $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target }}
+                                                                @if ($annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->type == 'PERCENTAGE')
+                                                                    %
+                                                                @endif
+                                                            </p>
+                                                        @else
+                                                            <p>N/A</p>
+                                                        @endif
+                                                    </td>
+                                                    {{-- loop for the months of the year monthly target area --}}
+                                                    @for ($i = 1; $i <= 12; $i++)
+                                                        <?php $month = Carbon\Carbon::createFromDate(null, $i, 1); ?>
 
-                                                    @if (isset(
-                                                            $monthly_targets[strtolower($month->format('M'))][
-                                                                $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                            ]))
                                                         @if (isset(
                                                                 $monthly_targets[strtolower($month->format('M'))][
                                                                     $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                ]->first()->monthly_accomplishment))
-                                                            {{-- {{ dd($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->validated == 'Invalid') }} --}}
-                                                            {{-- <td class="text-center align-middle">
+                                                                ]))
+                                                            @if (isset(
+                                                                    $monthly_targets[strtolower($month->format('M'))][
+                                                                        $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                    ]->first()->monthly_accomplishment))
+                                                                {{-- {{ dd($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->validated == 'Invalid') }} --}}
+                                                                {{-- <td class="text-center align-middle">
 
                                                         {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
                                                    
@@ -195,43 +196,117 @@
 
 
 
-                                                            {{-- @else --}}
-                                                            @php
-                                                                $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment;
-                                                                $monthly_target = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target;
-                                                                //    dd($measures_list);
-                                                                if ($monthly_target != 0 && $measures_list[$measure->strategic_measures_ID]->first()->is_sub != 1) {
-                                                                    $ratio = ($monthly_accomplishment / $monthly_target) * 100;
-                                                                
-                                                                    if ($ratio >= 90) {
-                                                                        $valid90[$i - 1]++;
-                                                                        # code...
+                                                                {{-- @else --}}
+                                                                @php
+                                                                    $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment;
+                                                                    $monthly_target = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target;
+                                                                    //    dd($measures_list);
+                                                                    if ($monthly_target != 0 && $measures_list[$measure->strategic_measures_ID]->first()->is_sub != 1) {
+                                                                        $ratio = ($monthly_accomplishment / $monthly_target) * 100;
+                                                                    
+                                                                        if ($ratio >= 90) {
+                                                                            $valid90[$i - 1]++;
+                                                                            # code...
+                                                                        }
+                                                                    } else {
+                                                                        // handle the case where monthly_target is zero
                                                                     }
-                                                                } else {
-                                                                    // handle the case where monthly_target is zero
-                                                                }
-                                                                
-                                                            @endphp
-                                                            {{-- {{dd($monthly_targets[strtolower($month->format('M'))][
+                                                                    
+                                                                @endphp
+                                                                {{-- {{dd($monthly_targets[strtolower($month->format('M'))][
                                                                 $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
                                                             ]->first())}} --}}
-                                                            @if (!$cutoff[$i - 1])
-                                                                <td class="text-center align-middle">
-                                                                    {{-- {{$remarks}} --}}
-                                                                    @if (
-                                                                        ($monthly_targets[strtolower($month->format('M'))][
-                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                        ]->first()->validated == 'Invalid' ||
-                                                                            $monthly_targets[strtolower($month->format('M'))][
+                                                                @if (!$cutoff[$i - 1])
+                                                                    <td class="text-center align-middle">
+                                                                        {{-- {{$remarks}} --}}
+                                                                        @if (
+                                                                            ($monthly_targets[strtolower($month->format('M'))][
                                                                                 $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                            ]->first()->remark == 'Revise') &&
-                                                                            !isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
-                                                                        <a href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                            id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                            class="text-danger">
-                                                                            {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                        </a>
+                                                                            ]->first()->validated == 'Invalid' ||
+                                                                                $monthly_targets[strtolower($month->format('M'))][
+                                                                                    $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                                ]->first()->remark == 'Revise') &&
+                                                                                !isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                class="text-danger">
+                                                                                {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                            </a>
+                                                                            <span>out of
+                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                    @if (
+                                                                                        $monthly_targets[strtolower($month->format('M'))][
+                                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                                        ]->first()->type == 'PERCENTAGE')
+                                                                                        %
+                                                                                    @endif
+                                                                                </b></span>
+
+                                                                            <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
+                                                                                :division_ID="$userDetails->division_ID" :year="202"
+                                                                                :monthly_target="$monthly_targets[
+                                                                                    strtolower($month->format('M'))
+                                                                                ][
+                                                                                    $annual_targets[
+                                                                                        $measure->strategic_measures_ID
+                                                                                    ][$province->province_ID]->first()
+                                                                                        ->annual_target_ID
+                                                                                ]->first()->monthly_target_ID" :strategic_measure="$measures_list[
+                                                                                    $measure->strategic_measures_ID
+                                                                                ]->first()->strategic_measure" />
+                                                                        @else
+                                                                            <span
+                                                                                style="<?php if ($monthly_accomplishment < ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target * 0.9)) { ?> color: red; <?php } ?>">
+                                                                                {{ $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                                <span>out of
+                                                                                    <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                        @if (
+                                                                                            $monthly_targets[strtolower($month->format('M'))][
+                                                                                                $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                                            ]->first()->type == 'PERCENTAGE')
+                                                                                            %
+                                                                                        @endif
+                                                                                    </b>
+                                                                                </span>
+                                                                            </span>
+
+                                                                            </span>
+
+                                                                            </span>
+                                                                        @endif
+                                                                    </td>
+                                                                @else
+                                                                    <td
+                                                                        class="text-center align-middle bg-danger text-white">
+                                                                        {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
+                                                                        <span>out of
+                                                                            <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
+                                                                                @if (
+                                                                                    $monthly_targets[strtolower($month->format('M'))][
+                                                                                        $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
+                                                                                    ]->first()->type == 'PERCENTAGE')
+                                                                                    %
+                                                                                @endif
+                                                                            </b>
+                                                                        </span>
+                                                                    </td>
+                                                                @endif
+                                                            @else
+                                                                @if (!$cutoff[$i - 1])
+                                                                    <td class="text-center align-middle">
+
+                                                                        @if (!isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
+                                                                            <a href="#" data-bs-toggle="modal"
+                                                                                data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
+                                                                                class="text-danger">
+                                                                                N/A
+                                                                            </a>
+                                                                        @else
+                                                                            N/A
+                                                                        @endif
+
                                                                         <span>out of
                                                                             <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
                                                                                 @if (
@@ -241,153 +316,83 @@
                                                                                     %
                                                                                 @endif
                                                                             </b></span>
+                                                                    </td>
+                                                                @else
+                                                                    <td
+                                                                        class="text-center align-middle bg-danger text-white">
+                                                                        N/A</td>
+                                                                @endif
 
-                                                                        <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
-                                                                            :division_ID="$userDetails->division_ID" :year="202"
-                                                                            :monthly_target="$monthly_targets[
-                                                                                strtolower($month->format('M'))
-                                                                            ][
-                                                                                $annual_targets[
-                                                                                    $measure->strategic_measures_ID
-                                                                                ][$province->province_ID]->first()
-                                                                                    ->annual_target_ID
-                                                                            ]->first()->monthly_target_ID" :strategic_measure="$measures_list[
-                                                                                $measure->strategic_measures_ID
-                                                                            ]->first()->strategic_measure" />
-                                                                    @else
-                                                                        <span
-                                                                            style="<?php if ($monthly_accomplishment < ($monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target * 0.9)) { ?> color: red; <?php } ?>">
-                                                                            {{ $monthly_accomplishment = $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                            <span>out of
-                                                                                <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
-                                                                                    @if (
-                                                                                        $monthly_targets[strtolower($month->format('M'))][
-                                                                                            $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                        ]->first()->type == 'PERCENTAGE')
-                                                                                        %
-                                                                                    @endif
-                                                                                </b>
-                                                                            </span>
-                                                                        </span>
-
-                                                                        </span>
-
-                                                                        </span>
-                                                                    @endif
-                                                                </td>
-                                                            @else
-                                                                <td class="text-center align-middle bg-danger text-white">
-                                                                    {{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_accomplishment }}
-                                                                    <span>out of
-                                                                        <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
-                                                                            @if (
-                                                                                $monthly_targets[strtolower($month->format('M'))][
-                                                                                    $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                ]->first()->type == 'PERCENTAGE')
-                                                                                %
-                                                                            @endif
-                                                                        </b>
-                                                                    </span>
-                                                                </td>
+                                                                <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
+                                                                    :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[
+                                                                        strtolower($month->format('M'))
+                                                                    ][
+                                                                        $annual_targets[
+                                                                            $measure->strategic_measures_ID
+                                                                        ][$province->province_ID]->first()
+                                                                            ->annual_target_ID
+                                                                    ]->first()->monthly_target_ID"
+                                                                    :strategic_measure="$measures_list[
+                                                                        $measure->strategic_measures_ID
+                                                                    ]->first()->strategic_measure" />
                                                             @endif
                                                         @else
                                                             @if (!$cutoff[$i - 1])
-                                                                <td class="text-center align-middle">
-
-                                                                    @if (!isset($measures_list[$measure->strategic_measures_ID]->first()->sum_of))
-                                                                        <a href="#" data-bs-toggle="modal"
-                                                                            data-bs-target="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                            id="#<?= strtolower($month->format('M')) . '_' . $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target_ID ?>"
-                                                                            class="text-danger">
-                                                                            N/A
-                                                                        </a>
-                                                                    @else
-                                                                        N/A
-                                                                    @endif
-
-                                                                    <span>out of
-                                                                        <b>{{ $monthly_targets[strtolower($month->format('M'))][$annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID]->first()->monthly_target }}
-                                                                            @if (
-                                                                                $monthly_targets[strtolower($month->format('M'))][
-                                                                                    $annual_targets[$measure->strategic_measures_ID][$province->province_ID]->first()->annual_target_ID
-                                                                                ]->first()->type == 'PERCENTAGE')
-                                                                                %
-                                                                            @endif
-                                                                        </b></span>
+                                                                <td class="text-center align-middle ">No Monthly Target Set
                                                                 </td>
                                                             @else
                                                                 <td class="text-center align-middle bg-danger text-white">
-                                                                    N/A</td>
+                                                                    N/A
+                                                                </td>
                                                             @endif
-
-                                                            <x-update_monthly_accom_modal :month="strtolower($month->format('M'))"
-                                                                :division_ID="$userDetails->division_ID" :year="202" :monthly_target="$monthly_targets[
-                                                                    strtolower($month->format('M'))
-                                                                ][
-                                                                    $annual_targets[$measure->strategic_measures_ID][
-                                                                        $province->province_ID
-                                                                    ]->first()->annual_target_ID
-                                                                ]->first()->monthly_target_ID"
-                                                                :strategic_measure="$measures_list[
-                                                                    $measure->strategic_measures_ID
-                                                                ]->first()->strategic_measure" />
                                                         @endif
-                                                    @else
-                                                        @if (!$cutoff[$i - 1])
-                                                            <td class="text-center align-middle ">No Monthly Target Set
-                                                            </td>
-                                                        @else
-                                                            <td class="text-center align-middle bg-danger text-white">N/A
-                                                            </td>
-                                                        @endif
-                                                    @endif
-                                                @endfor
-                                                {{-- end of loop for the months of the year monthly target area --}}
-                                            @endif
-                                        @endforeach
-                                    </tr>
-                                @endif
-                            @endforeach
-                        @endif
-                    @endforeach
-                    <tr>
+                                                    @endfor
+                                                    {{-- end of loop for the months of the year monthly target area --}}
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                        <tr>
 
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
 
 
-            <table style="width: 100%;" class="ratings_table table d-none table-bordered ppo-table-opcr">
-                <thead class="bg-primary text-white">
-                    <tr>
-                        <th class="text-center align-middle" colspan="999">Monthly Ratings</th>
-                    </tr>
-                    <tr>
-                        <th colspan="1" class="text-center align-middle" style="min-width: 150px"></th>
-                        <th colspan="2" class="text-center align-middle">January</th>
-                        <th colspan="2" class="text-center align-middle">February</th>
-                        <th colspan="2" class="text-center align-middle">March</th>
-                        <th colspan="2" class="text-center align-middle">April</th>
-                        <th colspan="2" class="text-center align-middle">May</th>
-                        <th colspan="2" class="text-center align-middle">June</th>
-                        <th colspan="2" class="text-center align-middle">July</th>
-                        <th colspan="2" class="text-center align-middle">August</th>
-                        <th colspan="2" class="text-center align-middle">September</th>
-                        <th colspan="2" class="text-center align-middle">October</th>
-                        <th colspan="2" class="text-center align-middle">November</th>
-                        <th colspan="2" class="text-center align-middle">December</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th class="text-left align-middle">
-                            Description</th>
+                <table style="width: 100%;" class="ratings_table table d-none table-bordered ppo-table-opcr">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th class="text-center align-middle" colspan="999">Monthly Ratings</th>
+                        </tr>
+                        <tr>
+                            <th colspan="1" class="text-center align-middle" style="min-width: 150px"></th>
+                            <th colspan="2" class="text-center align-middle">January</th>
+                            <th colspan="2" class="text-center align-middle">February</th>
+                            <th colspan="2" class="text-center align-middle">March</th>
+                            <th colspan="2" class="text-center align-middle">April</th>
+                            <th colspan="2" class="text-center align-middle">May</th>
+                            <th colspan="2" class="text-center align-middle">June</th>
+                            <th colspan="2" class="text-center align-middle">July</th>
+                            <th colspan="2" class="text-center align-middle">August</th>
+                            <th colspan="2" class="text-center align-middle">September</th>
+                            <th colspan="2" class="text-center align-middle">October</th>
+                            <th colspan="2" class="text-center align-middle">November</th>
+                            <th colspan="2" class="text-center align-middle">December</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-left align-middle">
+                                Description</th>
 
-                        @for ($i = 0; $i < 12; $i++)
-                            <th class="text-left align-middle">No.</th>
-                            <th class="text-left align-middle">Rate</th>
-                        @endfor
+                            @for ($i = 0; $i < 12; $i++)
+                                <th class="text-left align-middle">No.</th>
+                                <th class="text-left align-middle">Rate</th>
+                            @endfor
 
 
 
@@ -395,153 +400,157 @@
 
 
 
-                    </tr>
-                    <tr>
-                        <th>No. of valid measure</th>
-                        @for ($i = 0; $i < 12; $i++)
-                            <td class="text-left align-middle">
-                                {{ $valid_meas2[$i] }}</td>
-                            <td class="text-left align-middle"></td>
-                        @endfor
+                        </tr>
+                        <tr>
+                            <th>No. of valid measure</th>
+                            @for ($i = 0; $i < 12; $i++)
+                                <td class="text-left align-middle">
+                                    {{ $valid_meas2[$i] }}</td>
+                                <td class="text-left align-middle"></td>
+                            @endfor
 
 
 
 
-                    </tr>
+                        </tr>
 
-                    <tr>
-                        <th>No. of valid measure atleast 90%</th>
+                        <tr>
+                            <th>No. of valid measure atleast 90%</th>
 
-                        @for ($i = 0; $i < 12; $i++)
-                            <td class="text-left align-middle">{{ $valid90[$i] }}</td>
-                            <td class="text-left align-middle"></td>
-                        @endfor
-
-
+                            @for ($i = 0; $i < 12; $i++)
+                                <td class="text-left align-middle">{{ $valid90[$i] }}</td>
+                                <td class="text-left align-middle"></td>
+                            @endfor
 
 
 
-                    </tr>
-                    <tr>
-                        <th>OPCR rating </th>
-                        @for ($i = 0; $i < 12; $i++)
-                            @php
-                                $pgsratingtext = '';
-                                $pgsrating_month = null;
-                                $pgsrating_month = \App\Models\Pgs::where('total_num_of_targeted_measure', $valid_meas2[$i])
-                                
-                                    ->get()
-                                    ->groupBy('actual_num_of_accomplished_measure');
-                                if (count($pgsrating_month) !== 0 && $valid90[$i] !== 0) {
-                                    if ($pgsrating_month[$valid90[$i]]->first()->numeric == 5.0) {
-                                        $pgsratingtext = 'Outstanding';
-                                    } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 4.5) {
-                                        $pgsratingtext = 'Very Satisfactory';
-                                    } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 3.25) {
-                                        $pgsratingtext = 'Satisfactory';
-                                    } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 2.5) {
-                                        $pgsratingtext = 'Below Satisfactory';
-                                    } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric < 2.5) {
-                                        $pgsratingtext = 'Poor';
+
+
+                        </tr>
+                        <tr>
+                            <th>OPCR rating </th>
+                            @for ($i = 0; $i < 12; $i++)
+                                @php
+                                    $pgsratingtext = '';
+                                    $pgsrating_month = null;
+                                    $pgsrating_month = \App\Models\Pgs::where('total_num_of_targeted_measure', $valid_meas2[$i])
+                                    
+                                        ->get()
+                                        ->groupBy('actual_num_of_accomplished_measure');
+                                    if (count($pgsrating_month) !== 0 && $valid90[$i] !== 0) {
+                                        if ($pgsrating_month[$valid90[$i]]->first()->numeric == 5.0) {
+                                            $pgsratingtext = 'Outstanding';
+                                        } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 4.5) {
+                                            $pgsratingtext = 'Very Satisfactory';
+                                        } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 3.25) {
+                                            $pgsratingtext = 'Satisfactory';
+                                        } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric >= 2.5) {
+                                            $pgsratingtext = 'Below Satisfactory';
+                                        } elseif ($pgsrating_month[$valid90[$i]]->first()->numeric < 2.5) {
+                                            $pgsratingtext = 'Poor';
+                                        }
                                     }
-                                }
-                            @endphp
-                            <td class="text-left align-middle">
-                                {{ count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null }}
-                            </td>
-                            <td class="text-left align-middle">{{ $pgsratingtext }}</td>
-                        @endfor
+                                @endphp
+                                <td class="text-left align-middle">
+                                    {{ count($pgsrating2) !== 0 && $valid90[$i] !== 0 ? $pgsrating2[$valid90[$i]]->first()->numeric : null }}
+                                </td>
+                                <td class="text-left align-middle">{{ $pgsratingtext }}</td>
+                            @endfor
 
 
 
 
 
-                    </tr>
+                        </tr>
 
-                </tbody>
-            </table>
-           
-         
+                    </tbody>
+                </table>
 
-        @php
-                // Calculate OPCR ratings and store them in an array
-                $opcrRatings = [];
-                for ($i = 0; $i < 12; $i++) {
-                    $pgsrating_numeric = 0; // Initialize with a default value
-                    $pgsrating_month = \App\Models\Pgs::where('total_num_of_targeted_measure', $valid_meas2[$i])
-                        ->get()
-                        ->groupBy('actual_num_of_accomplished_measure');
-                    if (count($pgsrating_month) !== 0 && $valid90[$i] !== 0) {
-                        $pgsrating_numeric = $pgsrating_month[$valid90[$i]]->first()->numeric;
+
+
+                @php
+                    // Calculate OPCR ratings and store them in an array
+                    $opcrRatings = [];
+                    for ($i = 0; $i < 12; $i++) {
+                        $pgsrating_numeric = 0; // Initialize with a default value
+                        $pgsrating_month = \App\Models\Pgs::where('total_num_of_targeted_measure', $valid_meas2[$i])
+                            ->get()
+                            ->groupBy('actual_num_of_accomplished_measure');
+                        if (count($pgsrating_month) !== 0 && $valid90[$i] !== 0) {
+                            $pgsrating_numeric = $pgsrating_month[$valid90[$i]]->first()->numeric;
+                        }
+                        $opcrRatings[] = $pgsrating_numeric; // Add the numeric rating to the array
                     }
-                    $opcrRatings[] = $pgsrating_numeric; // Add the numeric rating to the array
-                }
-            @endphp
+                @endphp
+              
 
-            <div class="row">
-                <div class="col-sm-12 col-lg-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <canvas id="opcrLineChart"></canvas>
+                <div class="row mt-5">
+                   
+                    <div class="col-sm-12 col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <canvas id="opcrLineChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+                
             @else
-            <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
-        @endif
-        <x-dashboard-ppo-pd />
+                <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
+                
+            @endif
             
 
-         
+
+
         </div>
+        <x-dashboard-ppo-pd />
 
     </x-user-sidebar>
     @if (!empty($opcrRatings) && count($opcrRatings) > 0)
-    <script>
-        const ctxLine = document.getElementById('opcrLineChart').getContext('2d');
+        <script>
+            const ctxLine = document.getElementById('opcrLineChart').getContext('2d');
 
-        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'
-        ];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                'November', 'December'
+            ];
 
-        // Replace $opcrRatings with the actual variable name that holds your calculated OPCR ratings
-        const opcrRatings = {!! json_encode($opcrRatings) !!};
+            // Replace $opcrRatings with the actual variable name that holds your calculated OPCR ratings
+            const opcrRatings = {!! json_encode($opcrRatings) !!};
 
-        const dataLine = {
-            labels: months,
-            datasets: [{
-                label: 'Monthly Ratings',
-                data: opcrRatings,
-                fill: false,
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
-                pointRadius: 4,
-                pointHoverRadius: 6,
-                pointHitRadius: 8,
-                pointBorderWidth: 2,
-            }]
-        };
+            const dataLine = {
+                labels: months,
+                datasets: [{
+                    label: 'Monthly Ratings',
+                    data: opcrRatings,
+                    fill: false,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointHitRadius: 8,
+                    pointBorderWidth: 2,
+                }]
+            };
 
-        const optionsLine = {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1, // Adjust as needed
+            const optionsLine = {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1, // Adjust as needed
+                        }
                     }
                 }
-            }
-        };
+            };
 
-        new Chart(ctxLine, {
-            type: 'line',
-            data: dataLine,
-            options: optionsLine,
-        });
-    </script>
+            new Chart(ctxLine, {
+                type: 'line',
+                data: dataLine,
+                options: optionsLine,
+            });
+        </script>
     @else
     @endif
 

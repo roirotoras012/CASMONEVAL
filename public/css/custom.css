@@ -9,6 +9,10 @@
 
 }
 
+.dti-mission .card {
+    min-height: 350px !important;
+}
+
 div > * {
     cursor: pointer;
 }
@@ -34,9 +38,9 @@ div#app {
     right: 0;
     height: 100px;
 }
-.dti-banner {
+/* .dti-banner {
     position: relative;
-}
+} */
 .dti-header {
     height: 80vh;
     display: flex;

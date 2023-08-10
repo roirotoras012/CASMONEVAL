@@ -1050,7 +1050,7 @@
 
                 
             @else
-                <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
+                {{-- <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1> --}}
             @endif
 
 

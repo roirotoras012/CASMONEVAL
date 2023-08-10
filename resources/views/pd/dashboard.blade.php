@@ -8,7 +8,8 @@
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div> --}}
         <div class="container-fluid ">
-            <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">
+            @if (!empty($opcrs_active) && count($opcrs_active) > 0)
+            {{-- <div class="text-uppercase lead bg-success text-white p-2 rounded d-inline-block mb-5">
                 Provincial Director Dashboard
             </div>
             <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
@@ -20,7 +21,7 @@
                     5 => 'Camiguin',
                     default => 'other',
                 } }}
-            </div>
+            </div> --}}
 
             <table class="table table-bordered ppo-table-opcr shadow d-none" id="table">
                 <thead class="bg-primary text-white">
@@ -1055,7 +1056,10 @@
                 </tbody>
 
             </table>
-
+            @else
+            {{-- <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1> --}}
+            @endif
+        
             
 
             @php
@@ -1070,7 +1074,7 @@
                 }
             @endphp
 
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col-sm-12 col-lg-6">
                     <div class="card h-100">
                         <div class="card-body">

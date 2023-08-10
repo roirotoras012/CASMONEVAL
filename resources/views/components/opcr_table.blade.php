@@ -1069,9 +1069,10 @@
                                 {{-- <td class="text-left align-middle">{{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}</td> --}}
                                 <td class="text-left align-middle">
                                     @if (isset($pgsrating2[$i][$valid90[$i]]))
-                                        {{ $pgsrating->numeric }}
+                                        {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
                                     @else
                                         <!-- Display empty cell -->
+                                        
                                     @endif
                                 </td>
                                 <td class="text-left align-middle">{{ $pgsratingtext }}</td>
