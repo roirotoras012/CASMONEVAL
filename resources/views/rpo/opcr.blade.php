@@ -514,6 +514,44 @@
 
 
                                     {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
+
+                                    <div class="pb-3 opcr-btn">
+                                        <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit"
+                                            name="submit" class="btn btn-primary" value="update">
+                                            <i class="fas fa-edit"></i> Update OPCR
+                                        </button>
+                                        {{-- <button type="button" class="btn btn-success" onclick="edit()">
+                                        Edit OPCR
+                                        </button> --}}
+                                        <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit"
+                                            value="submit" name="submit" class="btn btn-success">
+                                            <i class="fas fa-paper-plane"></i> Submit OPCR
+                                        </button>
+                                        <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#opcr-{{ $opcr_id }}" id="#opcr-{{ $opcr_id }}"
+                                            class="text-decoration-none text-black btn btn-primary text-white"><i
+                                                class="fas fa-upload"></i> Mark as Done
+                    
+                                        </a>
+                                        <button style="display: none" type="button" class="btn btn-primary my-2"
+                                            data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional" id="print-button"><i class="fas fa-download"></i>
+                                            Scorecard</button>
+                    
+                                        <button type="button" class="btn btn-primary my-2"
+                                            data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional" id="print-scoreCard"><i
+                                                class="fas fa-download"></i> Scorecard</button>
+                                        <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#cutoff-{{ $opcr_id }}"
+                                            id="#cutoff-{{ $opcr_id }}"
+                                            class="text-decoration-none text-black btn btn-primary text-white"><i
+                                                class="fas fa-cut"></i> Cutoff or
+                                            Reopen
+                    
+                                        </a>
+                    
+                                    </div>
                                     
                                     @if ($opcr[0]->is_submitted == true)
                                         <div class="alert alert-success">
@@ -1408,43 +1446,7 @@
 
                 </table>
 
-                <div class="pb-3 opcr-btn">
-                    <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit"
-                        name="submit" class="btn btn-primary" value="update">
-                        <i class="fas fa-edit"></i> Update OPCR
-                    </button>
-                    {{-- <button type="button" class="btn btn-success" onclick="edit()">
-                    Edit OPCR
-                    </button> --}}
-                    <button <?php if ($opcr[0]->status == 'INCOMPLETE' || $opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit"
-                        value="submit" name="submit" class="btn btn-success">
-                        <i class="fas fa-paper-plane"></i> Submit OPCR
-                    </button>
-                    <a href="#" data-bs-toggle="modal"
-                        data-bs-target="#opcr-{{ $opcr_id }}" id="#opcr-{{ $opcr_id }}"
-                        class="text-decoration-none text-black btn btn-primary text-white"><i
-                            class="fas fa-upload"></i> Mark as Done
-
-                    </a>
-                    <button style="display: none" type="button" class="btn btn-primary my-2"
-                        data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
-                        data-file-type="Regional" id="print-button"><i class="fas fa-download"></i>
-                        Scorecard</button>
-
-                    <button type="button" class="btn btn-primary my-2"
-                        data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
-                        data-file-type="Regional" id="print-scoreCard"><i
-                            class="fas fa-download"></i> Scorecard</button>
-                    <a href="#" data-bs-toggle="modal"
-                        data-bs-target="#cutoff-{{ $opcr_id }}"
-                        id="#cutoff-{{ $opcr_id }}"
-                        class="text-decoration-none text-black btn btn-primary text-white"><i
-                            class="fas fa-cut"></i> Cutoff or
-                        Reopen
-
-                    </a>
-
-                </div>
+                
 
                 @if (isset($pgs))
                     <div class="p-5">
