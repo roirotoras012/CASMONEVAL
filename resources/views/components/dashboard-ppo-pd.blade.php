@@ -27,7 +27,7 @@
 
 
 </div> --}}
-<h2 class="text-center p-5">Department of Trading Industry Mission and Vision</h2>
+<h2 class="text-center p-5">Department of Trade and Industry Mission and Vision</h2>
 
 <div class="dti-container d-flex mb-5">
     <div class="dti-mission col-md-6">

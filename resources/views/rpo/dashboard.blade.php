@@ -33,6 +33,32 @@
 
                 </div>
             </div>
+
+            <div class="dti-banner mt-4">
+                <img src="{{ asset('images/logo.jpg') }}" class="logo-banner">
+                <section class="bg-light py-5 py-xl-8 bsb-body dti-header">
+                    <div class="container overflow-hidden">
+                        <div class="row gy-5 gy-lg-0 align-items-lg-center justify-content-lg-between">
+                            <div class="col-12 col-lg-6 order-1 order-lg-0">
+                                <h2 class="display-3 fw-bold mb-3 text-white">Department of Trade and Industry?
+                                </h2>
+                                <p class="fs-4 mb-5 text-white">The Department of Trade and Industry (DTI) is dedicated to protecting
+                                    consumers’ rights and interests. It is a government agency responsible for establishing policies
+                                    and programs intended to support the Philippine economy’s growth and development.</p>
+                                <div class="d-grid gap-2 d-sm-flex">
+                                    <a target="_blank" href="https://www.dti.gov.ph/" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Learn More</a>
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
             {{-- <div class="alert alert-warning d-inline-block px-4" role="alert">
                 Welcome, {{ $userDetails->first_name . " ". $userDetails->last_name}}!
 
