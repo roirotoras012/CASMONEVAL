@@ -509,6 +509,12 @@
                                         @endphp
                                     @endforeach
 
+
+
+
+
+                                    {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
+
                                     <div class="pb-3 opcr-btn">
                                         <button <?php if ($opcr[0]->is_submitted == true){ ?> disabled <?php   } ?> type="submit"
                                             name="submit" class="btn btn-primary" value="update">
@@ -546,10 +552,6 @@
                                         </a>
                     
                                     </div>
-
-
-
-                                    {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
                                     
                                     @if ($opcr[0]->is_submitted == true)
                                         <div class="alert alert-success">
