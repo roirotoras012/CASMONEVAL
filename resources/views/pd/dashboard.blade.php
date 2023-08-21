@@ -1076,15 +1076,59 @@
                     $opcrRatings[] = $pgsrating_numeric; // Add the numeric rating to the array
                 }
             @endphp
-
             <div class="row mt-5">
-                <div class="col-sm-12 col-lg-6">
+                <div class="col-sm-12 col-lg-7">
                     <div class="card">
                         <div class="card-body">
                             <canvas id="opcrLineChart"></canvas>
                         </div>
                     </div>
                 </div>
+                <div class="col-sm-12 col-lg-5">
+                    <table class="table table-bordered table-hover mt-3">
+                        <thead>
+                            <tr>
+                              <th class="text-center bg-primary text-white" colspan="3" scope="col">PGS Rating Matrix</th>
+                            </tr>
+                          </thead>
+                        <thead>
+                     <thead>
+                       <tr>
+                         <th class="text-center bg-primary text-white" scope="col">Numerical</th>
+                         <th class="text-center bg-primary text-white" scope="col" colspan="2">Adjectival Rating</th>
+                       </tr>
+                     </thead>
+                     <tbody>
+                       <tr class="text-center">
+                         <td scope="row">5.00</td>
+                         <td>Outstanding</td>
+                         <td>O</td>
+
+                       </tr>
+                       <tr class="text-center">
+                         <td>4.50 - 4.75</td>
+                         <td>Very Satisfactory</td>
+                         <td>VS</td>
+                       </tr>
+                       <tr class="text-center">
+                         <td>3.25 - 4.25</td>
+                         <td>Satisfactory</td>
+                         <td>S</td>
+                       </tr>
+                       <tr class="text-center">
+                         <td>2.50 - 3.00</td>
+                         <td>Below Satisfactory</td>
+                         <td>BS</td>
+                       </tr>
+                       <tr class="text-center">
+                                                     <td>Below 2.50 - 3.00</td>
+                         <td>Poor</td>
+                         <td>P</td>
+                       </tr>
+                     </tbody>
+                   </table>
+                
+         </div>
             </div>
             <x-dashboard-ppo-pd />
             {{-- <div class="container-fluid">

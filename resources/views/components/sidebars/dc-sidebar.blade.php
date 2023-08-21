@@ -17,7 +17,7 @@
  <a class="nav-link  {{ Request::is('dc/view-target') ? 'active' : '' }}"
                         href="{{ url('dc/view-target') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                        View Targetsssss
+                        View Target
 
                     </a>
                     {{-- <div class="sb-sidenav-menu-heading">Interface</div> --}}
@@ -31,7 +31,7 @@
                     <a class="nav-link  {{ Request::is('dc/accomplishment') ? 'active' : '' }}"
                         href="{{ url('dc/accomplishment') }}">
                         <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                        Add Accompishment
+                        Add Accomplishment
 
                     </a>
 
