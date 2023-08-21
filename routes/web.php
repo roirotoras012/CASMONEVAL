@@ -50,6 +50,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
     Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
     Route::get('rd/savetarget  ', [RegionalDirector::class, 'savetarget']);
     Route::get('rd/opcr/{id}  ', [RegionalDirector::class, 'show'])->name('rd.show');
+    Route::post('rd/approved_from_rd', [RegionalDirector::class, 'approved_from_rd'])->name('approved_from_rd');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
@@ -81,6 +82,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('recover_opcr', [RegionalPlanningOfficerController::class, 'recover_opcr'])->name('rpo.recover_opcr');
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
+    Route::post('rpo/prepared_by_rpo', [RegionalPlanningOfficerController::class, 'prepared_by_rpo'])->name('prepared_by_rpo');
 
     Route::put('rpo/status/{rpo}', [RegionalPlanningOfficerController::class, 'statusupdate'])->name('rpo.statusupdate');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);

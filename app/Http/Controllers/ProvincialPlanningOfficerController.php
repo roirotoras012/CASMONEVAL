@@ -1615,7 +1615,7 @@ class ProvincialPlanningOfficerController extends Controller
                 'prepared_by' => "$FName $LName",
                 'province_ID' => $provinceID, // Add this line to update province_ID
             ]);
-            Alert::success('OPCR Successfully Approved!');
+            Alert::success('OPCR Successfully Prepared!');
         } else {
             $newScoreCard = new ScoreCard();
             $newScoreCard->opcr_ID = $opcr_id;

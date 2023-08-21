@@ -809,7 +809,7 @@ class DivisionChiefController extends Controller
             // return redirect()
             //     ->route('dc.accomplishments')
             //     ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
-            Alert::error('You haven\'t achieved your target. Fill up the evaluation form');
+            Alert::error('You haven\'t achieved your target. <a href="/dc/coaching">Click here to fill up the evaluation form.</a>');
             return redirect()->route('dc.accomplishments');
         } else {
             $userName = auth()->user()->first_name;
@@ -1254,9 +1254,24 @@ class DivisionChiefController extends Controller
         $eval = Evaluation::select('*')
             ->where('user_id', $user->user_ID)
             ->get();
-        // dd($eval);
+        $opcrs_active = Opcr::where('is_active', 1)
+            ->where('is_submitted', 1)
+            ->where('is_submitted_division', 1)
+            ->get();
+       
 
-        return view('dc.coaching', compact('eval'));
+        if (count($opcrs_active) != 0) {
+            $notification = Notification::where('opcr_ID', '=', $opcrs_active[0]->opcr_ID)
+                ->where('division_ID', '=', $user->division_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get();
+        } else {
+            $notification = null;
+        }
+
+      
+
+        return view('dc.coaching', compact('eval', 'opcrs_active', 'notification'));
     }
 
     public function bukidnunBddIndex()

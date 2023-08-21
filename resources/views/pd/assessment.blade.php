@@ -17,8 +17,17 @@
                         {{ session('update') }}
                     </div>
                 @endif
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center gap-4">
+                        <button class="btn btn-primary my-2"
+                            
+                            id="print-button">Print Table</button>
+                    </div>
+               
+                 
+                </div>
                 @if (isset($eval))
-                    <table class="table">
+                    <table class="table" id="table">
                         <thead>
                             <tr>
                                 <th scope="col" class="bg-primary text-white">Measure</th>

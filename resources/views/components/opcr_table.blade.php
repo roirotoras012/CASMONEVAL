@@ -134,6 +134,7 @@
                         }
                         $accomPercentage = 0;
                         $bgColor = '';
+                        // dd($annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->note);
                         if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID])) {
                             $annual_target = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target;
                             $annual_target_ID = $annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID;
@@ -177,7 +178,8 @@
                                 $bgColor = 'background-color: none;';
                             }
                         }
-                        
+                    
+                       
                     @endphp
 
                     @if ($measure->type == 'DIRECT' || $measure->type == 'DIRECT MAIN')
@@ -188,12 +190,23 @@
                             <td class="text-center align-middle">
                                 {{ $measure->strategic_measure }}
                             </td>
+                           
+                            
                             @if (isset($annual_targets[$measure->strategic_measure_ID][$user->province_ID]))
                                 <td class="text-center align-middle">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#_{{$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID }}">
                                     {{ $annual_target }}@if ($target_type == 'PERCENTAGE')
                                     %  
+                                    </a>
                                     @endif
                                 </td>
+                                <x-view_target_modal
+                                    :annualTarget="$annual_target"
+                                    :note="$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->note"
+                                    :annualID="$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID"
+                                />
+
+
                                 <td class="text-center align-middle" style="{{ $bgColor }} color: #fff">
                                     @if (isset($monthly_targets[$annual_target_ID]))
                                         <span <?php if (isset($monthly_targets[$annual_target_ID]->validated) && $monthly_targets[$annual_target_ID]->validated == true) { ?> style="font-weight: bold;" <?php } ?>>

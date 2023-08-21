@@ -24,11 +24,21 @@
                                 <input type="checkbox" id="target_type_update" name="target_type">
                                 %
                             </label>
+
+                           
                             @error('prov_val')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                        </div>
+
+                        <div class="row mt-4">
+
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Add a note (optional)" id="note" style="height: 100px" name="note"></textarea>
+                                <label for="comment">{{ __('Add a note (optional)') }}</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,6 +71,13 @@ function setModalParams(target, value, target_type) {
         document.getElementById('target_type_update').checked = false;
     }
 }
+
+function confirmUpdate() {
+        // Ask for confirmation before submitting the form
+        if (confirm('Do you want to update the target?')) {
+            $('#modalForm').submit();
+        }
+    }
 
 // function submitModalForm() {
 //         console.log("hoy")

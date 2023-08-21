@@ -197,8 +197,7 @@
                                                 @if (!isset($label->sum_of))
                                                     @if ($label->BUK)
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            data-bs-target="#editAnnualModal" {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}','{{ $label->target_type }}')">
                                                             {{ $label->BUK }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -263,8 +262,7 @@
                                                 @if (!isset($label->sum_of))
                                                     @if ($label->CAM)
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            data-bs-target="#editAnnualModal" {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['CAM_target'] }}', '{{ $label->CAM }}')">
                                                             {{ $label->CAM }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -323,8 +321,7 @@
                                                 @if (!isset($label->sum_of))
                                                     @if ($label->LDN)
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            data-bs-target="#editAnnualModal" {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['LDN_target'] }}', '{{ $label->LDN }}')">
                                                             {{ $label->LDN }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -383,8 +380,7 @@
                                                 @if (!isset($label->sum_of))
                                                     @if ($label->MISOR)
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            data-bs-target="#editAnnualModal" {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['MISOR_target'] }}', '{{ $label->MISOR }}')">
                                                             {{ $label->MISOR }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -444,8 +440,7 @@
                                                 @if (!isset($label->sum_of))
                                                     @if ($label->MISOC)
                                                         <a href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            data-bs-target="#editAnnualModal" {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['MISOC_target'] }}', '{{ $label->MISOC }}')">
                                                             {{ $label->MISOC }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -509,7 +504,22 @@
                                         @endphp
                                     @endforeach
 
-
+                                    @php
+                                        $prepared_by = '';
+                                        $reviewed_by_bdd = '';
+                                        $reviewed_by_cpd = '';
+                                        $approved_by = '';
+                                        $prepared_by_rpo = '';
+                                        $approved_by_rd = '';
+                                        
+                                        if (isset($opcr_id)) {
+                                            if(isset($opcr[0]->prepared_by)){
+                                                $prepared_by_rpo = $opcr[0]->prepared_by;
+                                            }if(isset($opcr[0]->approved_by)) {
+                                                $approved_by_rd = $opcr[0]->approved_by;
+                                            }
+                                        }
+                                    @endphp
 
 
 
@@ -531,28 +541,45 @@
                                             data-bs-target="#opcr-{{ $opcr_id }}" id="#opcr-{{ $opcr_id }}"
                                             class="text-decoration-none text-black btn btn-primary text-white"><i
                                                 class="fas fa-upload"></i> Mark as Done
-                    
+
                                         </a>
                                         <button style="display: none" type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
                                             data-file-type="Regional" id="print-button"><i class="fas fa-download"></i>
                                             Scorecard</button>
-                    
+
                                         <button type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
-                                            data-file-type="Regional" id="print-scoreCard"><i
-                                                class="fas fa-download"></i> Scorecard</button>
+                                            data-file-type="Regional" id="print-scoreCard"
+                                            data-file-preparedbyrpo="{{ $prepared_by_rpo }}"
+                                            data-file-approvedbyrd="{{ $approved_by_rd }}"
+                                            data-file-preparedby="{{ $prepared_by }}"
+                                            data-file-reviewedbdd="{{ $reviewed_by_bdd }}"
+                                            data-file-reviewedcpd="{{ $reviewed_by_cpd }}"
+                                            data-file-approvedby="{{ $approved_by }}"><i class="fas fa-download"></i>
+                                            Scorecard</button>
                                         <a href="#" data-bs-toggle="modal"
                                             data-bs-target="#cutoff-{{ $opcr_id }}"
                                             id="#cutoff-{{ $opcr_id }}"
                                             class="text-decoration-none text-black btn btn-primary text-white"><i
                                                 class="fas fa-cut"></i> Cutoff or
                                             Reopen
-                    
+
                                         </a>
-                    
+                                        {{-- {{dd( $opcr_id)}} --}}
+                                        <div class="d-flex justify-content-end align-items-center gap-4">
+                                            <span><b>Click if OPCR is all done <i
+                                                        class="fas fa-arrow-right"></i></b></span>
+                                            <form action="{{ route('prepared_by_rpo') }}" method="post">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="opcr_id" value={{ $opcr_id }}>
+                                                <button type="submit" class="btn btn-dark my-2"><i
+                                                        class="fas fa-thumbs-up"></i> Prepare</button>
+                                            </form>
+                                        </div>
+
                                     </div>
-                                    
+
                                     @if ($opcr[0]->is_submitted == true)
                                         <div class="alert alert-success">
                                             <p class="m-0">OPCR is already submitted.</p>
@@ -1446,7 +1473,7 @@
 
                 </table>
 
-                
+
 
                 @if (isset($pgs))
                     <div class="p-5">
