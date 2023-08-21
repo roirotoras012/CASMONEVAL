@@ -397,6 +397,8 @@ $(document).ready(function () {
             var reviewedbdd  = printScoreCard.dataset.fileReviewedbdd;
             var reviewedcpd  = printScoreCard.dataset.fileReviewedcpd;
             var approvedby  = printScoreCard.dataset.fileApprovedby;
+            var prepared_by_rpo  = printScoreCard.dataset.filePreparedbyrpo;
+            var approved_by_rd  = printScoreCard.dataset.fileApprovedbyrd;
             // console.log(preparedby);
 
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
@@ -538,6 +540,35 @@ $(document).ready(function () {
                         <p>OIC Provincial Director</p>
                     </div>
                 </div>
+                
+                </div>
+                `);
+                
+            }
+
+            if (type == "Regional" ) {
+                    winScorecard.document
+                    .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
+                    <div >
+                        <div><p>Prepared by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${prepared_by_rpo}</p>
+                        <p style="margin-bottom: 0">______________________________</p>
+                        <p>Regional Planning Officer</p>
+                        </div>
+                
+                    </div>
+                    <div>
+                        <div><p>Approved by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${approved_by_rd}</p>
+                            <p style="margin-bottom: 0">____________________________________________</p>
+                            <p>Regional Director</p>
+                        </div>
+                    </div>
+                  
+                
+                
                 
                 </div>
                 `);

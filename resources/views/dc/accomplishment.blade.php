@@ -36,7 +36,7 @@
                     <form action="{{ route('reviewed_by') }}" method="post">
                         {{ csrf_field() }}
                         <input type="hidden" name="opcr_id" value={{ $opcrs_active[0]->opcr_ID }}>
-                        <button type="submit" class="btn btn-success my-2">Review</button>
+                        <button type="submit" class="btn btn-dark my-2"><i class="fas fa-thumbs-up"></i> Review</button>
                     </form>
                 </div>
                 <div class="col-md-12">

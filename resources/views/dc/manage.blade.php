@@ -195,7 +195,8 @@
                         </div>
 
                         <div class="d-flex align-items-top gap-3 p-3 text-right pr-3">
-                            <input type="submit" class="btn btn-primary mb-3">
+                            <input id="submitBtn" type="submit" class="btn btn-primary mb-3" disabled>
+
                         </div>
                     </form>
                 @endif
@@ -283,9 +284,27 @@
 
 
 
+        // function setRequired(checkbox) {
+        //     var input = document.getElementById('target' + checkbox.value);
+        //     input.required = checkbox.checked;
+        // }
         function setRequired(checkbox) {
-            var input = document.getElementById('target' + checkbox.value);
-            input.required = checkbox.checked;
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const submitButton = document.getElementById('submitBtn'); // Reference by ID
+
+        let atLeastOneChecked = false;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                atLeastOneChecked = true;
+            }
+        });
+
+        if (atLeastOneChecked) {
+            submitButton.removeAttribute('disabled');
+        } else {
+            submitButton.setAttribute('disabled', 'disabled');
         }
+    }
+
     </script>
 @endsection

@@ -19,12 +19,60 @@
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                   
-                    <h2 class="text-uppercase lead  text-black p-2 rounded">RD <i class="fa-solid fa-angles-right"></i> OPCR #{{ $opcr_id }}</h2>
+
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RD <i class="fa-solid fa-angles-right"></i> OPCR
+                        #{{ $opcr_id }}</h2>
 
                 </li>
 
             </ol>
+            @php
+                $prepared_by = '';
+                $reviewed_by_bdd = '';
+                $reviewed_by_cpd = '';
+                $approved_by = '';
+                $prepared_by_rpo = '';
+                $approved_by_rd = '';
+                
+                if (isset($opcr_id)) {
+                    if (isset($opcr[0]->prepared_by)) {
+                        $prepared_by_rpo = $opcr[0]->prepared_by;
+                    }
+                    if (isset($opcr[0]->approved_by)) {
+                        $approved_by_rd = $opcr[0]->approved_by;
+                    }
+                }
+            @endphp
+
+
+
+            {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
+            <div class="pb-3 opcr-btn">
+
+
+                <button style="display: none" type="button" class="btn btn-primary my-2"
+                    data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}" data-file-type="Regional"
+                    id="print-button">Scorecard</button>
+
+                <button type="button" class="btn btn-primary my-2"
+                    data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}" data-file-type="Regional"
+                    id="print-scoreCard" data-file-preparedbyrpo="{{ $prepared_by_rpo }}"
+                    data-file-approvedbyrd="{{ $approved_by_rd }}" data-file-preparedby="{{ $prepared_by }}"
+                    data-file-reviewedbdd="{{ $reviewed_by_bdd }}" data-file-reviewedcpd="{{ $reviewed_by_cpd }}"
+                    data-file-approvedby="{{ $approved_by }}">Scorecard</button>
+
+
+                <div class="d-flex justify-content-end align-items-center gap-4">
+                    <span><b>Click if OPCR is all done <i class="fas fa-arrow-right"></i></b></span>
+                    <form action="{{ route('approved_from_rd') }}" method="post">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="opcr_id" value={{ $opcr_id }}>
+                        <button type="submit" class="btn btn-dark my-2"><i class="fas fa-thumbs-up"></i> Approve</button>
+                    </form>
+                </div>
+
+
+            </div>
 
 
             @if ($opcr[0]->status == 'DONE' && isset($file))
@@ -120,9 +168,9 @@
 
                                             <td>
                                                 @if (!$label->is_sub)
-                                                {{ $label->number_measure }}
+                                                    {{ $label->number_measure }}
                                                 @endif
-                                               
+
                                             </td>
                                             <td>{{ $label->strategic_measure }}
 
@@ -139,34 +187,32 @@
 
                                             </td>
                                             @php
-                                               if($label->target_type == 'PERCENTAGE'){
-                                                $counter = 0;
-                                                if (isset($label->BUK)) {
-                                                    # code...
-                                                    $counter++;
+                                                if ($label->target_type == 'PERCENTAGE') {
+                                                    $counter = 0;
+                                                    if (isset($label->BUK)) {
+                                                        # code...
+                                                        $counter++;
+                                                    }
+                                                    if (isset($label->CAM)) {
+                                                        # code...
+                                                        $counter++;
+                                                    }
+                                                    if (isset($label->LDN)) {
+                                                        # code...
+                                                        $counter++;
+                                                    }
+                                                    if (isset($label->MISOR)) {
+                                                        # code...
+                                                        $counter++;
+                                                    }
+                                                    if (isset($label->MISOC)) {
+                                                        # code...
+                                                        $counter++;
+                                                    }
+                                                    $total = ($label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC) / $counter;
+                                                } else {
+                                                    $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
                                                 }
-                                                if (isset($label->CAM)) {
-                                                    # code...
-                                                    $counter++;
-                                                }
-                                                if (isset($label->LDN)) {
-                                                    # code...
-                                                    $counter++;
-                                                }
-                                                if (isset($label->MISOR)) {
-                                                    # code...
-                                                    $counter++;
-                                                }
-                                                if (isset($label->MISOC)) {
-                                                    # code...
-                                                    $counter++;
-                                                }
-                                                $total = ($label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC) / $counter;
-                                            }
-                                            else{
-
-                                                $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;
-                                            }
                                             @endphp
                                             <td>
                                                 <input type="hidden" name="data[{{ $ctr }}][total_targets]">
@@ -301,25 +347,6 @@
                                     @endforeach
 
 
-
-
-
-                                    {{-- <input type="submit" value="ADD" class="btn btn-success"> --}}
-                                    <div class="pb-3 opcr-btn">
-                                       
-                                     
-                                        <button style="display: none" type="button" class="btn btn-primary my-2"
-                                            data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
-                                            data-file-type="Regional"
-                                            id="print-button">Scorecard</button>
-
-                                        <button type="button" class="btn btn-primary my-2"
-                                            data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
-                                            data-file-type="Regional"
-                                            id="print-scoreCard">Scorecard</button>
-                                           
-                                        
-                                    </div>
                                     @if ($opcr[0]->is_submitted == true)
                                         <div class="alert alert-success">
                                             <p class="m-0">OPCR is already submitted.</p>
@@ -372,7 +399,7 @@
                             <th>3rd Qrtr</th>
                             <th>4th Qrtr</th>
                             <th>2nd Sem</th>
-    
+
                             <th>To Date</th>
                             <th>1st Qrtr</th>
                             <th>2nd Qrtr</th>
@@ -380,8 +407,8 @@
                             <th>3rd Qrtr</th>
                             <th>4th Qrtr</th>
                             <th>2nd Sem</th>
-    
-    
+
+
                             <th>Target</th>
                             <th>Accom</th>
                             <th>Target</th>
@@ -408,7 +435,7 @@
                             <th>Accom</th>
                         </tr>
                     </thead>
-    
+
                     <tbody>
                         @php
                             $current_objective = '';
@@ -448,7 +475,7 @@
                                 @endif
                                 <td>
                                     @if (!$label->is_sub)
-                                    {{ $label->number_measure }}
+                                        {{ $label->number_measure }}
                                     @endif
                                 </td>
                                 <td>{{ $label->strategic_measure }}</td>
@@ -458,101 +485,101 @@
                                 <td><input type="hidden" name="data[{{ $ctr }}][total_targets]">
                                     {{ $total }}
                                 </td>
-    
-    
-    
+
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_targets))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->total_targets }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_sem))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_sem }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->third_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->third_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_sem))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_sem }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 {{-- accom --}}
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->total_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->first_sem_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->first_sem_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->third_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->third_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->fourth_qrtr_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
+
                                 @if (isset($monthly_targets2[$label->strategic_measure_ID]->second_sem_accom))
                                     <td>{{ $monthly_targets2[$label->strategic_measure_ID]->second_sem_accom }}</td>
                                 @else
                                     <td></td>
                                 @endif
-    
-    
+
+
                                 {{-- accom end --}}
-    
+
                                 <td>
                                     @if (isset($monthly_targets2[$label->strategic_measure_ID]->total_accom) && isset($total))
                                         {{ number_format(($monthly_targets2[$label->strategic_measure_ID]->total_accom / $total) * 100, 2) }}%
@@ -728,7 +755,7 @@
                                     }
                                     // }
                                 @endphp
-    
+
                                 <td>
                                     @if (isset($jan_target) && $jan_target != 0)
                                         {{ $jan_target }}
@@ -741,8 +768,8 @@
                                         {{ $jan_total }}
                                     @endif
                                 </td>
-    
-    
+
+
                                 <td>
                                     @if (isset($feb_target) && $feb_target != 0)
                                         {{ $feb_target }}
@@ -755,9 +782,9 @@
                                         {{ $feb_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($mar_target) && $mar_target != 0)
                                         {{ $mar_target }}
@@ -770,9 +797,9 @@
                                         {{ $mar_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($apr_target) && $apr_target != 0)
                                         {{ $apr_target }}
@@ -785,9 +812,9 @@
                                         {{ $apr_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($may_target) && $may_target != 0)
                                         {{ $may_target }}
@@ -800,9 +827,9 @@
                                         {{ $may_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($jun_target) && $jun_target != 0)
                                         {{ $jun_target }}
@@ -815,9 +842,9 @@
                                         {{ $jun_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($jul_target) && $jul_target != 0)
                                         {{ $jul_target }}
@@ -830,9 +857,9 @@
                                         {{ $jul_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($aug_target) && $aug_target != 0)
                                         {{ $aug_target }}
@@ -845,9 +872,9 @@
                                         {{ $aug_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($sep_target) && $sep_target != 0)
                                         {{ $sep_target }}
@@ -860,9 +887,9 @@
                                         {{ $sep_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($oct_target) && $oct_target != 0)
                                         {{ $oct_target }}
@@ -875,9 +902,9 @@
                                         {{ $oct_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($nov_target) && $nov_target != 0)
                                         {{ $nov_target }}
@@ -890,9 +917,9 @@
                                         {{ $nov_total }}
                                     @endif
                                 </td>
-    
-    
-    
+
+
+
                                 <td>
                                     @if (isset($dec_target) && $dec_target != 0)
                                         {{ $dec_target }}
@@ -905,22 +932,22 @@
                                         {{ $dec_total }}
                                     @endif
                                 </td>
-    
-    
-    
-    
-    
+
+
+
+
+
                             </tr>
                             @php
                                 $ctr++;
                                 $current_objective = $label->strategic_objective;
                             @endphp
                         @endforeach
-    
-    
-    
+
+
+
                         <tr>
-    
+
                             <td colspan="999">
                                 <table style="width: 100%;" class="ratings_table table table-bordered ppo-table-opcr">
                                     <thead class="bg-primary text-white">
@@ -944,46 +971,47 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-    
+
                                             @for ($i = 0; $i < 12; $i++)
                                                 <th class="text-left align-middle">No.</th>
                                                 <th class="text-left align-middle">Rate</th>
                                             @endfor
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
                                         </tr>
                                         <tr>
-    
+
                                             @for ($i = 0; $i < 12; $i++)
-                                                @if(isset($pgs['monthly_valid'][$i]['val']))
-                                                    <td class="text-left align-middle">{{ $pgs['monthly_valid'][$i]['val'] }}</td>
+                                                @if (isset($pgs['monthly_valid'][$i]['val']))
+                                                    <td class="text-left align-middle">
+                                                        {{ $pgs['monthly_valid'][$i]['val'] }}</td>
                                                 @else
                                                     <td class="text-left align-middle">Invalid value</td>
                                                 @endif
 
                                                 <td class="text-left align-middle"></td>
                                             @endfor
-    
-    
-    
-    
+
+
+
+
                                         </tr>
-    
+
                                         <tr>
                                             @for ($i = 0; $i < 12; $i++)
                                                 <td class="text-left align-middle">{{ $valid90[$i] }}</td>
                                                 <td class="text-left align-middle"></td>
                                             @endfor
-    
-    
-    
-    
-    
+
+
+
+
+
                                         </tr>
                                         <tr>
                                             @for ($i = 0; $i < 12; $i++)
@@ -1006,28 +1034,27 @@
                                                 @endphp
                                                 <td class="text-left align-middle">
                                                     @if (isset($pgsrating2[$i][$valid90[$i]]))
-                                                    {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
-                                                    
+                                                        {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}
                                                     @endif
-                                                   
+
                                                 </td>
                                                 <td class="text-left align-middle">{{ $pgsratingtext }}</td>
                                             @endfor
-    
-    
-    
-    
-    
+
+
+
+
+
                                         </tr>
-    
+
                                     </tbody>
                                 </table>
                             </td>
                         </tr>
                     </tbody>
-    
+
                 </table>
-    
+
                 @if (isset($pgs))
                     <div class="p-5">
                         <table class="table" style="width:50%" id="rating_table">
@@ -1050,7 +1077,9 @@
                                 <tr>
                                     <th>OPCR rating</th>
                                     <td>{{ $pgs['numerical_rating'] }}</td>
-                                    <td class="text-center align-middle" style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}</td>
+                                    <td class="text-center align-middle"
+                                        style="background-color: {{ $pgs['rating_bg_color'] }}">{{ $pgs['rating'] }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1058,7 +1087,7 @@
                 @endif
             @endif
 
-            
+
         </div>
 
 
