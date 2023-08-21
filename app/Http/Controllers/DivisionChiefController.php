@@ -624,7 +624,8 @@ class DivisionChiefController extends Controller
 
         $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
-        Alert::success('Annual Target successfully added!');
+        // Alert::success('Annual Target successfully added!');
+        Alert::success('Monthly Target successfully added!');
 
         // return redirect()
         //     ->route('dc.bukidnunBddIndex')
