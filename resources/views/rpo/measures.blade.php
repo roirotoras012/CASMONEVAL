@@ -5,9 +5,9 @@
 
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
             @if (Session::has('success'))
                 <div class="alert alert-success">
@@ -19,6 +19,10 @@
                     {{ Session::get('error') }}
                 </div>
             @endif
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Manage Measures & Objectives</h2>                </li>
+            </ol>
             @if (count($opcrs) > 0 && isset($opcrs_active) && count($opcrs_active) > 0)
                 <div class="disable-message">
                     <h1 class="text-success" style="font-size: 50px !important;">

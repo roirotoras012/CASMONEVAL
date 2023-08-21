@@ -27,9 +27,11 @@
                             class="col-form-label text-md-start">{{ __('Monthly Target') }}</label>
 
                         <div>
-                            <input required pattern="^[0-9]+$" type="text" id="monthly_target"
+                            <input required pattern="^(0|[1-9]\d*)$" type="text" id="monthly_target"
                                 class="form-control @error('monthly_target') is-invalid @enderror" name="monthly_target"
-                                value="{{ old('monthly_target') }}" required autofocus />
+                                value="{{ old('monthly_target') }}" required autofocus 
+                                oninvalid="this.setCustomValidity('Please enter postive whole integers')" oninput="this.setCustomValidity('')"
+                                />
                          
 
                             @error('monthly_target')

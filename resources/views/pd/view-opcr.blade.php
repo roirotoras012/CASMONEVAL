@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
             @if ($message = Session::get('success'))
                 <div class="alert alert-success">
@@ -27,11 +27,18 @@
             @if ($annual_targets)
                 <div class="container">
 
-                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h1>
-            
+                    <h2 class="province-name bg-primary text-white text-uppercase mb-5 rounded">Provincial view of OPCR</h2>
+                    <div class="d-flex justify-content-end align-items-center gap-4">
+                        <span><b>Click if OPCR is ready to approve <i class="fas fa-arrow-right"></i></b></span>
+                        <form action="{{ route('approved_by') }}" method="post">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="opcr_id" value={{ $opcrs_active[0]->opcr_ID }}>
+                            <button type="submit" class="btn btn-success my-2">Approve</button>
+                        </form>
+                    </div>
                     <x-opcr_table :opcrs_active=$opcrs_active :provinces=$provinces :objectivesact=$objectivesact
                         :measures=$measures :annual_targets=$annual_targets :user=$user :monthly_targets=$monthly_targets
-                        :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 :pgs=$pgs :pgsrating2=$pgsrating2/>
+                        :commonMeasures=$commonMeasures :monthly_targets2=$monthly_targets2 :pgs=$pgs :pgsrating2=$pgsrating2 :scorecard=$scorecard/>
                     
 
                     {{-- <div class="row">

@@ -22,7 +22,6 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
     division_chief.hide().detach();
 
     $(".generate-password-btn").click(function () {
-        console.log("button click");
         var generateId = $(this).data("generate-id");
         var password = generatePasswordWithNumber();
         $(".user-password." + generateId).val(password);
@@ -30,31 +29,37 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
 
     function generatePasswordWithNumber() {
         var password = "";
-        var hasNumber = false;
+        var numbersCount = 0;
         var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         var numbers = "0123456789";
         var allCharacters = letters + numbers;
-        while (!hasNumber) {
+
+        while (numbersCount < 2) {
             password = "";
+            numbersCount = 0;
+
             for (var i = 0; i < 8; i++) {
                 password += allCharacters.charAt(
                     Math.floor(Math.random() * allCharacters.length)
                 );
             }
-            hasNumber = /[0-9]/.test(password);
+
+            for (var j = 0; j < password.length; j++) {
+                if (numbers.includes(password[j])) {
+                    numbersCount++;
+                }
+            }
         }
+
         return password;
     }
-    setTimeout(() => {
-        console.log($("select[name='user_type_ID']").val());
-    }, 3000);
+
     $("#role-update-" + $(this).data("update-id")).change(function () {
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
             $(this).val() === "5"
         ) {
-            console.log($(this).val());
             provincePlanningUpdate
                 .appendTo(provincePlanningUpdateParent)
                 .show();
@@ -69,7 +74,36 @@ $(document).on("show.bs.modal", ".modal-update-rpo", function () {
             division_chief.hide().detach();
         }
     });
+
+    if (
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "5"
+    ) {
+        division_chief.appendTo(division_chiefParent).show();
+        provincePlanningUpdate.appendTo(provincePlanningUpdateParent).show();
+    } else {
+        division_chief.hide().detach();
+        provincePlanningUpdate.hide().detach();
+    }
+
+    if (
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "3" ||
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "4" ||
+        $("#updatemodal-" + $(this).data("update-id"))
+            .find("[data-user-role='user-role-type']")
+            .val() === "5"
+    ) {
+        provincePlanningUpdate.appendTo(provincePlanningUpdateParent).show();
+    } else {
+        provincePlanningUpdate.hide().detach();
+    }
 });
+
 $(document).ready(function () {
     var provincePlanning = $("#province_planning");
     var addUser = $("#btn-add");
@@ -84,7 +118,6 @@ $(document).ready(function () {
     addUser.hide().detach();
 
     $("#role").change(function () {
-        // console.log(updateId);
         if (
             $(this).val() === "3" ||
             $(this).val() === "4" ||
@@ -105,14 +138,39 @@ $(document).ready(function () {
 
     $("#btn-generate").click(function (e) {
         e.preventDefault();
-        $("#input-userkey").val(Math.random().toString(36).slice(2));
-        // $("#btn-add").show();
+        let userKeyGenerated = generateUserKey();
+        $("#input-userkey").val(userKeyGenerated);
+
         addUser.appendTo(addUserParent).show();
     });
+    function generateUserKey() {
+        var password = "";
+        var numbersCount = 0;
+        var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        var numbers = "0123456789";
+        var allCharacters = letters + numbers;
 
+        while (numbersCount < 2) {
+            password = "";
+            numbersCount = 0;
+
+            for (var i = 0; i < 8; i++) {
+                password += allCharacters.charAt(
+                    Math.floor(Math.random() * allCharacters.length)
+                );
+            }
+
+            for (var j = 0; j < password.length; j++) {
+                if (numbers.includes(password[j])) {
+                    numbersCount++;
+                }
+            }
+        }
+
+        return password;
+    }
     // PASSWORD TOGGLE EYE
     $(".toggle-password").click(function () {
-        console.log("click eye");
         var passwordField = $(this)
             .closest(".input-group")
             .find(".eye-password");
@@ -124,6 +182,94 @@ $(document).ready(function () {
             passwordField.attr("type", "password");
             $(this).find("i").removeClass("fa-eye-slash").addClass("fa-eye");
         }
+    });
+    $("#home1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-btn");
+
+        $button.prop("disabled", true);
+
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
+
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
+
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
+        });
+
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
+    });
+
+    $("#profile1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-email-btn");
+
+        $button.prop("disabled", true);
+
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
+
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
+
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
+        });
+
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
+    });
+    $("#contact1").each(function () {
+        var $parent = $(this);
+        var $button = $parent.find("#profile-pass-btn");
+
+        $button.prop("disabled", true);
+
+        $parent.find(".form-update").on("input", function () {
+            var $inputs = $parent.find(".form-update");
+            var isButtonEnabled = false;
+
+            $inputs.each(function () {
+                var initialValue = $(this).data("initialValue");
+                var currentValue = $(this).val().trim();
+
+                if (currentValue !== initialValue) {
+                    isButtonEnabled = true;
+                    return false; // Exit the loop if a different value is found
+                }
+            });
+
+            $button.prop("disabled", !isButtonEnabled);
+        });
+
+        $parent.find(".form-update").each(function () {
+            var $input = $(this);
+            var initialValue = $input.val().trim();
+            $input.data("initialValue", initialValue);
+        });
     });
     var printButton = document.getElementById("print-button");
     printButton.addEventListener("click", function () {
@@ -246,6 +392,13 @@ $(document).ready(function () {
             var contentHeight = rpo_scoreCard.offsetHeight;
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
+            var type = printScoreCard.dataset.fileType;
+            var preparedby  = printScoreCard.dataset.filePreparedby;
+            var reviewedbdd  = printScoreCard.dataset.fileReviewedbdd;
+            var reviewedcpd  = printScoreCard.dataset.fileReviewedcpd;
+            var approvedby  = printScoreCard.dataset.fileApprovedby;
+            // console.log(preparedby);
+
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
                 // Calculate the font size adjustment ratio
                 var ratio = window.innerWidth / rpo_scoreCard.offsetWidth;
@@ -347,6 +500,49 @@ $(document).ready(function () {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
+            if (type == "Provincial" ) {
+                    winScorecard.document
+                    .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
+                    <div >
+                        <div><p>Prepared by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${preparedby}</p>
+                        <p style="margin-bottom: 0">______________________________</p>
+                        <p>Planning Officer</p>
+                        </div>
+                
+                    </div>
+                    <div>
+                        <div><p>Reviewed by:</p></div>
+                        <div>
+                        <p style="margin-bottom: -10px">${reviewedbdd}</p>
+                            <p style="margin-bottom: 0">_______________________________________________________________</p>
+                            <p>OIC Chief, BDD</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div><p>Reviewed by:</p></div>
+                        <div>
+                            <p style="margin-bottom: -10px">${reviewedcpd}</p>
+                            <p style="margin-bottom: 0">_______________________________________________________________</p>
+                            <p>Chief, CPD</p>
+                        </div>
+                    </div>
+                
+                
+                <div>
+                    <div><p>Approved by:</p></div>
+                    <div>
+                        <p style="margin-bottom: -10px">${approvedby}</p>
+                        <p style="margin-bottom: 0">______________________________</p>
+                        <p>OIC Provincial Director</p>
+                    </div>
+                </div>
+                
+                </div>
+                `);
+                
+            }
 
             winScorecard.document.write("</body></html>");
             winScorecard.document.close();

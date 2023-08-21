@@ -10,17 +10,18 @@
         // var_dump($targets);
     @endphp
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
 
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
 
                 <li class="breadcrumb-item active">
-                    <h1 class="province-name bg-primary text-white text-uppercase mb-5 rounded">OPCR #{{ $opcr_id }}
-                    </h1>
+                   
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RD <i class="fa-solid fa-angles-right"></i> OPCR #{{ $opcr_id }}</h2>
+
                 </li>
 
             </ol>
@@ -118,7 +119,10 @@
                                             @endif
 
                                             <td>
+                                                @if (!$label->is_sub)
                                                 {{ $label->number_measure }}
+                                                @endif
+                                               
                                             </td>
                                             <td>{{ $label->strategic_measure }}
 
@@ -306,10 +310,12 @@
                                      
                                         <button style="display: none" type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional"
                                             id="print-button">Scorecard</button>
 
                                         <button type="button" class="btn btn-primary my-2"
                                             data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}"
+                                            data-file-type="Regional"
                                             id="print-scoreCard">Scorecard</button>
                                            
                                         
@@ -440,7 +446,11 @@
                                         {{ $label->objective_letter }}
                                     </td>
                                 @endif
-                                <td>{{ $label->number_measure }}</td>
+                                <td>
+                                    @if (!$label->is_sub)
+                                    {{ $label->number_measure }}
+                                    @endif
+                                </td>
                                 <td>{{ $label->strategic_measure }}</td>
                                 @php
                                     $total = $label->BUK + $label->CAM + $label->LDN + $label->MISOR + $label->MISOC;

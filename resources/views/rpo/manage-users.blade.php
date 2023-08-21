@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="card mb-4 m-4">
             <div class="card-header">
                 <div class="table-title">
@@ -61,6 +61,9 @@
 
                     <tbody>
                         @foreach ($users ?? [] as $user)
+                     
+                        @if ($user->user_type_ID != '2')
+                        
                             <tr>
                                 <td>{{ $user->user_ID }}</td>
                                 <td>{{ $user->username }}</td>
@@ -143,6 +146,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -227,7 +231,7 @@
                                 <div>
                                     <div class="input-group" id='input-userkey-container'>
                                         <input type="text" id='input-userkey' name='input_userkey'
-                                            class="form-control" placeholder="User Key" required>
+                                            class="form-control" placeholder="User Key" required readonly>
 
                                         <span class="input-group-btn">
                                             <span class="input-group-btn">

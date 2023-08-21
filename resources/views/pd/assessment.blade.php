@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
                 <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                     Provincial Director Performance Assessment
@@ -29,6 +29,7 @@
                                 <th scope="col" class="bg-primary text-white">Percentage</th>
                                 <th scope="col" class="bg-primary text-white">Reason</th>
                                 <th scope="col" class="bg-primary text-white">Remarks</th>
+                                <th scope="col" class="bg-primary text-white">Comment</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,7 +41,7 @@
                                     <td>{{ $eva->month }}</td>
                                     <td>{{ $eva->monthly_target }}</td>
                                     <td>{{ $eva->monthly_accomplishment }}</td>
-                                    <td>{{ ($eva->monthly_accomplishment / $eva->monthly_target) * 100 }} %</td>
+                                    <td>{{ number_format(($eva->monthly_accomplishment / $eva->monthly_target) * 100, 2) }} %</td>
                                     @if ($eva->reason == null)
                                         <td>No reason added yet</td>
                                         <td>No Remarks</td>
@@ -57,6 +58,13 @@
                                         @else
                                             <td>{{ $eva->remark }}</td>
                                         @endif
+                                    @endif
+
+                                    @if ($eva->comment == null)
+                                        <td>No comment added yet</td>
+                                    @else
+                                        <td>{{ $eva->comment }}</td>
+                                       
                                     @endif
 
                                 </tr>

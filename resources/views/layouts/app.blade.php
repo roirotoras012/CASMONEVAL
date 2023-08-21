@@ -13,6 +13,7 @@
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href={{ asset('css/custom.css') }}>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -35,23 +36,29 @@
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">
             <div class="container">
-                <a class="navbar-brand" href="{{ 
-                    auth()->check() ? (
-                        auth()->user()->user_type_ID === 1 ? url('/rd/dashboard') : 
-                        (auth()->user()->user_type_ID === 2 ? url('/rpo/dashboard') : 
-                        (auth()->user()->user_type_ID === 3 ? url('/pd/dashboard') : 
-                        (auth()->user()->user_type_ID === 4 ? url('/ppo/dashboard') : 
-                        (auth()->user()->user_type_ID === 5 ? url('/dc/dashboard') : '#'))))) : url('/') 
-                }}">
+                <a class="navbar-brand"
+                    href="{{ auth()->check()
+                        ? (auth()->user()->user_type_ID === 1
+                            ? url('/rd/dashboard')
+                            : (auth()->user()->user_type_ID === 2
+                                ? url('/rpo/dashboard')
+                                : (auth()->user()->user_type_ID === 3
+                                    ? url('/pd/dashboard')
+                                    : (auth()->user()->user_type_ID === 4
+                                        ? url('/ppo/dashboard')
+                                        : (auth()->user()->user_type_ID === 5
+                                            ? url('/dc/dashboard')
+                                            : '#')))))
+                        : url('/') }}">
                     <b>DTI's M&E System</b>
                 </a>
-                
-                
-                
-                
-                
-                
-                 
+
+
+
+
+
+
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -68,12 +75,12 @@
                     <ul class="navbar-nav ms-auto" style="align-items: center;">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
+                            {{-- @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::is('login') ? 'active' : '' }}"
                                         href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
-                            @endif
+                            @endif --}}
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
@@ -185,10 +192,10 @@
                 });
             });
         </script> --}}
-      
+
         <script>
             $(document).ready(function() {
-              
+
 
                 function getNotifications() {
                     $.ajax({
@@ -214,21 +221,22 @@
                                     }
                                 } else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/manage') }}";
-                                    if (notification.type == 'Business Development Division') {
+                                    if (notification.type == 'BDD') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'Consumer Protection Division') {
+                                    } else if (notification.type == 'CPD') {
                                         url = "{{ url('/dc/coaching') }}";
-                                    } else if (notification.type == 'Finance Administrative Division') {
+                                    } else if (notification.type == 'FAD') {
                                         url = "{{ url('/dc/coaching') }}";
                                     }
-                                }else if (notification.user_type_ID == 3) { // PD user type ID
+                                } else if (notification.user_type_ID == 3) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
                                 }
-                                
+
                                 // url += '?opcr=' + notification.opcr_ID;
                                 var dateFromNow = moment(notification.created_at).fromNow();
-                    var notificationText = dataYear + " (" + dateFromNow + ")";
-                    var notificationLink = $('<a class="dropdown-item" href="' + url + '">' + notificationText + '</a>');
+                                var notificationText = dataYear + " (" + dateFromNow + ")";
+                                var notificationLink = $('<a class="dropdown-item" href="' + url +
+                                    '">' + notificationText + '</a>');
                                 notificationLink.click(function(e) {
                                     e.preventDefault();
                                     $.ajaxSetup({
@@ -320,51 +328,52 @@
                     });
                 });
 
-                
-(function() {
-  'use strict';
-  window.addEventListener('load', function() {
-    // fetch all the forms we want to apply custom style
-    var inputs = document.getElementsByClassName('form-control')
 
-    // loop over each input and watch blue event
-    var validation = Array.prototype.filter.call(inputs, function(input) {
-        
-      input.addEventListener('blur', function(event) {
-        // reset
-        input.classList.remove('is-invalid')
-        input.classList.remove('is-valid')
-        
-        if (input.checkValidity() === false) {
-            input.classList.add('is-invalid')
-        }
-        else {
-            input.classList.add('is-valid')
-        }
-      }, false);
-    });
+                (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                        // fetch all the forms we want to apply custom style
+                        var inputs = document.getElementsByClassName('form-control')
 
-     var passwordInput = document.getElementById('password');
-    var passwordConfirmInput = document.getElementById('password-confirm');
-    var passwordConfirmError = document.getElementById('password-confirm-error');
+                        // loop over each input and watch blue event
+                        var validation = Array.prototype.filter.call(inputs, function(input) {
 
-    function validatePasswordConfirmation() {
-      if (passwordInput.value !== passwordConfirmInput.value) {
-          passwordConfirmInput.classList.remove('is-valid');
-        passwordConfirmInput.classList.add('is-invalid');
-        passwordConfirmError.style.display = 'block';
-      } else {
-        passwordConfirmInput.classList.remove('is-invalid');
-        passwordConfirmError.style.display = 'none';
-      }
-    }
+                            input.addEventListener('blur', function(event) {
+                                // reset
+                                input.classList.remove('is-invalid')
+                                input.classList.remove('is-valid')
 
-    passwordInput.addEventListener('input', validatePasswordConfirmation);
-    passwordConfirmInput.addEventListener('input', validatePasswordConfirmation);
-  }, false);
-})()
+                                if (input.checkValidity() === false) {
+                                    input.classList.add('is-invalid')
+                                } else {
+                                    input.classList.add('is-valid')
+                                }
+                            }, false);
+                        });
+
+                        var passwordInput = document.getElementById('password');
+                        var passwordConfirmInput = document.getElementById('password-confirm');
+                        var passwordConfirmError = document.getElementById('password-confirm-error');
+
+                        function validatePasswordConfirmation() {
+                            if (passwordInput.value !== passwordConfirmInput.value) {
+                                passwordConfirmInput.classList.remove('is-valid');
+                                passwordConfirmInput.classList.add('is-invalid');
+                                passwordConfirmError.style.display = 'block';
+                            } else {
+                                passwordConfirmInput.classList.remove('is-invalid');
+                                passwordConfirmError.style.display = 'none';
+                            }
+                        }
+
+                        passwordInput.addEventListener('input', validatePasswordConfirmation);
+                        passwordConfirmInput.addEventListener('input', validatePasswordConfirmation);
+                    }, false);
+                })()
 
             });
+
+            
         </script>
 
 

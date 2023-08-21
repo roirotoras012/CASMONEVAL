@@ -4,9 +4,9 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
 
             <ol class="breadcrumb mb-4">
@@ -14,7 +14,7 @@
             @if ($annual_targets)
                 <div class="container">
 
-                    <h1 class="province-name bg-danger text-white text-uppercase mb-5 rounded">CPD division level view</h1>
+                    <h2 class="province-name bg-danger text-white text-uppercase mb-5 rounded">CPD division level view</h2>
                     <div class="d-flex justify-content-between">
                         @foreach ($provinces as $province)
                         @if ($province->province_ID == $user->province_ID)

@@ -60,13 +60,11 @@ class RegistrationKeyController extends Controller
         }
         if (!$province_id) {
             toast('User Validated Successfully','success');
-
             return redirect()
             ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id , "province-id" => "0", 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
         }
         toast('User Validated Successfully','success');
-
         return redirect()
             ->route('registerUser.index', ['user-id' => $user_type_id, 'registration-key' => $user_key , 'division-id' => $division_id ,"province-id" => $province_id, 'status' => "active"])
             ->with('validated', 'User Validated Successfully');
@@ -95,9 +93,7 @@ class RegistrationKeyController extends Controller
         Alert::success('User created successfully');
         return redirect()
             ->route('users.adminView');
-        // return redirect()
-        //     ->route('users.adminView')
-        //     ->with('success', 'User created successfully.');
+       
     }
 
     /**

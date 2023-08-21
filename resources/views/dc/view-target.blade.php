@@ -4,12 +4,12 @@
 @endsection
 @section('content')
     <x-user-sidebar>
-        <div class="loading-screen">
+        {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-        </div>
+        </div> --}}
         <div class="container-fluid px-4 py-5">
             @if (!is_null($notification) && count($notification) > 0)
-                <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
+                {{-- <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                     {{ $userDetails->first_name }} -
                     {{ match ($userDetails->province_ID) {
                         1 => 'Bukidnon BDD Division',
@@ -29,18 +29,19 @@
                         default => 'other',
                     } }}
                 </div>
-                <div>
+                <div> --}}
                     <div class="col-md-12">
-                        @if (session()->has('alert'))
-                            <div class="alert alert-danger">
-                                {{ session('alert') }}
-                            </div>
-                        @endif
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif
+                        @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p class="m-0">{{ $message }}</p>
+                        </div>
+                    @endif
+
+                    @if ($message = Session::get('error'))
+                    <div class="alert alert-danger">
+                        <p class="m-0">{{ $message }}</p>
+                    </div>
+                    @endif
                         <div>
                             @foreach ($provinces as $province)
                                 @if ($province->province_ID == $user->province_ID)
@@ -128,7 +129,7 @@
                                             3 => 'Finance Administrative Division',
                                             default => 'other',
                                         };
-                                        
+                                        $division_id = $userDetails->division_ID;
                                         $measures = $driver->targets->where('division.division', $divisionName)->where('opcr_id', $opcrs_active[0]->opcr_ID);
                                         $measure_count = $measures->count();
                                         $has_province = false;
@@ -152,7 +153,16 @@
                                                 $i++;
                                             @endphp
                                             <td rowspan="{{ $annual_count + 1 }}" class="text-center align-middle">
-                                                {{ $driver->driver }}</td>
+                                                {{ $driver->driver }} <form action="{{ route('dc.undo_driver') }}" method="post" id="{{$driver->driver_ID}}">
+                                                    @csrf
+                                                    <input type="hidden" value="{{$driver->driver_ID}}" name="driver_id"> 
+                                                    <input type="hidden" value="{{$opcrs_active[0]->opcr_ID}}" name="opcr_id"> 
+                                                    <input type="hidden" value="{{$division_id}}" name="division_id"> 
+                                                    
+                                                    <button type="submit" class="btn" onclick="confirmDeletion(event)"><i class="fa-solid fa-rotate-left"></i></button>
+                                                </form>
+                                            
+                                            </td>
                                         </tr>
 
 
@@ -281,14 +291,17 @@
                                                                             @endif
                                                                         @endfor
                                                                         <td class="text-center align-middle">
-
-                                                                            @if ($annualTarget->type == 'PERCENTAGE')
-                                                                            {{ $totalTarget/$monthly_target_count }}%
+                                                                            @if ($monthly_target_count > 0)
+                                                                                @if ($annualTarget->type == 'PERCENTAGE')
+                                                                                    {{ $totalTarget / $monthly_target_count }}%
+                                                                                @else
+                                                                                    {{ $totalTarget }}
+                                                                                @endif
                                                                             @else
-                                                                            {{ $totalTarget }}
+                                                                                N/A
                                                                             @endif
-                                                                          
-                                                                              </td>
+                                                                        </td>
+                                                                        
                                                                     @endif
                                                                 @endif
                                                             @endfor
@@ -322,4 +335,15 @@
 
 
     </x-user-sidebar>
+    <script>
+
+function confirmDeletion(event) {
+                event.preventDefault();
+                var result = confirm("Are you sure you want to undo driver group?");
+                if (result) {
+                    var form = event.target.closest('form');
+                    form.submit();
+                }
+            }
+    </script>
 @endsection

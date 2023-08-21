@@ -6,13 +6,13 @@
     {{ 'RPO Add Target' }}
 @endsection
 @section('content')
-<x-user-sidebar>
-    <div class="loading-screen">
+    <x-user-sidebar>
+        {{-- <div class="loading-screen">
         <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
-      </div>
+      </div> --}}
         <div class="container-fluid px-4 py-5">
-                
-            <div class="card mb-4 m-4">
+
+            {{-- <div class="card mb-4 m-4">
                 <div class="card-header">
                     <div class="table-title">
                         <div class="row d-flex align-items-center">
@@ -25,14 +25,16 @@
                         </div>
                     </div>
                 </div>
-    
-                
-    
-           
-           
-            </div>
+
+            </div> --}}
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Add
+                        Targets</h2>
+                </li>
+            </ol>
             <div class="opcr-container">
-                
+
 
                 <div class="opcr-table">
 
@@ -47,8 +49,8 @@
 
 
                     <form action="{{ route('add_targets') }}" method="post" id="addTargetForm">
-                        
-                        <table class="table table-bordered ppo-table shadow">
+
+                        <table class="table table-bordered ppo-table shadow forms">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th class="p-3">#</th>
@@ -70,128 +72,146 @@
 
                                 @csrf
                                 @php
-                                $current_objective = '';
+                                    $current_objective = '';
                                     $ctr = 0;
                                 @endphp
                                 @foreach ($labels as $label)
-                              
-                                  
                                     <tr class="table-tr">
-                                        
-                                        @if ($label->strategic_objective != $current_objective)
-                                        
-                                        @php
-                                        $obj_count = 0;
-                                        foreach ($labels as $label2) {
-                                            if($label2->strategic_objective_ID == $label->strategic_objective_ID){
-                                                $obj_count++;
 
-                                            }
-                                        }
-                                        @endphp
-                                        {{-- <h2>{{$qwe}}</h2> --}}
-                                       
-                                        <td rowspan="{{$obj_count}}">
-                                        {{ $label->objective_letter }}
-                                        </td>
-                                        <td rowspan="{{$obj_count}}">
-                                        {{ $label->strategic_objective }} 
-                                        </td>
+                                        @if ($label->strategic_objective != $current_objective)
+                                            @php
+                                                $obj_count = 0;
+                                                foreach ($labels as $label2) {
+                                                    if ($label2->strategic_objective_ID == $label->strategic_objective_ID) {
+                                                        $obj_count++;
+                                                    }
+                                                }
+                                            @endphp
+                                            {{-- <h2>{{$qwe}}</h2> --}}
+
+                                            <td rowspan="{{ $obj_count }}">
+                                                {{ $label->objective_letter }}
+                                            </td>
+                                            <td rowspan="{{ $obj_count }}">
+                                                {{ $label->strategic_objective }}
+                                            </td>
                                         @endif
                                         <td>
-                                            {{ $label->number_measure }}
+                                            @if (!$label->is_sub)
+                                                {{ $label->number_measure }}
+                                            @endif
+
                                         </td>
-                                        <td>{{ $label->strategic_measure }} 
-                                            {{ $label->sum_of }}
-                                            @if (!isset($label->sum_of)) 
-                                            <input type="hidden"
-                                            name="data[{{ $ctr }}][strategic_objective]"
-                                            value="{{ $label->strategic_objective_ID }}">
-                                            <input type="hidden" name="data[{{ $ctr }}][strategic_measure]"
-                                                value="{{ $label->strategic_measure_ID }}">
-                                            <input type="hidden" name="data[{{ $ctr }}][strategic_measurez]"
-                                                value="{{ $label->strategic_measure }}">
-                                            <input type="hidden" name="data[{{ $ctr }}][type]"
-                                                value="{{ $label->type }}">
-                                            <input type="hidden" name="data[{{ $ctr }}][division_ID]"
-                                                value="{{ $label->division_ID }}">
+                                        <td>{{ $label->strategic_measure }}
+
+                                            @if (!isset($label->sum_of))
+                                                <input type="hidden" name="data[{{ $ctr }}][strategic_objective]"
+                                                    value="{{ $label->strategic_objective_ID }}">
+                                                <input type="hidden" name="data[{{ $ctr }}][strategic_measure]"
+                                                    value="{{ $label->strategic_measure_ID }}">
+                                                <input type="hidden" name="data[{{ $ctr }}][strategic_measurez]"
+                                                    value="{{ $label->strategic_measure }}">
+                                                <input type="hidden" name="data[{{ $ctr }}][type]"
+                                                    value="{{ $label->type }}">
+                                                <input type="hidden" name="data[{{ $ctr }}][division_ID]"
+                                                    value="{{ $label->division_ID }}">
                                             @endif
                                         </td>
 
                                         <td>
-                                            @if (!isset($label->sum_of)) 
-                                            <input  class="form-control"  type="hidden" name="data[{{ $ctr }}][total_targets]">
-                                            @endif
-                                        </td>
-                                        <td >
                                             @if (!isset($label->sum_of))
-                                            <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
-                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][buk_target_type]">
-                                                %
-                                            </label>
-                                            </div>
-                                            
+                                                <input class="form-control" type="hidden"
+                                                    name="data[{{ $ctr }}][total_targets]">
                                             @endif
-                                            
-                                            
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
-                                            <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][CAM]"  pattern="^[0-9]+$">
-                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][cam_target_type]">
-                                                    %
-                                                </label>
-                                            </div>
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input class="form-control" type="text"
+                                                        name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex"
+                                                        style="margin-bottom: 0 !important">
+                                                        <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
+                                                            type="checkbox" id="target_type_{{ $ctr }}"
+                                                            name="data[{{ $ctr }}][buk_target_type]">
+                                                        %
+                                                    </label>
+                                                </div>
                                             @endif
-                                            
 
-                                           
+
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
-                                            <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][LDN]"  pattern="^[0-9]+$">
-                                            <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][ldn_target_type]">
-                                                %
-                                            </label>
-                                            </div>
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input class="form-control" type="text"
+                                                        name="data[{{ $ctr }}][CAM]" pattern="^[0-9]+$">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex"
+                                                        style="margin-bottom: 0 !important">
+                                                        <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
+                                                            type="checkbox" id="target_type_{{ $ctr }}"
+                                                            name="data[{{ $ctr }}][cam_target_type]">
+                                                        %
+                                                    </label>
+                                                </div>
                                             @endif
-                                            
-                                          
-                                            
+
+
+
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
-                                            <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOR]"  pattern="^[0-9]+$">
-                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misor_target_type]">
-                                                    %
-                                                </label>
-                                            </div>
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input class="form-control" type="text"
+                                                        name="data[{{ $ctr }}][LDN]" pattern="^[0-9]+$">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex"
+                                                        style="margin-bottom: 0 !important">
+                                                        <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
+                                                            type="checkbox" id="target_type_{{ $ctr }}"
+                                                            name="data[{{ $ctr }}][ldn_target_type]">
+                                                        %
+                                                    </label>
+                                                </div>
                                             @endif
-                                            
-                                            
-                                           
+
+
+
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
-                                            <div class="d-flex gap-1 align-items-center">
-                                                <input class="form-control"  type="text" name="data[{{ $ctr }}][MISOC]"  pattern="^[0-9]+$">
-                                                <label for="target_type_{{ $ctr }}" class="d-flex" style="margin-bottom: 0 !important">
-                                                    <input type="checkbox" id="target_type_{{ $ctr }}" name="data[{{ $ctr }}][misoc_target_type]">
-                                                    %
-                                                </label>
-                                            </div>
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input class="form-control" type="text"
+                                                        name="data[{{ $ctr }}][MISOR]" pattern="^[0-9]+$">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex"
+                                                        style="margin-bottom: 0 !important">
+                                                        <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
+                                                            type="checkbox" id="target_type_{{ $ctr }}"
+                                                            name="data[{{ $ctr }}][misor_target_type]">
+                                                        %
+                                                    </label>
+                                                </div>
                                             @endif
-                                            
-                                           
-                                           
+
+
+
+                                        </td>
+                                        <td>
+                                            @if (!isset($label->sum_of))
+                                                <div class="d-flex gap-1 align-items-center">
+                                                    <input class="form-control" type="text"
+                                                        name="data[{{ $ctr }}][MISOC]" pattern="^[0-9]+$">
+                                                    <label for="target_type_{{ $ctr }}" class="d-flex"
+                                                        style="margin-bottom: 0 !important">
+                                                        <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
+                                                            type="checkbox" id="target_type_{{ $ctr }}"
+                                                            name="data[{{ $ctr }}][misoc_target_type]">
+                                                        %
+                                                    </label>
+                                                </div>
+                                            @endif
+
+
+
                                         </td>
 
                                     </tr>
@@ -200,7 +220,6 @@
                                         $ctr++;
                                         $current_objective = $label->strategic_objective;
                                     @endphp
-                                   
                                 @endforeach
 
 
@@ -212,23 +231,25 @@
                                     <button type="submit" class="btn btn-primary" value="ADD">
                                         Add OPCR
                                     </button>
-                                    <button type="button" class="btn btn-success">
-                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCR</a> 
-                                    </button>
+                                    {{-- <button type="button" class="btn btn-success">
+                                        <a style="text-decoration: none; color:white;" href="{{ url('rpo/savedtarget') }}">View OPCRs</a> 
+                                    </button> --}}
                                 </div>
 
 
 
-                          <div class="form-group">
-                            <label for="year">Year:</label>
-                            <input type="text" name="year" class="form-control" id="usr" required pattern="^(19|20)\d{2}$">
-                              <div class="invalid-feedback">Please enter a valid year</div>
-                          </div>
-                          <div class="form-group">
-                            <label for="description">Description:</label>
-                            <textarea type="password" name="description" class="form-control" id="pwd" required pattern="^[A-Za-z0-9\s]+$
+                                <div class="form-group">
+                                    <label for="year">Year:</label>
+                                    <input type="text" name="year" class="form-control" id="usr" required
+                                        pattern="^(19|20)\d{2}$">
+                                    <div class="invalid-feedback">Please enter a valid year</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea type="password" name="description" class="form-control" id="pwd" required
+                                        pattern="^[A-Za-z0-9\s]+$
 "></textarea>
-                          </div>
+                                </div>
                             </tbody>
 
                         </table>
@@ -238,33 +259,42 @@
 
 
             </div>
-        
+
         </div>
 
     </x-user-sidebar>
     <script>
-        
-$(document).ready(function() {
-  
-  var target_form = document.getElementById('addTargetForm');
+        $(document).ready(function() {
+            $('.dynamic-checkbox').on('click', function() {
+                console.log("wew")
+                // Get the value and data-ctr attribute of the clicked checkbox
+                var checkboxValue = $(this).val();
+                var ctrValue = $(this).data('ctr');
+                var isChecked = $(this).prop('checked');
+                console.log(isChecked)
+                // Set the value for all checkboxes with the same data-ctr attribute
+                $('.dynamic-checkbox[data-ctr="' + ctrValue + '"]').prop('checked', isChecked);
+            });
 
-  target_form.addEventListener('submit', (event) => {
+            var target_form = document.getElementById('addTargetForm');
 
-      // Prevent the form from submitting normally
-      event.preventDefault();
-     
-      // Disable the submit button
-      const button = event.submitter;
-      button.disabled = true;
-      
-      // Submit the form
-      
-      event.target.submit();
-    });
+            target_form.addEventListener('submit', (event) => {
+
+                // Prevent the form from submitting normally
+                event.preventDefault();
+
+                // Disable the submit button
+                const button = event.submitter;
+                button.disabled = true;
+
+                // Submit the form
+
+                event.target.submit();
+            });
 
 
 
-  // your code goes here
-});
+            // your code goes here
+        });
     </script>
 @endsection

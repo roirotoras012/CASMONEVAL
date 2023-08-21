@@ -16,16 +16,18 @@ use Illuminate\Http\Request;
 use App\Models\MonthlyTarget;
 use App\Models\StrategicMeasure;
 use App\Models\StrategicObjective;
+use App\Models\ScoreCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProvincialPlanningOfficerController extends Controller
 {
-    public function dashboard(){
-        return view('ppo.dashboard');
-    }
-    public function index()
+    // public function dashboard(){
+    //     return view('ppo.dashboard');
+    // }
+    public function dashboard()
     {
         $user = Auth::user();
         $opcrs_active = Opcr::where('is_active', 1)
@@ -49,6 +51,13 @@ class ProvincialPlanningOfficerController extends Controller
             ->get();
 
         if (count($opcrs_active) != 0) {
+            // SCORECARD
+            $scorecard = ScoreCard::where('opcr_ID', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', $user->province_ID)
+                ->first();
+
+            // dd($scorecard);
+
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)
@@ -56,6 +65,7 @@ class ProvincialPlanningOfficerController extends Controller
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
         } else {
             $annual_targets = null;
+            $scorecard = null;
         }
 
         // dd($annual_targets);
@@ -152,7 +162,7 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
         }
-        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        $valid_meas = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
@@ -216,73 +226,53 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
-                ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
-                
+                ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
+
                 ->get()
                 ->groupBy('strategic_measures_ID');
-                // dd($total_number_of_valid_measures2);
-                      $valid_meas[0]  = 0;
-                      $valid_meas[1]  = 0;
-                      $valid_meas[2]   = 0;
-                      $valid_meas[3]  = 0;
-                      $valid_meas[4]  = 0;
-                      $valid_meas[5]  = 0;
-                      $valid_meas[6]  = 0;
-                      $valid_meas[7]  = 0;
-                      $valid_meas[8]  = 0;
-                      $valid_meas[9]  = 0;
-                      $valid_meas[10]  = 0;
-                      $valid_meas[11]  = 0;
-                foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
-
-                    
-                    foreach ($total_number_of_valid_measure2 as $acc_meas2) {
-
-                        if($acc_meas2->month == 'jan'){
-                            $valid_meas[0]++;              
-                        }
-                        else if($acc_meas2->month == 'feb'){
-                            $valid_meas[1]++;
-                        }
-                        else if($acc_meas2->month == 'mar'){
-                            $valid_meas[2]++;
-                        }
-                        else if($acc_meas2->month == 'apr'){
-                            $valid_meas[3]++;
-                        }
-                        else if($acc_meas2->month == 'may'){
-                            $valid_meas[4]++;
-                        }
-                        else if($acc_meas2->month == 'jun'){
-                            $valid_meas[5]++;
-                        }
-                        else if($acc_meas2->month == 'jul'){
-                            $valid_meas[6]++;
-                        }
-                        else if($acc_meas2->month == 'aug'){
-                            $valid_meas[7]++;
-                        }
-                        else if($acc_meas2->month == 'sep'){
-                            $valid_meas[8]++;
-                        }
-                        else if($acc_meas2->month == 'oct'){
-                            $valid_meas[9]++;
-                        }
-                        else if($acc_meas2->month == 'nov'){
-                            $valid_meas[10]++;
-                        }
-                        else if($acc_meas2->month == 'dec'){
-                            $valid_meas[11]++;
-                        }
-
-
-                        
+            // dd($total_number_of_valid_measures2);
+            $valid_meas[0] = 0;
+            $valid_meas[1] = 0;
+            $valid_meas[2] = 0;
+            $valid_meas[3] = 0;
+            $valid_meas[4] = 0;
+            $valid_meas[5] = 0;
+            $valid_meas[6] = 0;
+            $valid_meas[7] = 0;
+            $valid_meas[8] = 0;
+            $valid_meas[9] = 0;
+            $valid_meas[10] = 0;
+            $valid_meas[11] = 0;
+            foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
+                foreach ($total_number_of_valid_measure2 as $acc_meas2) {
+                    if ($acc_meas2->month == 'jan') {
+                        $valid_meas[0]++;
+                    } elseif ($acc_meas2->month == 'feb') {
+                        $valid_meas[1]++;
+                    } elseif ($acc_meas2->month == 'mar') {
+                        $valid_meas[2]++;
+                    } elseif ($acc_meas2->month == 'apr') {
+                        $valid_meas[3]++;
+                    } elseif ($acc_meas2->month == 'may') {
+                        $valid_meas[4]++;
+                    } elseif ($acc_meas2->month == 'jun') {
+                        $valid_meas[5]++;
+                    } elseif ($acc_meas2->month == 'jul') {
+                        $valid_meas[6]++;
+                    } elseif ($acc_meas2->month == 'aug') {
+                        $valid_meas[7]++;
+                    } elseif ($acc_meas2->month == 'sep') {
+                        $valid_meas[8]++;
+                    } elseif ($acc_meas2->month == 'oct') {
+                        $valid_meas[9]++;
+                    } elseif ($acc_meas2->month == 'nov') {
+                        $valid_meas[10]++;
+                    } elseif ($acc_meas2->month == 'dec') {
+                        $valid_meas[11]++;
                     }
-    
-                     
-                  
-                } 
-                // dd($valid_meas);
+                }
+            }
+            // dd($valid_meas);
             // PGS array
             $pgs = [
                 'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
@@ -291,18 +281,20 @@ class ProvincialPlanningOfficerController extends Controller
                 'rating' => $pgsratingtext,
                 'monthly_valid' => $valid_meas,
             ];
+
+            // dd($pgs);
         } else {
             $monthly_targets2 = [];
             $pgs = [];
         }
         // $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        for ($i=0; $i < count($valid_meas); $i++) { 
+        for ($i = 0; $i < count($valid_meas); $i++) {
             # code...
             $pgsrating2[$i] = Pgs::where('total_num_of_targeted_measure', $valid_meas[$i])
 
-            ->get()
-            ->groupBy('actual_num_of_accomplished_measure');
+                ->get()
+                ->groupBy('actual_num_of_accomplished_measure');
         }
         // dd($pgsrating2);
         foreach ($monthly_targets2 as $monthly_target2) {
@@ -333,73 +325,72 @@ class ProvincialPlanningOfficerController extends Controller
             foreach ($monthly_target2 as $target2) {
                 # code...
 
-                if($target2->validated == "Validated"){
-                    
-                $monthly_target2->total_accom += $target2->monthly_accomplishment;
-                if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
-    
-                    $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
-                    if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
-            
-                        $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                if ($target2->validated == 'Validated') {
+                    $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                    if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
+                        $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                        if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
+                            $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
+                            $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                        }
                     }
-                    if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
-                
-                        $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
-                    }
-                }
-                if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
-        
-                    $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                    if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
+                        $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
 
-                    if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
-            
-                        $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
-                    }
-                    if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
-                
-                        $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
+                            $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
+                            $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        }
                     }
                 }
-
-                }
-
-
-
 
                 $monthly_target2->total_targets += $target2->monthly_target;
                 if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
                     $monthly_target2->first_sem += $target2->monthly_target;
-            
+
                     if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
                         $monthly_target2->first_qrtr += $target2->monthly_target;
-                    
                     }
                     if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
                         $monthly_target2->second_qrtr += $target2->monthly_target;
-                        
                     }
                 }
                 if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
                     $monthly_target2->second_sem += $target2->monthly_target;
-                
 
                     if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
                         $monthly_target2->third_qrtr += $target2->monthly_target;
-                    
                     }
                     if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
                         $monthly_target2->fourth_qrtr += $target2->monthly_target;
-                        
                     }
                 }
-                
+            }
+            if ($monthly_target2->first()->type == 'PERCENTAGE') {
+                $monthly_target2->total_targets = $monthly_target2->total_targets / 12;
+                $monthly_target2->first_sem = $monthly_target2->first_sem / 6;
+                $monthly_target2->second_sem = $monthly_target2->second_sem / 6;
+                $monthly_target2->first_qrtr = $monthly_target2->first_qrtr / 3;
+                $monthly_target2->second_qrtr = $monthly_target2->third_qrtr / 3;
+                $monthly_target2->third_qrtr = $monthly_target2->third_qrtr / 3;
+                $monthly_target2->fourth_qrtr = $monthly_target2->fourth_qrtr / 3;
+
+                $monthly_target2->total_accom = $monthly_target2->total_accom / 12;
+                $monthly_target2->first_sem_accom = $monthly_target2->first_sem_accom / 6;
+                $monthly_target2->second_sem_accom = $monthly_target2->second_sem_accom / 6;
+                $monthly_target2->first_qrtr_accom = $monthly_target2->first_qrtr_accom / 3;
+                $monthly_target2->second_qrtr_accom = $monthly_target2->second_qrtr_accom / 3;
+                $monthly_target2->third_qrtr_accom = $monthly_target2->third_qrtr_accom / 3;
+                $monthly_target2->fourth_qrtr_accom = $monthly_target2->fourth_qrtr_accom / 3;
             }
         }
-        // dd($monthly_targets2);
+        // dd($provinces);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
-    
+        return view('ppo.dashboard', compact('objectives', 'scorecard', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
 
     public function getNotifications(Request $request)
@@ -480,6 +471,7 @@ class ProvincialPlanningOfficerController extends Controller
     {
         return view('ppo.profile');
     }
+
     public function updateEmailHandler(Request $request)
     {
         $userType = auth()->user()->user_type_ID;
@@ -499,14 +491,14 @@ class ProvincialPlanningOfficerController extends Controller
                 $user->password = Hash::make($validatedData['new_password']);
             }
             $user->save();
-            return redirect()
-                ->back()
-                ->with('success', 'Email updated successfully.');
+            Alert::success('Email updated successfully.');
+
+            return redirect()->back();
         } else {
+            Alert::error('Invalid Password');
+
             // Show an error message
-            return redirect()
-                ->back()
-                ->with('error', 'Invalid Password');
+            return redirect()->back();
         }
     }
     public function updatePasswordHandler(Request $request)
@@ -517,13 +509,13 @@ class ProvincialPlanningOfficerController extends Controller
         if (Hash::check($request->current_password, $userPass)) {
             $user->password = Hash::make($request->new_password);
             $user->save();
-            return redirect()
-                ->back()
-                ->with('update-pass-success', 'Password updated successfully.');
+            Alert::success('Password updated successfully.');
+
+            return redirect()->back();
         } else {
-            return redirect()
-                ->back()
-                ->with('update-pass-error', ' Invalid Password');
+            Alert::error('Invalid Password');
+
+            return redirect()->back();
         }
     }
     public function opcr()
@@ -550,6 +542,13 @@ class ProvincialPlanningOfficerController extends Controller
             ->get();
 
         if (count($opcrs_active) != 0) {
+            // SCORECARD
+            $scorecard = ScoreCard::where('opcr_ID', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', $user->province_ID)
+                ->first();
+
+            // dd($scorecard);
+
             $annual_targets = DB::table('annual_targets')
                 ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
                 ->where('province_ID', '=', $user->province_ID)
@@ -557,6 +556,7 @@ class ProvincialPlanningOfficerController extends Controller
                 ->groupBy(['strategic_measures_ID', 'province_ID']);
         } else {
             $annual_targets = null;
+            $scorecard = null;
         }
 
         // dd($annual_targets);
@@ -653,7 +653,7 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
         }
-        $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        $valid_meas = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         $total_number_of_valid_measures = collect();
         if (count($opcrs_active) > 0) {
             $monthly_targets2 = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
@@ -717,73 +717,53 @@ class ProvincialPlanningOfficerController extends Controller
                 ->where(function ($query) {
                     $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
                 })
-                ->select('monthly_targets.*','annual_targets.*', 'strategic_measures.strategic_measure')
-                
+                ->select('monthly_targets.*', 'annual_targets.*', 'strategic_measures.strategic_measure')
+
                 ->get()
                 ->groupBy('strategic_measures_ID');
-                // dd($total_number_of_valid_measures2);
-                      $valid_meas[0]  = 0;
-                      $valid_meas[1]  = 0;
-                      $valid_meas[2]   = 0;
-                      $valid_meas[3]  = 0;
-                      $valid_meas[4]  = 0;
-                      $valid_meas[5]  = 0;
-                      $valid_meas[6]  = 0;
-                      $valid_meas[7]  = 0;
-                      $valid_meas[8]  = 0;
-                      $valid_meas[9]  = 0;
-                      $valid_meas[10]  = 0;
-                      $valid_meas[11]  = 0;
-                foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
-
-                    
-                    foreach ($total_number_of_valid_measure2 as $acc_meas2) {
-
-                        if($acc_meas2->month == 'jan'){
-                            $valid_meas[0]++;              
-                        }
-                        else if($acc_meas2->month == 'feb'){
-                            $valid_meas[1]++;
-                        }
-                        else if($acc_meas2->month == 'mar'){
-                            $valid_meas[2]++;
-                        }
-                        else if($acc_meas2->month == 'apr'){
-                            $valid_meas[3]++;
-                        }
-                        else if($acc_meas2->month == 'may'){
-                            $valid_meas[4]++;
-                        }
-                        else if($acc_meas2->month == 'jun'){
-                            $valid_meas[5]++;
-                        }
-                        else if($acc_meas2->month == 'jul'){
-                            $valid_meas[6]++;
-                        }
-                        else if($acc_meas2->month == 'aug'){
-                            $valid_meas[7]++;
-                        }
-                        else if($acc_meas2->month == 'sep'){
-                            $valid_meas[8]++;
-                        }
-                        else if($acc_meas2->month == 'oct'){
-                            $valid_meas[9]++;
-                        }
-                        else if($acc_meas2->month == 'nov'){
-                            $valid_meas[10]++;
-                        }
-                        else if($acc_meas2->month == 'dec'){
-                            $valid_meas[11]++;
-                        }
-
-
-                        
+            // dd($total_number_of_valid_measures2);
+            $valid_meas[0] = 0;
+            $valid_meas[1] = 0;
+            $valid_meas[2] = 0;
+            $valid_meas[3] = 0;
+            $valid_meas[4] = 0;
+            $valid_meas[5] = 0;
+            $valid_meas[6] = 0;
+            $valid_meas[7] = 0;
+            $valid_meas[8] = 0;
+            $valid_meas[9] = 0;
+            $valid_meas[10] = 0;
+            $valid_meas[11] = 0;
+            foreach ($total_number_of_valid_measures2 as $total_number_of_valid_measure2) {
+                foreach ($total_number_of_valid_measure2 as $acc_meas2) {
+                    if ($acc_meas2->month == 'jan') {
+                        $valid_meas[0]++;
+                    } elseif ($acc_meas2->month == 'feb') {
+                        $valid_meas[1]++;
+                    } elseif ($acc_meas2->month == 'mar') {
+                        $valid_meas[2]++;
+                    } elseif ($acc_meas2->month == 'apr') {
+                        $valid_meas[3]++;
+                    } elseif ($acc_meas2->month == 'may') {
+                        $valid_meas[4]++;
+                    } elseif ($acc_meas2->month == 'jun') {
+                        $valid_meas[5]++;
+                    } elseif ($acc_meas2->month == 'jul') {
+                        $valid_meas[6]++;
+                    } elseif ($acc_meas2->month == 'aug') {
+                        $valid_meas[7]++;
+                    } elseif ($acc_meas2->month == 'sep') {
+                        $valid_meas[8]++;
+                    } elseif ($acc_meas2->month == 'oct') {
+                        $valid_meas[9]++;
+                    } elseif ($acc_meas2->month == 'nov') {
+                        $valid_meas[10]++;
+                    } elseif ($acc_meas2->month == 'dec') {
+                        $valid_meas[11]++;
                     }
-    
-                     
-                  
-                } 
-                // dd($valid_meas);
+                }
+            }
+            // dd($valid_meas);
             // PGS array
             $pgs = [
                 'total_number_of_valid_measures' => $total_number_of_valid_measures->count(),
@@ -800,12 +780,12 @@ class ProvincialPlanningOfficerController extends Controller
         }
         // $valid_meas = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        for ($i=0; $i < count($valid_meas); $i++) { 
+        for ($i = 0; $i < count($valid_meas); $i++) {
             # code...
             $pgsrating2[$i] = Pgs::where('total_num_of_targeted_measure', $valid_meas[$i])
 
-            ->get()
-            ->groupBy('actual_num_of_accomplished_measure');
+                ->get()
+                ->groupBy('actual_num_of_accomplished_measure');
         }
         // dd($pgsrating2);
         foreach ($monthly_targets2 as $monthly_target2) {
@@ -836,90 +816,72 @@ class ProvincialPlanningOfficerController extends Controller
             foreach ($monthly_target2 as $target2) {
                 # code...
 
-                if($target2->validated == "Validated"){
-                    
-                $monthly_target2->total_accom += $target2->monthly_accomplishment;
-                if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
-    
-                    $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
-                    if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
-            
-                        $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                if ($target2->validated == 'Validated') {
+                    $monthly_target2->total_accom += $target2->monthly_accomplishment;
+                    if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
+                        $monthly_target2->first_sem_accom += $target2->monthly_accomplishment;
+                        if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
+                            $monthly_target2->first_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
+                            $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
+                        }
                     }
-                    if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
-                
-                        $monthly_target2->second_qrtr_accom += $target2->monthly_accomplishment;
-                    }
-                }
-                if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
-        
-                    $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
+                    if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
+                        $monthly_target2->second_sem_accom += $target2->monthly_accomplishment;
 
-                    if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
-            
-                        $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
-                    }
-                    if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
-                
-                        $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
+                            $monthly_target2->third_qrtr_accom += $target2->monthly_accomplishment;
+                        }
+                        if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
+                            $monthly_target2->fourth_qrtr_accom += $target2->monthly_accomplishment;
+                        }
                     }
                 }
-
-                }
-
-
-
 
                 $monthly_target2->total_targets += $target2->monthly_target;
                 if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
                     $monthly_target2->first_sem += $target2->monthly_target;
-            
+
                     if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar') {
                         $monthly_target2->first_qrtr += $target2->monthly_target;
-                    
                     }
                     if ($target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
                         $monthly_target2->second_qrtr += $target2->monthly_target;
-                        
                     }
                 }
                 if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep' || $target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
                     $monthly_target2->second_sem += $target2->monthly_target;
-                
 
                     if ($target2->month == 'jul' || $target2->month == 'aug' || $target2->month == 'sep') {
                         $monthly_target2->third_qrtr += $target2->monthly_target;
-                    
                     }
                     if ($target2->month == 'oct' || $target2->month == 'nov' || $target2->month == 'dec') {
                         $monthly_target2->fourth_qrtr += $target2->monthly_target;
-                        
                     }
                 }
-                
             }
-            if($monthly_target2->first()->type == 'PERCENTAGE'){
+            if ($monthly_target2->first()->type == 'PERCENTAGE') {
+                $monthly_target2->total_targets = $monthly_target2->total_targets / 12;
+                $monthly_target2->first_sem = $monthly_target2->first_sem / 6;
+                $monthly_target2->second_sem = $monthly_target2->second_sem / 6;
+                $monthly_target2->first_qrtr = $monthly_target2->first_qrtr / 3;
+                $monthly_target2->second_qrtr = $monthly_target2->third_qrtr / 3;
+                $monthly_target2->third_qrtr = $monthly_target2->third_qrtr / 3;
+                $monthly_target2->fourth_qrtr = $monthly_target2->fourth_qrtr / 3;
 
-                $monthly_target2->total_targets = $monthly_target2->total_targets/12;
-            $monthly_target2->first_sem = $monthly_target2->first_sem/6;
-            $monthly_target2->second_sem = $monthly_target2->second_sem/6;
-            $monthly_target2->first_qrtr = $monthly_target2->first_qrtr/3;
-            $monthly_target2->second_qrtr = $monthly_target2->third_qrtr/3;
-            $monthly_target2->third_qrtr = $monthly_target2->third_qrtr/3;
-            $monthly_target2->fourth_qrtr = $monthly_target2->fourth_qrtr/3;
-
-            $monthly_target2->total_accom =  $monthly_target2->total_accom/12;
-            $monthly_target2->first_sem_accom =  $monthly_target2->first_sem_accom/6;
-            $monthly_target2->second_sem_accom =  $monthly_target2->second_sem_accom/6;
-            $monthly_target2->first_qrtr_accom = $monthly_target2->first_qrtr_accom/3;
-            $monthly_target2->second_qrtr_accom = $monthly_target2->second_qrtr_accom/3;
-            $monthly_target2->third_qrtr_accom = $monthly_target2->third_qrtr_accom/3;
-            $monthly_target2->fourth_qrtr_accom = $monthly_target2->fourth_qrtr_accom/3;
+                $monthly_target2->total_accom = $monthly_target2->total_accom / 12;
+                $monthly_target2->first_sem_accom = $monthly_target2->first_sem_accom / 6;
+                $monthly_target2->second_sem_accom = $monthly_target2->second_sem_accom / 6;
+                $monthly_target2->first_qrtr_accom = $monthly_target2->first_qrtr_accom / 3;
+                $monthly_target2->second_qrtr_accom = $monthly_target2->second_qrtr_accom / 3;
+                $monthly_target2->third_qrtr_accom = $monthly_target2->third_qrtr_accom / 3;
+                $monthly_target2->fourth_qrtr_accom = $monthly_target2->fourth_qrtr_accom / 3;
             }
         }
         // dd($monthly_targets2);
 
-        return view('ppo.opcr', compact('objectives', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
+        return view('ppo.opcr', compact('objectives', 'scorecard', 'objectivesact', 'measures', 'provinces', 'annual_targets', 'divisions', 'opcrs', 'opcrs_active', 'driversact', 'user', 'monthly_targets', 'notification', 'commonMeasures', 'monthly_targets2', 'pgs', 'pgsrating2'));
     }
 
     public function savetarget()
@@ -1039,6 +1001,28 @@ class ProvincialPlanningOfficerController extends Controller
         // return view('ppo.accomplishment');
     }
 
+    public function updateProfileHandler(Request $request)
+    {
+        $userID = auth()->user()->user_ID;
+        $validatedData = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'middle_name' => 'required',
+            'extension_name' => 'nullable',
+            'birthday' => 'required',
+        ]);
+        $attributes = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'middle_name' => $request->middle_name,
+            'extension_name' => $request->extension_name,
+            'birthday' => $request->birthday,
+        ];
+        $user = User::find($userID);
+        $user->update($attributes);
+        Alert::success('User profile updated successfully');
+        return redirect()->back();
+    }
     public function measure_update(Request $request)
     {
         $validatedData = $request->validate([
@@ -1053,11 +1037,10 @@ class ProvincialPlanningOfficerController extends Controller
             $measure->driver_ID = $request->input('driver_ID');
             $measure->save();
         }
+        Alert::success('Driver has been updated successfully!');
 
         // Redirect to the measure index page
-        return redirect()
-            ->route('manage')
-            ->with('success', 'driver has been updated successfully!');
+        return redirect()->route('manage');
     }
 
     public function store(Request $request)
@@ -1073,10 +1056,9 @@ class ProvincialPlanningOfficerController extends Controller
         $driver->opcr_ID = $validatedData['opcr_ID'];
         $driver->division_ID = $validatedData['division_ID'];
         $driver->save();
-        // Redirect to the objectives index page
-        return redirect()
-            ->route('add-driver')
-            ->with('success', 'driver created successfully!');
+        Alert::success('Driver created successfully!');
+
+        return redirect()->route('add-driver');
     }
 
     public function submit_to_division(Request $request)
@@ -1132,10 +1114,9 @@ class ProvincialPlanningOfficerController extends Controller
             // dd($notification);
             $notification->save();
         }
+        Alert::success('OPCR has been submitted to Division successfully!');
 
-        return redirect()
-            ->route('opcr')
-            ->with('success', 'OPCR has been submitted to Division successfully!');
+        return redirect()->route('opcr');
     }
 
     public function bdd()
@@ -1148,6 +1129,9 @@ class ProvincialPlanningOfficerController extends Controller
 
         if (count($opcrs_active) > 0) {
             $measures = StrategicMeasure::join('divisions', 'strategic_measures.division_ID', '=', 'divisions.division_ID')
+                ->where('type', '=', 'DIRECT')
+                ->orWhere('type', '=', 'DIRECT MAIN')
+                ->orWhere('type', '=', 'DIRECT COMMON')
                 ->select('strategic_measures.*', 'divisions.division', 'divisions.code')
                 ->get();
             foreach ($measures as $measure) {
@@ -1235,7 +1219,6 @@ class ProvincialPlanningOfficerController extends Controller
             $annual_accom = 0;
             $validated = true;
             foreach ($monthly_target as $target) {
-                
                 $annual_accom = floatval($target->monthly_accomplishment) + floatval($annual_accom);
 
                 if ($target->validated != 'Validated') {
@@ -1269,15 +1252,13 @@ class ProvincialPlanningOfficerController extends Controller
                 }
             }
 
-            if($monthly_target->first()->type == 'PERCENTAGE'){
-                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+            if ($monthly_target->first()->type == 'PERCENTAGE') {
+                $monthly_target->annual_accom = number_format($annual_accom / count($monthly_target), 2);
                 $monthly_target->type = 'PERCENTAGE';
-
-            }
-            else{
+            } else {
                 $monthly_target->annual_accom = $annual_accom;
             }
-            
+
             if ($validated = true) {
                 if (count($monthly_target) < 12) {
                     $monthly_target->validated = false;
@@ -1424,12 +1405,10 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 11;
                 }
             }
-            if($monthly_target->first()->type == 'PERCENTAGE'){
-                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+            if ($monthly_target->first()->type == 'PERCENTAGE') {
+                $monthly_target->annual_accom = number_format($annual_accom / count($monthly_target), 2);
                 $monthly_target->type = 'PERCENTAGE';
-
-            }
-            else{
+            } else {
                 $monthly_target->annual_accom = $annual_accom;
             }
             if ($validated = true) {
@@ -1578,12 +1557,10 @@ class ProvincialPlanningOfficerController extends Controller
                     $target->month_code = 11;
                 }
             }
-            if($monthly_target->first()->type == 'PERCENTAGE'){
-                $monthly_target->annual_accom = number_format($annual_accom  /  count($monthly_target), 2);
+            if ($monthly_target->first()->type == 'PERCENTAGE') {
+                $monthly_target->annual_accom = number_format($annual_accom / count($monthly_target), 2);
                 $monthly_target->type = 'PERCENTAGE';
-
-            }
-            else{
+            } else {
                 $monthly_target->annual_accom = $annual_accom;
             }
             if ($validated = true) {
@@ -1607,25 +1584,47 @@ class ProvincialPlanningOfficerController extends Controller
         $monthly_target = MonthlyTarget::find($request->input('monthly_target_ID'));
         $monthly_target->validated = $request->input('validated');
         $monthly_target->save();
-
-        return redirect()
-            ->back()
-            ->with('update', 'Validation updated successfully.');
+        Alert::success('Validation updated successfully.');
+        return redirect()->back();
     }
 
-
-    public function approved_opcr(Request $request) {
+    public function approved_opcr(Request $request)
+    {
         $opcr_id = $request->input('opcr_id');
         DB::table('opcr')
-        ->where('opcr_ID', $opcr_id)
-        ->update(['opcr_status' => 'approved']);
-
-        return redirect()
-        ->back()
-        ->with('update', 'OPCR Approved!');
+            ->where('opcr_ID', $opcr_id)
+            ->update(['opcr_status' => 'approved']);
+        Alert::success('OPCR Approved!');
+        return redirect()->back();
     }
 
+    public function prepared_by(Request $request)
+    {
+        $opcr_id = $request->input('opcr_id');
+        $user = auth()->user();
+        $FName = $user->first_name;
+        $LName = $user->last_name;
+        $provinceID = $user->province_ID;
 
+        $scorecard = ScoreCard::where('opcr_ID', $opcr_id)
+            ->where('province_ID', $provinceID)
+            ->first();
 
+        if ($scorecard) {
+            $scorecard->update([
+                'prepared_by' => "$FName $LName",
+                'province_ID' => $provinceID, // Add this line to update province_ID
+            ]);
+            Alert::success('OPCR Successfully Approved!');
+        } else {
+            $newScoreCard = new ScoreCard();
+            $newScoreCard->opcr_ID = $opcr_id;
+            $newScoreCard->province_ID = $provinceID;
+            $newScoreCard->prepared_by = "$FName $LName";
+            $newScoreCard->save();
+            Alert::success('ScoreCard successfully added!');
+        }
 
+        return redirect()->back();
+    }
 }
