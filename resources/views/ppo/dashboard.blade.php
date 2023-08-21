@@ -1066,8 +1066,7 @@
                 $opcrRatings[] = $pgsrating_numeric; // Add the numeric rating to the array
             }
         @endphp
-
-        <div class="row">
+        <div class="dti-container d-flex">
             <div class="col-sm-12 col-lg-6">
                 <div class="card h-100">
                     <div class="card-body">
@@ -1075,9 +1074,14 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-
+            <div class="col-sm-12 col-lg-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                       <h5>Ratings</h5>
+                    </div>
+                </div>
+            </div>
+    </div>
         <x-dashboard-ppo-pd />
     </x-user-sidebar>
 

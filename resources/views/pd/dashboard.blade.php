@@ -1038,11 +1038,14 @@
                                                 // dd($pgsrating2);
                                                 
                                             @endphp
-                                            <td class="text-left align-middle">
-                                                {{ $pgsrating2[$i][$valid90[$i]]->first()->numeric }}</td>
-                                            <td class="text-left align-middle">{{ $pgsratingtext }}</td>
+                                       <td class="text-left align-middle">
+                                                    @if (isset($pgsrating2[$i][$valid90[$i]]))
+                                                        {{ $pgsrating->numeric }}
+                                                    @else
+                                                        <!-- Display empty cell -->
+                                                    @endif
+                                                </td>
                                         @endfor
-
 
 
 
@@ -1076,7 +1079,7 @@
 
             <div class="row mt-5">
                 <div class="col-sm-12 col-lg-6">
-                    <div class="card h-100">
+                    <div class="card">
                         <div class="card-body">
                             <canvas id="opcrLineChart"></canvas>
                         </div>
