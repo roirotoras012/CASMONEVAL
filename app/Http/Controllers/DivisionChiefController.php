@@ -624,7 +624,8 @@ class DivisionChiefController extends Controller
 
         $monthlyTarget->type = isset($validatedData['target_type']) ? $validatedData['target_type'] : null;
         $monthlyTarget->save();
-        Alert::success('Annual Target successfully added!');
+        // Alert::success('Annual Target successfully added!');
+        Alert::success('Monthly Target successfully added!');
 
         // return redirect()
         //     ->route('dc.bukidnunBddIndex')
@@ -1635,7 +1636,7 @@ class DivisionChiefController extends Controller
         // return redirect()
         //     ->route('dc.manage')
         //     ->with('success', 'Transaction Completed');
-        Alert::success('Transaction Completed');
+        Alert::success('Successfully selected operational driver and KPI');
         return redirect()->route('dc.manage');
     }
 
@@ -1712,7 +1713,8 @@ class DivisionChiefController extends Controller
 
         $strategicMeasure->save();
 
-        Alert::success('Transaction Completed');
+        // Alert::success('Transaction Completed');
+        Alert::success('Added Indirect Measure');
 
         return redirect()->route('dc.manage');
     }
@@ -1731,7 +1733,8 @@ class DivisionChiefController extends Controller
         $strategicMeasure->strategic_objective_id = 0;
 
         $strategicMeasure->save();
-        Alert::success('Transaction Completed');
+        // Alert::success('Transaction Completed');
+        Alert::success('Added Mandatory Measure');
 
         return redirect()->route('dc.manage');
         // return redirect()

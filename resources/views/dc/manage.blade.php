@@ -42,6 +42,7 @@
                             <div class="d-flex justify-content-between align-items-center p-2">
                                 <div>
                                     <h3>Select an Operational Driver</h3>
+                                    <span class="text-danger">* Please make sure to select operational driver</span>
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-success" data-toggle="modal"
@@ -68,8 +69,8 @@
 
                         {{-- measures --}}
                         <div class="p-3">
-                            <h3>Strategic measures</h3>
-
+                            {{-- <h3>Strategic measures</h3> --}}
+                            <h3>Key Perfromance Indicator</h3>
                             @foreach ($measures as $measure)
                                 @php
                                     $selectedMeasure = isset($group[$measure->strategic_measure_ID]['measure_ID']);

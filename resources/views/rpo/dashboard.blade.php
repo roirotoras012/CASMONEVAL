@@ -15,7 +15,7 @@
                         Dashboard</h2>
                 </li>
             </ol>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-sm-12 col-lg-6">
                     <div class="card h-100">
                         <div class="card-body">
@@ -32,7 +32,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
 
             <div class="dti-banner mt-4">
                 <img src="{{ asset('images/logo.jpg') }}" class="logo-banner">
