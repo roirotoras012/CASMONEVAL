@@ -72,6 +72,13 @@ function setModalParams(target, value, target_type) {
     }
 }
 
+function confirmUpdate() {
+        // Ask for confirmation before submitting the form
+        if (confirm('Do you want to update the target?')) {
+            $('#modalForm').submit();
+        }
+    }
+
 // function submitModalForm() {
 //         console.log("hoy")
 //         // Submit the form inside the modal
