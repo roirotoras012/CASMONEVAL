@@ -224,7 +224,7 @@
                         <a class="nav-link  {{ Request::is('dc/accomplishment') ? 'active' : '' }}"
                             href="{{ url('dc/accomplishment') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                            Add Accompishment
+                            Add Accomplishment
 
                         </a>
 

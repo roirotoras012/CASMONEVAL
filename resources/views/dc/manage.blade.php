@@ -70,7 +70,7 @@
                         {{-- measures --}}
                         <div class="p-3">
                             {{-- <h3>Strategic measures</h3> --}}
-                            <h3>Key Perfromance Indicator</h3>
+                            <h3>Key Performance Indicator</h3>
                             @foreach ($measures as $measure)
                                 @php
                                     $selectedMeasure = isset($group[$measure->strategic_measure_ID]['measure_ID']);
