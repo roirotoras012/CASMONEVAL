@@ -1694,6 +1694,7 @@ class RegionalPlanningOfficerController extends Controller
             $validatedData = $request->validate([
                 'new_target' => 'required',
                 'target_id' => 'required',
+                'note' => 'nullable',
             ]);
 
             // Find the AnnualTarget based on the prov_target value
@@ -1710,7 +1711,48 @@ class RegionalPlanningOfficerController extends Controller
             // Update the annual_target column
             $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
             $annualTarget->annual_target = $validatedData['new_target'];
+            $annualTarget->note = $validatedData['note'];
+
+            $provinceID = $annualTarget->province_ID;
+            $opcr = Opcr::find($opcr_id);
+
+            $provinceNames = [
+                1 => 'Bukidnon',
+                2 => 'Lanao Del Norte',
+                3 => 'Misamis Oriental',
+                4 => 'Misamis Occidental',
+                5 => 'Camiguin',
+            ];
+        
+            $provinceText = $provinceNames[$provinceID] ?? 'Unknown Province';
+
+            $firstName = auth()->user()->first_name;
+            $lastName = auth()->user()->last_name;
+            $year = $opcr->year;
+            $description = $opcr->description;
+            $userName = ($firstName." ". $lastName);
+            $data = $userName . ' has updated a target for province of ' . $provinceText;
+
+
+            if ($opcr->is_active == 1) {
+                // Define the notification recipient based on province
+                $notificationRecipient = [
+                    'province_ID' => $provinceID,
+                    'user_type_ID' => 4, // PPO usertype ID
+                    'user_ID' => Auth::id(),
+                    'opcr_ID' => $annualTarget->opcr_id,
+                    'year' => $year,
+                    'type' => $description,
+                    'data' => $data,
+                ];
+
+                $newNotification = new Notification($notificationRecipient);
+
+                // dd($newNotification);
+                $newNotification->save();
+            }
             $annualTarget->save();
+            // dd($annualTarget);
             Alert::success('Annual Target successfully updated!');
             return redirect()->route('rpo.show', $annualTarget->opcr_id);
         }
@@ -2033,13 +2075,19 @@ class RegionalPlanningOfficerController extends Controller
 
     public function updateAnnual(Request $request)
     {
+
         $validatedData = $request->validate([
             'prov_val' => 'required',
             'prov_target' => 'required',
         ]);
 
+
+
         // Find the AnnualTarget based on the prov_target value
         $annualTarget = AnnualTarget::find($validatedData['prov_target']);
+        
+
+  
 
         // Check if the target exists
         if (!$annualTarget) {
@@ -2047,14 +2095,14 @@ class RegionalPlanningOfficerController extends Controller
             return redirect()->back();
             // return redirect()->back()->with('error', 'Annual Target not found!');
         }
+        
 
         // Update the annual_target column
         $annualTarget->annual_target = $validatedData['prov_val'];
         $annualTarget->save();
+       
         Alert::success('Annual Target successfully updated!');
-        // return redirect()
-        // ->route('rpo.show', $annualTarget->opcr_id) // Replace 'rpo.show' with the correct route name
-        // ->with('success', 'Annual Target successfully updated!');
+       
         return redirect()->route('rpo.show', $annualTarget->opcr_id);
     }
 }

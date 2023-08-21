@@ -198,7 +198,7 @@
                                                     @if ($label->BUK)
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['BUK_target'] }}', '{{ $label->BUK }}','{{ $label->target_type }}')">
                                                             {{ $label->BUK }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -264,7 +264,7 @@
                                                     @if ($label->CAM)
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['CAM_target'] }}', '{{ $label->CAM }}')">
                                                             {{ $label->CAM }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -324,7 +324,7 @@
                                                     @if ($label->LDN)
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['LDN_target'] }}', '{{ $label->LDN }}')">
                                                             {{ $label->LDN }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -384,7 +384,7 @@
                                                     @if ($label->MISOR)
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['MISOR_target'] }}', '{{ $label->MISOR }}')">
                                                             {{ $label->MISOR }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
@@ -445,7 +445,7 @@
                                                     @if ($label->MISOC)
                                                         <a href="#" data-bs-toggle="modal"
                                                             data-bs-target="#editAnnualModal"
-                                                            style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif"
+                                                            {{-- style="@if ($opcr[0]->is_submitted) pointer-events: none; color: gray; text-decoration: none; font-weight: bold; @endif" --}}
                                                             onclick="setModalParams('{{ $label['MISOC_target'] }}', '{{ $label->MISOC }}')">
                                                             {{ $label->MISOC }}@if ($label->target_type == 'PERCENTAGE')
                                                                 %
