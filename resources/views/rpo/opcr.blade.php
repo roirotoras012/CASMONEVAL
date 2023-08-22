@@ -141,7 +141,13 @@
                                                 @endif
 
                                             </td>
-                                            <td>{{ $label->strategic_measure }}
+                                            <td>
+                                                @if ($label->is_sub != 1)
+                                                    <b>{{ $label->strategic_measure }}</b>
+                                                    @else
+                                                    {{ $label->strategic_measure }}
+                                                @endif
+                                                
 
                                                 <input type="hidden" name="data[{{ $ctr }}][strategic_objective]"
                                                     value="{{ $label->strategic_objective_ID }}">

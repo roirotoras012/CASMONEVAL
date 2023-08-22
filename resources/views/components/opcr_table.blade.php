@@ -188,7 +188,12 @@
                                 {{ $measure->number_measure }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $measure->strategic_measure }}
+                                @if ($measure->is_sub != 1)
+                                    <b>{{ $measure->strategic_measure }}</b>
+                                @else
+                                    {{ $measure->strategic_measure }}
+                                @endif
+                                
                             </td>
                            
                             

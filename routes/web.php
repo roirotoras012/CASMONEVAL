@@ -190,6 +190,18 @@ Route::post('/notifications/mark-as-read', [ProvincialPlanningOfficerController:
     ->middleware('auth');
 
 
+    
+// RPO
+Route::get('/notifications', [RegionalPlanningOfficerController::class, 'getNotifications'])
+->name('get_notifications')
+->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [RegionalPlanningOfficerController::class, 'markNotificationsAsRead'])
+->name('mark_all_as_read')
+->middleware('auth');
+
+Route::post('/notifications/mark-as-read', [RegionalPlanningOfficerController::class, 'markAsRead'])
+->name('mark_as_read')
+->middleware('auth');
 
 
 
@@ -206,6 +218,11 @@ Route::post('/notifications/mark-as-read', [ProvincialDirectorController::class,
 ->name('mark_as_read')
 ->middleware('auth');
 
+
+
+
+
+
 // DIVISION CHIEF
 Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'])
     ->name('get_notifications')
@@ -219,15 +236,4 @@ Route::post('/notifications/mark-as-read', [DivisionChiefController::class, 'mar
     ->middleware('auth');
 
 
-// RPO
-Route::get('/notifications', [RegionalPlanningOfficerController::class, 'getNotifications'])
-    ->name('get_notifications')
-    ->middleware('auth');
-Route::post('/notifications/mark-all-as-read', [RegionalPlanningOfficerController::class, 'markNotificationsAsRead'])
-    ->name('mark_all_as_read')
-    ->middleware('auth');
-
-Route::post('/notifications/mark-as-read', [RegionalPlanningOfficerController::class, 'markAsRead'])
-    ->name('mark_as_read')
-    ->middleware('auth');
 

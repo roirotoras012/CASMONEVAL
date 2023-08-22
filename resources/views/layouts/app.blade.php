@@ -220,9 +220,7 @@
                                         url = "{{ url('/ppo/fad') }}";
                                     }
                                 } 
-                                else if (notification.user_type_ID == 2) { // RPO user type ID
-                                    url = "{{ url('/rpo/opcr') }}" + '/' + notification.opcr_ID;
-                                }
+                               
                                 
                                 else if (notification.user_type_ID == 5) { // DC user type ID
                                     url = "{{ url('/dc/manage') }}";
@@ -235,6 +233,8 @@
                                     }
                                 } else if (notification.user_type_ID == 3) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
+                                } else if (notification.user_type_ID == 2) { // RPO user type ID
+                                    url = "{{ url('/rpo/opcr') }}" + '/' + notification.opcr_ID;
                                 }
                                    
 
