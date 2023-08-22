@@ -23,6 +23,48 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class RegionalPlanningOfficerController extends Controller
 {
+
+    public function getNotifications(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+
+        $notifications = Notification::where('user_type_ID', $userTypeID)
+            ->whereNull('read_at')
+            ->orderBy('created_at', 'desc')
+
+            ->get();
+
+        // Log::debug('Number of notifications: ' . $notifications->count());
+        // return response()->json(['notifications' => $notifications]);
+
+        return response()->json(['notifications' => $notifications]);
+    }
+
+    public function markNotificationsAsRead(Request $request)
+    {
+        $userTypeID = auth()->user()->user_type_ID;
+
+        Notification::where('user_type_ID', $userTypeID)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+
+
+    public function markAsRead(Request $request)
+    {
+        $notificationId = $request->input('notification_id');
+        $notification = Notification::findOrFail($notificationId);
+        $notification->markAsRead();
+
+        return response()->json(['success' => true]);
+    }
+
+
+
+    
     public function index(Request $request)
     {
         $userDetails = $request->input('userDetails');
