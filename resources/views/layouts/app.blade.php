@@ -107,7 +107,8 @@
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->username }}
                                 </a>
-
+                                <div id="auth-user" data-province="{{ Auth::user()->province_ID }}"></div>
+                                <div id="auth-users" data-division="{{ Auth::user()->division_ID }}"></div>
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <button type="button" class="dropdown-item" data-toggle="modal"
                                         data-target="#logout-modal">
@@ -195,7 +196,8 @@
 
         <script>
             $(document).ready(function() {
-
+                var authUserProvinceID = $('#auth-user').data('province');
+                var authUserDivisionID = $('#auth-users').data('division');
 
                 function getNotifications() {
                     $.ajax({
@@ -203,14 +205,16 @@
                         type: 'GET',
                         dataType: "json",
                         success: function(response) {
-                            // console.log(response);
                             var notifications = response.notifications;
                             var dropdownMenu = $('#notification-dropdown-menu');
                             dropdownMenu.empty();
+
                             $.each(notifications, function(index, notification) {
                                 var dataYear = notification.data;
                                 var url = '';
-                                if (notification.user_type_ID == 4) { // PPO user type ID
+
+                                if (notification.user_type_ID == 4 && notification.province_ID ==
+                                    authUserProvinceID) { // PPO user type ID
                                     url = "{{ url('/ppo/opcr') }}";
                                     if (notification.type == 'BDD') {
                                         url = "{{ url('/ppo/bdd') }}";
@@ -219,10 +223,9 @@
                                     } else if (notification.type == 'FAD') {
                                         url = "{{ url('/ppo/fad') }}";
                                     }
-                                } 
-                               
-                                
-                                else if (notification.user_type_ID == 5) { // DC user type ID
+                                } else if (notification.user_type_ID == 5 && notification
+                                    .division_ID == authUserDivisionID && notification
+                                    .province_ID == authUserProvinceID) { // DC user type ID
                                     url = "{{ url('/dc/manage') }}";
                                     if (notification.type == 'BDD') {
                                         url = "{{ url('/dc/coaching') }}";
@@ -231,45 +234,51 @@
                                     } else if (notification.type == 'FAD') {
                                         url = "{{ url('/dc/coaching') }}";
                                     }
-                                } else if (notification.user_type_ID == 3) { // PD user type ID
+                                } else if (notification.user_type_ID == 3 && notification
+                                    .province_ID == authUserProvinceID) { // PD user type ID
                                     url = "{{ url('/pd/assessment') }}";
                                 } else if (notification.user_type_ID == 2) { // RPO user type ID
                                     url = "{{ url('/rpo/opcr') }}" + '/' + notification.opcr_ID;
                                 }
-                                   
 
-                                // url += '?opcr=' + notification.opcr_ID;
-                                var dateFromNow = moment(notification.created_at).fromNow();
-                                var notificationText = dataYear + " (" + dateFromNow + ")";
-                                var notificationLink = $('<a class="dropdown-item" href="' + url +
-                                    '">' + notificationText + '</a>');
-                                notificationLink.click(function(e) {
-                                    e.preventDefault();
-                                    $.ajaxSetup({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]').attr(
-                                                'content')
-                                        }
+                                if (url !== '') {
+                                    var dateFromNow = moment(notification.created_at).fromNow();
+                                    var notificationText = dataYear + " (" + dateFromNow + ")";
+                                    var notificationLink = $('<a class="dropdown-item" href="' +
+                                        url +
+                                        '">' + notificationText + '</a>');
+
+                                    notificationLink.click(function(e) {
+                                        e.preventDefault();
+                                        $.ajaxSetup({
+                                            headers: {
+                                                'X-CSRF-TOKEN': $(
+                                                        'meta[name="csrf-token"]')
+                                                    .attr(
+                                                        'content')
+                                            }
+                                        });
+                                        $.ajax({
+                                            url: "{{ url('/notifications/mark-as-read') }}",
+                                            type: 'POST',
+                                            dataType: "json",
+                                            data: {
+                                                notification_id: notification.id
+                                            },
+                                            success: function(response) {
+                                                window.location.href = url;
+                                            },
+                                            error: function(xhr) {
+                                                console.log(xhr.responseText);
+                                            }
+                                        });
                                     });
-                                    $.ajax({
-                                        url: "{{ url('/notifications/mark-as-read') }}",
-                                        type: 'POST',
-                                        dataType: "json",
-                                        data: {
-                                            notification_id: notification.id
-                                        },
-                                        success: function(response) {
-                                            window.location.href = url;
-                                        },
-                                        error: function(xhr) {
-                                            console.log(xhr.responseText);
-                                        }
-                                    });
-                                });
-                                dropdownMenu.append(notificationLink);
+
+                                    dropdownMenu.append(notificationLink);
+                                }
                             });
-                            var count = notifications.length;
+
+                            var count = dropdownMenu.children().length;
                             if (count > 0) {
                                 dropdownMenu.append(
                                     '<a class="dropdown-item mark-all-as-read" href="#">Mark all as read</a>'
@@ -279,23 +288,6 @@
                                     '<a class="dropdown-item" href="#">No notifications</a>');
                             }
                             $('#notification-count').text(count);
-
-                            // Show current notification on breadcrumbs and fade after 10 seconds
-                            var currentNotification = notifications[0];
-                            var currentNotificationText = currentNotification.data;
-                            var notificationTextElement = $('#notification-text');
-                            if (notificationTextElement.css('display') === 'none') {
-                                notificationTextElement.text(currentNotificationText);
-                                notificationTextElement.fadeIn(1000);
-                                setTimeout(function() {
-                                    notificationTextElement.fadeOut(1000, function() {
-                                        notificationTextElement.text('');
-                                        notificationTextElement
-                                            .remove(); // Remove the notification text element after fading out
-                                    });
-                                }, 10000);
-                            }
-
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
@@ -307,11 +299,8 @@
                     });
                 }
 
-
                 getNotifications();
                 setInterval(getNotifications, 10000);
-
-
 
                 $('#notification-dropdown-menu').on('click', '.mark-all-as-read', function(e) {
                     e.preventDefault();
@@ -378,8 +367,6 @@
                 })()
 
             });
-
-            
         </script>
 
 

@@ -1654,7 +1654,9 @@ class RegionalPlanningOfficerController extends Controller
                     ->update(['is_submitted' => true, 'is_active' => true]);
 
                 // Send notification to all 5 PPOs
-                $userName = auth()->user()->username;
+                $firstName = auth()->user()->first_name;
+                $lastName = auth()->user()->last_name;
+                $userName = ($firstName." ". $lastName);
                 $opcr = Opcr::find($opcr_id);
                 $data = $userName . ' has submitted OPCR #' . $opcr_id;
                 $year = $opcr->year;

@@ -809,7 +809,7 @@ class DivisionChiefController extends Controller
             // return redirect()
             //     ->route('dc.accomplishments')
             //     ->with('alert', 'You haven\'t achieved your target. Fill up the evaluation form');
-            Alert::error('You haven\'t achieved your target. <a href="/dc/coaching">Click here to fill up the evaluation form.</a>');
+            Alert::error('You haven\'t achieved your target. <a href="/dc/coaching">Click here to fill up the evaluation form.</a>')->persistent('Close');
             return redirect()->route('dc.accomplishments');
         } else {
             $userName = auth()->user()->first_name;
