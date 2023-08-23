@@ -10,6 +10,7 @@ use App\Models\Opcr;
 use App\Models\MonthlyTarget;
 use App\Models\Division;
 use App\Models\FileUpload;
+use App\Models\ScoreCard;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1164,5 +1165,26 @@ class RegionalDirector extends Controller
     public function logout()
     {
         return view('rd.logout');
+    }
+
+    public function approved_from_rd(Request $request)
+    {
+        $opcr_id = $request->input('opcr_id');
+        $user = auth()->user();
+        $FName = $user->first_name;
+        $LName = $user->last_name;
+        $provinceID = $user->province_ID;
+
+        $scorecard = Opcr::where('opcr_ID', $opcr_id)
+            ->first();
+
+        if ($scorecard) {
+            $scorecard->update([
+                'approved_by' => "$FName $LName",
+            ]);
+            Alert::success('OPCR Successfully Approved!');
+        } 
+
+        return redirect()->back();
     }
 }

@@ -50,6 +50,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:1'])->group(function (
     Route::post('add_targets', [RegionalDirector::class, 'add_targets'])->name('add_targets');
     Route::get('rd/savetarget  ', [RegionalDirector::class, 'savetarget']);
     Route::get('rd/opcr/{id}  ', [RegionalDirector::class, 'show'])->name('rd.show');
+    Route::post('rd/approved_from_rd', [RegionalDirector::class, 'approved_from_rd'])->name('approved_from_rd');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function () {
@@ -81,6 +82,7 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:2'])->group(function (
     Route::post('recover_opcr', [RegionalPlanningOfficerController::class, 'recover_opcr'])->name('rpo.recover_opcr');
 
     Route::post('updateAnnual', [RegionalPlanningOfficerController::class, 'updateAnnual'])->name('rpo.updateAnnual');
+    Route::post('rpo/prepared_by_rpo', [RegionalPlanningOfficerController::class, 'prepared_by_rpo'])->name('prepared_by_rpo');
 
     Route::put('rpo/status/{rpo}', [RegionalPlanningOfficerController::class, 'statusupdate'])->name('rpo.statusupdate');
     Route::resource('rpo', RegionalPlanningOfficerController::class)->middleware(['auth']);
@@ -137,6 +139,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function (
     Route::post('ppo/dashboard', [ProvincialPlanningOfficerController::class, 'notifyToDC'])->name('notify_to_dc');
     Route::post('ppo/monthly_target_validate', [ProvincialPlanningOfficerController::class, 'validateMonthlyTarget'])->name('monthly_target.validate');
     Route::get('ppo/assessment', [ProvincialPlanningOfficerController::class, 'assessment'])->name('ppo.assessment');
+
+    Route::post('updateTarget', [ProvincialPlanningOfficerController::class, 'updateTarget'])->name('ppo.updateTarget');
 });
 
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function () {
@@ -170,6 +174,9 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:5'])->group(function (
 
 // NOTIFICATIONS
 
+
+
+
 // PPO
 Route::get('/notifications', [ProvincialPlanningOfficerController::class, 'getNotifications'])
     ->name('get_notifications')
@@ -181,6 +188,21 @@ Route::post('/notifications/mark-all-as-read', [ProvincialPlanningOfficerControl
 Route::post('/notifications/mark-as-read', [ProvincialPlanningOfficerController::class, 'markAsRead'])
     ->name('mark_as_read')
     ->middleware('auth');
+
+
+    
+// RPO
+Route::get('/notifications', [RegionalPlanningOfficerController::class, 'getNotifications'])
+->name('get_notifications')
+->middleware('auth');
+Route::post('/notifications/mark-all-as-read', [RegionalPlanningOfficerController::class, 'markNotificationsAsRead'])
+->name('mark_all_as_read')
+->middleware('auth');
+
+Route::post('/notifications/mark-as-read', [RegionalPlanningOfficerController::class, 'markAsRead'])
+->name('mark_as_read')
+->middleware('auth');
+
 
 
 // PD
@@ -196,6 +218,11 @@ Route::post('/notifications/mark-as-read', [ProvincialDirectorController::class,
 ->name('mark_as_read')
 ->middleware('auth');
 
+
+
+
+
+
 // DIVISION CHIEF
 Route::get('/notifications', [DivisionChiefController::class, 'getNotifications'])
     ->name('get_notifications')
@@ -207,5 +234,6 @@ Route::post('/notifications/mark-all-as-read', [DivisionChiefController::class, 
 Route::post('/notifications/mark-as-read', [DivisionChiefController::class, 'markAsRead'])
     ->name('mark_as_read')
     ->middleware('auth');
+
 
 

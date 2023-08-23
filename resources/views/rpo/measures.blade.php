@@ -21,7 +21,9 @@
             @endif
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item active">
-                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i> Manage Measures & Objectives</h2>                </li>
+                    <h2 class="text-uppercase lead  text-black p-2 rounded">RPO <i class="fa-solid fa-angles-right"></i>
+                        Manage Measures & Objectives</h2>
+                </li>
             </ol>
             @if (count($opcrs) > 0 && isset($opcrs_active) && count($opcrs_active) > 0)
                 <div class="disable-message">
@@ -66,7 +68,8 @@
                             <div>
                                 <div
                                     class="table table-bordered ppo-table bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-                                    <div><span class="fs-5">{{ $objective->objective_letter }}. {{ $objective->strategic_objective }}</span></div>
+                                    <div><span class="fs-5">{{ $objective->objective_letter }}.
+                                            {{ $objective->strategic_objective }}</span></div>
                                     <div class="d-flex gap-1">
                                         <form method="POST" action="{{ route('rpo.remove_objective') }}">
                                             @csrf
@@ -99,55 +102,59 @@
                                     @if (isset($measures[$objective->strategic_objective_ID]))
                                         @foreach ($measures[$objective->strategic_objective_ID] as $measure)
                                             @foreach ($measure as $item)
-                                            
                                                 <div
                                                     class="table-bordered p-1 d-flex justify-content-between align-items-center">
-                                                    <span>{{ $item->number_measure }}. {{ $item->strategic_measure }} 
+                                                   
+                                                    <span>
+                                                    @if ($item->is_sub != 1)
+                                                        <b>{{ $item->number_measure }}. {{ $item->strategic_measure }}</b>
+                                                        @else
+                                                        {{ $item->number_measure }}. {{ $item->strategic_measure }}
+                                                    @endif
                                                         @if (isset($item->sum_of))
-                                                        <b>{{ '(' }}
-                                                        @foreach (explode(", ", $item->sum_of) as $key => $sum)
-                                                        @php
-                                                        $sum_measure = DB::table('strategic_measures')->where('strategic_measure_ID', $sum)->first();
-                                                        if(isset($sum_measure)){
-                                                            $sum_measure_value = $sum_measure->strategic_measure;
-                                                        }
-                                                        else{
-                                                            $sum_measure_value = null;
+                                                            <b>{{ '(' }}
+                                                                @foreach (explode(', ', $item->sum_of) as $key => $sum)
+                                                                    @php
+                                                                        $sum_measure = DB::table('strategic_measures')
+                                                                            ->where('strategic_measure_ID', $sum)
+                                                                            ->first();
+                                                                        if (isset($sum_measure)) {
+                                                                            $sum_measure_value = $sum_measure->strategic_measure;
+                                                                        } else {
+                                                                            $sum_measure_value = null;
+                                                                        }
+                                                                        
+                                                                    @endphp
+                                                                    {{ $sum_measure_value }}
+                                                                    @if ($key < count(explode(', ', $item->sum_of)) - 1)
+                                                                        +
+                                                                    @endif
+                                                                @endforeach
+                                                                {{ ')' }}
+                                                            </b>
+                                                        @endif
 
-                                                        }
-                                                       
-                                                        @endphp
-                                                        {{ $sum_measure_value}}
-                                                        @if($key < count(explode(", ", $item->sum_of)) - 1)
-                                                            +
-                                                        @endif
-                                                        @endforeach
-                                                        {{ ')' }}
-                                                        </b>
-                                                        @endif
-                                                       
-                                                        </span>
-                                                    
+                                                    </span>
+
                                                     <form method="POST" action="{{ route('rpo.remove_measure') }}">
                                                         @csrf
                                                         <input type="hidden" name="measure_ID"
                                                             value="{{ $item->strategic_measure_ID }}">
                                                         <a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#triggerSumModal_{{ $item->strategic_measure_ID }}"
-                                                        id="#triggerSumModal_{{ $item->strategic_measure_ID }}"
+                                                            data-bs-target="#triggerSumModal_{{ $item->strategic_measure_ID }}"
+                                                            id="#triggerSumModal_{{ $item->strategic_measure_ID }}"
                                                             style="background: #0d6efd"
-                                                            class="text-decoration-none text-black btn btn-primary text-white">Auto Sum
-                        
+                                                            class="text-decoration-none text-black btn btn-primary text-white" title="This button will add the values of selected submeasures">Sum
+
                                                         </a>
-                                                       
+
                                                         <button type="submit" class="border-0"
                                                             onclick="return confirm('Are you sure you want to remove this measure?')">
                                                             <i class="fa-solid fa-xmark" style="color: #ff0000;"></i>
                                                         </button>
-                                                        <x-add_trigger_modal :item=$item :measures=$measure/>
+                                                        <x-add_trigger_modal :item=$item :measures=$measure />
                                                     </form>
                                                 </div>
-                                                
                                             @endforeach
                                         @endforeach
                                     @endif

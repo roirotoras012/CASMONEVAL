@@ -9,6 +9,12 @@ class Opcr extends Model
 {
     protected $table = 'opcr';
     protected $primaryKey = 'opcr_ID';
+
+
+    protected $fillable = [
+        'prepared_by',
+        'approved_by',
+    ];
     use HasFactory;
 
 

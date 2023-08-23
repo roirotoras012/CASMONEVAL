@@ -10,7 +10,7 @@ use App\Models\Province;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use RealRashid\SweetAlert\Facades\Alert;
 class EvaluationController extends Controller
 {
     function evaluation()
@@ -50,11 +50,16 @@ class EvaluationController extends Controller
             //  dd($notification);
             $notification->save();
 
-            return redirect()
-                ->back()
-                ->with('update', 'Reason added successfully.');
+            Alert::success('Reason updated successfully.');
+
+            return redirect()->back();
+
+            // return redirect()
+            //     ->back()
+            //     ->with('update', 'Reason added successfully.');
         }
     }
+    
 
     function addRemark(Request $request)
     {

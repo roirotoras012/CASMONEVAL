@@ -1615,7 +1615,7 @@ class ProvincialPlanningOfficerController extends Controller
                 'prepared_by' => "$FName $LName",
                 'province_ID' => $provinceID, // Add this line to update province_ID
             ]);
-            Alert::success('OPCR Successfully Approved!');
+            Alert::success('OPCR Successfully Prepared!');
         } else {
             $newScoreCard = new ScoreCard();
             $newScoreCard->opcr_ID = $opcr_id;
@@ -1625,6 +1625,67 @@ class ProvincialPlanningOfficerController extends Controller
             Alert::success('ScoreCard successfully added!');
         }
 
+        return redirect()->back();
+    }
+
+    public function updateTarget(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'target_id' => 'required',
+            'note' => 'nullable',
+        ]);
+
+
+
+       // Find the AnnualTarget based on the prov_target value
+       $annualTarget = AnnualTarget::find($validatedData['target_id']);
+        
+
+  
+
+        // Check if the target exists
+        if (!$annualTarget) {
+            Alert::error('Annual Target not found!');
+            return redirect()->back();
+            // return redirect()->back()->with('error', 'Annual Target not found!');
+        }
+
+        // $opcr = Opcr::find($opcr_ID);
+
+        $firstName = auth()->user()->first_name;
+        $lastName = auth()->user()->last_name;
+        $provinceID = auth()->user()->province_ID;
+        
+        // $year = $opcr->year;
+        // $description = $opcr->description;
+        $userName = ($firstName." ". $lastName);
+        $data = $userName . ' added a comment: ' .$validatedData['note'];
+
+        $notificationRecipient = [
+            'province_ID' => $provinceID,
+            'user_type_ID' => 2, // RPO usertype ID
+            'user_ID' => Auth::id(),
+            'opcr_ID' => $annualTarget->opcr_id,
+            'year' => null,
+            'type' => 'RPO',
+            'data' => $data,
+        ];
+        $newNotification = new Notification($notificationRecipient);
+
+        // dd($newNotification);
+        $newNotification->save();
+
+        // Update the annual_target column
+        $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
+        // $annualTarget->annual_target = $validatedData['annualTarget'];
+        $annualTarget->note = $validatedData['note'];
+        // dd($annualTarget);
+
+        $annualTarget->save();
+       
+        Alert::success('Comment successfully added!');
+       
         return redirect()->back();
     }
 }

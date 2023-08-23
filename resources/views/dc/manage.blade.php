@@ -82,14 +82,19 @@
                                     @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
                                         <div class="d-flex justify-content-between">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
+                                                <input class="form-check-input parent-check{{$measure->number_measure}}" type="checkbox"
                                                     name="data[{{ $measure->strategic_measure_ID }}][target_ID]"
                                                     id="option{{ $measure->strategic_measure_ID }}"
                                                     value="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID }}"
-                                                    onclick="setRequired(this)">
+                                                    onclick="setRequired(this, 'parent-check{{$measure->number_measure}}')" >
                                                 <label class="form-check-label"
                                                     for="option{{ $measure->strategic_measure_ID }}">
-                                                    {{ $measure->strategic_measure }}
+                                                    @if ($measure->is_sub != 1)
+                                                        <b>{{ $measure->strategic_measure }}</b>
+                                                    @else
+                                                        {{ $measure->strategic_measure }}
+                                                    @endif
+                                                    
                                                 </label>
                                             </div>
                                             <div class="form-check">
@@ -195,7 +200,8 @@
                         </div>
 
                         <div class="d-flex align-items-top gap-3 p-3 text-right pr-3">
-                            <input type="submit" class="btn btn-primary mb-3">
+                            <input id="submitBtn" type="submit" class="btn btn-primary mb-3" disabled>
+
                         </div>
                     </form>
                 @endif
@@ -283,9 +289,45 @@
 
 
 
-        function setRequired(checkbox) {
-            var input = document.getElementById('target' + checkbox.value);
-            input.required = checkbox.checked;
+        // function setRequired(checkbox) {
+        //     var input = document.getElementById('target' + checkbox.value);
+        //     input.required = checkbox.checked;
+        // }
+
+        function setRequired(checkbox, className) {
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const submitButton = document.getElementById('submitBtn'); // Reference by ID
+        
+        
+        $(document).ready(function() {
+            if(checkbox.checked == true) {
+                $('.'+className).prop('checked', true);
+                console.log(true);
+            }
+            else {
+                $('.'+className).prop('checked', false);
+                console.log(false);
+            }
+  
+       
+        });
+
+        
+        
+
+        let atLeastOneChecked = false;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                atLeastOneChecked = true;
+            }
+        });
+
+        if (atLeastOneChecked) {
+            submitButton.removeAttribute('disabled');
+        } else {
+            submitButton.setAttribute('disabled', 'disabled');
         }
+    }
+
     </script>
 @endsection
