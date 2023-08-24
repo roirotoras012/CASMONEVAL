@@ -50,7 +50,7 @@
 
                     <form action="{{ route('add_targets') }}" method="post" id="addTargetForm">
 
-                        <table class="table table-bordered ppo-table shadow forms">
+                        <table class="table table-bordered ppo-table shadow forms position-relative">
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th class="p-3">#</th>
@@ -125,10 +125,16 @@
                                             @endif
                                         </td>
                                         <td>
+                                        
                                             @if (!isset($label->sum_of))
+                                            
+
                                                 <div class="d-flex gap-1 align-items-center">
-                                                    <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][BUK]" pattern="^[0-9]+$">
+                                                    <input class="form-control rpo-add-target-inputs" type="text"
+                                                        name="data[{{ $ctr }}][BUK]" pattern="^(?!-)[0-9]+$"
+                                                         oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')"
+                                                        >
+
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -137,15 +143,14 @@
                                                         %
                                                     </label>
                                                 </div>
+                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
                                             @endif
-
-
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][CAM]" pattern="^[0-9]+$">
+                                                        name="data[{{ $ctr }}][CAM]" pattern="^(?!-)[0-9]+$"  oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -154,6 +159,7 @@
                                                         %
                                                     </label>
                                                 </div>
+                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
                                             @endif
 
 
@@ -163,7 +169,7 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][LDN]" pattern="^[0-9]+$">
+                                                        name="data[{{ $ctr }}][LDN]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -172,6 +178,7 @@
                                                         %
                                                     </label>
                                                 </div>
+                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
                                             @endif
 
 
@@ -181,7 +188,7 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][MISOR]" pattern="^[0-9]+$">
+                                                        name="data[{{ $ctr }}][MISOR]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -190,6 +197,7 @@
                                                         %
                                                     </label>
                                                 </div>
+                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
                                             @endif
 
 
@@ -199,7 +207,7 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][MISOC]" pattern="^[0-9]+$">
+                                                        name="data[{{ $ctr }}][MISOC]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -208,6 +216,8 @@
                                                         %
                                                     </label>
                                                 </div>
+                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+
                                             @endif
 
 
@@ -241,7 +251,9 @@
                                 <div class="form-group">
                                     <label for="year">Year:</label>
                                     <input type="text" name="year" class="form-control" id="usr" required
-                                        pattern="^(19|20)\d{2}$">
+                                        pattern="^(19|20)\d{2}$"
+                                        oninvalid="this.setCustomValidity('Please enter a valid year')"
+                                        oninput="this.setCustomValidity('')">
                                     <div class="invalid-feedback">Please enter a valid year</div>
                                 </div>
                                 <div class="form-group">
@@ -249,6 +261,7 @@
                                     <textarea type="password" name="description" class="form-control" id="pwd" required
                                         pattern="^[A-Za-z0-9\s]+$
 "></textarea>
+                                    <div class="invalid-feedback">Please add a description</div>
                                 </div>
                             </tbody>
 
