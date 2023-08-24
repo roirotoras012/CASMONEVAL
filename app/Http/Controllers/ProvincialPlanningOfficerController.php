@@ -437,10 +437,20 @@ class ProvincialPlanningOfficerController extends Controller
 
     public function markAsRead(Request $request)
     {
+        // $notificationId = $request->input('notification_id');
+        // $notification = Notification::findOrFail($notificationId);
+        // $notification->markAsRead();
+
+        // return response()->json(['success' => true]);
+
         $notificationId = $request->input('notification_id');
         $notification = Notification::findOrFail($notificationId);
-        $notification->markAsRead();
-
+    
+        if (!$notification->read_at) { // Check if not already read
+            $notification->read_at = now();
+            $notification->save();
+        }
+    
         return response()->json(['success' => true]);
     }
 
@@ -1657,10 +1667,20 @@ class ProvincialPlanningOfficerController extends Controller
         $lastName = auth()->user()->last_name;
         $provinceID = auth()->user()->province_ID;
         
+        $provinceNames = [
+            1 => 'Bukidnon',
+            2 => 'Lanao Del Norte',
+            3 => 'Misamis Oriental',
+            4 => 'Misamis Occidental',
+            5 => 'Camiguin',
+        ];
+    
+        $provinceText = $provinceNames[$provinceID] ?? 'Unknown Province';
+
         // $year = $opcr->year;
         // $description = $opcr->description;
         $userName = ($firstName." ". $lastName);
-        $data = $userName . ' added a comment: ' .$validatedData['note'];
+        $data = $userName . ' from province of '.$provinceText.' has added a comment or note: ' .$validatedData['note'];
 
         $notificationRecipient = [
             'province_ID' => $provinceID,

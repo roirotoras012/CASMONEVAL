@@ -1739,7 +1739,6 @@ class RegionalPlanningOfficerController extends Controller
             $validatedData = $request->validate([
                 'new_target' => 'required',
                 'target_id' => 'required',
-                'note' => 'nullable',
             ]);
 
             // Find the AnnualTarget based on the prov_target value
@@ -1756,7 +1755,7 @@ class RegionalPlanningOfficerController extends Controller
             // Update the annual_target column
             $annualTarget->type = $request->target_type == 'on' ? 'PERCENTAGE' : null;
             $annualTarget->annual_target = $validatedData['new_target'];
-            $annualTarget->note = $validatedData['note'];
+            // $annualTarget->note = $validatedData['note'];
 
             $provinceID = $annualTarget->province_ID;
             $opcr = Opcr::find($opcr_id);

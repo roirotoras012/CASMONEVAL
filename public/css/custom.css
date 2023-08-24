@@ -50,7 +50,7 @@ div#app {
     background-size: cover;
 }
 #notification-text {
-    position: absolute;
+    position: fixed;
     top: 7%;
     left: 0;
     right: 0;

@@ -33,13 +33,13 @@
                             @enderror
                         </div>
 
-                        <div class="row mt-4">
+                        {{-- <div class="row mt-4">
 
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Add a note (optional)" id="note" style="height: 100px" name="note"></textarea>
                                 <label for="comment">{{ __('Add a note (optional)') }}</label>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="modal-footer">

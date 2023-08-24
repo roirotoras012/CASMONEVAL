@@ -193,7 +193,7 @@
                 });
             });
         </script> --}}
-        
+
         <script>
             $(document).ready(function() {
                 var authUserProvinceID = $('#auth-user').data('province');
@@ -248,31 +248,39 @@
                                         url +
                                         '">' + notificationText + '</a>');
 
+                                    // notificationLink.click(function(e) {
+                                    //     e.preventDefault();
+                                    //     $.ajaxSetup({
+                                    //         headers: {
+                                    //             'X-CSRF-TOKEN': $(
+                                    //                     'meta[name="csrf-token"]')
+                                    //                 .attr(
+                                    //                     'content')
+                                    //         }
+                                    //     });
+                                    //     $.ajax({
+                                    //         url: "{{ url('/notifications/mark-as-read') }}",
+                                    //         type: 'POST',
+                                    //         dataType: "json",
+                                    //         data: {
+                                    //             notification_id: notification.id
+                                    //         },
+                                    //         success: function(response) {
+                                    //             window.location.href = url;
+                                    //         },
+                                    //         error: function(xhr) {
+                                    //             console.log(xhr.responseText);
+                                    //         }
+                                    //     });
+                                    // });
                                     notificationLink.click(function(e) {
                                         e.preventDefault();
-                                        $.ajaxSetup({
-                                            headers: {
-                                                'X-CSRF-TOKEN': $(
-                                                        'meta[name="csrf-token"]')
-                                                    .attr(
-                                                        'content')
-                                            }
-                                        });
-                                        $.ajax({
-                                            url: "{{ url('/notifications/mark-as-read') }}",
-                                            type: 'POST',
-                                            dataType: "json",
-                                            data: {
-                                                notification_id: notification.id
-                                            },
-                                            success: function(response) {
-                                                window.location.href = url;
-                                            },
-                                            error: function(xhr) {
-                                                console.log(xhr.responseText);
-                                            }
-                                        });
+                                        window.location.href = url;
+                                        var count = parseInt($('#notification-count')
+                                            .text(), 10);
+
                                     });
+
 
                                     dropdownMenu.append(notificationLink);
                                 }
@@ -288,6 +296,21 @@
                                     '<a class="dropdown-item" href="#">No notifications</a>');
                             }
                             $('#notification-count').text(count);
+
+                            var currentNotification = notifications[0];
+                            var currentNotificationText = currentNotification.data;
+                            var notificationTextElement = $('#notification-text');
+                            if (notificationTextElement.css('display') === 'none') {
+                                notificationTextElement.text(currentNotificationText);
+                                notificationTextElement.fadeIn(1000);
+                                setTimeout(function() {
+                                    notificationTextElement.fadeOut(1000, function() {
+                                        notificationTextElement.text('');
+                                        notificationTextElement
+                                            .remove(); // Remove the notification text element after fading out
+                                    });
+                                }, 10000);
+                            }
                         },
                         error: function(xhr) {
                             console.log(xhr.responseText);
@@ -383,17 +406,6 @@
 
             });
         });
-
-         function validateInputAddTarget(input,errorContainerId) {
-             const pattern = new RegExp(input.pattern);
-        const errorContainer = document.getElementById(errorContainerId);
-
-        if (input.value !== "" && !pattern.test(input.value)) {
-            errorContainer.textContent = 'Please enter positive whole integer';
-        } else {
-            errorContainer.textContent = '';
-        }
-        }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
