@@ -193,7 +193,7 @@
                 });
             });
         </script> --}}
-
+        
         <script>
             $(document).ready(function() {
                 var authUserProvinceID = $('#auth-user').data('province');
@@ -383,6 +383,17 @@
 
             });
         });
+
+         function validateInputAddTarget(input,errorContainerId) {
+             const pattern = new RegExp(input.pattern);
+        const errorContainer = document.getElementById(errorContainerId);
+
+        if (input.value !== "" && !pattern.test(input.value)) {
+            errorContainer.textContent = 'Please enter positive whole integer';
+        } else {
+            errorContainer.textContent = '';
+        }
+        }
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
