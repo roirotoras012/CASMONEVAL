@@ -392,7 +392,18 @@
             });
         </script>
 
+    <script>
+    function validateInputAddTarget(input, errorContainerId) {
+    const pattern = new RegExp(input.pattern);
+    const errorContainer = document.getElementById(errorContainerId);
 
+    if (input.value !== "" && !pattern.test(input.value)) {
+        errorContainer.textContent = "Please enter positive whole integer";
+    } else {
+        errorContainer.textContent = "";
+    }
+}
+    </script>
 
 
 

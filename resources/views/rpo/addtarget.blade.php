@@ -51,6 +51,7 @@
                     <form action="{{ route('add_targets') }}" method="post" id="addTargetForm">
 
                         <table class="table table-bordered ppo-table shadow forms position-relative mt-5">
+                        
                             <thead class="bg-primary text-white text-center">
                                 <tr>
                                     <th class="p-3">#</th>
