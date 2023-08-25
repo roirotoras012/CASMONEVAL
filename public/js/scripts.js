@@ -11,6 +11,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 });
+
 $(document).on("show.bs.modal", ".modal-update-rpo", function () {
     let updateID = $(this).data("update-id");
     let division_chief = $("#division_chief-" + updateID);
@@ -393,12 +394,12 @@ $(document).ready(function () {
             var winScorecard = window.open("", "_blank");
             var fileNameScorecard = printScoreCard.dataset.fileName;
             var type = printScoreCard.dataset.fileType;
-            var preparedby  = printScoreCard.dataset.filePreparedby;
-            var reviewedbdd  = printScoreCard.dataset.fileReviewedbdd;
-            var reviewedcpd  = printScoreCard.dataset.fileReviewedcpd;
-            var approvedby  = printScoreCard.dataset.fileApprovedby;
-            var prepared_by_rpo  = printScoreCard.dataset.filePreparedbyrpo;
-            var approved_by_rd  = printScoreCard.dataset.fileApprovedbyrd;
+            var preparedby = printScoreCard.dataset.filePreparedby;
+            var reviewedbdd = printScoreCard.dataset.fileReviewedbdd;
+            var reviewedcpd = printScoreCard.dataset.fileReviewedcpd;
+            var approvedby = printScoreCard.dataset.fileApprovedby;
+            var prepared_by_rpo = printScoreCard.dataset.filePreparedbyrpo;
+            var approved_by_rd = printScoreCard.dataset.fileApprovedbyrd;
             // console.log(preparedby);
 
             if (rpo_scoreCard.offsetWidth > window.innerWidth) {
@@ -502,8 +503,8 @@ $(document).ready(function () {
                 winScorecard.document.write(rating.outerHTML);
             }
             winScorecard.document.write("</div>");
-            if (type == "Provincial" ) {
-                    winScorecard.document
+            if (type == "Provincial") {
+                winScorecard.document
                     .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
                     <div >
                         <div><p>Prepared by:</p></div>
@@ -543,11 +544,10 @@ $(document).ready(function () {
                 
                 </div>
                 `);
-                
             }
 
-            if (type == "Regional" ) {
-                    winScorecard.document
+            if (type == "Regional") {
+                winScorecard.document
                     .write(`<div style="display: flex; justify-content: space-around; align-items: center; font-size: 12px;margin-top: 45px">
                     <div >
                         <div><p>Prepared by:</p></div>
@@ -572,7 +572,6 @@ $(document).ready(function () {
                 
                 </div>
                 `);
-                
             }
 
             winScorecard.document.write("</body></html>");
