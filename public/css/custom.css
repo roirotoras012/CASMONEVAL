@@ -74,20 +74,9 @@ div#app {
 #notification-dropdown-menu {
     max-height: 300px;
     overflow-y: auto;
-    width: 400px;
 }
 
-#notification-dropdown-menu a {
-    display: block;
-    white-space: normal; /* Allow text to wrap */
-    overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis (...) for overflowed text */
-    padding: 5px 10px; /* Add padding for better spacing */
-}
 
-#notification-dropdown-menu a:hover {
-    background-color: rgba(0, 0, 0, 0.2); /* Change background color on hover */
-}
 
 
 span.full-width {

@@ -112,6 +112,8 @@ Route::middleware(['auth', 'App\Http\Middleware\CheckRole:3'])->group(function (
     Route::get('pd/bdd', [ProvincialDirectorController::class, 'bdd'])->name('bdd');
     Route::get('pd/cpd', [ProvincialDirectorController::class, 'cpd'])->name('cpd');
     Route::get('pd/fad', [ProvincialDirectorController::class, 'fad'])->name('fad');
+    Route::post('pd/monthly_target_approve', [ProvincialDirectorController::class, 'approveMonthlyTarget'])->name('monthly_target.approve');
+
 
 });
 Route::middleware(['auth', 'App\Http\Middleware\CheckRole:4'])->group(function () {

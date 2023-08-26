@@ -40,7 +40,7 @@
                     <div class="container overflow-hidden">
                         <div class="row gy-5 gy-lg-0 align-items-lg-center justify-content-lg-between">
                             <div class="col-12 col-lg-6 order-1 order-lg-0">
-                                <h2 class="display-3 fw-bold mb-3 text-white">Department of Trade and Industry?
+                                <h2 class="display-3 fw-bold mb-3 text-white">Department of Trade and Industry
                                 </h2>
                                 <p class="fs-4 mb-5 text-white">The Department of Trade and Industry (DTI) is dedicated to protecting
                                     consumers’ rights and interests. It is a government agency responsible for establishing policies
