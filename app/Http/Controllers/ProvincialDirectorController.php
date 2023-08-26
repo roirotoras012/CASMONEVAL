@@ -1703,4 +1703,25 @@ class ProvincialDirectorController extends Controller
 
         return redirect()->back();
     }
+
+
+    public function approveMonthlyTarget(Request $request)
+    {
+        
+        $monthly_target = MonthlyTarget::find($request->input('monthly_target_ID'));
+
+        if($request->input('approve') == 'approve') {
+            $monthly_target->approved_by_pd = true;
+
+
+        } else{
+            Alert::error('Monthly target not approved!.');
+            return redirect()->back();
+        }
+        // dd($monthly_target->approved_by_pd);
+
+        $monthly_target->save();
+        Alert::success('Monthly Accomplishment Successfully Approved!.');
+        return redirect()->back();
+    }
 }

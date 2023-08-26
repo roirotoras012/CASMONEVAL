@@ -598,7 +598,7 @@ class RegionalPlanningOfficerController extends Controller
             $monthly_targets = MonthlyTarget::join('annual_targets', 'annual_targets.annual_target_ID', '=', 'monthly_targets.annual_target_ID')
                 ->where('monthly_accomplishment', '!=', null)
                 ->where('annual_targets.opcr_ID', '=', $opcr_id)
-                ->where('monthly_targets.validated', '=', 'Validated')
+                ->where('monthly_targets.approved_by_pd', '=', true)
                 ->get(['monthly_targets.*', 'annual_targets.*'])
                 ->groupBy(['annual_target_ID']);
             foreach ($monthly_targets as $monthly_target) {
@@ -619,7 +619,7 @@ class RegionalPlanningOfficerController extends Controller
                 } else {
                     $monthly_target->annual_accom = $annual_accom;
                 }
-                $monthly_target->validated = $validated;
+                $monthly_target->approved_by_pd = $validated;
             }
         } else {
             $monthly_targets = null;
@@ -692,9 +692,9 @@ class RegionalPlanningOfficerController extends Controller
                         // dd(count($measure_for_common[1]));
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
-                            // dd($monthly_targets[$by_province->annual_target_ID]->validated);
+                            // dd($monthly_targets[$by_province->annual_target_ID]->approved_by_pd);
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['BUK_accom_validated'] = false;
                             }
                         } else {
@@ -712,10 +712,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['LDN_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['LDN_accom_validated'] = false;
                             }
                         }
@@ -730,10 +730,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['MISOR_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['MISOR_accom_validated'] = false;
                             }
                         }
@@ -749,10 +749,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['MISOC_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['MISOC_accom_validated'] = false;
                             }
                         }
@@ -767,10 +767,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['CAM_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['CAM_accom_validated'] = false;
                             }
                         }
@@ -933,9 +933,9 @@ class RegionalPlanningOfficerController extends Controller
                         // dd(count($measure_for_common[1]));
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['BUK_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
-                            // dd($monthly_targets[$by_province->annual_target_ID]->validated);
+                            // dd($monthly_targets[$by_province->annual_target_ID]->approved_by_pd);
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['BUK_accom_validated'] = false;
                             }
                         } else {
@@ -953,10 +953,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['LDN_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['LDN_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['LDN_accom_validated'] = false;
                             }
                         }
@@ -971,10 +971,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['MISOR_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['MISOR_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['MISOR_accom_validated'] = false;
                             }
                         }
@@ -990,10 +990,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['MISOC_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['MISOC_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['MISOC_accom_validated'] = false;
                             }
                         }
@@ -1008,10 +1008,10 @@ class RegionalPlanningOfficerController extends Controller
                         if (isset($monthly_targets[$by_province->annual_target_ID])) {
                             $label['CAM_accom'] += $monthly_targets[$by_province->annual_target_ID]->annual_accom;
 
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == true) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == true) {
                                 $label['CAM_accom_validated'] = true;
                             }
-                            if ($monthly_targets[$by_province->annual_target_ID]->validated == false) {
+                            if ($monthly_targets[$by_province->annual_target_ID]->approved_by_pd == false) {
                                 $label['CAM_accom_validated'] = false;
                             }
                         }
@@ -1145,7 +1145,7 @@ class RegionalPlanningOfficerController extends Controller
 
             foreach ($monthly_target2 as $target2) {
                 # code...
-                if ($target2->validated == 'Validated') {
+                if ($target2->approved_by_pd == true) {
                     $monthly_target2->total_accom += $target2->monthly_accomplishment;
 
                     if ($target2->month == 'jan' || $target2->month == 'feb' || $target2->month == 'mar' || $target2->month == 'apr' || $target2->month == 'may' || $target2->month == 'jun') {
@@ -1230,7 +1230,7 @@ class RegionalPlanningOfficerController extends Controller
                 $query->whereNull('strategic_measures.is_sub')->orWhere('strategic_measures.is_sub', '!=', 1);
             })
 
-            ->select('strategic_measures.is_sub', 'annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.validated = "Validated")) AS total_accomplishment'))
+            ->select('strategic_measures.is_sub', 'annual_targets.*', 'strategic_measures.strategic_measure', DB::raw('(SELECT SUM(monthly_accomplishment) FROM monthly_targets WHERE monthly_targets.annual_target_ID = annual_targets.annual_target_ID && (monthly_targets.approved_by_pd = true)) AS total_accomplishment'))
 
             ->get()
             ->groupBy('strategic_measures_ID');

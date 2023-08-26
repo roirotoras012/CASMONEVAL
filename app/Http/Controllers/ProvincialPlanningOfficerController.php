@@ -437,21 +437,21 @@ class ProvincialPlanningOfficerController extends Controller
 
     public function markAsRead(Request $request)
     {
-        // $notificationId = $request->input('notification_id');
-        // $notification = Notification::findOrFail($notificationId);
-        // $notification->markAsRead();
-
-        // return response()->json(['success' => true]);
-
         $notificationId = $request->input('notification_id');
         $notification = Notification::findOrFail($notificationId);
-    
-        if (!$notification->read_at) { // Check if not already read
-            $notification->read_at = now();
-            $notification->save();
-        }
-    
+        $notification->markAsRead();
+
         return response()->json(['success' => true]);
+
+        // $notificationId = $request->input('notification_id');
+        // $notification = Notification::findOrFail($notificationId);
+    
+        // if (!$notification->read_at) { // Check if not already read
+        //     $notification->read_at = now();
+        //     $notification->save();
+        // }
+    
+        // return response()->json(['success' => true]);
     }
 
     public function assessment()
@@ -1597,6 +1597,8 @@ class ProvincialPlanningOfficerController extends Controller
         Alert::success('Validation updated successfully.');
         return redirect()->back();
     }
+
+
 
     public function approved_opcr(Request $request)
     {

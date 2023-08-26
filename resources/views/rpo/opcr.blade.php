@@ -241,7 +241,7 @@
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['BUK_target']" :prov_val="$label->BUK" />
                                             <td>
-                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
+                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }}
                                                         @if ($monthly_targets[$label->BUK_target]->first()->type == 'PERCENTAGE')
                                                             %
@@ -256,7 +256,7 @@
 
 
                                             <td>
-                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
+                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->BUK_target]->annual_accom) / intval($label->BUK)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -305,7 +305,7 @@
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['CAM_target']" :prov_val="$label->CAM" />
                                             <td>
-                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
+                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}@if ($monthly_targets[$label->CAM_target]->first()->type == 'PERCENTAGE')
                                                             %
                                                         @endif </b>
@@ -316,7 +316,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
+                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->CAM_target]->annual_accom) / intval($label->CAM)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -363,7 +363,7 @@
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['LDN_target']" :prov_val="$label->LDN" />
                                             <td>
-                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
+                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}@if ($monthly_targets[$label->LDN_target]->first()->type == 'PERCENTAGE')
                                                             %
                                                         @endif </b>
@@ -374,7 +374,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
+                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->LDN_target]->annual_accom) / intval($label->LDN)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -421,7 +421,7 @@
                                             </td>
                                             <x-update_annual_tar :prov_target="$label['MISOR_target']" :prov_val="$label->MISOR" />
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}
                                                         @if ($monthly_targets[$label->MISOR_target]->first()->type == 'PERCENTAGE')
                                                             %
@@ -434,7 +434,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->MISOR_target]->annual_accom) / intval($label->MISOR)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -481,7 +481,7 @@
                                             </td>
                                             {{-- <x-update_annual_tar :prov_target="$label['MISOC_target']" :prov_val="$label->MISOC" /> --}}
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}
                                                         @if ($monthly_targets[$label->MISOC_target]->first()->type == 'PERCENTAGE')
                                                             %
@@ -494,7 +494,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->MISOC_target]->annual_accom) / intval($label->MISOC)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -937,7 +937,7 @@
                                     if (isset($monthly_targets2[$label->strategic_measure_ID])) {
                                         // if (count($monthly_targets2[$label->strategic_measure_ID]) >= 60) {
                                         foreach ($monthly_targets2[$label->strategic_measure_ID] as $measure_target) {
-                                            if ($measure_target->validated == 'Validated') {
+                                            if ($measure_target->approved_by_pd == true) {
                                                 if ($measure_target->month == 'jan') {
                                                     $jan_total += $measure_target->monthly_accomplishment;
                                                 }

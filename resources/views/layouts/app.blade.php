@@ -31,7 +31,7 @@
     <div id="app">
         @include('sweetalert::alert')
 
-        <span id="notification-text" class="notification-design" role="alert" style="display: none;"></span>
+        {{-- <span id="notification-text" class="notification-design" role="alert" style="display: none;"></span> --}}
 
 
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm position-fixed w-100 z-index-master">

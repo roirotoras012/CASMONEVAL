@@ -228,7 +228,7 @@
                                             </td>
 
                                             <td>
-                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
+                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->BUK_target]->annual_accom }} </b>
                                                 @else
                                                     @if (isset($label->BUK_accom) && $label->BUK_accom_validated)
@@ -239,7 +239,7 @@
 
 
                                             <td>
-                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->validated)
+                                                @if (isset($monthly_targets[$label->BUK_target]) && $monthly_targets[$label->BUK_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->BUK_target]->annual_accom) / intval($label->BUK)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -254,7 +254,7 @@
                                             </td>
 
                                             <td>
-                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
+                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->CAM_target]->annual_accom }}</b>
                                                 @else
                                                     @if (isset($label->CAM_accom) && $label->CAM_accom_validated)
@@ -263,7 +263,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->validated)
+                                                @if (isset($monthly_targets[$label->CAM_target]) && $monthly_targets[$label->CAM_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->CAM_target]->annual_accom) / intval($label->CAM)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -276,7 +276,7 @@
 
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
+                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->LDN_target]->annual_accom }}</b>
                                                 @else
                                                     @if (isset($label->LDN_accom) && $label->LDN_accom_validated)
@@ -285,7 +285,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->validated)
+                                                @if (isset($monthly_targets[$label->LDN_target]) && $monthly_targets[$label->LDN_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->LDN_target]->annual_accom) / intval($label->LDN)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -299,7 +299,7 @@
 
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->MISOR_target]->annual_accom }}</b>
                                                 @else
                                                     @if (isset($label->MISOR_accom) && $label->MISOR_accom_validated)
@@ -308,7 +308,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOR_target]) && $monthly_targets[$label->MISOR_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->MISOR_target]->annual_accom) / intval($label->MISOR)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -322,7 +322,7 @@
 
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->approved_by_pd)
                                                     <b>{{ $monthly_targets[$label->MISOC_target]->annual_accom }}</b>
                                                 @else
                                                     {{-- @if (isset($label->MISOC_accom) && $label->MISOC_accom_validated)
@@ -331,7 +331,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->validated)
+                                                @if (isset($monthly_targets[$label->MISOC_target]) && $monthly_targets[$label->MISOC_target]->approved_by_pd)
                                                     <?= number_format((intval($monthly_targets[$label->MISOC_target]->annual_accom) / intval($label->MISOC)) * 100, 2) ?>
                                                 @endif
                                                 %
@@ -614,7 +614,7 @@
                                     if (isset($monthly_targets2[$label->strategic_measure_ID])) {
                                         // if (count($monthly_targets2[$label->strategic_measure_ID]) >= 60) {
                                         foreach ($monthly_targets2[$label->strategic_measure_ID] as $measure_target) {
-                                            if ($measure_target->validated == 'Validated') {
+                                            if ($measure_target->approved_by_pd == true) {
                                                 if ($measure_target->month == 'jan') {
                                                     $jan_total += $measure_target->monthly_accomplishment;
                                                 }
