@@ -413,6 +413,8 @@ button#sidebarToggle {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     position: relative;
+    margin: 4px 15px;
+    border-radius: 20px;
 }
 .sb-sidenav .sb-sidenav-menu .nav .nav-link .sb-nav-link-icon {
     font-size: 0.9rem;
@@ -611,11 +613,11 @@ td {
     border-radius: 0.375rem;
 }
 
-.add-target-error-msg {
+/* .add-target-error-msg {
     position: absolute;
     top: 0;
     right: 0;
     left: 0;
     text-align: center;
     margin: -30px;
-}
+} */

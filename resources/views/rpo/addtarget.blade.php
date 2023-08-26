@@ -69,7 +69,9 @@
 
                             <tbody>
 
-
+                                @php
+                                $uniqueId = uniqid(); // Generate a unique ID
+                            @endphp
 
                                 @csrf
                                 @php
@@ -129,11 +131,11 @@
                                         
                                             @if (!isset($label->sum_of))
                                             
-
+                                           
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control rpo-add-target-inputs" type="text"
-                                                        name="data[{{ $ctr }}][BUK]" pattern="^(?!-)[0-9]+$"
-                                                         oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')"
+                                                        name="data[{{ $ctr }}][BUK]" pattern="^(?!-)[0-9]+$" id="input_{{ $uniqueId }}-data[{{ $ctr }}][BUK]"
+                                                         oninput="validateInputAddTarget(this, 'error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][BUK]')"
                                                         >
 
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
@@ -144,14 +146,15 @@
                                                         %
                                                     </label>
                                                 </div>
-                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+                                                     <small id="error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][BUK]" class="add-target-error-msg" style="color: red;"></small>
                                             @endif
                                         </td>
                                         <td>
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][CAM]" pattern="^(?!-)[0-9]+$"  oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
+                                                    id="input_{{ $uniqueId }}-data[{{ $ctr }}][CAM]"
+                                                        name="data[{{ $ctr }}][CAM]" pattern="^(?!-)[0-9]+$"  oninput="validateInputAddTarget(this, 'error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][CAM]')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -160,7 +163,7 @@
                                                         %
                                                     </label>
                                                 </div>
-                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+                                                     <small id="error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][CAM]" class="add-target-error-msg" style="color: red;"></small>
                                             @endif
 
 
@@ -170,7 +173,8 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][LDN]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
+                                                    id="input_{{ $uniqueId }}-data[{{ $ctr }}][LDN]"
+                                                        name="data[{{ $ctr }}][LDN]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][LDN]')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -179,7 +183,7 @@
                                                         %
                                                     </label>
                                                 </div>
-                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+                                                     <small id="error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][LDN]" class="add-target-error-msg" style="color: red;"></small>
                                             @endif
 
 
@@ -189,7 +193,8 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][MISOR]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
+                                                    id="input_{{ $uniqueId }}-data[{{ $ctr }}][MISOR]"
+                                                        name="data[{{ $ctr }}][MISOR]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][MISOR]')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -198,7 +203,7 @@
                                                         %
                                                     </label>
                                                 </div>
-                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+                                                     <small id="error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][MISOR]" class="add-target-error-msg" style="color: red;"></small>
                                             @endif
 
 
@@ -208,7 +213,9 @@
                                             @if (!isset($label->sum_of))
                                                 <div class="d-flex gap-1 align-items-center">
                                                     <input class="form-control" type="text"
-                                                        name="data[{{ $ctr }}][MISOC]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-{{ $ctr }}')">
+                                                    id="input_{{ $uniqueId }}-data[{{ $ctr }}][MISOC]"
+
+                                                        name="data[{{ $ctr }}][MISOC]" pattern="^(?!-)[0-9]+$" oninput="validateInputAddTarget(this, 'error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][MISOC]')">
                                                     <label for="target_type_{{ $ctr }}" class="d-flex"
                                                         style="margin-bottom: 0 !important">
                                                         <input class="dynamic-checkbox" data-ctr="{{ $ctr }}"
@@ -217,7 +224,7 @@
                                                         %
                                                     </label>
                                                 </div>
-                                                     <div id="error-message-{{ $ctr }}" class="add-target-error-msg" style="color: red;"></div>
+                                                     <small id="error-message-input_{{ $uniqueId }}-data[{{ $ctr }}][MISOC]" class="add-target-error-msg" style="color: red;"></small>
 
                                             @endif
 
