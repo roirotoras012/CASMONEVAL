@@ -30,7 +30,7 @@
                                             <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                       
+
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary toggle-password" type="button"
                                                 id="toggle-password">
