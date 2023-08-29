@@ -8,6 +8,10 @@
     min-width: 130px;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .dti-mission .card {
     min-height: 430px !important;
 }

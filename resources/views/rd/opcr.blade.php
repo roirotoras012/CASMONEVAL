@@ -52,14 +52,14 @@
 
                 <button style="display: none" type="button" class="btn btn-primary my-2"
                     data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}" data-file-type="Regional"
-                    id="print-button">Scorecard</button>
+                    id="print-button"><i class="fas fa-download"></i> Scorecard</button>
 
                 <button type="button" class="btn btn-primary my-2"
                     data-file-name="opcr-{{ $opcr_id }}_{{ $opcr[0]->year }}" data-file-type="Regional"
                     id="print-scoreCard" data-file-preparedbyrpo="{{ $prepared_by_rpo }}"
                     data-file-approvedbyrd="{{ $approved_by_rd }}" data-file-preparedby="{{ $prepared_by }}"
                     data-file-reviewedbdd="{{ $reviewed_by_bdd }}" data-file-reviewedcpd="{{ $reviewed_by_cpd }}"
-                    data-file-approvedby="{{ $approved_by }}">Scorecard</button>
+                    data-file-approvedby="{{ $approved_by }}"><i class="fas fa-download"></i> Scorecard</button>
 
 
                 <div class="d-flex justify-content-end align-items-center gap-4">

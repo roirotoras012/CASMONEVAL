@@ -24,7 +24,7 @@
                     @endif
                     <div class="d-flex justify-content-between">
                         <div class="d-flex align-items-center gap-4">
-                            <button class="btn btn-primary my-2" id="print-button">Print Table</button>
+                            <button class="btn btn-primary my-2" id="print-button"><i class="fas fa-print"></i> Print Table</button>
                         </div>
 
 
