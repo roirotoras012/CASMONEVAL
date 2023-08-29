@@ -76,9 +76,6 @@ div#app {
     overflow-y: auto;
 }
 
-
-
-
 span.full-width {
     display: block;
     width: 100%;
@@ -601,7 +598,9 @@ td {
     color: #fff;
     border-radius: 0.375rem;
 }
-
+.invalid-input {
+    border: 1px solid red !important;
+}
 /* .add-target-error-msg {
     position: absolute;
     top: 0;
