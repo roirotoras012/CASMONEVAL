@@ -34,17 +34,13 @@ class RegistrationKeyController extends Controller
         $province_id = $registration_key->province_ID ?? null;
         // dd($division_id);
         if (!$registration_key) {
-            Alert::error('Invalid User Keys');
-            return redirect()
-                ->route('registerUser.error')
-                ->with('error', 'Invalid User Keys');
+            // Alert::error('Invalid User Keys');
+            return back()->with('error', 'Invalid User Keys');
         }
        
         if ($registration_key->Status === 'Taken') {
-            Alert::error('Registration key already used');
-            return redirect()
-                ->route('registerUser.error')
-                ->with('error', 'Registration key already used');
+            // Alert::error('Registration key already used');
+            return back()->with('error', 'Registration key already used');
         }
         $user_type_id = $registration_key->user_type_ID;
         $division_id = $registration_key->division_ID;
