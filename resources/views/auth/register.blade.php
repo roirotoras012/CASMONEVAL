@@ -30,6 +30,7 @@
                                             <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary toggle-password" type="button"
                                                 id="toggle-password">
@@ -39,7 +40,7 @@
                                        
                                     </div>
                                      @if (session('error'))
-                                            <small class="text-danger">
+                                            <small class="text-danger ">
                                                 {{ session('error') }}
                                             </small>
                                         @endif
