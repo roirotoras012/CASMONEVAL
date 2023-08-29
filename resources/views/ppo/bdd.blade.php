@@ -23,14 +23,15 @@
 
                     <div class="d-flex justify-content-between">
                         @foreach ($provinces as $province)
-                        @if ($province->province_ID == $user->province_ID)
-                        @php
-                            $printProvince = substr($province->province, 0, 3)
-                        @endphp
-                        
-                        @endif
+                            @if ($province->province_ID == $user->province_ID)
+                                @php
+                                    $printProvince = substr($province->province, 0, 3);
+                                @endphp
+                            @endif
                         @endforeach
-                        <button class="btn btn-primary my-2" data-file-name="{{$printProvince}}-bdd-OPCR{{$opcrs_active[0]->opcr_ID}}_{{$opcrs_active[0]->year}}" id="print-button">Print Table</button>
+                        <button class="btn btn-primary my-2"
+                            data-file-name="{{ $printProvince }}-bdd-OPCR{{ $opcrs_active[0]->opcr_ID }}_{{ $opcrs_active[0]->year }}"
+                            id="print-button">Print Table</button>
                         <div class="legend-container">
                             <div class="legend-item">
                                 <div class="box bg-warning"></div>
@@ -87,15 +88,9 @@
                                 <tr>
                                     <td rowspan="{{ $driver->measures()->where('strategic_measures.strategic_objective_ID', $driver->strategic_objective_ID)->where(function ($query) {
                                             $query->where('division_ID', 1);
-                                            
-                                                
-                                        })
-                                        ->where(function ($query) {
-                                            $query->where('type', 'DIRECT')
-                                                  ->orWhere('type', 'DIRECT COMMON')
-                                                  ->orWhere('type', 'DIRECT MAIN');
-                                        })
-                                        ->count() + 1 }}"
+                                        })->where(function ($query) {
+                                            $query->where('type', 'DIRECT')->orWhere('type', 'DIRECT COMMON')->orWhere('type', 'DIRECT MAIN');
+                                        })->count() + 1 }}"
                                         class="text-center align-middle">
                                         {{ $driver->strategic_objective }}
 
@@ -109,14 +104,12 @@
                                         
                                             ->where(function ($query) {
                                                 $query->where('division_ID', 1);
-                                            
-                                                
                                             })
                                             ->where(function ($query) {
-                                                $query->where('type', 'DIRECT')
+                                                $query
+                                                    ->where('type', 'DIRECT')
                                                     ->orWhere('type', 'DIRECT COMMON')
                                                     ->orWhere('type', 'DIRECT MAIN');
-                                                    
                                             })
                                             ->get();
                                     @endphp
@@ -135,15 +128,14 @@
                                     </td>
 
                                     @php
-                                    if(isset($annual_targets[$measure->strategic_measure_ID])){
-                                    
-                                     if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID])) {
-                                            $accoms = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID];
-                                        } else {
-                                            $accoms = null;
+                                        if (isset($annual_targets[$measure->strategic_measure_ID])) {
+                                            if (isset($monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID])) {
+                                                $accoms = $monthly_targets[$annual_targets[$measure->strategic_measure_ID][$user->province_ID]->first()->annual_target_ID];
+                                            } else {
+                                                $accoms = null;
+                                            }
                                         }
-                                    }
-                                       
+                                        
                                     @endphp
 
                                     {{-- loop for the months of the year monthly target area --}}

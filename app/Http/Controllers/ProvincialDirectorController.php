@@ -529,18 +529,36 @@ class ProvincialDirectorController extends Controller
     }
     public function assessment()
     {
+        $user = Auth::user();
         $provincialUser = Auth::user();
         $provinceId = $provincialUser->province_ID;
         $divisionUsers = User::whereNotNull('division_ID')
             ->where('province_ID', $provinceId)
             ->get();
+
+        $opcrs_active = Opcr::where('is_active', 1)
+        ->where('is_submitted', '=', 1)
+        ->get();
+
+        if (count($opcrs_active) != 0) {
+       
+
+            $annual_targets = DB::table('annual_targets')
+                ->where('opcr_id', '=', $opcrs_active[0]->opcr_ID)
+                ->where('province_ID', '=', $user->province_ID)
+                ->get()
+                ->groupBy(['strategic_measures_ID', 'province_ID']);
+        } else {
+            $annual_targets = null;
+        }
+
         $divisionUserIds = $divisionUsers->pluck('user_ID');
         $eval = Evaluation::whereIn('evaluations.user_id', $divisionUserIds)
             ->join('users', 'evaluations.user_id', '=', 'users.user_ID')
             ->leftJoin('divisions', 'users.division_ID', '=', 'divisions.division_ID')
             ->select('evaluations.*', 'divisions.division')
             ->get();
-        return view('pd.assessment', compact('eval'));
+        return view('pd.assessment', compact('eval', 'annual_targets'));
     }
 
     public function profile()

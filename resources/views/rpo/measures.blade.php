@@ -85,8 +85,7 @@
 
                                         <button class="bg-white"><a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#_{{ $objective->strategic_objective_ID }}"
-                                                id="#_{{ $objective->strategic_objective_ID }}"><i
-                                                    class="fa-solid fa-plus"></i>
+                                                id="#_{{ $objective->strategic_objective_ID }}">Add strategic measure
 
                                             </a></button>
 
