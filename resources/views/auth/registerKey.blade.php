@@ -179,7 +179,7 @@
                                                 pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
                                                 autocomplete="email"> --}}
 
-    <div class="invalid-feedback">Please enter a valid email address</div>
+    <div class="invalid-feedback">Please enter a valid email address    </div>
                                         </div>
                                     </div>
 
