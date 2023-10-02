@@ -1491,15 +1491,31 @@ class DivisionChiefController extends Controller
             ->where('annual_targets.driver_ID', $request->driver_id)
             ->where('annual_targets.opcr_ID', $request->opcr_id)
             ->where('strategic_measures.division_ID', $request->division_id)
+            ->select('strategic_measures.*')
             ->get();
+        
 
         foreach ($strategic_measures as $strategic_measure) {
-            AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
+            if ($strategic_measure->type != 'INDIRECT' && $strategic_measure->type != 'MANDATORY') {
+                // dd($strategic_measure);
+                AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
                 ->where('driver_ID', $request->driver_id)
                 ->where('opcr_id', $request->opcr_id)
                 ->where('division_ID', $user->division_ID)
                 ->where('province_ID', $user->province_ID)
                 ->update(['driver_ID' => null]);
+            }
+            else{
+                // dd($strategic_measure->type);
+                AnnualTarget::where('strategic_measures_ID', $strategic_measure->strategic_measure_ID)
+                ->where('driver_ID', $request->driver_id)
+                ->where('opcr_id', $request->opcr_id)
+                ->where('division_ID', $user->division_ID)
+                ->where('province_ID', $user->province_ID)
+                ->delete();
+            
+            }
+           
         }
         Alert::success('Successfully reverted');
         return redirect()->route('dc.bukidnunBddIndex');
