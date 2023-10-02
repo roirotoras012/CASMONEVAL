@@ -17,6 +17,7 @@
 
 
                     <div class="row">
+                        <small class="text-danger">This will add the values of selected submeasures</small>
                         <label for="strategic_measures"
                             class="col-form-label text-md-start">{{ __('Strategic Measures') }}</label>
                         <div>

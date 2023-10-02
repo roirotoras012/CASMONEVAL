@@ -7,6 +7,7 @@
         {{-- <div class="loading-screen">
             <img src="{{ asset('images/loading.gif') }}" alt="Loading...">
         </div> --}}
+        @if ($annual_targets)
         <div class="container-fluid px-4 py-5">
                 <div class="text-uppercase lead bg-primary text-white p-2 rounded d-inline-block mb-5">
                     Provincial Director Performance Assessment
@@ -21,7 +22,7 @@
                     <div class="d-flex align-items-center gap-4">
                         <button class="btn btn-primary my-2"
                             
-                            id="print-button">Print Table</button>
+                            id="print-button"><i class="fas fa-print"></i> Print Table</button>
                     </div>
                
                  
@@ -84,6 +85,9 @@
 
 
             </div>
+            @else
+            <h1 style="color:red" class="pt-5 pl-3">NO OPCR SUBMITTED AT THE MOMENT</h1>
+            @endif
 
         </div>
 

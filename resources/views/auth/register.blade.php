@@ -19,21 +19,31 @@
                                                     class="p-1 fa-solid fa-key"></i>
                                             </span>
                                         </div>
+                                       
                                         <input placeholder="Please enter registraion key" id="password" type="password"
-                                            class="form-control eye-password @error('registration_key') is-invalid @enderror"
+           class="form-control eye-password @error('registration_key') is-invalid invalid-input @enderror{{ session('error') ? ' invalid-input' : '' }}"
                                             name="registration_key" autocomplete="registration_key" required
                                             pattern="^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$">
+
                                         @error('email')
                                             <span class="invalid-feedback" role="alert" />
                                             <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
+
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary toggle-password" type="button" id="toggle-password">
+                                            <button class="btn btn-outline-secondary toggle-password" type="button"
+                                                id="toggle-password">
                                                 <i class="fa fa-eye"></i>
                                             </button>
                                         </div>
+                                       
                                     </div>
+                                     @if (session('error'))
+                                            <small class="text-danger ">
+                                                {{ session('error') }}
+                                            </small>
+                                        @endif
                                     <div class="mb-0 mt-2">
                                         <button type="submit" class="btn btn-primary w-100 d-block">
                                             {{ __('Validate') }}

@@ -44,7 +44,7 @@
                                                     </span>
                                                 @enderror
 
-                                                <div class="invalid-feedback">Please enter a valid first name</div>
+                                                <div class="invalid-feedback">Please input "A-Z" , "a-z" characters</div>
 
                                             </div>
                                         </div>
@@ -66,7 +66,7 @@
                                                     </span>
                                                 @enderror
 
-                                                <div class="invalid-feedback">Please enter a valid last name</div>
+                                                <div class="invalid-feedback">Please input "A-Z" , "a-z" characters</div>
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                 @enderror
-                                                <div class="invalid-feedback">Please enter a valid middle name</div>
+                                                <div class="invalid-feedback">Please input "A-Z" , "a-z" characters</div>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -179,7 +179,7 @@
                                                 pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" required
                                                 autocomplete="email"> --}}
 
-                                            <div class="invalid-feedback">Please enter a valid valid email</div>
+    <div class="invalid-feedback">Please enter a valid email address    </div>
                                         </div>
                                     </div>
 
@@ -220,7 +220,7 @@
                                             id="password-confirm" type="password" class="form-control"
                                             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$" name="password_confirmation"
                                             required autocomplete="password_confirmation">
-                                        <div class="invalid-feedback" id="password-confirm-error">Passwords do not match.
+                                        <div class="invalid-feedback" id="password-confirm-error">Passwords didn't match.
                                         </div>
                                     </div>
                                 </div>

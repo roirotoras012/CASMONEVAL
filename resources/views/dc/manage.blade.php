@@ -72,62 +72,63 @@
                             {{-- <h3>Strategic measures</h3> --}}
                             <h3>Key Performance Indicator</h3>
                             @foreach ($measures as $measure)
-                                @php
-                                    $selectedMeasure = isset($group[$measure->strategic_measure_ID]['measure_ID']);
-                                    $selectedTarget = isset($group[$measure->strategic_measure_ID]['target_ID']);
-                                    $hasAnnualTarget = isset($annual_targets[$measure->strategic_measure_ID]);
-                                @endphp
+                                @if ($measure->type != 'INDIRECT' && $measure->type != 'MANDATORY')
+                                    @php
+                                        $selectedMeasure = isset($group[$measure->strategic_measure_ID]['measure_ID']);
+                                        $selectedTarget = isset($group[$measure->strategic_measure_ID]['target_ID']);
+                                        $hasAnnualTarget = isset($annual_targets[$measure->strategic_measure_ID]);
+                                    @endphp
 
-                                @if ($hasAnnualTarget && !$selectedMeasure && !$selectedTarget)
-                                    @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
+                                    @if ($hasAnnualTarget && !$selectedMeasure && !$selectedTarget)
+                                        @if ($annual_targets[$measure->strategic_measure_ID]->first()->driver_ID == null)
+                                            <div class="d-flex justify-content-between">
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input parent-check{{ $measure->number_measure }}"
+                                                        type="checkbox"
+                                                        name="data[{{ $measure->strategic_measure_ID }}][target_ID]"
+                                                        id="option{{ $measure->strategic_measure_ID }}"
+                                                        value="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID }}"
+                                                        onclick="setRequired(this, 'parent-check{{ $measure->number_measure }}')">
+                                                    <label class="form-check-label"
+                                                        for="option{{ $measure->strategic_measure_ID }}">
+                                                        @if ($measure->is_sub != 1)
+                                                            <b>{{ $measure->strategic_measure }}</b>
+                                                        @else
+                                                            {{ $measure->strategic_measure }}
+                                                        @endif
+
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input type="text" disabled
+                                                        value="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @elseif (!$hasAnnualTarget && $selectedMeasure && !$selectedTarget)
                                         <div class="d-flex justify-content-between">
                                             <div class="form-check">
-                                                <input class="form-check-input parent-check{{$measure->number_measure}}" type="checkbox"
-                                                    name="data[{{ $measure->strategic_measure_ID }}][target_ID]"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="data[{{ $measure->strategic_measure_ID }}][measure_ID]"
                                                     id="option{{ $measure->strategic_measure_ID }}"
-                                                    value="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target_ID }}"
-                                                    onclick="setRequired(this, 'parent-check{{$measure->number_measure}}')" >
+                                                    value="{{ $measure->strategic_measure_ID }}"
+                                                    onclick="setRequired(this)">
                                                 <label class="form-check-label"
                                                     for="option{{ $measure->strategic_measure_ID }}">
-                                                    @if ($measure->is_sub != 1)
-                                                        <b>{{ $measure->strategic_measure }}</b>
-                                                    @else
-                                                        {{ $measure->strategic_measure }}
-                                                    @endif
-                                                    
+                                                    {{ $measure->strategic_measure }}
                                                 </label>
                                             </div>
+
                                             <div class="form-check">
-                                                <input type="text" disabled
-                                                    value="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
-                                                    class="form-control">
+                                                <input pattern="^[0-9]+$" type="text" class="form-control"
+                                                    placeholder="Set annual target"
+                                                    name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                    id="target{{ $measure->strategic_measure_ID }}">
                                             </div>
                                         </div>
                                     @endif
-                                @elseif (!$hasAnnualTarget && $selectedMeasure && !$selectedTarget)
-                                    <div class="d-flex justify-content-between">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox"
-                                                name="data[{{ $measure->strategic_measure_ID }}][measure_ID]"
-                                                id="option{{ $measure->strategic_measure_ID }}"
-                                                value="{{ $measure->strategic_measure_ID }}" onclick="setRequired(this)">
-                                            <label class="form-check-label"
-                                                for="option{{ $measure->strategic_measure_ID }}">
-                                                {{ $measure->strategic_measure }}
-                                            </label>
-                                        </div>
-
-                                        <div class="form-check">
-                                            <input pattern="^[0-9]+$" type="text" class="form-control"
-                                                placeholder="Set annual target"
-                                                {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
-                                                oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
-                                                name="data[{{ $measure->strategic_measure_ID }}][target]"
-                                                id="target{{ $measure->strategic_measure_ID }}">
-                                                <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
-
-                                        </div>
-                                    </div>
                                 @endif
                             @endforeach
                         </div>
@@ -158,13 +159,17 @@
                                             </div>
 
                                             <div class="form-check">
-                                                <input pattern="^[0-9]+$" type="text" class="form-control"
-                                                    placeholder="Set annual target"
-                                                    {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
-                                                    name="data[{{ $measure->strategic_measure_ID }}][target]"
-                                                    id="target{{ $measure->strategic_measure_ID }}"
-                                                    oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')">
-                                                    <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                                                @if (!isset($annual_targets[$measure->strategic_measure_ID]))
+                                                    <input pattern="^[0-9]+$" type="text" class="form-control"
+                                                        placeholder="Set annual target"
+                                                        name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                        id="target{{ $measure->strategic_measure_ID }}">
+                                                @else
+                                                    <input pattern="^[0-9]+$" type="text" class="form-control"
+                                                        placeholder="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
+                                                        name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                        id="target{{ $measure->strategic_measure_ID }}">
+                                                @endif
                                             </div>
                                         </div>
                                     @endif
@@ -185,6 +190,7 @@
                                     @if (!isset($annual_targets[$measure->strategic_measure_ID]))
                                         <div class="d-flex justify-content-between">
                                             <div class="form-check">
+
                                                 <input class="form-check-input" type="checkbox"
                                                     name="data[{{ $measure->strategic_measure_ID }}][measure_ID]"
                                                     id="option{{ $measure->strategic_measure_ID }}"
@@ -196,14 +202,18 @@
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input pattern="^[0-9]+$" type="text" class="form-control"
-                                                    placeholder="Set annual target"
-                                                    {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
-                                                    oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
-                                                    name="data[{{ $measure->strategic_measure_ID }}][target]"
-                                                    id="target{{ $measure->strategic_measure_ID }}">
-                                                    <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
-                                                </div>
+                                                @if (!isset($annual_targets[$measure->strategic_measure_ID]))
+                                                    <input pattern="^[0-9]+$" type="text" class="form-control"
+                                                        placeholder="Set annual target"
+                                                        name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                        id="target{{ $measure->strategic_measure_ID }}">
+                                                @else
+                                                    <input pattern="^[0-9]+$" type="text" class="form-control"
+                                                        placeholder="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
+                                                        name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                        id="target{{ $measure->strategic_measure_ID }}">
+                                                @endif
+                                            </div>
                                         </div>
                                     @endif
                                 @endif
@@ -306,39 +316,37 @@
         // }
 
         function setRequired(checkbox, className) {
-        const checkboxes = document.querySelectorAll('.form-check-input');
-        const submitButton = document.getElementById('submitBtn'); // Reference by ID
-        
-        
-        $(document).ready(function() {
-            if(checkbox.checked == true) {
-                $('.'+className).prop('checked', true);
-                console.log(true);
-            }
-            else {
-                $('.'+className).prop('checked', false);
-                console.log(false);
-            }
-  
-       
-        });
+            const checkboxes = document.querySelectorAll('.form-check-input');
+            const submitButton = document.getElementById('submitBtn'); // Reference by ID
 
-        
-        
 
-        let atLeastOneChecked = false;
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                atLeastOneChecked = true;
+            $(document).ready(function() {
+                if (checkbox.checked == true) {
+                    $('.' + className).prop('checked', true);
+                    console.log(true);
+                } else {
+                    $('.' + className).prop('checked', false);
+                    console.log(false);
+                }
+
+
+            });
+
+
+
+
+            let atLeastOneChecked = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    atLeastOneChecked = true;
+                }
+            });
+
+            if (atLeastOneChecked) {
+                submitButton.removeAttribute('disabled');
+            } else {
+                submitButton.setAttribute('disabled', 'disabled');
             }
-        });
-
-        if (atLeastOneChecked) {
-            submitButton.removeAttribute('disabled');
-        } else {
-            submitButton.setAttribute('disabled', 'disabled');
         }
-    }
-
     </script>
 @endsection
