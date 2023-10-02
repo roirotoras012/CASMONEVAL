@@ -24,7 +24,8 @@
                     @endif
                     <div class="d-flex justify-content-between">
                         <div class="d-flex align-items-center gap-4">
-                            <button class="btn btn-primary my-2" id="print-button"><i class="fas fa-print"></i> Print Table</button>
+                            <button class="btn btn-primary my-2" id="print-button"><i class="fas fa-print"></i> Print
+                                Table</button>
                         </div>
 
 
@@ -73,7 +74,7 @@
                                             <td>No remarks yet</td>
                                         @else
                                             <td class="text-center"
-                                                style="background-color: {{ $eva->remark == 'Approve' ? 'green' : ($eva->remark == 'Revise' ? 'red' : 'inherit') }}">
+                                                style="background-color: {{ $eva->remark === 'Approve' ? 'green' : ($eva->remark === 'See me about this' ? '#ffc107' : ($eva->remark === 'Revise' ? 'red' : 'inherit')) }}">
                                                 <a href="/dc/accomplishment" style="color: #fff;">{{ $eva->remark }}</a>
                                             </td>
                                         @endif
@@ -95,7 +96,7 @@
 
 
         </div>
-        @else
+    @else
         <h1 style="color:red">NO OPCR SUBMITTED AT THE MOMENT</h1>
         @endif
 

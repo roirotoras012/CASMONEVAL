@@ -16,7 +16,7 @@
           <div class="row">
               <div class="form-floating">
                   <select class="form-select" name="validated">
-                      <option selected>Open this select menu</option>
+                      <option selected>CHOOSE</option>
                       <option value="Validated">Validate</option>
                       <option value="Invalid">Invalid</option>
                   </select>
