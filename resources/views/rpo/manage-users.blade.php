@@ -72,7 +72,7 @@
                                 <td>{{ $user->first_name }}</td>
                                 <td>{{ $user->middle_name }}</td>
                                 <td>{{ $user->extension_name }}</td>
-                                <td>{{ $user->birthday }}</td>
+                                <td>{{ \Carbon\Carbon::parse($user->birthday)->format('F d, Y') }}</td>
                                 <td>{{ $user->user_type_ID == '1'
                                     ? 'Regional Director'
                                     : ($user->user_type_ID == '2'

@@ -125,7 +125,10 @@
                                                 <input pattern="^[0-9]+$" type="text" class="form-control"
                                                     placeholder="Set annual target"
                                                     name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                    oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                     id="target{{ $measure->strategic_measure_ID }}">
+                                                    <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+
                                             </div>
                                         </div>
                                     @endif
@@ -157,17 +160,25 @@
                                                     {{ $measure->strategic_measure }}
                                                 </label>
                                             </div>
+
                                             <div class="form-check">
                                                 @if (!isset($annual_targets[$measure->strategic_measure_ID]))
                                                     <input pattern="^[0-9]+$" type="text" class="form-control"
                                                         placeholder="Set annual target"
                                                         name="data[{{ $measure->strategic_measure_ID }}][target]"
+                                                        oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
+
                                                         id="target{{ $measure->strategic_measure_ID }}">
+                                                        <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                                                  
                                                 @else
                                                     <input pattern="^[0-9]+$" type="text" class="form-control"
                                                         placeholder="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
+                                                        oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                         name="data[{{ $measure->strategic_measure_ID }}][target]"
                                                         id="target{{ $measure->strategic_measure_ID }}">
+                                                        <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                         
                                                 @endif
                                             </div>
                                         </div>
@@ -193,6 +204,7 @@
                                                 <input class="form-check-input" type="checkbox"
                                                     name="data[{{ $measure->strategic_measure_ID }}][measure_ID]"
                                                     id="option{{ $measure->strategic_measure_ID }}"
+                                                    
                                                     value="{{ $measure->strategic_measure_ID }}"
                                                     onclick="setRequired(this)">
                                                 <label class="form-check-label"
@@ -204,14 +216,18 @@
                                                 @if (!isset($annual_targets[$measure->strategic_measure_ID]))
                                                     <input pattern="^[0-9]+$" type="text" class="form-control"
                                                         placeholder="Set annual target"
+                                                        oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                         name="data[{{ $measure->strategic_measure_ID }}][target]"
-                                                        id="target{{ $measure->strategic_measure_ID }}">
-                                                @else
+                                                        id="target{{ $measure->strategic_measure_ID }}" >
+                                                        <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                                                        @else
                                                     <input pattern="^[0-9]+$" type="text" class="form-control"
                                                         placeholder="{{ $annual_targets[$measure->strategic_measure_ID]->first()->annual_target }}"
+                                                        oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                         name="data[{{ $measure->strategic_measure_ID }}][target]"
                                                         id="target{{ $measure->strategic_measure_ID }}">
-                                                @endif
+                                                        <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                                                        @endif
                                             </div>
                                         </div>
                                     @endif
