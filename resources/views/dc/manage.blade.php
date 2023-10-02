@@ -120,8 +120,12 @@
                                         <div class="form-check">
                                             <input pattern="^[0-9]+$" type="text" class="form-control"
                                                 placeholder="Set annual target"
+                                                {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
+                                                oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                 name="data[{{ $measure->strategic_measure_ID }}][target]"
                                                 id="target{{ $measure->strategic_measure_ID }}">
+                                                <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+
                                         </div>
                                     </div>
                                 @endif
@@ -152,11 +156,15 @@
                                                     {{ $measure->strategic_measure }}
                                                 </label>
                                             </div>
+
                                             <div class="form-check">
                                                 <input pattern="^[0-9]+$" type="text" class="form-control"
                                                     placeholder="Set annual target"
+                                                    {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
                                                     name="data[{{ $measure->strategic_measure_ID }}][target]"
-                                                    id="target{{ $measure->strategic_measure_ID }}">
+                                                    id="target{{ $measure->strategic_measure_ID }}"
+                                                    oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')">
+                                                    <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
                                             </div>
                                         </div>
                                     @endif
@@ -190,9 +198,12 @@
                                             <div class="form-check">
                                                 <input pattern="^[0-9]+$" type="text" class="form-control"
                                                     placeholder="Set annual target"
+                                                    {{-- oninvalid="this.setCustomValidity('Please input zero or positive whole integer')" --}}
+                                                    oninput="validateInputAddTarget(this, 'error-message-input_{{ $measure->strategic_measure_ID }}')"
                                                     name="data[{{ $measure->strategic_measure_ID }}][target]"
                                                     id="target{{ $measure->strategic_measure_ID }}">
-                                            </div>
+                                                    <small class="add-target-error-msg" id="error-message-input_{{ $measure->strategic_measure_ID }}" style="color: red;"></small>
+                                                </div>
                                         </div>
                                     @endif
                                 @endif
