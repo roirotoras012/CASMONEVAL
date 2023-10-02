@@ -16,7 +16,7 @@
           <div class="row">
               <div class="form-floating">
                   <select class="form-select" name="approve">
-                      <option selected>Open this select menu</option>
+                      <option selected>CHOOSE</option>
                       <option value="approve">Approve</option>
                   </select>
                   <label for="reason">{{ __('Remarks') }}</label>
